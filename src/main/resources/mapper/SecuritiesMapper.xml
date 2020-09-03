@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.businessParameter.mapper.SecuritiesMapper">
+    <!--   <select id="selectSecurities" parameterType="com.yidu.businessParameter.pojo.SecuritiesPojo" resultMap="securitiesMap">
+            select * from securities
+        </select>
+        <resultMap id="securitiesMap" type="com.yidu.businessParameter.pojo.SecuritiesPojo">
+            <result property="securitiesId" column="securitiesId"></result>
+            <result property="securitiesName" column="securitiesName"></result>
+            <result property="securitiesType" column="securitiesType"></result>
+            <result property="issueDate" column="issueDate"></result>
+            <result property="delayDate" column="delayDate"></result>
+            <result property="stockId" column="stockId"></result>
+            <result property="exchange" column="exchange"></result>
+            <result property="securitiesDesc" column="securitiesDesc"></result>
+        </resultMap>-->
+
+    <select id="selectSecurities" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=securitiesMap})}
+    </select>
+
+    <resultMap id="securitiesMap" type="com.yidu.businessParameter.pojo.SecuritiesPojo">
+        <result property="securitiesId" column="securitiesId"></result>
+        <result property="securitiesName" column="securitiesName"></result>
+        <result property="securitiesType" column="securitiesType"></result>
+        <result property="issueDate" column="issueDate"></result>
+        <result property="delayDate" column="delayDate"></result>
+        <result property="stockId" column="stockId"></result>
+        <result property="exchange" column="exchange"></result>
+        <result property="securitiesDesc" column="securitiesDesc"></result>
+    </resultMap>
+
+
+    <update id="updateSecurities" parameterType="com.yidu.businessParameter.pojo.SecuritiesPojo">
+        update securities set securitiesName=#{securitiesName},securitiesType=#{securitiesType},issueDate=#{issueDate},delayDate=#{delayDate},stockId=#{stockId},exchange=#{exchange},securitiesDesc=#{securitiesDesc} where securitiesId=#{securitiesId}
+    </update>
+
+    <insert id="insertSecurities" parameterType="com.yidu.businessParameter.pojo.SecuritiesPojo">
+        insert into securities values(#{securitiesId},#{securitiesName},#{securitiesType},#{issueDate},#{delayDate},#{stockId},#{exchange},#{securitiesDesc})
+    </insert>
+
+    <delete id="deleteSecurities" parameterType="com.yidu.businessParameter.pojo.SecuritiesPojo">
+        delete from securities where securitiesId=#{securitiesId}
+    </delete>
+</mapper>

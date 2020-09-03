@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--name:tang-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.taManage.mapper.TaTransactionMapper">
+    <insert id="insertTaTransaction">
+         insert into TaTransaction values (#{transactionId},#{dateTime},#{balanceDate},#{fundId},#{fundNum},#{accountId},#{totalMoney},#{actualMoney},#{price},#{cost},#{agencies},#{transactionType},#{transactionStatus})
+    </insert>
+
+    <!--基金参数-->
+    <update id="updateTaTransaction">update TransactionId set dateTime=#{dateTime},balanceDate=#{balanceDate},fundId=#{fundId},fundNum=#{fundNum},accountId=#{accountId},totalMoney=#{totalMoney},actualMoney=#{actualMoney},price=#{price},cost=#{cost},agencies=#{agencies},transactionType=#{transactionType},transactionStatus=#{transactionStatus}</update>
+
+    <delete id="deleteTaTransaction"> delete from TaTransaction where transactionId=#{transactionId</delete>
+
+    <resultMap id="TaTransactionMap" type="com.yidu.taManage.pojo.TaTransactionPojo">
+        <result property="transactionId" column="transactionId" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="balanceDate" column="balanceDate" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="fundNum" column="fundNum" javaType="DOUBLE"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="totalMoney" column="totalMoney" javaType="DOUBLE"></result>
+        <result property="actualMoney" column="actualMoney" javaType="DOUBLE"></result>
+        <result property="price" column="price" javaType="DOUBLE"></result>
+        <result property="cost" column="cost" javaType="DOUBLE"></result>
+        <result property="agencies" column="agencies" javaType="Integer"></result>
+        <result property="transactionType" column="transactionType" javaType="Integer"></result>
+        <result property="transactionStatus" column="transactionStatus" javaType="Integer"></result>
+    </resultMap>
+
+    <select id="selectTaTransaction" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=TaTransactionMap})}
+    </select>
+
+
+
+</mapper>

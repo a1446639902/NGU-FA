@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.businessData.mapper.MarketDataMapper">
+<!--行情数据-->
+    <resultMap id="MarketDataMap" type="com.yidu.businessData.pojo.MarketData">
+        <result property="marketId" column="marketId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="openPrice" column="openPrice" javaType="Double"></result>
+        <result property="closingPrice" column="closingPrice" javaType="Double"></result>
+        <result property="marketDesc" column="marketDesc" javaType="String"></result>
+    </resultMap>
+    <select id="selectMarKetDate" parameterType="java.util.Map" statementType="CALLABLE">
+         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=MarketDataMap})}
+    </select>
+
+    <delete id="deleteMarKetDate" parameterType="com.yidu.businessData.pojo.MarketData" >
+        delete from market where securitiesId=#{securitiesId}
+    </delete>
+   <update id="updateMarketDate" parameterType="com.yidu.businessData.pojo.MarketData">
+       update market set securitiesId=#{securitiesId},dateTime=#{dateTime},openPrice=#{openPrice},closingPrice=#{closingPrice} where marketId=#{marketId}
+   </update>
+   <insert id="insertMarketDate" parameterType="com.yidu.businessData.pojo.MarketData">
+       insert into market values (#{marketId},#{securitiesId},#{dateTime},#{openPrice},#{closingPrice},#{marketDesc})
+   </insert>
+</mapper>

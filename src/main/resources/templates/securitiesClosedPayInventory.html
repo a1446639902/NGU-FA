@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--戴言路-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>证券应收应付库存</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!--        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />-->
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/xadmin.css">
+    <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/xadmin.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/html" id="userToolBar">
+        <div class="layui-card-body">
+            <!--库存统计根据时间搜索的表单提交-->
+            <form class="layui-form layui-col-space5" >
+                <div class="layui-inline layui-show-xs-block" >
+                    <button class="layui-btn layui-btn-sm" lay-event="add" style="width: 100px;float: left;height: 36px">证券类型</button>
+                    <div class="layui-inline layui-show-xs-block">
+                        <input type="text" name="username"  placeholder="请输入席位名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline layui-show-xs-block">
+                    <button class="layui-btn layui-btn-sm" lay-event="add" style="width: 100px;float: left;height: 36px">业务日期</button>
+                    <div class="layui-inline layui-show-xs-block">
+                        <input class="layui-input"  autocomplete="off" placeholder="选择日期" name="start" id="start">
+                    </div>
+                </div>
+                <div class="layui-inline layui-show-xs-block">
+                    <button class="layui-btn" style="width: 100px;float: left;height: 36px"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;&nbsp;搜索</i></button>
+                </div>
+                <div class="layui-inline layui-show-xs-block" style="float: right">
+                    是否为期初数据 <input type="checkbox" name="" lay-skin="primary">
+                    <button class="layui-btn layui-btn-normal" lay-event="add-1" style="width: 150px"><i class="layui-icon">&#xe654;添加</i></button>
+                    <button class="layui-btn layui-btn-danger" lay-event="edit" style="width: 150px"><i class="layui-icon">&#xe642;批量删除</i></button>
+                </div>
+            </form>
+        </div>
+    </script>
+
+    <script>
+        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function(){
+            var layer = layui.layer;
+
+            var $ = layui.$;
+            var table = layui.table;
+            var form = layui.form;
+            var formSelects = layui.formSelects;
+            var laydate = layui.laydate;
+
+
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定日期
+            });
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#end' //指定元素
+            });
+
+
+            //表头工具条和标题
+            table.render({
+                elem: '#userTable',
+                url: './select',
+                page: true,
+                toolbar: '#userToolBar',//显示在表头的工具条
+                cellMinWidth: 80,
+                height:80,
+                cols: [[
+                    {type:'checkbox'},
+                    {
+                        field: 'inventoryName',
+                        align: 'center',
+                        title: '业务日期',
+                    }, {
+                        field: 'fundId',
+                        title: '现金账户名称',
+                        align: 'center',
+
+                    }, {
+                        field: 'operator',
+                        title: '证券代码',
+                        align: 'center',
+
+                    },{
+                        field : 'date',
+                        title : '证券名称',
+                        align: 'center',
+                        toolbar : '#barDemo',//绑定一个工具条
+                    },{
+                        field: 'data',
+                        title: '证券类型',
+                        align: 'center',
+                    },{
+                        field: 'state',
+                        title: '总金额',
+                        align: 'center',
+                    },
+                    {
+                        field: 'state',
+                        title: '业务状态',
+                        align: 'center',
+                    },
+                    {
+                        field: 'state',
+                        title: '初期标志',
+                        align: 'center',
+                    }
+                    ,
+                    {
+                        field: 'state',
+                        title: '操作',
+                        align: 'center',
+                    }
+                ]],page: true   //开启分页
+            });
+        });
+
+
+    </script>
+
+</head>
+<body style="overflow: auto; background-color: white;"
+      class="layui-view-body layui-content">
+
+<!--表格-->
+<table id="userTable" lay-filter="userTable"></table>
+
+
+
+</body>
+
+<script>var _hmt = _hmt || []; (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+
+})();</script>
+</html>

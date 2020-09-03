@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.businessParameter.mapper.BondMapper">
+
+<!--基金参数-->
+
+    <select id="selectBond" resultType="com.yidu.businessParameter.pojo.BondPojo">
+        select * from bond
+    </select>
+
+    <insert id="insertBond" parameterType="com.yidu.businessParameter.pojo.BondPojo">
+       insert into bond values(#{securitiesId},#{bondName},#{drawStartDate},#{drawEndDate},#{bondType},#{parRate},#{bondRate},#{bondRateAmount},#{payInterestNum},#{desc})
+    </insert>
+
+    <delete id="deleteBond" parameterType="int">
+        delete from bond where fundId=#{fundId}
+    </delete>
+
+    <update id="updateBond" parameterType="com.yidu.businessParameter.pojo.BondPojo">
+        update bond set bondName=#{bondName},drawStartDate=#{drawStartDate},drawEndDate=#{drawEndDate},
+    bondType=#{bondType},parRate=#{parRate},bondRate=#{bondRate},
+    bondRateAmount=#{bondRateAmount},payInterestNum=#{payInterestNum},desc=#{desc}
+    where securitiesId=#{securitiesId}
+    </update>
+
+
+
+
+
+</mapper>

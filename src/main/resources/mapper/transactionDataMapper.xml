@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.businessData.mapper.TransactionDataMapper">
+
+<!--交易数据-->
+
+    <select id="selectTransactionData" resultType="com.yidu.businessData.pojo.TransactionData">
+         select * from transactionData
+    </select>
+
+    <insert id="insertTransactionData" parameterType="com.yidu.businessData.pojo.TransactionData">
+        insert into transactionData (tradeId,dateTime,settlementDate,fundId,securitiesId,brokersId,seateId,transactionDataMode,
+    status,price,num,accountId,netReceipts,totalSum,flag,commission,transfer,brokerage,stamp,management,security,transactionDataDesc)
+    values (#{tradeId},#{dateTime},#{settlementDate},#{fundId},#{securitiesId},#{brokersId},#{seateId},#{transactionDataMode},#{status},
+    #{price},#{num},#{accountId},#{netReceipts},#{totalSum},#{flag},#{commission},#{transfer},#{brokerage},
+    #{stamp},#{management},#{security},#{transactionDataDesc})
+    </insert>
+
+    <delete id="deleteTransactionData" parameterType="int">
+         delete from transactionData where tradeId=#{tradeId}
+    </delete>
+
+    <update id="updateTransactionData" parameterType="com.yidu.businessData.pojo.TransactionData">
+        update transactionData set dateTime=#{dateTime},settlementDate=#{settlementDate},fundId=#{fundId},
+    securitiesId=#{securitiesId},brokersId=#{brokersId},seateId=#{seateId},transactionDataMode=#{transactionDataMode},status=#{status},
+    price=#{price},num=#{num},accountId=#{accountId},netReceipts=#{netReceipts},totalSum=#{totalSum},flag=#{flag},
+    commission=#{commission},transfer=#{transfer},brokerage=#{brokerage}, stamp=#{stamp},management=#{management},
+    security=#{security},transactionDataDesc=#{transactionDataDesc}
+    where tradeId=#{tradeId}
+    </update>
+
+</mapper>

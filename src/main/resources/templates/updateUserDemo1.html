@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+ <!--   <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">-->
+    <link rel="stylesheet" href="../static/lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../static/lib/layui/css/modules/layer/default/layer.css" media="all" />
+    <link rel="stylesheet" href="../static/lib/layui/css/view.css">
+    <link rel="stylesheet" href="../static/lib/layui/formSelects-v4.css" />
+    <script src="../static/lib/layui/formSelects-v4.js"></script>
+
+    <script type="text/javascript" src="../static/lib/layui/layui.js" charset="utf-8"></script>
+<!--    <script type="text/javascript" src="./js/xadmin.js"></script>-->
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+
+        .layui-table-view .layui-form-radio>i {
+            margin-top: 15px;
+        }
+        div .layui-form-label{
+            background-color: rgba(0, 150, 136, 1) ;
+            color: white;
+        }
+    </style>
+</head>
+<body style="overflow: auto; background-color: white;"
+      class="layui-view-body layui-content">
+<div id="editContent"
+     style=" height: 100%; height: 100%; text-align: center;">
+    <form id="addform" lay-filter="addform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label"
+                   style="width: 110px; margin-left: 50px;  background-color: rgba(0, 150, 136, 1) "> 用 户 I D </label>
+            <div class="layui-input-inline">
+                <input type="text" name="userId" autocomplete="off"
+                       class="layui-input" id="userId" placeholder=" 用 户 I D ">
+            </div>
+            <label class="layui-form-label"
+                   style="width: 110px; margin-left: 50px; background-color: rgba(0, 150, 136, 1) "> 用 户 名 称 </label>
+            <div class="layui-input-inline">
+                <input type="text" name="userName" autocomplete="off"
+                       class="layui-input" id="userName" placeholder=" 用 户 名 称 ">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label"
+                   style="width: 110px; margin-left: 50px; background-color: rgba(0, 150, 136, 1) "> 用 户 密 码 </label>
+            <div class="layui-input-inline" style="">
+                <input type="text" name="userPwd" id="userPwd"
+                       placeholder=" 用 户 密 码 " style="width: 190px;" lay-verify="date"
+                       autocomplete="off" class="layui-input startdate">
+            </div>
+            <label class="layui-form-label"
+                   style="width: 110px; margin-left: 50px; background-color: rgba(0, 150, 136, 1) "> 角 色 I D </label>
+            <div class="layui-input-inline" style="">
+                <input type="text" name="andDrawEDate" id="enddate"
+                       style="width: 190px;" placeholder=" 角 色 I D " lay-verify="date"
+                       autocomplete="off" class="layui-input enddate">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label"
+                   style="width: 110px; margin-left: 50px; background-color: rgba(0, 150, 136, 1) "> 启 用 状 态 </label>
+            <div class="layui-input-inline" style="">
+                <input type="text" name="status" id="status"
+                       placeholder=" 启 用 状 态 " style="width: 190px;" lay-verify="date"
+                       autocomplete="off" class="layui-input startdate">
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label"
+                   style="margin-left: 50px; width: 110px; height: 100px; line-height: 100px; background-color: rgba(0, 150, 136, 1) ">备注</label>
+            <div class="layui-input-inline">
+					<textarea rows="" name="userInfoDesc" placeholder="备注" cols=""
+                              class="layui-textarea" style="width: 530px;"></textarea>
+            </div>
+        </div>
+        <div style="bottom: 0px; left: 45%;">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>修改
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

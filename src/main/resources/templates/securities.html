@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.2</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="../css/font.css">
+        <link rel="stylesheet" href="../css/xadmin.css">
+        <script src="../lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/xadmin.js"></script>
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">演示</a>
+            <a>
+              <cite>导航元素</cite></a>
+          </span>
+          <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+        </div>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <form class="layui-form layui-col-space5">
+
+
+                                <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="username"  placeholder="请输入证券代码" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="username"  placeholder="请输入证券名称" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-inline layui-show-xs-block">
+                                    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="layui-card-header">
+                            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加','./admin-add.html',600,400)"><i class="layui-icon"></i>添加</button>
+                        </div>
+                        <table id="demo" lay-filter="test"></table>
+
+                        <script src="/layui/layui.js"></script>
+                        <script>
+                            layui.use('table', function(){
+                                var table = layui.table;
+
+                                //第一个实例
+                                table.render({
+                                    elem: '#demo'
+                                    ,height: 312
+                                    ,url: '../selectSecurities' //数据接口
+                                    ,page: true //开启分页
+                                    ,cols: [
+                                        [ //表头
+                                            {type: 'checkbox',fixed: 'left'}
+                                            ,{field: 'securitiesId', title: '证券ID', width:110, sort: true, fixed: 'left'}
+                                            ,{field: 'securitiesName', title: '证券名称', width:110}
+                                            ,{field: 'securitiesType', title: '证券类型', width:110, sort: true}
+                                            ,{field: 'issueDate', title: '发行日期', width:110}
+                                            ,{field: 'delayDate', title: '延迟日期', width: 177}
+                                            ,{field: 'stockId', title: '模块ID', width: 110, sort: true}
+                                            ,{field: 'exchange', title: '交易所', width: 110, sort: true}
+                                            ,{field: 'securitiesDesc', title: '备注', width: 110}
+                                            ,{fixed : 'right', title : '操作', toolbar : '#barDemo' ,width: 170}
+                                        ]
+                                    ]
+                                });
+
+                            });
+
+
+
+                            table.on('tool(myTable)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                                var data = obj.data; //获得当前行数据
+                                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+                                if (layEvent === 'del') { //删除
+                                    layer.confirm('真的删除行么', function (index) {
+                                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                        layer.close(index);
+                                        //向服务端发送删除指令
+                                        $.post("../deteleteSecurities", "securitiesId="+data.securitiesId,function(msg){
+                                            if(msg>0){
+                                                table.reload('myTable');
+                                                layer.closeAll();
+                                                layer.msg('删除成功',{
+                                                    title : '提示',
+                                                    area : [ '200px',
+                                                        '140px' ],
+                                                    time : 0,
+                                                    btn : [ '知道了' ]
+                                                });
+                                            }else{
+                                                layer.closeAll();
+                                                layer.msg('删除失败',{
+                                                    title : '提示',
+                                                    area : [ '200px',
+                                                        '140px' ],
+                                                    time : 0,
+                                                    btn : [ '知道了' ]
+                                                });
+                                            }
+
+                                        });
+                                        return false;
+                                    });
+                                }
+                                else if(layEvent=="edit"){
+                                    form.val("editform",data);//第二个参数可以是json字符串也可以是json对象
+                                    layer.open({
+                                        type: 1,
+                                        title: '修改用户信息',
+                                        area: ['893px', '600px'],
+                                        content: $("#editContent")
+                                    });
+
+                                    //获取修改行的所有数据
+                                    //将数据赋值到editfrom表单中
+                                    /* var userObj=$.parseJSON(JSON.stringify(data));//将json字符串转为json对象*/
+                                    //给下拉列表赋值
+                                    $("#editRoleId").empty();
+                                    $.post("./RoleServlet?method=addOpt", function (datas) {
+                                        $.each(datas, function (i, n) {
+                                            var opt = new Option(n.roleName, n.roleId);
+
+                                            $("#editRoleId").append(opt);
+                                        });
+                                        //给下列列表赋默认值  属性选择器
+                                        $("#editRoleId option[value='"+data.roleId+"']").attr("selected","selected");
+                                        //刷新下拉列表
+                                        form.render();
+                                    }, "json");
+                                }
+
+                            });
+
+                        </script>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none;" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit"><i
+                    class="layui-icon">&#xe642;</i>编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                    class="layui-icon">&#xe640;</i>删除</a>
+
+        </div>
+
+    </body>
+</html>
