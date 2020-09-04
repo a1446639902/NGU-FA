@@ -7,7 +7,7 @@ package com.yidu.taManage.pojo;
  *  版本 1.0
  */
 public class TaTransactionPojo {
-    private String transactionId;//PK , 交易数据编号 TA202008310001
+    private String taTransactionId;//PK , 交易数据编号 TA202008310001
     private String dateTime;//交易日期
     private String balanceDate;//结算日期
     private String fundId;//FK 基金Id来自基金表
@@ -23,7 +23,7 @@ public class TaTransactionPojo {
 
     /**
      * 带参构造方法
-     * @param transactionId //PK , 交易数据编号 TA202008310001
+     * @param taTransactionId //PK , 交易数据编号 TA202008310001
      * @param dateTime  //交易日期
      * @param balanceDate   //结算日期
      * @param fundId    //FK 基金Id来自基金表
@@ -37,8 +37,8 @@ public class TaTransactionPojo {
      * @param transactionType   //1认购 2申购 3赎回
      * @param transactionStatus//1结算 0未结算
      */
-    public TaTransactionPojo(String transactionId, String dateTime, String balanceDate, String fundId, double fundNum, String accountId, double totalMoney, double actualMoney, double price, double cost, double agencies, double transactionType, double transactionStatus) {
-        this.transactionId = transactionId;
+    public TaTransactionPojo(String taTransactionId, String dateTime, String balanceDate, String fundId, double fundNum, String accountId, double totalMoney, double actualMoney, double price, double cost, double agencies, double transactionType, double transactionStatus) {
+        this.taTransactionId = taTransactionId;
         this.dateTime = dateTime;
         this.balanceDate = balanceDate;
         this.fundId = fundId;
@@ -52,22 +52,15 @@ public class TaTransactionPojo {
         this.transactionType = transactionType;
         this.transactionStatus = transactionStatus;
     }
-
-    /**
-     * 默认构造方法
-     */
     public TaTransactionPojo() {
     }
-    /**
-     * SET/GET方法
-     * @return
-     */
-    public String getTransactionId() {
-        return transactionId;
+
+    public String getTaTransactionId() {
+        return taTransactionId;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setTaTransactionId(String taTransactionId) {
+        this.taTransactionId = taTransactionId;
     }
 
     public String getDateTime() {
@@ -169,7 +162,7 @@ public class TaTransactionPojo {
     @Override
     public String toString() {
         return "TaTransactionPojo{" +
-                "transactionId='" + transactionId + '\'' +
+                "taTransactionId='" + taTransactionId + '\'' +
                 ", dateTime='" + dateTime + '\'' +
                 ", balanceDate='" + balanceDate + '\'' +
                 ", fundId='" + fundId + '\'' +

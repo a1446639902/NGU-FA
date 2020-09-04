@@ -54,6 +54,7 @@ public class TransactionData {
     private Double management;	    //征管费（上交国家的税）
     private Double security;	    //证券利息
     private String transactionDataDesc;	        //备注
+    
 
     public TransactionData() {
     }

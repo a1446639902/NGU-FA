@@ -25,6 +25,7 @@ public class RoleController {
 
     @RequestMapping("/insertRole")
     public int insertRole(RolePojo rolePojo){
+        System.out.println("biz实现类注入的对象"+rolePojo);
         return roleService.insertRole(rolePojo);
     }
 

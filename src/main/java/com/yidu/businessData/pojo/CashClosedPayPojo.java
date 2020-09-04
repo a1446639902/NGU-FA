@@ -1,25 +1,25 @@
 package com.yidu.businessData.pojo;
 
 /**
- * @ClassName CashClosePay
+ * @ClassName CashClosedPayPojo
  * @Description: TODO
  * @Author 硠君
  * @Date create in 10:04 2020/9/1
  * @Version 1.0
  **/
-public class CashClosePay {
-    private String cashClosedPayId;
-    private String fundId;
-    private String accountId;
-    private String securitiesId;
-    private int serviceType;
-    private double amount;
-    private String dateTime;
-    private int flag;
+public class CashClosedPayPojo {
+    private String cashClosedPayId;     //现金应收应付
+    private String fundId;              //基金信息表Id  fund表
+    private String accountId;           //账户信息表ID  account表
+    private String securitiesId;        //证券信息表ID  securities表
+    private int serviceType;            //业务类型 1=“管理费”2=“托管费”3=“存款利息”4=“申购赎回款"        **
+    private double amount;              //金额                                                    **
+    private String dateTime;            //日期                                                    **
+    private int flag;                   //资金流向 1=“流入”-1 =“流出”                               **
 
-    public CashClosePay(){}
-    public CashClosePay(String cashClosedPayId, String fundId, String accountId, String securitiesId,
-                        int serviceType, double amount, String dateTime, int flag) {
+    public CashClosedPayPojo(){}
+    public CashClosedPayPojo(String cashClosedPayId, String fundId, String accountId, String securitiesId,
+                             int serviceType, double amount, String dateTime, int flag) {
         this.cashClosedPayId = cashClosedPayId;
         this.fundId = fundId;
         this.accountId = accountId;
@@ -88,7 +88,7 @@ public class CashClosePay {
 
     @Override
     public String toString() {
-        return "CashClosePay{" +
+        return "CashClosedPayPojo{" +
                 "cashClosedPayId='" + cashClosedPayId + '\'' +
                 ", fundId='" + fundId + '\'' +
                 ", accountId='" + accountId + '\'' +

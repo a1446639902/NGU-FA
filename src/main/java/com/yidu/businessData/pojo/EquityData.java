@@ -6,10 +6,10 @@ public class EquityData {
      *date 2020-9-1
      * 权益数据设置表实体类
      */
-    private String equityId;//权益ID（隐藏字段）
+    private String equityDataId;//权益ID（隐藏字段）
     private String dateTime;//业务日期
-    private int securityId;//证券Id
-    private String securityName;//证券名称
+    private String securityId;//证券Id
+    private String securitiesName;//证券名称
     private String equitiesRecord;//权益登记日
     private String equitiesExright;//权益除权日
     private String receivedDate;//到账日期
@@ -20,11 +20,11 @@ public class EquityData {
     public EquityData() {
     }
 
-    public EquityData(String equityId, String dateTime, int securityId, String securityName, String equitiesRecord, String equitiesExright, String receivedDate, int equitiesType, int proportion, int disposeStatus) {
-        this.equityId = equityId;
+    public EquityData(String equityDataId, String dateTime, String securityId, String securitiesName, String equitiesRecord, String equitiesExright, String receivedDate, int equitiesType, int proportion, int disposeStatus) {
+        this.equityDataId = equityDataId;
         this.dateTime = dateTime;
         this.securityId = securityId;
-        this.securityName = securityName;
+        this.securitiesName = securitiesName;
         this.equitiesRecord = equitiesRecord;
         this.equitiesExright = equitiesExright;
         this.receivedDate = receivedDate;
@@ -33,12 +33,12 @@ public class EquityData {
         this.disposeStatus = disposeStatus;
     }
 
-    public String getEquityId() {
-        return equityId;
+    public String getEquityDataId() {
+        return equityDataId;
     }
 
-    public void setEquityId(String equityId) {
-        this.equityId = equityId;
+    public void setEquityDataId(String equityDataId) {
+        this.equityDataId = equityDataId;
     }
 
     public String getDateTime() {
@@ -49,20 +49,20 @@ public class EquityData {
         this.dateTime = dateTime;
     }
 
-    public int getSecurityId() {
+    public String getSecurityId() {
         return securityId;
     }
 
-    public void setSecurityId(int securityId) {
+    public void setSecurityId(String securityId) {
         this.securityId = securityId;
     }
 
-    public String getSecurityName() {
-        return securityName;
+    public String getSecuritiesName() {
+        return securitiesName;
     }
 
-    public void setSecurityName(String securityName) {
-        this.securityName = securityName;
+    public void setSecuritiesName(String securitiesName) {
+        this.securitiesName = securitiesName;
     }
 
     public String getEquitiesRecord() {
@@ -116,10 +116,10 @@ public class EquityData {
     @Override
     public String toString() {
         return "EquityData{" +
-                "equityId='" + equityId + '\'' +
+                "equityDataId='" + equityDataId + '\'' +
                 ", dateTime='" + dateTime + '\'' +
-                ", securityId=" + securityId +
-                ", securityName='" + securityName + '\'' +
+                ", securityId='" + securityId + '\'' +
+                ", securitiesName='" + securitiesName + '\'' +
                 ", equitiesRecord='" + equitiesRecord + '\'' +
                 ", equitiesExright='" + equitiesExright + '\'' +
                 ", receivedDate='" + receivedDate + '\'' +

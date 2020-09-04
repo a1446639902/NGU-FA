@@ -3,16 +3,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.taManage.mapper.TaTransactionMapper">
     <insert id="insertTaTransaction">
-         insert into TaTransaction values (#{transactionId},#{dateTime},#{balanceDate},#{fundId},#{fundNum},#{accountId},#{totalMoney},#{actualMoney},#{price},#{cost},#{agencies},#{transactionType},#{transactionStatus})
+         insert into TaTransaction values (#{taTransactionId},#{dateTime},#{balanceDate},#{fundId},#{fundNum},#{accountId},#{totalMoney},#{actualMoney},#{price},#{cost},#{agencies},#{transactionType},#{transactionStatus})
     </insert>
 
     <!--基金参数-->
-    <update id="updateTaTransaction">update TransactionId set dateTime=#{dateTime},balanceDate=#{balanceDate},fundId=#{fundId},fundNum=#{fundNum},accountId=#{accountId},totalMoney=#{totalMoney},actualMoney=#{actualMoney},price=#{price},cost=#{cost},agencies=#{agencies},transactionType=#{transactionType},transactionStatus=#{transactionStatus}</update>
+    <update id="updateTaTransaction">update TaTransaction set dateTime=#{dateTime},balanceDate=#{balanceDate},fundId=#{fundId},fundNum=#{fundNum},accountId=#{accountId},totalMoney=#{totalMoney},actualMoney=#{actualMoney},price=#{price},cost=#{cost},agencies=#{agencies},transactionType=#{transactionType},transactionStatus=#{transactionStatus}</update>
 
     <delete id="deleteTaTransaction"> delete from TaTransaction where transactionId=#{transactionId</delete>
 
     <resultMap id="TaTransactionMap" type="com.yidu.taManage.pojo.TaTransactionPojo">
-        <result property="transactionId" column="transactionId" javaType="String"></result>
+        <result property="taTransactionId" column="transactionId" javaType="String"></result>
         <result property="dateTime" column="dateTime" javaType="String"></result>
         <result property="balanceDate" column="balanceDate" javaType="String"></result>
         <result property="fundId" column="fundId" javaType="String"></result>

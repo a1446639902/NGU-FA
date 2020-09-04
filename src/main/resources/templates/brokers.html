@@ -34,11 +34,11 @@
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券名称</label>
-            </div>
-
                 <div class="layui-inline layui-show-xs-block">
                     <input type="text" name="username" placeholder="请输入劵商名称" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+
             <div class="layui-inline layui-show-xs-block">
                 <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
@@ -60,7 +60,7 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
-                $.post("../insert",formData,function(msg){
+                $.post("../brokersInsert",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
                         layer.closeAll();
@@ -73,7 +73,7 @@
                         });
                     }else{
                         layer.closeAll();
-                        layer.msg('添加失败',{
+                        layer.msg('添加成功',{
                             title : '提示',
                             area : [ '200px',
                                 '140px' ],
@@ -82,12 +82,15 @@
                         });
                     }
                 });
+
+                //表格的重新加载事件
+                table.reload('userTable');
                 return false;
             });
             //修改提交
             form.on('submit(editsubmit)', function(data){
                 var formData=$('#editform').serialize();
-                $.post("../update",formData,function(msg){
+                $.post("../brokersUpdate",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
                         layer.closeAll();
@@ -113,7 +116,7 @@
             });
             table.render({
                 elem: '#userTable',
-                url: '../select',
+                url: '../brokersSelect',
                 page: true,
                 height: 500,
                 toolbar: '#userToolBar',//显示在表头的工具条
@@ -140,12 +143,13 @@
                             title: '添加数据信息',
                             closeBtn: 1,
                             move:false,
+                            area: ['800px', '700px'],
                             content:$("#addContent"),
                             btn:[]
                         });
                         form.render();
                         //全屏
-                        layer.full(index);
+                        //layer.full(index);
                         break;
                     case 'search':
                         alert("搜索");
@@ -175,7 +179,7 @@
                             }
                             layer.confirm('真的删除行么',{icon: 2}, function(index){
                                 layer.close(index);
-                                $.post("../delete", {equityId:ids.join(',')},function(msg){
+                                $.post("../brokersDelete", {equityId:ids.join(',')},function(msg){
                                     table.reload('userTable');
                                     layer.msg('删除'+checkStatus.data.length+'条记录', {
                                         title:'提示',
@@ -196,7 +200,7 @@
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
 
                         layer.close(index);
-                        $.post("../delete", {brokersId:data.brokersId+""},function(msg){
+                        $.post("../brokersDelete", {brokersId:data.brokersId+""},function(msg){
                             table.reload('userTable');
                         });
 
@@ -208,11 +212,11 @@
                         title: '修改权益数据',
                         closeBtn: 1,
                         move:false,
-                        area: ['500px', '400px'],
+                        area: ['800px', '700px'],
                         content:$('#editContent')
                     });
                     form.render();
-                    layer.full(index);
+                    //layer.full(index);
                 };
             })
         });

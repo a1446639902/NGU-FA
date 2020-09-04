@@ -17,7 +17,7 @@ import java.util.Map;
 @Mapper
 public interface VarietiesRateMapper {
     int insertVarietiesRate(VarietiesRatePojo varietiesRatePojo);
-    int deleteVarietiesRate(VarietiesRatePojo varietiesRatePojo);
+    int deleteVarietiesRate(int exchangeName,int rateType);
     int updateVarietiesRate(VarietiesRatePojo varietiesRatePojo);
     void selectVarietiesRate(Map map);
 }

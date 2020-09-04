@@ -161,7 +161,7 @@
                 elem: '#userTable',
                 url: '../TransactionData/selectTransactionData',
                 page: true,
-                height: 498,
+                height: 'full-70',
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
                 cols: [
@@ -211,12 +211,12 @@
                             title: '添加数据信息',
                             closeBtn: 1,
                             move:false,
+                            area: ['893px','600px'],
                             content:$("#addContent"),
                             btn:[]
                         });
                         form.render();
-                        //全屏
-                        layer.full(index);
+                        //全屏弹窗 layer.full(index);
                         break;
                     case 'search':
                         alert("搜索");
@@ -273,23 +273,26 @@
 
                     });
                 } else if (obj.event === 'edit') {
-                    alert(JSON.stringify(data));
-
+                    //alert(JSON.stringify(data));
                     form.val('editform',$.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
                         type: 1,
                         title: '修改交易数据',
                         closeBtn: 1,
                         move:false,
-                        area: ['500px', '400px'],
+                        area: ['893px','600px'],
                         content:$('#editContent')
                     });
-
                     form.render();
-                    layer.full(index);
+                    //全屏弹窗 layer.full(index);
                 };
             })
         });
+
+        //取消事件
+        function myclose() {
+            layer.closeAll();
+        }
     </script>
 </head>
 <body style="overflow: auto; background-color: white;"
@@ -443,11 +446,11 @@
         </div>
 
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; left: 39%; top: 650px">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>
@@ -460,6 +463,7 @@
     <form id="editform" lay-filter="editform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
+
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券编号</label>
             <div class="layui-inline layui-show-xs-block">
@@ -592,11 +596,11 @@
         </div>
 
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute;  left: 39%; top: 550px">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>修改
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>
