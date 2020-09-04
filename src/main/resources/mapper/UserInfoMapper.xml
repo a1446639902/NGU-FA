@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.systemManage.mapper.UserInfoMapper">
-    <resultMap id="cursorMap" type="com.yidu.systemManage.pojo.UserInfoPojo">
+    <resultMap id="userMap" type="com.yidu.systemManage.pojo.UserInfoPojo">
         <result property="userId" column="userId" javaType="Integer"></result>
         <result property="userName" column="userName" javaType="String"></result>
         <result property="userPwd" column="userPwd" javaType="String"></result>
         <result property="roleId" column="roleId" javaType="String"></result>
         <result property="status" column="status" javaType="Integer"></result>
-        <result property="desc" column="desc" javaType="String"></result>
+        <result property="userInfoDesc" column="userInfoDesc" javaType="String"></result>
     </resultMap>
-    <select id="selectUser" parameterType="com.yidu.systemManage.pojo.UserInfoPojo" statementType="CALLABLE">
-        {call pkg_userInfo.sp_select(#{p_userInfo,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=cursorMap})}
+    <select id="selectUser" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=userMap})}
     </select>
-   <!-- <parameterMap id="userMap" type="java.util.Map">
-        <parameter property="p_tableName" jdbcType="VARCHAR" mode="IN"></parameter>
-        <parameter property="p_condition" jdbcType="VARCHAR" mode="IN"></parameter>
-        <parameter property="p_pageSize" jdbcType="INTEGER" mode="IN"></parameter>
-        <parameter property="p_page" jdbcType="INTEGER" mode="IN"></parameter>
-        <parameter property="p_count" jdbcType="INTEGER" mode="OUT"></parameter>
-        <parameter property="p_cursor" jdbcType="CURSOR" resultMap="cursorMap" mode="OUT"></parameter>
-    </parameterMap>-->
-        <update id="updateUser" parameterType="com.yidu.systemManage.pojo.UserInfoPojo">
+    <!-- <parameterMap id="userMap" type="java.util.Map">
+         <parameter property="p_tableName" jdbcType="VARCHAR" mode="IN"></parameter>
+         <parameter property="p_condition" jdbcType="VARCHAR" mode="IN"></parameter>
+         <parameter property="p_pageSize" jdbcType="INTEGER" mode="IN"></parameter>
+         <parameter property="p_page" jdbcType="INTEGER" mode="IN"></parameter>
+         <parameter property="p_count" jdbcType="INTEGER" mode="OUT"></parameter>
+         <parameter property="p_cursor" jdbcType="CURSOR" resultMap="cursorMap" mode="OUT"></parameter>
+     </parameterMap>-->
+    <update id="updateUser" parameterType="com.yidu.systemManage.pojo.UserInfoPojo">
                 update UserInfo set userName=#{userName},userPwd=#{userPwd},roleId=#{roleId},status=#{status},userInfoDesc=#{userInfoDesc} where userId=#{userId}
         </update>
+
+    <delete id="deleteUser" parameterType="com.yidu.systemManage.pojo.UserInfoPojo">
+                delete from userInfo where userId=#{userId}
+    </delete>
 </mapper>

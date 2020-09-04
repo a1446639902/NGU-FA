@@ -1,7 +1,9 @@
 package com.yidu.systemManage.service;
 
 import com.yidu.systemManage.pojo.UserInfoPojo;
+import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,10 +12,10 @@ import java.util.List;
  * @author xbf
  * @version 1.0
  */
-
+@Service
 public interface UserInfoService {
     public int insertUser(UserInfoPojo userInfoPojo);
-    public void deleteUser(int userId);
+    public int deleteUser(int userId);
     public int updateUser(UserInfoPojo userInfoPojo);
-    public List<UserInfoPojo>selectUser();
+    public HashMap selectUser();
 }
