@@ -22,10 +22,10 @@ public class AccountController {
     AccountService accountService;
 
     @RequestMapping("/selectAccount")
-    public HashMap selectAccount(int page,int limit) {
+    public HashMap selectAccount(int page,int limit,String selectAccountName,String selectBankName) {
         System.out.println("jintlia");
-        System.out.println(page+","+limit);
-        HashMap hashMap = accountService.selectAccount(page,limit);
+        System.out.println(page+","+limit+","+selectAccountName+","+selectBankName);
+        HashMap hashMap = accountService.selectAccount(page,limit,selectAccountName,selectBankName);
         int count = (int) hashMap.get("p_count");
         List<AccountPojo> accountList = (List<AccountPojo>) hashMap.get("p_cursor");
         HashMap accountMap = new HashMap();
@@ -44,7 +44,7 @@ public class AccountController {
 
     @RequestMapping("/insertAccount")
     public int insertAccount(AccountPojo accountPojo) {
-        accountPojo.setAccountId("25");
+        accountPojo.setAccountId("28");
         accountPojo.setFundId("5");
         System.out.println(accountPojo);
         return accountService.insertAccount(accountPojo);

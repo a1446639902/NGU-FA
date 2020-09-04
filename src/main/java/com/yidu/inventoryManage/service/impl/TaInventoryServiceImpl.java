@@ -6,6 +6,7 @@ import com.yidu.inventoryManage.service.TaInventoryService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,29 +22,52 @@ public class TaInventoryServiceImpl implements TaInventoryService {
 
     /**
      * 查询TaInventory（Ta库存）表的service实现方法
-     * @return
+     * date: 获得网页根据日期查询的信息（若为空则调用查询所有）
+     *
+     * @return 查询的结果List
      */
     @Override
     public List<TaInventoryEntity> selectTaInventory() {
         return taInventoryMapper.selectTaInventory();
     }
 
-    /**
-     * 新增TaInventory（Ta库存）表的service实现方法
-     * @return
-     */
-    @Override
-    public void insertTaInventory(TaInventoryEntity taInventoryEntity) {
-        taInventoryMapper.insertTaInventory(taInventoryEntity);
-    }
 
     /**
      * 删除TaInventory（Ta库存）表的service实现方法
      * @return
      */
     @Override
-    public void deleteTaInventory(int deleteId) {
+    public void deleteTaInventory(String deleteId) {
         taInventoryMapper.deleteTaInventory(deleteId);
+    }
+
+    /**
+     * 批量删除TaInventory（Ta库存）表的service实现方法
+     *
+     * @return
+     */
+    @Override
+    public void deleteMoreTaInventory(String taInventoryId) {
+        String[] split = taInventoryId.split(",");
+//        ArrayList<Object> arrayList = new ArrayList<>();
+
+        //定义一个id用于循环接收删除id
+        String deleteId;
+        for (String id : split) {
+//           deleteId=Integer.parseInt(id);
+           //循环获得的批量删除id
+           taInventoryMapper.deleteTaInventory(id);
+        }
+
+    }
+
+    /**
+     * 修改TaInventory（Ta库存）表的service实现方法
+     * @return
+     */
+    @Override
+    public void updateTaInventory(double tanum, double tatotal,String taInventoryId) {
+        taInventoryMapper.updateTaInventory(tanum,tatotal,taInventoryId);
     }
 
 }

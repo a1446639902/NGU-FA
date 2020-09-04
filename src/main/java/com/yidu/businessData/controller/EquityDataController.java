@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
  *@author wzh
  *date 2020-9-2
@@ -15,19 +17,43 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/EquityData")
 public class EquityDataController {
     @Resource
     EquityDataService equityDataService;
-    @RequestMapping("/selectEquityData")
-    public HashMap selectEquityDataMapper(){
-        List<EquityData> equityDataList = equityDataService.selectEquityDataMapper();
-        HashMap hashMap = new HashMap();
-        hashMap.put("count",10);
-        hashMap.put("code",0);
-        hashMap.put("msg","");
-        hashMap.put("data",equityDataList);
-        return hashMap;
+
+    @RequestMapping("insertEquityData")
+    public int insertEquityData(EquityData equityData) {
+        int i = equityDataService.insertEquityData(equityData);
+        return i;
+    }
+
+    @RequestMapping("deleteEquityData")
+    public int deleteEquityData(String equityId) {
+        int i = equityDataService.deleteEquityData(equityId);
+        return i;
+    }
+
+    @RequestMapping("updateEquityData")
+    public int updateEquityData(EquityData equityData) {
+        System.out.println(equityData);
+        int i = equityDataService.updateEquityData(equityData);
+        return i;
+    }
+
+    @RequestMapping("selectEquityData")
+    public Map<String, Object> selectEquityData(String page, String limit) {
+        //调用Service层执行查询，接收返回结果集Map
+        Map<String, Object> map = equityDataService.selectEquityData(limit, page);
+        List<EquityData> equityDataList = (List<EquityData>) map.get("equityDataList");
+        int count = (int) map.get("count");
+        //以layui要求存储响应数据格式
+        Map<String, Object> equityDataMap = new HashMap<>();
+        equityDataMap.put("code", 0);
+        equityDataMap.put("msg", "");
+        equityDataMap.put("count", count);
+        equityDataMap.put("data", equityDataList);
+        //返回数据
+        return equityDataMap;
     }
 
 }
