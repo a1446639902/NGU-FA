@@ -25,10 +25,6 @@ public class BrokersController {
      */
     @RequestMapping("/insert")
     public boolean insert(Brokers  brokers){
-//        brokers.setBrokersId("10");
-//        brokers.setBrokersName("中国石油");
-//        brokers.setBrokersInstructions("汽油");
-//        brokers.setDesc("上涨");
        return brokersService.insert(brokers);
     }
 
@@ -40,8 +36,8 @@ public class BrokersController {
      */
     @RequestMapping("/delete")
     public String delete(String brokersId){
-        brokersService.delete("10");
-        return "删除成功";
+         brokersService.delete("4");
+         return "删除成功";
     }
 
 
@@ -52,10 +48,6 @@ public class BrokersController {
      */
     @RequestMapping("/update")
     public boolean update(Brokers brokers){
-        brokers.setBrokersId("10");
-        brokers.setBrokersName("中国石化");
-        brokers.setBrokersInstructions("92汽油");
-        brokers.setBrokersDesc("下降");
         return brokersService.update(brokers);
     }
 
@@ -73,9 +65,4 @@ public class BrokersController {
         System.out.println("查询");
         return hashMap;
     }
-//    public List<Brokers> select(){
-//        System.out.println("查询");
-//        List<Brokers> brokersList = brokersService.select();
-//        return brokersList;
-//    }
 }
