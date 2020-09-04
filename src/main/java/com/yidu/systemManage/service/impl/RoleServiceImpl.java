@@ -24,14 +24,18 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int insertRole(RolePojo rolePojo) {
+        System.out.println("biz层注入的对象"+rolePojo);
         return roleMapper.insertRole(rolePojo);
     }
 
     @Override
     public int deleteRole(String roleId) {
+        //拿到页面传递过来的id，截取字符串用数组接收
         String[] roleIds = roleId.split(",");
+        //创建集合,用于接收数组中的数据
         ArrayList roleIdList = new ArrayList();
         for (int i = 0; i < roleIds.length; i++) {
+            //将数组中的数据放入集合
             roleIdList.add(roleIds[i]);
         }
         return roleMapper.deleteRole(roleIdList);

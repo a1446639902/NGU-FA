@@ -97,6 +97,7 @@
                 ,layEvent: 'LAYTABLE_TIPS'
                 ,icon: 'layui-icon-tips'
             }]
+            , height:'full-70'
             ,cols: [
                 [
                 {field:'idTest',type: 'checkbox', fixed: 'left',align: 'center'}
@@ -136,11 +137,12 @@
                         closeBtn: 1,
                         move:false,
                         content:$("#addContent"),
-                        btn:[]
+                        btn:[],
+                        area:['500px','400px']
                     });
                     form.render();
                     //全屏
-                    layer.full(index);
+                    //layer.full(index);
                     break;
 
                     /*批量删除*/
@@ -203,7 +205,7 @@
         //给表格编辑，删除按钮添加点击事件
         table.on('tool(test)', function(obj) {
             var data = obj.data;//得到删除行整行的数据
-            alert(data.roleId);
+            //alert(data.roleId);
             if (obj.event === 'del') {
                 layer.confirm('真的删除行么',{icon: 2}, function(index){
                     layer.close(index);
@@ -214,7 +216,7 @@
                 });
             } else if (obj.event === 'edit') {
                 // var roleId=data.role.roleId;
-                alert(JSON.stringify(data));
+                //alert(JSON.stringify(data));
 
             /*修改角色*/
                 form.val('editform',$.parseJSON(JSON.stringify(data)));
@@ -227,7 +229,8 @@
                     content:$('#editContent')
                 });
                 form.render();
-                layer.full(index);
+                //全屏
+                //layer.full(index);
             };
         })
     });
