@@ -1,8 +1,8 @@
 package com.yidu.permission.controller;
 
+
 import com.yidu.permission.pojo.UserInfo;
 import com.yidu.permission.service.UserService;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,11 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("user")
 public class UserController {
     @Resource
     UserService userService;
     @RequestMapping("selectUser")
-    public Map<String,Object> selectUser(String page,String limit){
+    public Map<String,Object> selectUser(String page, String limit){
 
         Map<String,Object> map = new HashMap<>();
         Map<String, Object> resultMap = userService.selectUser(page, limit);
@@ -35,7 +36,7 @@ public class UserController {
 
     @RequestMapping("insertUser")
     public void insertUser(UserInfo userInfo){
-
+        userService.insertUser(new UserInfo());
     }
 
 }

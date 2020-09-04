@@ -27,8 +27,8 @@
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
-                    class="layui-icon">&#xe654;</i>添加债券</button>
+            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm  layui-bg-green" lay-event="add"><i
+                    class="layui-icon">&#xe654;</i>添加数据</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
@@ -129,7 +129,8 @@
                 height: 498,
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
-                cols: [[ //表头
+                cols: [
+                    [ //表头
                     {type: 'checkbox', fixed: 'left'}
                     ,{field: 'securitiesId', title: '债券编号', width:130, align:'center'}
                     ,{field: 'bondName', title: '债券名称', width: 130, align:'center'}
@@ -142,7 +143,8 @@
                     ,{field: 'payInterestNum', title: '付息次数', width: 130, align:'center'}
                     ,{field: 'desc', title: '备注' , width: 160, align:'center'}
                     ,{field: '操作',title:'操作' ,width: 160,align :'center'}
-                ]]
+                ]
+                ]
             });
             //给工具条的按钮添加事件
             table.on('toolbar(userTable)',function (obj) {
@@ -256,14 +258,13 @@
                     })
                     form.render();
                     layer.full(index);
-
-                    function quxiao() {
-                        parent.layer.closeAll();
-                    }
                 };
             })
         });
 
+        function ck(){
+            parent.layer.closeAll();
+        }
     </script>
 </head>
 <body style="overflow: auto; background-color: white;"
@@ -287,89 +288,79 @@
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户</label>
             <div class="layui-input-inline">
                 <input type="text" name="securitiesId" lay-verify="required"
                        autocomplete="off" placeholder="请输入债券编号" class="layui-input">
             </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
+
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券</label>
             <div class="layui-input-inline">
-                <input type="text" name="bondName" lay-verify="required"
-                       autocomplete="off" placeholder="请输入债券名称" class="layui-input">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入债券名称"
+                       name="bondName" id="transactionId">
             </div>
+
         </div>
 
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">起始日</label>
             <div class="layui-input-inline">
                 <input type="text" name="drawStartDate" lay-verify="required"
                        autocomplete="off" placeholder="请输入债券计息起始日" class="layui-input">
             </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
+
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">结束日</label>
             <div class="layui-input-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="drawEndDate" lay-verify="required"
-                           autocomplete="off" placeholder="请输入债券计息结束日" class="layui-input">
-                </div>
+                <input class="layui-input"  autocomplete="off" placeholder="请输入债券计息结束日"
+                       name="drawEndDate">
             </div>
         </div>
+
+
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券类型</label>
             <div class="layui-input-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="bondType" lay-verify="required"
-                           autocomplete="off" placeholder="请输入债券类型" class="layui-input">
-                </div>
+                <input type="text" name="bondType" lay-verify="required"
+                       autocomplete="off" placeholder="请输入债券类型" class="layui-input">
+            </div>
+
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">结束日</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入票面利率(%)"
+                       name="parRate">
             </div>
         </div>
+
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券利息</label>
             <div class="layui-input-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="parRate" lay-verify="required"
-                           autocomplete="off" placeholder="请输入票面利率(%)" class="layui-input">
-                </div>
+                <input type="text" name="bondRate" lay-verify="required"
+                       autocomplete="off" placeholder="请输入债券利息(%)" class="layui-input">
+            </div>
+
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">结束日</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入票面金额"
+                       name="bondRateAmount">
             </div>
         </div>
+
+
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">付息次数</label>
             <div class="layui-input-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="bondRate" lay-verify="required"
-                           autocomplete="off" placeholder="请输入债券利息(%)" class="layui-input">
-                </div>
+                <input type="text" name="payInterestNum" lay-verify="required"
+                       autocomplete="off" placeholder="请输入付息次数" class="layui-input">
+            </div>
+
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">备注</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入备注"
+                       name="desc">
             </div>
         </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="bondRateAmount" lay-verify="required"
-                           autocomplete="off" placeholder="请输入票面金额" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="payInterestNum" lay-verify="required"
-                           autocomplete="off" placeholder="请输入付息次数" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-inline">
-                <div class="layui-input-inline">
-                    <textarea name="" desc lay-verify="required" placeholder="请输入备注" class="layui-textarea"></textarea>
-                </div>
-            </div>
-        </div>
+
+
         <div style="position: absolute; bottom: 0px; left: 45%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
@@ -422,13 +413,11 @@
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button"  onclick="quxiao()">
-                <i class="layui-icon">&#x1006;</i>取消
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="ck()">
+                <i class="layui-icon" >&#x1006;</i>取消
             </button>
         </div>
     </form>
 </div>
-
-
 </body>
 </html>

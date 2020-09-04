@@ -4,7 +4,7 @@
 <!--行情数据-->
     <resultMap id="MarketDataMap" type="com.yidu.businessData.pojo.MarketData">
         <result property="marketId" column="marketId" javaType="String"></result>
-        <result property="securitiesName" column="securitiesName" javaType="String"></result>
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
         <result property="dateTime" column="dateTime" javaType="String"></result>
         <result property="openPrice" column="openPrice" javaType="Double"></result>
         <result property="closingPrice" column="closingPrice" javaType="Double"></result>
@@ -15,7 +15,7 @@
     </select>
 
     <delete id="deleteMarKetDate" parameterType="com.yidu.businessData.pojo.MarketData" >
-        delete from market where securitiesId=#{securitiesId}
+        delete from market where marketId=#{marketId}
     </delete>
    <update id="updateMarketDate" parameterType="com.yidu.businessData.pojo.MarketData">
        update market set securitiesId=#{securitiesId},dateTime=#{dateTime},openPrice=#{openPrice},closingPrice=#{closingPrice} where marketId=#{marketId}
