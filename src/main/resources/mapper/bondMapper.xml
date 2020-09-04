@@ -4,9 +4,14 @@
 
 <!--基金参数-->
 
-    <select id="selectBond" resultType="com.yidu.businessParameter.pojo.BondPojo">
+    <!--<select id="selectBond" resultType="com.yidu.businessParameter.pojo.BondPojo">
+        select * from bond
+    </select>-->
+
+    <select id="selectBond" >
         select * from bond
     </select>
+
 
     <insert id="insertBond" parameterType="com.yidu.businessParameter.pojo.BondPojo">
        insert into bond values(#{securitiesId},#{bondName},#{drawStartDate},#{drawEndDate},#{bondType},#{parRate},#{bondRate},#{bondRateAmount},#{payInterestNum},#{desc})
@@ -15,6 +20,7 @@
     <delete id="deleteBond" parameterType="int">
         delete from bond where fundId=#{fundId}
     </delete>
+
 
     <update id="updateBond" parameterType="com.yidu.businessParameter.pojo.BondPojo">
         update bond set bondName=#{bondName},drawStartDate=#{drawStartDate},drawEndDate=#{drawEndDate},

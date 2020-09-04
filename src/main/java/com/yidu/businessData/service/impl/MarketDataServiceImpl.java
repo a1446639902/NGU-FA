@@ -17,7 +17,7 @@ public class MarketDataServiceImpl implements MarketDataService {
     @Override
     public HashMap selectMarKetDate() {
         HashMap marketDataMap = new HashMap();
-        marketDataMap.put("p_tableName","(select sm.marketId,sm.securitiesName,sm.dateTime,sm.openPrice,sm.closingPrice,sm.marketDesc from  (select * from securities s join market m on s.securitiesId=m.securitiesId) sm )");
+        marketDataMap.put("p_tableName","(select * from bond b join market m on b.securitiesId=m.securitiesId)");
         marketDataMap.put("p_condition","");
         marketDataMap.put("p_pageSize",4);
         marketDataMap.put("p_page",1);
