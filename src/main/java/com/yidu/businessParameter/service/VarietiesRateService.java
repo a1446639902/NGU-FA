@@ -17,7 +17,7 @@ import java.util.Map;
 @Service
 public interface VarietiesRateService {
     int insertVarietiesRate(VarietiesRatePojo varietiesRatePojo);
-    int deleteVarietiesRate(VarietiesRatePojo varietiesRatePojo);
+    int deleteVarietiesRate(String exchangeNames,String rateTypes);
     int updateVarietiesRate(VarietiesRatePojo varietiesRatePojo);
     Map<String,Object> selectVarietiesRate(String pageSize, String page);
 }

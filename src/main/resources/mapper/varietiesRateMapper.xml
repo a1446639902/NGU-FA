@@ -8,12 +8,12 @@
         insert into  varietiesRate values(#{exchangeName},#{rateType},#{stampDuty},#{transferFee},#{collectionRate},#{brokerage})
     </insert>
 
-    <delete id="deleteVarietiesRate" parameterType="com.yidu.businessParameter.pojo.VarietiesRatePojo">
+    <delete id="deleteVarietiesRate">
         delete from varietiesRate where exchangeName=#{exchangeName} and rateType=#{rateType}
     </delete>
 
     <update id="updateVarietiesRate" parameterType="com.yidu.businessParameter.pojo.VarietiesRatePojo">
-        update varietiesRate set exchangeName=#{exchangeName},rateType=#{rateType},stampDuty=#{stampDuty},transferFee=#{transferFee},collectionRate=#{collectionRate},brokerage=#{brokerage}
+        update varietiesRate set stampDuty=#{stampDuty},transferFee=#{transferFee},collectionRate=#{collectionRate},brokerage=#{brokerage} where exchangeName=#{exchangeName},rateType=#{rateType}
     </update>
 
     <select id="selectVarietiesRate" parameterType="java.util.Map" statementType="CALLABLE">
