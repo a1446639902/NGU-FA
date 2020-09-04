@@ -72,7 +72,7 @@ public class BondServiceImpl implements BondService {
         //创建out游标变量，返回查询数据
         map.put("p_cursor",null);
         //调用Mapper执行查询
-        BondMapper.selectBond(map);
+        bondMapper.selectBond(map);
         //接收返回数据
         List<BondPojo> bondPojoList = (List<BondPojo>) map.get("p_cursor");
         //接收返回总条数

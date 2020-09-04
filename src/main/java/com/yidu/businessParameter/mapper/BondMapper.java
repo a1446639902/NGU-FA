@@ -1,6 +1,7 @@
 package com.yidu.businessParameter.mapper;
 
 import com.yidu.businessParameter.pojo.BondPojo;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  * @date  2020/09/01 15点32分
  * @version 版本1.0
  */
+@Mapper
 public interface BondMapper {
     //增加
     int insertBond(BondPojo bondPojo);
@@ -19,5 +21,5 @@ public interface BondMapper {
     //修改
     int updateBond(BondPojo bondPojo);
     //查所有
-    static void selectBond(Map map);
+    void selectBond(Map map);
 }
