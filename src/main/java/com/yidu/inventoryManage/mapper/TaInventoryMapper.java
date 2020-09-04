@@ -20,6 +20,7 @@ public interface TaInventoryMapper {
     @Select("select taInventoryId,TAINVENTORY.FUNDID,tanum,tatotal,dateTime,taInventoryDesc,FUNDNAME from taInventory,fund where FUND.FUNDID = TAINVENTORY.FUNDID")
     public List<TaInventoryEntity> selectTaInventory();
 
+
     /**
      * 根据日期查询taInventory（Ta库存表）
      * @return
@@ -40,4 +41,12 @@ public interface TaInventoryMapper {
      */
     @Update("update taInventory set tanum=#{tanum},tatotal=#{tatotal} where taInventoryId=#{taInventoryId}")
     public void updateTaInventory(double tanum,double tatotal,String taInventoryId);
+
+    /**
+     * 新增taInventory（Ta库存表）
+     */
+    @Insert("insert into taInventory values (#{taInventoryId},#{fundId},#{tanum},#{tatotal},#{dateTime},#{securityPeriodFlag},#{taInventorydesc})")
+    public void insertTaInventory(TaInventoryEntity taInventoryEntity);
+
+
 }
