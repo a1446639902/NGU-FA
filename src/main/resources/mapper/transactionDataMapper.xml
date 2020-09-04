@@ -3,9 +3,33 @@
 <mapper namespace="com.yidu.businessData.mapper.TransactionDataMapper">
 
 <!--交易数据-->
+    <resultMap id="transactionDataMapper" type="com.yidu.businessData.pojo.TransactionData">
+        <result property="transactionDataId" column="transactionDataId" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="settlementDate" column="settlementDate" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="brokersId" column="brokersId" javaType="String"></result>
+        <result property="seateId" column="seateId" javaType="String"></result>
+        <result property="transactionDataMode" column="transactionDataMode" javaType="Integer"></result>
+        <result property="status" column="status" javaType="Integer"></result>
+        <result property="price" column="price" javaType="Double"></result>
+        <result property="num" column="num" javaType="Double"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="netReceipts" column="netReceipts" javaType="Double"></result>
+        <result property="totalSum" column="totalSum" javaType="Double"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+        <result property="commission" column="commission" javaType="Double"></result>
+        <result property="transfer" column="transfer" javaType="Double"></result>
+        <result property="brokerage" column="brokerage" javaType="Double"></result>
+        <result property="stamp" column="stamp" javaType="Double"></result>
+        <result property="management" column="management" javaType="Double"></result>
+        <result property="security" column="security" javaType="Double"></result>
+        <result property="transactionDataDesc" column="transactionDataDesc" javaType="String"></result>
+    </resultMap>
 
-    <select id="selectTransactionData" resultType="com.yidu.businessData.pojo.TransactionData">
-         select * from transactionData
+    <select id="selectTransactionData" parameterType="map" statementType="CALLABLE">
+         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=transactionDataMapper})}
     </select>
 
     <insert id="insertTransactionData" parameterType="com.yidu.businessData.pojo.TransactionData">

@@ -65,7 +65,7 @@ public class SecuritiesController {
         int count=(int)hashMap.get("p_count");
         List<SecuritiesPojo> securitiesPojoList = (List<SecuritiesPojo>) hashMap.get("p_cursor");
         HashMap securitiesMap=new HashMap();
-        securitiesMap.put("count",10);
+        securitiesMap.put("count",count);
         securitiesMap.put("code",0);
         securitiesMap.put("msg","");
         securitiesMap.put("data",securitiesPojoList);

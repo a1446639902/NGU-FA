@@ -9,7 +9,7 @@ package com.yidu.businessData.pojo;
  **/
 public class TransactionData {
 
-  /*  tradeId	Varchar2(50)	PK 交易的单子号(主键) T2020083100001
+  /*  transactionDataId	Varchar2(50)	PK 交易的单子号(主键) T2020083100001
     dateTime	date	成交日期(交易成交的日期)
     settlementDate	date	结算日期(交易结算的日期)
     fundId	Varchar2(50)	FK 基金代码来自基金表
@@ -32,14 +32,14 @@ public class TransactionData {
     security	number(14,2)	证券利息
     desc	varchar2(50)	备注
 */
-    private String tradeId;         //PK 交易的单子号(主键) T2020083100001
+    private String transactionDataId;         //PK 交易的单子号(主键) T2020083100001
     private String dateTime;        //成交日期(交易成交的日期)
     private String settlementDate;  //结算日期(交易结算的日期)
     private String fundId;          //FK 基金代码来自基金表
     private String securitiesId;    //FK 证券编号 （证券表的ID）
     private String brokersId;       //FK 券商ID(引用券商表的券商的ID)
     private String seateId;         //FK 席位Id(交易席位的Id)
-    private int mode;               //交易方式(1买入、2卖出，3分红，4送股)
+    private int transactionDataMode;               //交易方式(1买入、2卖出，3分红，4送股)
     private int status;             //交易状态（0未结算，1已结算）
     private Double price;           //交易价格(单价)
     private Double num;             //交易数量
@@ -53,20 +53,20 @@ public class TransactionData {
     private Double stamp;	        //印花税（上交国家的税）
     private Double management;	    //征管费（上交国家的税）
     private Double security;	    //证券利息
-    private String desc;	        //备注
+    private String transactionDataDesc;	        //备注
 
     public TransactionData() {
     }
 
-    public TransactionData(String tradeId, String dateTime, String settlementDate, String fundId, String securitiesId, String brokersId, String seateId, int mode, int status, Double price, Double num, String accountId, Double netReceipts, Double totalSum, int flag, Double commission, Double transfer, Double brokerage, Double stamp, Double management, Double security, String desc) {
-        this.tradeId = tradeId;
+    public TransactionData(String transactionDataId, String dateTime, String settlementDate, String fundId, String securitiesId, String brokersId, String seateId, int transactionDataMode, int status, Double price, Double num, String accountId, Double netReceipts, Double totalSum, int flag, Double commission, Double transfer, Double brokerage, Double stamp, Double management, Double security, String transactionDataDesc) {
+        this.transactionDataId = transactionDataId;
         this.dateTime = dateTime;
         this.settlementDate = settlementDate;
         this.fundId = fundId;
         this.securitiesId = securitiesId;
         this.brokersId = brokersId;
         this.seateId = seateId;
-        this.mode = mode;
+        this.transactionDataMode = transactionDataMode;
         this.status = status;
         this.price = price;
         this.num = num;
@@ -80,15 +80,15 @@ public class TransactionData {
         this.stamp = stamp;
         this.management = management;
         this.security = security;
-        this.desc = desc;
+        this.transactionDataDesc = transactionDataDesc;
     }
 
-    public String getTradeId() {
-        return tradeId;
+    public String getTransactionDataId() {
+        return transactionDataId;
     }
 
-    public void setTradeId(String tradeId) {
-        this.tradeId = tradeId;
+    public void setTransactionDataId(String transactionDataId) {
+        this.transactionDataId = transactionDataId;
     }
 
     public String getDateTime() {
@@ -139,12 +139,12 @@ public class TransactionData {
         this.seateId = seateId;
     }
 
-    public int getMode() {
-        return mode;
+    public int getTransactionDataMode() {
+        return transactionDataMode;
     }
 
-    public void setMode(int mode) {
-        this.mode = mode;
+    public void setTransactionDataMode(int transactionDataMode) {
+        this.transactionDataMode = transactionDataMode;
     }
 
     public int getStatus() {
@@ -251,39 +251,11 @@ public class TransactionData {
         this.security = security;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getTransactionDataDesc() {
+        return transactionDataDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionData{" +
-                "tradeId='" + tradeId + '\'' +
-                ", dateTime='" + dateTime + '\'' +
-                ", settlementDate='" + settlementDate + '\'' +
-                ", fundId='" + fundId + '\'' +
-                ", securitiesId='" + securitiesId + '\'' +
-                ", brokersId='" + brokersId + '\'' +
-                ", seateId='" + seateId + '\'' +
-                ", mode=" + mode +
-                ", status=" + status +
-                ", price=" + price +
-                ", num=" + num +
-                ", accountId='" + accountId + '\'' +
-                ", netReceipts=" + netReceipts +
-                ", totalSum=" + totalSum +
-                ", flag=" + flag +
-                ", commission=" + commission +
-                ", transfer=" + transfer +
-                ", brokerage=" + brokerage +
-                ", stamp=" + stamp +
-                ", management=" + management +
-                ", security=" + security +
-                ", desc='" + desc + '\'' +
-                '}';
+    public void setTransactionDataDesc(String transactionDataDesc) {
+        this.transactionDataDesc = transactionDataDesc;
     }
 }

@@ -6,6 +6,7 @@ import com.yidu.systemManage.service.UserInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,17 +25,25 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void deleteUser(int userId) {
-        userInfoMapper.deleteUser(userId);
+    public int deleteUser(int userId) {
+        return userInfoMapper.deleteUser(userId);
     }
 
     @Override
     public int updateUser(UserInfoPojo userInfoPojo) {
-          return userInfoMapper.updateUser(userInfoPojo);
+        return userInfoMapper.updateUser(userInfoPojo);
     }
 
     @Override
-    public List<UserInfoPojo> selectUser() {
-        return userInfoMapper.selectUser();
+    public HashMap selectUser() {
+        HashMap userMap=new HashMap();
+        userMap.put("p_tableName","userInfo");
+        userMap.put("p_condition","");
+        userMap.put("p_pageSize",10);
+        userMap.put("p_page",1);
+        userMap.put("p_count",0);
+        userMap.put("p_cursor",null);
+        userInfoMapper.selectUser(userMap);
+        return userMap;
     }
 }

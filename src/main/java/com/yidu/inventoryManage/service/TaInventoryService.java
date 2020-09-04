@@ -17,15 +17,27 @@ public interface TaInventoryService {
      */
     public List<TaInventoryEntity> selectTaInventory();
 
-    /**
-     * 新增TaInventory（库存统计）表 service接口
-     * @return
-     */
-    public void insertTaInventory(TaInventoryEntity taInventoryEntity);
 
     /**
      * 删除TaInventory（库存统计）表 service接口
      * @return
      */
-    public void deleteTaInventory(int deleteId);
+    public void deleteTaInventory(String deleteId);
+
+    /**
+     * 批量删除TaInventory（库存统计）表 service接口
+     * @return
+     */
+    public void deleteMoreTaInventory(String taInventoryId);
+
+    /**
+     * 修改TaInventory（库存统计）表 service接口
+     * @return
+     */
+    public void updateTaInventory(double tanum,double tatotal,String taInventoryId);
+
+    /**
+     * 新增taInventory（Ta库存表）
+     */
+    public void insertTaInventory(TaInventoryEntity taInventoryEntity);
 }

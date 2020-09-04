@@ -4,6 +4,8 @@ import com.yidu.businessData.pojo.EquityData;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  *@author wzh
  *date 2020-9-2
@@ -12,5 +14,8 @@ import java.util.List;
 
 @Mapper
 public interface EquityDataMapper {
-    public List<EquityData> selectEquityDataMapper();
+    public int insertEquityData(EquityData equityData);
+    public int  deleteEquityData(List equityId);
+    public int updateEquityData(EquityData equityData);
+    public void selectEquityData(Map map);
 }

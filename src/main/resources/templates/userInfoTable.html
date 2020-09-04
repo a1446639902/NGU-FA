@@ -14,7 +14,7 @@
     <div class="layuimini-main">
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit"  lay-event="edit" onclick="xadmin.open('编辑','./updateUserDemo',600,400)" style="background-color: rgba(0, 150, 136, 1)"><i class="layui-icon">&#xe642;</i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit"  lay-event="edit" onclick="xadmin.open('编辑','./updateUserDemo1',600,400)" style="background-color: rgba(0, 150, 136, 1)"><i class="layui-icon">&#xe642;</i>编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
         </script>
 
@@ -23,7 +23,7 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-form layui-col-space5" style="float: right">
-        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add" style="margin-top: 8px;background-color: rgba(0, 150, 136, 1)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add" onclick="xadmin.open('添加','./addUserDemo1',600,400)" style="margin-top: 8px;background-color: rgba(0, 150, 136, 1)"><i class="layui-icon"></i>添加</button>
         <button class="layui-btn layui-btn-sm layui-btn-danger" style="margin-top: 8px" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
     </div>
     <form class="layui-form layui-col-space5">
@@ -67,7 +67,6 @@
         laydate.render({
             elem: '#end'
         });
-
     })
 </script>
 </body>

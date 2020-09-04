@@ -3,10 +3,14 @@ package com.yidu.permission.service.impl;
 import com.yidu.permission.mapper.UserMapper;
 import com.yidu.permission.pojo.UserInfo;
 import com.yidu.permission.service.UserService;
+import com.yidu.util.DbUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.awt.desktop.SystemSleepEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +20,8 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;
-
+    @Resource
+    DbUtil dbUtil;
     @Override
     public Map<String,Object> selectUser(String page, String limit) {
         int vPage = 0;
@@ -39,6 +44,7 @@ public class UserServiceImpl implements UserService {
         Map<String,Object> resultHashMap = new HashMap<>();
         resultHashMap.put("count",userMap.get("p_count"));
         resultHashMap.put("userList",userList);
+
         return resultHashMap;
     }
 
@@ -49,7 +55,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void insertUser(UserInfo userInfo) {
-
+        String s = dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
+        System.out.println(s);
     }
 
 }
