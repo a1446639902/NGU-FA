@@ -3,6 +3,7 @@ package com.yidu.businessParameter.mapper;
 import com.yidu.businessParameter.pojo.BondPojo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 债券信息表数据库访问接口
@@ -12,12 +13,11 @@ import java.util.List;
  */
 public interface BondMapper {
     //增加
-    public int insertBond(BondPojo bondPojo);
+    int insertBond(BondPojo bondPojo);
     //删除
-    public int deleteBond(String securitiesId);
+    void deleteBond(int securitiesId);
     //修改
-    public int updateBond(BondPojo bondPojo);
+    int updateBond(BondPojo bondPojo);
     //查所有
-    public List<BondPojo> selectBond();
-
+    static void selectBond(Map map);
 }
