@@ -1,15 +1,15 @@
 package com.yidu.businessData.pojo;
 
 /*
-  @type:控制层
+  @type:实体类
  *@author wufeiyun
- * time 2020-9-2 15:36
+ * time 2020-9-4 15:36
   version 1.0
  * */
 
 public class MarketData {
 private String marketId;  //行情ID
-private String securitiesName;    //证券名称
+private String securitiesId;    //证券名称
 private String dateTime;  //录入证券的日期
 private double openPrice;
 private double closingPrice;
@@ -59,17 +59,17 @@ private String marketDesc;  //行情数据的其他信息
         this.marketDesc = marketDesc;
     }
 
-    public String getSecuritiesName() {
-        return securitiesName;
+    public String getSecuritiesId() {
+        return securitiesId;
     }
 
-    public void setSecuritiesName(String securitiesName) {
-        this.securitiesName = securitiesName;
+    public void setSecuritiesId(String securitiesName) {
+        this.securitiesId = securitiesName;
     }
 
-    public MarketData(String marketId, String securitiesName, String dateTime, double openPrice, double closingPrice, String marketDesc) {
+    public MarketData(String marketId, String securitiesId, String dateTime, double openPrice, double closingPrice, String marketDesc) {
         this.marketId = marketId;
-        this.securitiesName = securitiesName;
+        this.securitiesId = securitiesId;
         this.dateTime = dateTime;
         this.openPrice = openPrice;
         this.closingPrice = closingPrice;
@@ -80,7 +80,7 @@ private String marketDesc;  //行情数据的其他信息
     public String toString() {
         return "MarketData{" +
                 "marketId='" + marketId + '\'' +
-                ", securitiesName='" + securitiesName + '\'' +
+                ", securitiesId='" + securitiesId + '\'' +
                 ", dateTime='" + dateTime + '\'' +
                 ", openPrice=" + openPrice +
                 ", closingPrice=" + closingPrice +

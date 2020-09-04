@@ -6,29 +6,39 @@ public class EquityData {
      *date 2020-9-1
      * 权益数据设置表实体类
      */
-    private String dateTime;                    //业务日期
-    private int securityId;                     //证券ID
-    private String securityName;                //证券名称
-    private String equitiesRecord;              //权益登记日 除权日-1day
-    private String equitiesExright;             //权益除权日 yyyy-MM-dd
-    private String receivedDate;                //到账日期 除权日+2day
-    private int equitiesType;                   //权益类型  1.送股  2.分红
-    private int proportion;                     //比例   单位为%来计算
-    private String disposeStatus;               //处理状态处理状态分为已处理和未处理与权益处理的已结算和未结算相对应（0未处理 1已处理）
+    private String equityDataId;//权益ID（隐藏字段）
+    private String dateTime;//业务日期
+    private String securityId;//证券Id
+    private String securitiesName;//证券名称
+    private String equitiesRecord;//权益登记日
+    private String equitiesExright;//权益除权日
+    private String receivedDate;//到账日期
+    private int equitiesType;//权益类型  1.送股   2.分红
+    private int proportion;//比例
+    private int disposeStatus;//处理状态   0.未处理   1.已处理
 
     public EquityData() {
     }
 
-    public EquityData(String dateTime, int securityId, String securityName, String equitiesRecord, String equitiesExright, String receivedDate, int equitiesType, int proportion, String disposeStatus) {
+    public EquityData(String equityDataId, String dateTime, String securityId, String securitiesName, String equitiesRecord, String equitiesExright, String receivedDate, int equitiesType, int proportion, int disposeStatus) {
+        this.equityDataId = equityDataId;
         this.dateTime = dateTime;
         this.securityId = securityId;
-        this.securityName = securityName;
+        this.securitiesName = securitiesName;
         this.equitiesRecord = equitiesRecord;
         this.equitiesExright = equitiesExright;
         this.receivedDate = receivedDate;
         this.equitiesType = equitiesType;
         this.proportion = proportion;
         this.disposeStatus = disposeStatus;
+    }
+
+    public String getEquityDataId() {
+        return equityDataId;
+    }
+
+    public void setEquityDataId(String equityDataId) {
+        this.equityDataId = equityDataId;
     }
 
     public String getDateTime() {
@@ -39,20 +49,20 @@ public class EquityData {
         this.dateTime = dateTime;
     }
 
-    public int getSecurityId() {
+    public String getSecurityId() {
         return securityId;
     }
 
-    public void setSecurityId(int securityId) {
+    public void setSecurityId(String securityId) {
         this.securityId = securityId;
     }
 
-    public String getSecurityName() {
-        return securityName;
+    public String getSecuritiesName() {
+        return securitiesName;
     }
 
-    public void setSecurityName(String securityName) {
-        this.securityName = securityName;
+    public void setSecuritiesName(String securitiesName) {
+        this.securitiesName = securitiesName;
     }
 
     public String getEquitiesRecord() {
@@ -95,26 +105,27 @@ public class EquityData {
         this.proportion = proportion;
     }
 
-    public String getDisposeStatus() {
+    public int getDisposeStatus() {
         return disposeStatus;
     }
 
-    public void setDisposeStatus(String disposeStatus) {
+    public void setDisposeStatus(int disposeStatus) {
         this.disposeStatus = disposeStatus;
     }
 
     @Override
     public String toString() {
         return "EquityData{" +
-                "dateTime='" + dateTime + '\'' +
-                ", securityId=" + securityId +
-                ", securityName='" + securityName + '\'' +
+                "equityDataId='" + equityDataId + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                ", securityId='" + securityId + '\'' +
+                ", securitiesName='" + securitiesName + '\'' +
                 ", equitiesRecord='" + equitiesRecord + '\'' +
                 ", equitiesExright='" + equitiesExright + '\'' +
                 ", receivedDate='" + receivedDate + '\'' +
                 ", equitiesType=" + equitiesType +
                 ", proportion=" + proportion +
-                ", disposeStatus='" + disposeStatus + '\'' +
+                ", disposeStatus=" + disposeStatus +
                 '}';
     }
 }

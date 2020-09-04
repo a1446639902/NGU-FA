@@ -4,6 +4,7 @@ package com.yidu.businessParameter.service.Impl;
 import com.yidu.businessParameter.mapper.FundMapper;
 import com.yidu.businessParameter.pojo.Fund;
 import com.yidu.businessParameter.service.FundService;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,10 +23,12 @@ import java.util.List;
 public class FundServiceImpl implements FundService {
     @Resource
     FundMapper fundMapper;
+
+
     @Override
     public HashMap selectFund(int page,int limit) {
         HashMap fundMap = new HashMap();
-        fundMap.put("p_tableName","fund");
+        fundMap.put("p_tableName",SysTableNameListUtil.F);
         fundMap.put("p_condition","");
         fundMap.put("p_pageSize",limit);
         fundMap.put("p_page",page);

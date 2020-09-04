@@ -25,12 +25,11 @@ public class TaInventoryController {
      * @return
      */
     @RequestMapping("/selectTaInventory")
-    public HashMap selectTaInventory(){
-        System.out.println("我是TA库存信息");
+    public HashMap selectTaInventory(String datetime){
+
+        System.out.println(datetime);
+
         List<TaInventoryEntity> taInventoryEntity = taInventoryService.selectTaInventory();
-
-        System.out.println(taInventoryEntity);
-
         HashMap userMap = new HashMap();
         userMap.put("count",10);
         userMap.put("code",0);
@@ -43,10 +42,41 @@ public class TaInventoryController {
      * 删除taInventory（Ta库存）表的控制方法
      */
     @RequestMapping("/deleteTaInventory")
-    public void deleteTaInventory(int userId){
-        System.out.println("我是删除的方法");
-        System.out.println(userId);
+    public void deleteTaInventory(String userId){
         taInventoryService.deleteTaInventory(userId);
+    }
+
+    /**
+     * 批量删除taInventory（Ta库存）表的控制方法
+     */
+    @RequestMapping("/deleteMoreTaInventory")
+    public void deleteMoreTaInventory(String taInventoryId){
+        taInventoryService.deleteMoreTaInventory(taInventoryId);
+    }
+
+    /**
+     * 修改taInventory（Ta库存）表的控制方法
+     */
+    @RequestMapping("/updateTaInventory")
+    public void updateTaInventory(TaInventoryEntity taInventoryEntity){
+        System.out.println(taInventoryEntity);
+
+//        获得网页用户提交的TAid,TA数量和TA金额
+        double tanum = taInventoryEntity.getTanum();
+        double tatotal = taInventoryEntity.getTatotal();
+        String taInventoryId = taInventoryEntity.getTaInventoryId();
+        taInventoryService.updateTaInventory(tanum,tatotal,taInventoryId);
+
+    }
+
+    /**
+     * 新增aInventory（Ta库存）表的控制方法
+     */
+    @RequestMapping("/insertTaInventory")
+    public void insertTaInventory(TaInventoryEntity taInventoryEntity){
+
+        System.out.println("我是新增方法"+taInventoryEntity);
+        taInventoryService.insertTaInventory(taInventoryEntity);
     }
 
 

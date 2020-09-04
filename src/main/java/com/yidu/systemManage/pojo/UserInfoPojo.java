@@ -12,18 +12,18 @@ public class UserInfoPojo {
     private String userPwd;
     private String roleId;
     private int status;
-    private String desc;
+    private String userInfoDesc;
 
     public UserInfoPojo() {
     }
 
-    public UserInfoPojo(int userId, String userName, String userPwd, String roleId, int status, String desc) {
+    public UserInfoPojo(int userId, String userName, String userPwd, String roleId, int status, String userInfoDesc) {
         this.userId = userId;
         this.userName = userName;
         this.userPwd = userPwd;
         this.roleId = roleId;
         this.status = status;
-        this.desc = desc;
+        this.userInfoDesc = userInfoDesc;
     }
 
     public int getUserId() {
@@ -66,12 +66,12 @@ public class UserInfoPojo {
         this.status = status;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getUserInfoDesc() {
+        return userInfoDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setUserInfoDesc(String userInfoDesc) {
+        this.userInfoDesc = userInfoDesc;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class UserInfoPojo {
                 ", userPwd='" + userPwd + '\'' +
                 ", roleId='" + roleId + '\'' +
                 ", status=" + status +
-                ", desc='" + desc + '\'' +
+                ", userInfoDesc='" + userInfoDesc + '\'' +
                 '}';
     }
 }

@@ -2,27 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.businessData.mapper.EquityDataMapper">
 
-    <resultMap id="EquityDataMap" type="com.yidu.businessData.pojo.EquityData">
+    <insert id="insertEquityData">
+        insert into equityData values(#{equityDataId},#{dateTime},#{securityId},#{securitiesName},#{equitiesRecord},#{equitiesExright},#{receivedDate},#{equitiesType},#{proportion},#{disposeStatus})
+    </insert>
+    <!--修改-->
+    <update id="updateEquityData">
+        update equityData set dateTime=#{dateTime},securityId=#{securityId},securitiesName=#{securitiesName},equitiesRecord=#{equitiesRecord},equitiesExright=#{equitiesExright},receivedDate=#{receivedDate},equitiesType=#{equitiesType},proportion=#{proportion},disposeStatus=#{disposeStatus} where equityDataId=#{equityDataId}
+    </update>
+    <!--删除-->
+    <delete id="deleteEquityData" parameterType="java.util.List">
+        delete from equityData where equityDataId in
+        <foreach collection="list" item="equityId"
+                 open="(" separator="," close=")">
+            #{equityDataId}
+        </foreach>
+    </delete>
+    <!--查询-->
+    <resultMap id="equityDataMap" type="com.yidu.businessData.pojo.EquityData">
+        <result property="equityDataId" column="equityDataId" javaType="String"></result>
         <result property="dateTime" column="dateTime" javaType="String"></result>
-        <result property="securityId" column="securityId" javaType="Integer"></result>
-        <result property="securityName" column="securityName" javaType="String"></result>
+        <result property="securityId" column="securityId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
         <result property="equitiesRecord" column="equitiesRecord" javaType="String"></result>
         <result property="equitiesExright" column="equitiesExright" javaType="String"></result>
         <result property="receivedDate" column="receivedDate" javaType="String"></result>
         <result property="equitiesType" column="equitiesType" javaType="Integer"></result>
         <result property="proportion" column="proportion" javaType="Integer"></result>
-        <result property="disposeStatus" column="disposeStatus" javaType="String"></result>
+        <result property="disposeStatus" column="disposeStatus" javaType="Integer"></result>
     </resultMap>
-    <select id="selectEquityDataMapper"  resultMap="EquityDataMap">
-       select * from equityData
-    </select>
-    <!--    <parameterMap id="userMap" type="java.util.Map">-->
-    <!--        <parameter property="p_tableName" jdbcType="VARCHAR" mode="IN"></parameter>-->
-    <!--        <parameter property="p_condition" jdbcType="VARCHAR" mode="IN"></parameter>-->
-    <!--        <parameter property="p_pageSize" jdbcType="INTEGER" mode="IN"></parameter>-->
-    <!--        <parameter property="p_page" jdbcType="INTEGER" mode="IN"></parameter>-->
-    <!--        <parameter property="p_count" jdbcType="INTEGER" mode="OUT"></parameter>-->
-    <!--        <parameter property="p_cursor" jdbcType="CURSOR" resultMap="cursorMap" mode="OUT"></parameter>-->
-    <!--    </parameterMap>-->
 
+    <select id="selectEquityData" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=equityDataMap})}
+    </select>
 </mapper>

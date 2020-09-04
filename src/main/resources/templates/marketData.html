@@ -14,15 +14,15 @@
                 elem: '#name1' //指定元素
             });
             laydate.render({
-                elem: '#test1' //指定元素
+                elem: '#test2' //指定元素
             });
         });
     </script>
     <!--表格头文件-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
-                    class="layui-icon">&#xe654;</i>添加账户信息
+            <button class="layui-btn  layui-btn-sm" lay-event="add"><i
+                    class="layui-icon">&#xe654;</i>添加行情信息
             </button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除
@@ -107,11 +107,13 @@
                             area: ['893px', '600px'],
                             content: $("#addContent")
                         });
-                        $("#roleId").empty();
-                        $.get("./RoleServlet?method=addOpt", function (data) {
-                            $.each(data, function (i, n) {
-                                var opt = new Option(n.roleName, n.roleId);
-                                $("#roleId").append(opt);
+                        $("#market").empty();
+                        $.get("/selectSecurities", function (obj) {
+                            alert(JSON.stringify(obj));
+                            alert(obj.data);
+                            $.each(obj.data,function (i, n) {
+
+                                $("#market").append(new Option(n.securitiesName, n.securitiesId));
                             });
                             form.render();
                         }, "json");
@@ -160,6 +162,8 @@
                             });
                         }
                         break;
+                    default:
+                        break;
                 }
             });
             table.on('tool(myTable)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
@@ -172,7 +176,7 @@
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
-                        $.post("/MarketData/selectMarKetDate", "securitiesId=" + data.securitiesId, function (msg) {
+                        $.post("/MarketData/deleteMarKetDate", "marketId=" + data.marketId, function (msg) {
 
                             if (msg > 0) {
                                 table.reload('myTable');
@@ -228,13 +232,45 @@
                 }
 
             });
+            // form.on('submit(addsubmit)', function () {
+            //     var data = form.val("addform");//获取表单区域所有值
+            //     alert(data);
+            //     $.post("MarketData/insertMarKetDate", data, function (msg) {
+            //
+            //         if (msg > 0) {
+            //             //重置from表单
+            //             $('#addform')[0].reset();
+            //             form.render();//必须写
+            //             table.reload('myTable');
+            //             layer.closeAll();
+            //             layer.msg('添加成功', {
+            //                 title: '提示',
+            //                 area: ['200px',
+            //                     '140px'],
+            //                 time: 0,
+            //                 btn: ['知道了']
+            //             });
+            //         } else {
+            //             layer.closeAll();
+            //             layer.msg('添加失败', {
+            //                 title: '提示',
+            //                 area: ['200px',
+            //                     '140px'],
+            //                 time: 0,
+            //                 btn: ['知道了']
+            //             });
+            //         }
+            //
+            //     });
+            //     return false;//解决弹出层闪退问题
+            // });
+
             form.on('submit(addsubmit)', function () {
-                var data = form.val("addform");//获取表单区域所有值
-                $.post("./UserServlet?method=insertUserServlet", data, function (msg) {
+                alert("添加 功能");
+                var formData = form.val("addform").serialize();//获取表单区域所有值
+                alert("haha=" + formData);
+                $.post("/MarketData/insertMarKetDate", formData, function (msg) {
                     if (msg > 0) {
-                        //重置from表单
-                        $('#addform')[0].reset();
-                        form.render();//必须写
                         table.reload('myTable');
                         layer.closeAll();
                         layer.msg('添加成功', {
@@ -258,35 +294,7 @@
                 });
                 return false;//解决弹出层闪退问题
             });
-
-            form.on('submit(editsubmit)', function () {
-                var data = form.val("editform");//获取表单区域所有值
-                $.post("./UserServlet?method=updateUserServlet", data, function (msg) {
-                    if (msg > 0) {
-                        table.reload('myTable');
-                        layer.closeAll();
-                        layer.msg('修改成功', {
-                            title: '提示',
-                            area: ['200px',
-                                '140px'],
-                            time: 0,
-                            btn: ['知道了']
-                        });
-                    } else {
-                        layer.closeAll();
-                        layer.msg('修改失败', {
-                            title: '提示',
-                            area: ['200px',
-                                '140px'],
-                            time: 0,
-                            btn: ['知道了']
-                        });
-                    }
-
-                });
-                return false;//解决弹出层闪退问题
-            });
-        })
+        });
 
         function myclose() {
             parent.layer.closeAll();
@@ -302,156 +310,54 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<!--添加现金账号div的内容-->
+
+<!--增加-->
 <div id="addContent"
      style="display: none; height: 100%; height: 100%; text-align: center;">
     <form id="addform" lay-filter="addform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-        <div class="layui-row">
-            <div class="layui-col-xs6">
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">银行卡号</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="blankCardCode" lay-verify="required"
-                               autocomplete="off" placeholder="请输入银行卡号" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">开户时间</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="addopen" name="openTime" lay-verify="required"
-                               placeholder="请选择日期" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">银行名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="blankName" lay-verify="required"
-                               autocomplete="off" placeholder="请输入账户名称" class="layui-input">
-                    </div>
-                </div>
-
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">卡号利率</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="cardRate" lay-verify="required"
-                               autocomplete="off" placeholder="请输入利率%" class="layui-input">
-                    </div>
-                </div>
-
-            </div>
-            <div class="layui-col-xs6">
-
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">账户名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="accountName" lay-verify="required"
-                               autocomplete="off" placeholder="请输入账户名称" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">存款类型</label>
-                    <div class="layui-input-inline">
-                        <select name="deposit">
-                            <option value="">请选择</option>
-                            <option value="1">活期</option>
-                            <option value="2">定期</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">结束时间</label>
-                    <div class="layui-inline">
-                        <input type="text" id="addend" name="endTime" lay-verify="required"
-                               placeholder="请选择日期" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">计息期间</label>
-                    <div class="layui-input-inline">
-                        <select name="provisionDays">
-                            <option value="">请选择</option>
-                            <option value="1">360天</option>
-                            <option value="2">365天</option>
-                            <option value="3">366天</option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-        </div>
         <div class="layui-form-item" style="text-align: center;">
-
+            <label class="layui-form-label" style="background-color: rgba(0,150,136,1)" >证券名称</label>
             <div class="layui-input-inline">
-                <textarea name="descs" style="width: 590px;height: 100px;padding: 10px;" rows="" cols=""
-                          placeholder="备注"></textarea>
-            </div>
-        </div>
-        <div style="position: absolute; bottom: 0px; left: 43%;">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
-                <i class="layui-icon">&#x1005;</i>添加
-            </button>
-            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
-                <i class="layui-icon">&#x1006;</i>取消
-            </button>
-        </div>
-    </form>
-</div>
-
-
-<div id="editContent"
-     style="display: none; height: 100%; height: 100%; text-align: center;">
-    <form id="editform" lay-filter="editform"
-          class="layui-form layui-form-pane"
-          style="margin: 30px auto; display: inline-block;">
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-btn-sm">证券编号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="userId" lay-verify="required"
-                       autocomplete="off" placeholder="请输入证券编号" class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">证券名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="userName" lay-verify="required"
-                       autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                <select name="securitiesId" id="market" >
+                    <option value="">请选择</option>
+                </select>
             </div>
         </div>
 
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">日期</label>
+            <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">日期</label>
             <div class="layui-inline">
-                <input type="text" class="layui-input" id="test1" autocomplete="off" placeholder="请选择日期">
+                <input type="text" class="layui-input" name="dateTime" id="test2" autocomplete="off" placeholder="请选择日期">
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">开盘价格</label>
+            <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">开盘价格</label>
             <div class="layui-input-inline">
-                <input type="text" name="userName" lay-verify="required"
+                <input type="text" name="openPrice" lay-verify="required"
                        autocomplete="off" placeholder="请输入开盘价格" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">收盘价格</label>
+            <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">收盘价格</label>
             <div class="layui-input-inline">
-                <input type="text" name="userName" lay-verify="required"
+                <input type="text" name="closingPrice" lay-verify="required"
                        autocomplete="off" placeholder="请输入收盘价格" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">描述</label>
+            <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">描述</label>
             <div class="layui-input-inline">
-                <input type="text" name="userName" lay-verify="required"
+                <input type="text" name="marketDesc" lay-verify="required"
                        autocomplete="off" placeholder="请输入对证券的描述" class="layui-input">
             </div>
         </div>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
-                <i class="layui-icon">&#x1005;</i>修改
+        <div style="position: absolute; left: 37%;">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>增加
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>

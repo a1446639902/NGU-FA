@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>现金账号原型界面</title>
-    <link type="text/css" rel="stylesheet" href="../static/lib/layui/css/layui.css"/>
-    <script type="text/javascript" src="../static/lib/layui/layui.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <script type="text/javascript" src="../lib/layui/layui.js"></script>
     <!--表格头文件-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
@@ -14,18 +14,18 @@
                     class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
         <br/>
-        <form class="layui-form layui-col-space5">
+        <form class="layui-form layui-col-space5" id="toolbarFrom">
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户名称</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  autocomplete="off" placeholder="请输入账户名" name="name" id="name">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入账户名" name="selectAccountName" id="name">
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">银行名称</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <select name="cateid">
+                <select id="selectBankName">
                     <option>请选择</option>
                     <option value="中国银行">中国银行</option>
                     <option value="建设银行">建设银行</option>
@@ -34,7 +34,7 @@
                 </select>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
 
@@ -53,71 +53,82 @@
             laydate.render({
                 elem:'#addend'
             });
+            laydate.render({
+                elem:'#addopen2'
+            });
+            laydate.render({
+                elem:'#addend2'
+            });
 
             table.render({
                 elem: '#myTable' //实例化表格的ID名称
-                , url: './UserServlet?method=selectUserServlet' //接收JSON数据的路径
+                , url: '../account/selectAccount' //接收JSON数据的路径
                 , toolbar: '#userToolBar' //开启头部工具栏，并为其绑定左侧模板
                 , title: '用户数据表'//表格名称
                 , cellMinWidth: 100
-                , cols: [[ //表头既列名  title列名名称
-                    {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'blankCardCode', title: '银行卡号', align:'center'}
-                    ,{field: 'accountName', title: '账户名称', align:'center'}
-                    ,{field: 'blankName', title: '银行名称', align:'center'}
-                    ,{field: 'deposit', title: '存款类型', align:'center'}
-                    ,{field: 'cardRate', title: '卡号利率%', align:'center'}
-                    ,{field: 'procisionDays', title: '计息期间', align:'center'}
-                    ,{field: 'openTime', title: '开户时间', align:'center'}
-                    ,{field: 'endTime', title: '结束时间', align:'center'}
-                    ,{field: 'accountDesc', title: '备注', align:'center'}
-                    ,{field: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
-                ]]
+                , cols: [
+                    [ //表头既列名  title列名名称
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'blankCardCode', title: '银行卡号',width:200, align:'center'}
+                        ,{field: 'accountName', title: '账户名称',width:150, align:'center'}
+                        ,{field: 'blankName', title: '银行名称', width:150,align:'center'}
+                        ,{field: 'deposit', title: '存款类型', width:150,align:'center',
+                        templet:function (item) {
+                            if(item.deposit==1){
+                                return '活期';
+                            }
+                            return '定期';
+                        }
+                    }
+                        ,{field: 'cardRate', title: '卡号利率%',width:150, align:'center'}
+                        ,{field: 'procisionDays', title: '计息期间',width:150, align:'center',
+                        templet:function (item) {
+                            if(item.procisionDays==1){
+                                return '360天';
+                            }else if(item.procisionDays==2){
+                                return '365天';
+                            }else if(item.procisionDays==3){
+                                return '366天';
+                            }
+                        }}
+                        ,{field: 'openTime', title: '开户时间',width:150, align:'center'}
+                        ,{field: 'endTime', title: '结束时间',width:150, align:'center'}
+                        ,{field: 'accountDesc', title: '备注', width:150,align:'center'}
+                        ,{field: 'right', title: '操作', align:'center',width:150, toolbar: '#barDemo'}
+                    ]
+                ]
                 , page: true//开启分页
             });
+            //给工具条的按钮添加事件
             table.on('toolbar(myTable)', function (obj) {
                 var userName = $("#userName").val();
                 switch (obj.event) {
                     case "search":
-                        table.reload('myTable',
-                            {
-                                method: 'post'
-                                , where: {
-                                    'userName': userName
-                                }
-                                , page: {
-                                    curr: 1
-                                }
-                            }
-                        )
+                        var accountName = $("#name").val();
+                        alert(accountName);
+                        var options=$("#selectBankName:selected");  //获取选中的项
+                        alert(options);
+                        $.post("../account/selectAccount",{"selectAccountName":accountName,"selectBankName":options},function(msg){
+                            });
+                        /*table.reload('myTable');*/
                         break;
                     case "add":
                         layer.open({
                             type: 1,
-                            title: '新增用户信息',
+                            title: '新增现金账户信息',
                             area: ['893px', '600px'],
                             content: $("#addContent")
                         });
-                        $("#roleId").empty();
-                        $.get("./RoleServlet?method=addOpt", function (data) {
-                            $.each(data, function (i, n) {
-                                var opt = new Option(n.roleName, n.roleId);
-                                $("#roleId").append(opt);
-                            });
-                            form.render();
-                        }, "json");
-                        form.render();
-
                         break;
                     //删除多行
                     case "deleteAll":
                         //获得选中的对象
                         var checkStatus = table.checkStatus("myTable"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                        var userIds = [];
+                        var accountIds = [];
                         var dataArr = checkStatus.data; //获取选中行的数据
                         $.each(dataArr, function (i, n) {
-                            userIds.push(n.userId);
+                            accountIds.push(n.accountId);
                         });
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
@@ -126,7 +137,7 @@
                             layer.confirm('真的删除行么', function () {
                                 layer.close();
                                 //向服务端发送删除指令
-                                $.post("./UserServlet?method=deleteUserServlet", "userId="+userIds,function(msg){
+                                $.post("../account/deleteAccount", "accountId="+accountIds,function(msg){
                                     if(msg>0){
                                         table.reload('myTable');
                                         layer.closeAll();
@@ -155,6 +166,7 @@
                         break;
                 }
             });
+            //给表格编辑，删除按钮添加点击事件
             table.on('tool(myTable)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
                 var data = obj.data; //获得当前行数据
                 var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -165,7 +177,7 @@
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
-                        $.post("./UserServlet?method=deleteUserServlet", "userId="+data.userId,function(msg){
+                        $.post("../account/deleteAccount", "accountId="+data.accountId,function(msg){
                             if(msg>0){
                                 table.reload('myTable');
                                 layer.closeAll();
@@ -200,35 +212,14 @@
                         content: $("#editContent")
                     });
 
-                    //获取修改行的所有数据
-                    //将数据赋值到editfrom表单中
-                    /* var userObj=$.parseJSON(JSON.stringify(data));//将json字符串转为json对象*/
-                    //给下拉列表赋值
-                    $("#editRoleId").empty();
-                    $.post("./RoleServlet?method=addOpt", function (datas) {
-                        $.each(datas, function (i, n) {
-                            var opt = new Option(n.roleName, n.roleId);
-
-                            $("#editRoleId").append(opt);
-                        });
-                        //给下列列表赋默认值  属性选择器
-                        $("#editRoleId option[value='"+data.roleId+"']").attr("selected","selected");
-                        //刷新下拉列表
-                        form.render();
-                    }, "json");
-
-
-
                 }
 
             });
-            form.on('submit(addsubmit)',function () {
-                var data = form.val("addform");//获取表单区域所有值
-                $.post("./UserServlet?method=insertUserServlet",data,function(msg){
+            //新增提交
+            form.on('submit(addsubmit)', function(data){
+                var accounts=$('#addform').serialize();
+                $.post("../account/insertAccount",accounts,function(msg){
                     if(msg>0){
-                        //重置from表单
-                        $('#addform')[0].reset();
-                        form.render();//必须写
                         table.reload('myTable');
                         layer.closeAll();
                         layer.msg('添加成功',{
@@ -248,14 +239,15 @@
                             btn : [ '知道了' ]
                         });
                     }
-
                 });
-                return false;//解决弹出层闪退问题
+                return false;
             });
 
+
+            //修改提交
             form.on('submit(editsubmit)',function () {
-                var data = form.val("editform");//获取表单区域所有值
-                $.post("./UserServlet?method=updateUserServlet",data,function(msg){
+                var data = $('#editform').serialize();//获取表单区域所有值
+                $.post("../account/updateAccount",data,function(msg){
                     if(msg>0){
                         table.reload('myTable');
                         layer.closeAll();
@@ -281,9 +273,6 @@
                 return false;//解决弹出层闪退问题
             });
 
-
-
-
         })
         function myclose() {
             parent.layer.closeAll();
@@ -293,6 +282,13 @@
 <body>
 
 <table id="myTable" lay-filter="myTable"></table>
+<!--表格里的编辑删除按钮-->
+<div style="display: none;" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i
+            class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+            class="layui-icon">&#xe640;</i>删除</a>
+</div>
 <!--添加现金账号div的内容-->
 <div id="addContent"
      style="display: none; height: 100%; height: 100%; text-align: center;">
@@ -302,29 +298,30 @@
         <div class="layui-row">
             <div class="layui-col-xs6">
                 <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">银行卡号</label>
+                    <label class="layui-form-label layui-bg-green" >银行卡号</label>
                     <div class="layui-input-inline">
                         <input type="text" name="blankCardCode" lay-verify="required"
                                autocomplete="off" placeholder="请输入银行卡号" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">开户时间</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="addopen" name="openTime" lay-verify="required"
-                               placeholder="请选择日期" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">银行名称</label>
+                    <label class="layui-form-label layui-bg-green" >银行名称</label>
                     <div class="layui-input-inline">
                         <input type="text" name="blankName" lay-verify="required"
                                autocomplete="off" placeholder="请输入账户名称" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >开户时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="addopen" name="openTime" lay-verify="required"
+                               placeholder="请选择日期" class="layui-input">
+                    </div>
+                </div>
+
 
                 <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">卡号利率</label>
+                    <label class="layui-form-label layui-bg-green" >卡号利率</label>
                     <div class="layui-input-inline">
                         <input type="text" name="cardRate" lay-verify="required"
                                autocomplete="off" placeholder="请输入利率%" class="layui-input">
@@ -335,14 +332,14 @@
             <div class="layui-col-xs6">
 
                 <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">账户名称</label>
+                    <label class="layui-form-label layui-bg-green" >账户名称</label>
                     <div class="layui-input-inline">
                         <input type="text" name="accountName" lay-verify="required"
                                autocomplete="off" placeholder="请输入账户名称" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">存款类型</label>
+                    <label class="layui-form-label layui-bg-green" >存款类型</label>
                     <div class="layui-input-inline">
                         <select name="deposit">
                             <option value="">请选择</option>
@@ -352,16 +349,16 @@
                     </div>
                 </div>
                 <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">结束时间</label>
+                    <label class="layui-form-label layui-bg-green" >结束时间</label>
                     <div class="layui-input-inline">
                         <input type="text" id="addend" name="endTime" lay-verify="required"
                                placeholder="请选择日期" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">计息期间</label>
+                    <label class="layui-form-label layui-bg-green" >计息期间</label>
                     <div class="layui-input-inline">
-                        <select  name="provisionDays">
+                        <select  name="procisionDays">
                             <option value="">请选择</option>
                             <option value="1">360天</option>
                             <option value="2">365天</option>
@@ -373,9 +370,8 @@
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">
-
             <div class="layui-input-inline">
-                <textarea name="descs" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
+                <textarea name="accountDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
             </div>
         </div>
         <div style="position: absolute; bottom: 0px; left: 43%;">
@@ -390,40 +386,93 @@
 </div>
 
 
+<!--修改的div内容-->
 <div id="editContent"
      style="display: none; height: 100%; height: 100%; text-align: center;">
     <form id="editform" lay-filter="editform"
           class="layui-form layui-form-pane"
-          style="margin: 30px auto; display: inline-block;">
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-btn-sm">用户Id</label>
-            <div class="layui-input-inline">
-                <input type="text" name="userId" lay-verify="required"
-                       autocomplete="off" placeholder="" class="layui-input" disabled>
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">用户名</label>
-            <div class="layui-input-inline">
-                <input type="text" name="userName" lay-verify="required"
-                       autocomplete="off" placeholder="请输入用户名" class="layui-input">
-            </div>
-        </div>
+          style="margin: 30px auto; display: inline-block;" >
+        <input type="hidden" name="accountId"/>
+        <input type="hidden" name="fundId"/>
+        <div>
+            <div class="layui-row">
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >银行卡号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="blankCardCode" lay-verify="required"
+                            disabled="disabled"       autocomplete="off" placeholder="请输入银行卡号" class="layui-input">
+                        </div>
+                    </div>
 
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">密码：</label>
-            <div class="layui-input-inline">
-                <input type="password" name="userPwd" lay-verify="required"
-                       autocomplete="off" placeholder="请输入密码" class="layui-input">
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >银行名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="blankName" lay-verify="required"
+                                   autocomplete="off" placeholder="请输入账户名称" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >开户时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="addopen2" name="openTime" lay-verify="required"
+                                   placeholder="请选择日期" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >卡号利率</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="cardRate" lay-verify="required"
+                                   autocomplete="off" placeholder="请输入利率%" class="layui-input">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-col-xs6">
+
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >账户名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="accountName" lay-verify="required"
+                                   autocomplete="off" placeholder="请输入账户名称" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >存款类型</label>
+                        <div class="layui-input-inline">
+                            <select name="deposit">
+                                <option value="">请选择</option>
+                                <option value="1">活期</option>
+                                <option value="2">定期</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >结束时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="addend2" name="endTime" lay-verify="required"
+                                   placeholder="请选择日期" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >计息期间</label>
+                        <div class="layui-input-inline">
+                            <select  name="procisionDays">
+                                <option value="">请选择</option>
+                                <option value="1">360天</option>
+                                <option value="2">365天</option>
+                                <option value="3">366天</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label">请选择角色</label>
-            <div class="layui-input-inline">
-                <select id="editRoleId" name="roleId" xm-select="add" xm-select-radio=""
-                        xm-select-search="" lay-verify="required"
-                        xm-select-direction="down" xm-select-search-type="dl">
-                </select>
+            <div class="layui-form-item" style="text-align: center;">
+                <div class="layui-input-inline">
+                    <textarea name="accountDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
+                </div>
             </div>
         </div>
         <div style="position: absolute; bottom: 0px; left: 45%;">

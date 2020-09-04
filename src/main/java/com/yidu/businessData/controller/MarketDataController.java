@@ -2,6 +2,8 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.MarketData;
 import com.yidu.businessData.service.MarketDataService;
+import com.yidu.util.DbUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +13,7 @@ import java.util.List;
 /*
   @type:控制层
  *@author wufeiyun
- * time 2020-9-2 15:36
+ * time 2020-9-4 15:36
   version 1.0
  * */
 @RestController
@@ -20,6 +22,8 @@ public class MarketDataController {
     @Resource
     MarketDataService marketDataService;
 
+    @Resource
+    DbUtil dbUtil;
     @RequestMapping("/selectMarKetDate")
     public HashMap selectTaTransaction(){
         HashMap hashMap = marketDataService.selectMarKetDate();
@@ -33,40 +37,35 @@ public class MarketDataController {
         return stockofSecuritiesMap;
     }
    @RequestMapping("/deleteMarKetDate")
-    public int deleteMarKetDate(String securitiesId){
-       System.out.println(securitiesId);
+    public int deleteMarKetDate(String marketId){
+       System.out.println(marketId);
         MarketData marketData = new MarketData();
-        marketData.setMarketId("1214");
+        marketData.setMarketId(marketId);
        int i = marketDataService.deleteMarKetDate(marketData);
        System.out.println(i);
        return i;
    }
-    @RequestMapping("/updateMarKetDate")
-    public int updateMarKetDate(){
+//    @RequestMapping("/updateMarKetDate")
+//    public int updateMarKetDate(){
 
-        MarketData marketData = new MarketData();
-        marketData.setMarketId("1213");
-        marketData.setMarketDesc("投资有风险");
-        marketData.setClosingPrice(12.1);
-        marketData.setOpenPrice(12.4);
-        marketData.setDateTime("1999-9-8");
-        marketData.setSecuritiesName("步方证券");
-        int i = marketDataService.updateMarketDate(marketData);
-        System.out.println(i);
-        return i;
-    }
+//        MarketData marketData = new MarketData();
+//        marketData.setMarketId("1213");
+//        marketData.setMarketDesc("投资有风险");
+//        marketData.setClosingPrice(12.1);
+//        marketData.setOpenPrice(12.4);
+//        marketData.setDateTime("1999-9-8");
+//        marketData.setSecuritiesName("步方证券");
+//        int i = marketDataService.updateMarketDate(marketData);
+//        System.out.println(i);
+//        return i;
+//    }
+
     @RequestMapping("/insertMarKetDate")
-    public int insertMarKetDate(){
-        MarketData marketData = new MarketData();
-        marketData.setMarketId("1213");
-        marketData.setMarketDesc("投资有风险");
-        marketData.setClosingPrice(12.1);
-        marketData.setOpenPrice(12.4);
-        marketData.setDateTime("1999-9-8");
-        marketData.setSecuritiesName("步方证券");
-        int i = marketDataService.insertMarketDate(marketData);
-        System.out.println(i);
-        return i;
+    public int insertMarKetDate(String formData){
+//        String securitiesId,String dateTime,double openPrice,double closingPrice,String marketDesc
+//        System.out.println(securitiesId+" "+dateTime+" "+openPrice+" "+closingPrice+" "+marketDesc);
+        System.out.println(formData);
+        return 0;
     }
 
 }

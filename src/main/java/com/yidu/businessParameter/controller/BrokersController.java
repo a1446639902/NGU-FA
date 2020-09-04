@@ -1,5 +1,6 @@
 package com.yidu.businessParameter.controller;
 
+import com.yidu.businessParameter.pojo.AccountPojo;
 import com.yidu.businessParameter.pojo.Brokers;
 import com.yidu.businessParameter.service.BrokersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,9 @@ public class BrokersController {
     /**
      * 增加
      */
-    @RequestMapping("/insert")
-    public boolean insert(Brokers  brokers){
-//        brokers.setBrokersId("10");
-//        brokers.setBrokersName("中国石油");
-//        brokers.setBrokersInstructions("汽油");
-//        brokers.setDesc("上涨");
+    @RequestMapping("/brokersInsert")
+    public int insert(Brokers  brokers){
+        System.out.println("增加成功");
        return brokersService.insert(brokers);
     }
 
@@ -38,10 +36,10 @@ public class BrokersController {
      * @param brokersId
      * @return
      */
-    @RequestMapping("/delete")
-    public String delete(String brokersId){
-        brokersService.delete("10");
-        return "删除成功";
+    @RequestMapping("/brokersDelete")
+    public int delete(String brokersId){
+        System.out.println(brokersId);
+         return brokersService.brokersDelete(brokersId);
     }
 
 
@@ -50,32 +48,29 @@ public class BrokersController {
      * @param brokers
      * @return
      */
-    @RequestMapping("/update")
-    public boolean update(Brokers brokers){
-        brokers.setBrokersId("10");
-        brokers.setBrokersName("中国石化");
-        brokers.setBrokersInstructions("92汽油");
-        brokers.setBrokersDesc("下降");
+    @RequestMapping("/brokersUpdate")
+    public int update(Brokers brokers){
         return brokersService.update(brokers);
     }
 
 
     /**
-     * 查询所有
+     * 查询
      * @return
      */
-    @RequestMapping("/select")
-    public HashMap select(){
-        List<Brokers> brokers=brokersService.select();
-        HashMap hashMap=new HashMap();
-        hashMap.put("code",0);
-        hashMap.put("data",brokers);
-        System.out.println("查询");
-        return hashMap;
+    @RequestMapping("/brokersSelect")
+    public HashMap brokersSelect(int page,int limit,String selectBrokersName) {
+        System.out.println("进来了");
+        System.out.println(page+","+limit+","+selectBrokersName);
+        HashMap hashMap = brokersService.brokersSelect(page,limit,selectBrokersName);
+        int count = (int) hashMap.get("p_count");
+        List<Brokers> brokersList = (List<Brokers>) hashMap.get("p_cursor");
+        HashMap brokersMap = new HashMap();
+        brokersMap.put("count",count);
+        brokersMap.put("code", 0);
+        brokersMap.put("msg", "");
+        brokersMap.put("data", brokersList);
+        return brokersMap;
     }
-//    public List<Brokers> select(){
-//        System.out.println("查询");
-//        List<Brokers> brokersList = brokersService.select();
-//        return brokersList;
-//    }
+
 }
