@@ -12,12 +12,12 @@ import java.util.HashMap;
  * 现金账号表
  * @Type:服务层
  * @author 黄志豪
- * @time    2020/9/3
- * @version  1.1
+ * @time    2020/9/4
+ * @version  1.2
  **/
 @Service
 public interface AccountService {
-    public HashMap selectAccount(int page,int limit,String selectAccountName,String selectBankName);
+    public HashMap selectAccount(int page,int limit,String accountName,String blankName);
     public int insertAccount(AccountPojo accountPojo);
     public int deleteAccount(String accountId);
     public int updateAccount(AccountPojo accountPojo);

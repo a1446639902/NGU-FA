@@ -1,9 +1,12 @@
 package com.yidu.businessParameter.service.Impl;
 
+
 import com.yidu.businessParameter.mapper.AccountMapper;
 import com.yidu.businessParameter.pojo.AccountPojo;
 import com.yidu.businessParameter.service.AccountService;
 
+import com.yidu.util.DbUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,28 +18,26 @@ import java.util.List;
  * 现金账户表
  * @Type：服务层的实现类
  * @author 黄志豪
- * @version 1.1
- * @time 2020/9/3
+ * @version 1.2
+ * @time 2020/9/4
  **/
 @Service
 public class AccountServiceImpl implements AccountService {
     @Resource
     AccountMapper accountMapper;
+    @Resource
+    DbUtil dbUtil;
     @Override
-    public HashMap selectAccount(int page,int limit,String selectAccountName,String selectBankName) {
-        System.out.println(selectAccountName);
-        System.out.println(selectBankName);
+    public HashMap selectAccount(int page,int limit,String accountName,String blankName) {
         String sql="";
-        if(selectAccountName!=null){
-            sql=sql+" and accountName like '''%"+selectAccountName+"%'''";
-
+        if(accountName!=null && !accountName.equals("")){
+            sql=sql+" and accountName like '%"+accountName+"%'";
         }
-        if(selectBankName!=null){
-            sql=sql+" and blankName='"+selectBankName+"'";
+        if(blankName!=null && !blankName.equals("")){
+            sql=sql+" and blankName='"+blankName+"'";
         }
-        System.out.println(sql);
         HashMap accountMap = new HashMap();
-        accountMap.put("p_tableName","account");
+        accountMap.put("p_tableName",SysTableNameListUtil.A);
         accountMap.put("p_condition",sql);
         accountMap.put("p_pageSize",limit);
         accountMap.put("p_page",page);
@@ -48,7 +49,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public int insertAccount(AccountPojo accountPojo) {
-
+        accountPojo.setAccountId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.A));
+        accountPojo.setFundId("5");
         return accountMapper.insertAccount(accountPojo);
     }
 

@@ -8,25 +8,25 @@
     <!--表格头文件-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn layui-btn-normal layui-bg-green  layui-btn-sm" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加账户信息</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
         <br/>
-        <form class="layui-form layui-col-space5" id="toolbarFrom">
+        <form class="layui-form layui-col-space5" >
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户名称</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  autocomplete="off" placeholder="请输入账户名" name="selectAccountName" id="name">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入账户名" name="selectAccountName" id="accountName">
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">银行名称</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <select id="selectBankName">
-                    <option>请选择</option>
+                <select id="blankName">
+                    <option value="">请选择</option>
                     <option value="中国银行">中国银行</option>
                     <option value="建设银行">建设银行</option>
                     <option value="工商银行">工商银行</option>
@@ -34,7 +34,7 @@
                 </select>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit lay-event="search" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
 
@@ -66,6 +66,7 @@
                 , toolbar: '#userToolBar' //开启头部工具栏，并为其绑定左侧模板
                 , title: '用户数据表'//表格名称
                 , cellMinWidth: 100
+                , height:'full-70'
                 , cols: [
                     [ //表头既列名  title列名名称
                         {type: 'checkbox', fixed: 'left'}
@@ -104,19 +105,27 @@
                 var userName = $("#userName").val();
                 switch (obj.event) {
                     case "search":
-                        var accountName = $("#name").val();
-                        alert(accountName);
-                        var options=$("#selectBankName:selected");  //获取选中的项
-                        alert(options);
-                        $.post("../account/selectAccount",{"selectAccountName":accountName,"selectBankName":options},function(msg){
-                            });
-                        /*table.reload('myTable');*/
+                        alert("进来了");
+                        var blankName=$('#blankName').val();
+                        var accountName=$('#accountName').val();
+                        alert(blankName,accountName);
+                        table.reload('myTable', {
+                            method: 'post',
+                            page: {
+                                curr: 1
+                            },
+                            where:{
+                                'blankName':blankName,
+                                'accountName':accountName
+                            }
+                        });
                         break;
+
                     case "add":
                         layer.open({
                             type: 1,
                             title: '新增现金账户信息',
-                            area: ['893px', '600px'],
+                            area: ['893px', '550px'],
                             content: $("#addContent")
                         });
                         break;
@@ -208,7 +217,7 @@
                     layer.open({
                         type: 1,
                         title: '修改用户信息',
-                        area: ['893px', '600px'],
+                        area: ['893px', '550px'],
                         content: $("#editContent")
                     });
 
@@ -275,7 +284,7 @@
 
         })
         function myclose() {
-            parent.layer.closeAll();
+            layer.closeAll();
         }
     </script>
 </head>
@@ -374,7 +383,7 @@
                 <textarea name="accountDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
             </div>
         </div>
-        <div style="position: absolute; bottom: 0px; left: 43%;">
+        <div style="position: absolute; bottom: 15px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -475,11 +484,11 @@
                 </div>
             </div>
         </div>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 15px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>修改
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>

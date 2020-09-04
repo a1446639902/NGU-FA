@@ -12,8 +12,8 @@ import java.util.List;
  * 现金账户表
  * @Type 控制层
  * @author 黄志豪
- * @version 1.1
- * @time 2020/9/3
+ * @version 1.2
+ * @time 2020/9/4
  **/
 @RestController
 @RequestMapping("/account")
@@ -22,10 +22,8 @@ public class AccountController {
     AccountService accountService;
 
     @RequestMapping("/selectAccount")
-    public HashMap selectAccount(int page,int limit,String selectAccountName,String selectBankName) {
-        System.out.println("jintlia");
-        System.out.println(page+","+limit+","+selectAccountName+","+selectBankName);
-        HashMap hashMap = accountService.selectAccount(page,limit,selectAccountName,selectBankName);
+    public HashMap selectAccount(int page,int limit,String accountName,String blankName) {
+        HashMap hashMap = accountService.selectAccount(page,limit,accountName,blankName);
         int count = (int) hashMap.get("p_count");
         List<AccountPojo> accountList = (List<AccountPojo>) hashMap.get("p_cursor");
         HashMap accountMap = new HashMap();
@@ -38,23 +36,16 @@ public class AccountController {
 
     @RequestMapping("/deleteAccount")
     public int deleteAccount(String accountId) {
-        System.out.println(accountId);
         return accountService.deleteAccount(accountId);
     }
 
     @RequestMapping("/insertAccount")
     public int insertAccount(AccountPojo accountPojo) {
-        accountPojo.setAccountId("28");
-        accountPojo.setFundId("5");
-        System.out.println(accountPojo);
         return accountService.insertAccount(accountPojo);
     }
 
     @RequestMapping("/updateAccount")
     public int updateAccount(AccountPojo accountPojo) {
-        System.out.println(accountPojo);
-        System.out.println("修改的控制层");
-
         return accountService.updateAccount(accountPojo);
     }
 }
