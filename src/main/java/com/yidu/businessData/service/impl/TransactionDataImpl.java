@@ -3,10 +3,11 @@ package com.yidu.businessData.service.impl;
 import com.yidu.businessData.mapper.TransactionDataMapper;
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  *交易数据表
@@ -21,8 +22,16 @@ public class TransactionDataImpl implements TransactionDataService {
     TransactionDataMapper transactionDataMapper;
 
     @Override
-    public List<TransactionData> selectTransactionData() {
-        return transactionDataMapper.selectTransactionData();
+    public HashMap selectTransactionData(int page,int limit) {
+        HashMap tranMap = new HashMap();
+        tranMap.put("p_tableName", SysTableNameListUtil.TD);
+        tranMap.put("p_condition","");
+        tranMap.put("p_pageSize",limit);
+        tranMap.put("p_page",page);
+        tranMap.put("p_count",0);
+        tranMap.put("p_cursor",null);
+        transactionDataMapper.selectTransactionData(tranMap);
+        return tranMap;
     }
 
     @Override
@@ -31,8 +40,8 @@ public class TransactionDataImpl implements TransactionDataService {
     }
 
     @Override
-    public int deleteTransactionData(int tradeId) {
-        return transactionDataMapper.deleteTransactionData(tradeId);
+    public int deleteTransactionData(int transactionDataId) {
+        return transactionDataMapper.deleteTransactionData(transactionDataId);
     }
 
     @Override

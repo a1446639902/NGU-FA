@@ -2,7 +2,7 @@ package com.yidu.businessData.service;
 
 import com.yidu.businessData.pojo.TransactionData;
 
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * 交易数据表
@@ -13,8 +13,8 @@ import java.util.List;
  **/
 
 public interface TransactionDataService {
-    public List<TransactionData> selectTransactionData();
+    public HashMap selectTransactionData(int page,int limit);
     public int insertTransactionData(TransactionData transactionData);
-    public int deleteTransactionData(int tradeId);
+    public int deleteTransactionData(int transactionDataId);
     public int updateTransactionData(TransactionData transactionData);
 }
