@@ -23,10 +23,21 @@ public class AccountServiceImpl implements AccountService {
     @Resource
     AccountMapper accountMapper;
     @Override
-    public HashMap selectAccount(int page,int limit) {
+    public HashMap selectAccount(int page,int limit,String selectAccountName,String selectBankName) {
+        System.out.println(selectAccountName);
+        System.out.println(selectBankName);
+        String sql="";
+        if(selectAccountName!=null){
+            sql=sql+" and accountName like '''%"+selectAccountName+"%'''";
+
+        }
+        if(selectBankName!=null){
+            sql=sql+" and blankName='"+selectBankName+"'";
+        }
+        System.out.println(sql);
         HashMap accountMap = new HashMap();
         accountMap.put("p_tableName","account");
-        accountMap.put("p_condition","");
+        accountMap.put("p_condition",sql);
         accountMap.put("p_pageSize",limit);
         accountMap.put("p_page",page);
         accountMap.put("p_count",0);

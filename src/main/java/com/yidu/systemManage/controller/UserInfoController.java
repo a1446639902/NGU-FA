@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,49 +18,50 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/user")
 public class UserInfoController {
     @Resource
     UserInfoService userInfoService;
 
     //添加
-    @RequestMapping(value = "/insertUser",method = {RequestMethod.GET,RequestMethod.POST})
+   /* @RequestMapping(value = "/insertUser",method = {RequestMethod.GET,RequestMethod.POST})
     public int insertUser(@ModelAttribute UserInfoPojo userInfoPojo){
 
         int i = userInfoService.insertUser(userInfoPojo);
         return i;
-    }
+    }*/
 
     //修改
-    @RequestMapping("/updateUser")
+    @RequestMapping("/updateUsers")
     public int updateUser(UserInfoPojo userInfoPojo){
         return userInfoService.updateUser(userInfoPojo);
     }
 
     //删除
-    @RequestMapping("/deleteUser")
-    public void deleteUser(){
-        userInfoService.deleteUser(1);
+    @RequestMapping("/deleteUsers")
+    public int deleteUser(int userId){
+       return userInfoService.deleteUser(userId);
     }
     //查询
-    @RequestMapping("/selectUser")
-/*    public HashMap selectUser(){
-        List<UserInfoPojo> userList = userInfoService.selectUser();
+    @RequestMapping("/selectUsers")
+    public HashMap selectUser(){
+        HashMap hashMap=userInfoService.selectUser();
+        int count=(int)hashMap.get("p_count");
+        List<UserInfoPojo>userInfoPojoList=(List<UserInfoPojo>)hashMap.get("p_cursor");
         HashMap userMap=new HashMap();
-        userMap.put("count",10);
+        userMap.put("count",count);
         userMap.put("code",0);
         userMap.put("msg","");
-        userMap.put("data",userList);
+        userMap.put("data",userInfoPojoList);
         return userMap;
-    }*/
-
+    }
+/*
     public List<UserInfoPojo>selectUser(){
         List<UserInfoPojo>userList=userInfoService.selectUser();
         System.out.println(userList);
         return userList;
-    }
+    }*/
 
-   /* *//*查询用户*//*
+    /* *//*查询用户*//*
     @RequestMapping("/insertUser")
     public List<UserPojo> insertUser(UserPojo userPojo){
         return userService.insertUserInfo(userPojo);
