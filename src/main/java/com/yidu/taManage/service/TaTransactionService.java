@@ -10,7 +10,6 @@ import java.util.Map;
  * @date  2020/09/01 15点32分
  * @version 版本1.0
  */
-/*@Service*/
 public interface TaTransactionService {
     //查询
     Map<String,Object> selectTaTransaction(String pageSize, String page);
