@@ -3,26 +3,26 @@
 <mapper namespace="com.yidu.businessData.mapper.EquityDataMapper">
 
     <insert id="insertEquityData">
-        insert into equityData values(#{equityId},#{dateTime},#{securityId},#{securityName},#{equitiesRecord},#{equitiesExright},#{receivedDate},#{equitiesType},#{proportion},#{disposeStatus})
+        insert into equityData values(#{equityDataId},#{dateTime},#{securityId},#{securitiesName},#{equitiesRecord},#{equitiesExright},#{receivedDate},#{equitiesType},#{proportion},#{disposeStatus})
     </insert>
     <!--修改-->
     <update id="updateEquityData">
-        update equityData set dateTime=#{dateTime},securityId=#{securityId},securityName=#{securityName},equitiesRecord=#{equitiesRecord},equitiesExright=#{equitiesExright},receivedDate=#{receivedDate},equitiesType=#{equitiesType},proportion=#{proportion},disposeStatus=#{disposeStatus} where equityId=#{equityId}
+        update equityData set dateTime=#{dateTime},securityId=#{securityId},securitiesName=#{securitiesName},equitiesRecord=#{equitiesRecord},equitiesExright=#{equitiesExright},receivedDate=#{receivedDate},equitiesType=#{equitiesType},proportion=#{proportion},disposeStatus=#{disposeStatus} where equityDataId=#{equityDataId}
     </update>
     <!--删除-->
     <delete id="deleteEquityData" parameterType="java.util.List">
-        delete from equityData where equityId in
+        delete from equityData where equityDataId in
         <foreach collection="list" item="equityId"
                  open="(" separator="," close=")">
-            #{equityId}
+            #{equityDataId}
         </foreach>
     </delete>
     <!--查询-->
     <resultMap id="equityDataMap" type="com.yidu.businessData.pojo.EquityData">
-        <result property="equityId" column="equityId" javaType="String"></result>
+        <result property="equityDataId" column="equityDataId" javaType="String"></result>
         <result property="dateTime" column="dateTime" javaType="String"></result>
-        <result property="securityId" column="securityId" javaType="Integer"></result>
-        <result property="securityName" column="securityName" javaType="String"></result>
+        <result property="securityId" column="securityId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
         <result property="equitiesRecord" column="equitiesRecord" javaType="String"></result>
         <result property="equitiesExright" column="equitiesExright" javaType="String"></result>
         <result property="receivedDate" column="receivedDate" javaType="String"></result>
