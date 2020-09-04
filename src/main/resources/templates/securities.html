@@ -17,50 +17,55 @@
     <![endif]-->
 </head>
 <body>
-<div class="x-nav">
-          <span class="layui-breadcrumb">
-            <a href="">首页</a>
-            <a href="">演示</a>
-            <a>
-              <cite>导航元素</cite></a>
-          </span>
-    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
-        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
-</div>
-<div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5">
+
+<script type="text/html" id="userToolBar">
+
+    <div style="float:right">
+        <button class="layui-btn layui-btn layui-btn layui-btn-sm" lay-event="add"><i
+                class="layui-icon">&#xe654;</i>添加证券信息</button>
+        <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
+                class="layui-icon">&#xe640;</i>批量删除</button>
+    </div>
+
+    <form class="layui-form layui-col-space5" id="toolbarFrom">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券ID</label>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input class="layui-input"  autocomplete="off" placeholder="请输入证券ID" name="selectsecuritiesId" id="securitiesId">
+        </div>
+
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券名称</label>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input class="layui-input"  autocomplete="off" placeholder="请输入证券名称" name="selectsecuritieName" id="securitieName">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  lay-submit="" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
 
 
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入证券代码" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入证券名称" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加','./addUser.html',600,400)"><i class="layui-icon"></i>添加</button>
-                </div>
-                <table id="demo" lay-filter="test"></table>
+    </form>
+
+</script>
+                <table id="test" lay-filter="test"></table>
+
 
                 <script src="/layui/layui.js"></script>
                 <script type="text/javascript">
-                    layui.use('table', function() {
+                    layui.use(['table', 'form', 'layer','laydate'], function() {
                         var table = layui.table;
+                        var form = layui.form;
+                        var layer = layui.layer;
+                        var laydate=layui.laydate;
+                        var $ = layui.$;
 
                         //第一个实例
                         table.render({
-                            elem: '#demo'
-                            , height: 312
+                            elem: '#test'
+                            , height: 512
+                            , toolbar: '#userToolBar'
                             , url: '../selectSecurities' //数据接口
                             , page: true //开启分页
                             , cols: [
@@ -122,8 +127,49 @@
                                 });
                             }
 
-
+                            else if(layEvent=="edit"){
+                                alert("修改证券信息");
+                               form.val("editform",$.parseJSON(JSON.stringify(data)));//第二个参数可以是json字符串也可以是json对象
+                                layer.open({
+                                    type: 1,
+                                    title: '修改证券信息',
+                                    area: ['893px', '600px'],
+                                    content: $("#editContent")
+                                });
+                            }
                         });
+
+
+                        //修改提交
+                        form.on('submit(editsubmit)',function () {
+                            var data = $('#editform').serialize();//获取表单区域所有值
+                            $.post("../updateSecurities",data,function(msg){
+                                if(msg>0){
+                                    table.reload('test');
+                                    layer.closeAll();
+                                    layer.msg('修改成功',{
+                                        title : '提示',
+                                        area : [ '200px',
+                                            '140px' ],
+                                        time : 0,
+                                        btn : [ '知道了' ]
+                                    });
+                                }else{
+                                    layer.closeAll();
+                                    layer.msg('修改失败',{
+                                        title : '提示',
+                                        area : [ '200px',
+                                            '140px' ],
+                                        time : 0,
+                                        btn : [ '知道了' ]
+                                    });
+                                }
+
+                            });
+                            return false;//解决弹出层闪退问题
+                        });
+
+
                     })
                 </script>
             </div>
@@ -138,6 +184,87 @@
             class="layui-icon">&#xe640;</i>删除</a>
 
 </div>
+
+
+<!--修改的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;" >
+        <input type="hidden" name="accountId"/>
+        <input type="hidden" name="fundId"/>
+        <div>
+            <div class="layui-row">
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >证券ID</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="securitiesId" lay-verify="required"
+                                   disabled="disabled" autocomplete="off" placeholder="请输入证券ID" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >证券名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="securitiesName" lay-verify="required"
+                                   autocomplete="off" placeholder="请输入证券名称" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >发行时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="issueDate" name="openTime" lay-verify="required"
+                                   placeholder="请选择日期" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >延迟时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="delayDate" name="openTime" lay-verify="required"
+                                   placeholder="请选择日期" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >板块ID</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="stockId" lay-verify="required"
+                                   autocomplete="off" placeholder="请输入板块ID" class="layui-input">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >交易所</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="exchange" lay-verify="required"
+                                   autocomplete="off" placeholder="请输入交易所" class="layui-input">
+                        </div>
+                    </div>
+
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <div class="layui-input-inline">
+                    <textarea name="securitiesDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
+                </div>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 0px; left: 45%;">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>修改
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+
 
 </body>
 </html>

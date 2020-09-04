@@ -13,7 +13,7 @@ import java.util.HashMap;
  **/
 
 public interface FundService {
-    public HashMap selectFund(int page,int limit);
+    public HashMap selectFund(int page,int limit,String fundId,String fundType);
     public int insertFund(Fund fund);
     public int deleteFund(String fundId);
     public int updateFund(Fund fund);

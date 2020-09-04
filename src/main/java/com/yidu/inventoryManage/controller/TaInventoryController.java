@@ -25,7 +25,9 @@ public class TaInventoryController {
      * @return
      */
     @RequestMapping("/selectTaInventory")
-    public HashMap selectTaInventory(){
+    public HashMap selectTaInventory(String datetime){
+
+        System.out.println(datetime);
 
         List<TaInventoryEntity> taInventoryEntity = taInventoryService.selectTaInventory();
         HashMap userMap = new HashMap();
@@ -67,6 +69,15 @@ public class TaInventoryController {
 
     }
 
+    /**
+     * 新增aInventory（Ta库存）表的控制方法
+     */
+    @RequestMapping("/insertTaInventory")
+    public void insertTaInventory(TaInventoryEntity taInventoryEntity){
+
+        System.out.println("我是新增方法"+taInventoryEntity);
+        taInventoryService.insertTaInventory(taInventoryEntity);
+    }
 
 
 }

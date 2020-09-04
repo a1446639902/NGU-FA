@@ -3,6 +3,7 @@ package com.yidu.businessParameter.mapper;
 import com.yidu.businessParameter.pojo.Brokers;
 import org.apache.ibatis.annotations.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,16 +21,15 @@ public interface BrokersMapper {
      * @return
      */
     @Insert("insert into brokers(brokersId,brokersName,brokersInstructions,brokersDesc)values(#{brokersId},#{brokersName},#{brokersInstructions},#{brokersDesc})")
-    boolean insert(Brokers brokers);
+    int insert(Brokers brokers);
 
 
     /**
      * 删除
-     * @param id
+     * @param brokersIdList
      * @return
      */
-    @Delete("delete from brokers where brokersId=#{brokersId}")
-    boolean delete(String id);
+    public int brokersDelete(List brokersIdList);
 
 
     /**
@@ -38,13 +38,12 @@ public interface BrokersMapper {
      * @return
      */
     @Update("update brokers set brokersName=#{brokersName},brokersInstructions=#{brokersInstructions},brokersDesc=#{brokersDesc} where brokersId=#{brokersId}")
-    boolean update(Brokers brokers);
+    int update(Brokers brokers);
 
 
     /**
-     * 查询所有
+     * 查询
      * @return
      */
-    @Select("select * from brokers")
-    List<Brokers> select();
+    public void brokersSelect(HashMap hashMap);
 }
