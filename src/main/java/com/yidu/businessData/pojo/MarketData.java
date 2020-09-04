@@ -1,9 +1,9 @@
 package com.yidu.businessData.pojo;
 
 /*
-  @type:控制层
+  @type:实体类
  *@author wufeiyun
- * time 2020-9-2 15:36
+ * time 2020-9-4 15:36
   version 1.0
  * */
 
@@ -59,11 +59,11 @@ private String marketDesc;  //行情数据的其他信息
         this.marketDesc = marketDesc;
     }
 
-    public String getSecuritiesName() {
+    public String getSecuritiesId() {
         return securitiesId;
     }
 
-    public void setSecuritiesName(String securitiesName) {
+    public void setSecuritiesId(String securitiesName) {
         this.securitiesId = securitiesName;
     }
 
