@@ -157,7 +157,14 @@
                     ,{field: 'fundName', title: '基金名称', width: 240, align:'center'}
                     ,{field: 'managerId', title: '基金管理公司', width:240, align:'center'}
                     ,{field: 'trusteeBlank', title: '基金托管银行', width: 240, align:'center'}
-                    ,{field: 'fundType', title: '基金类型', width:240, align:'center'}
+                    ,{field: 'fundType', title: '基金类型', width:240, align:'center', templet: function(item){
+                        if(item.fundType=='1') {
+                            return '开放式';
+                         } else if(item.fundType=='2'){
+                            return '封闭式';
+                        }
+                     }
+                    }
                     ,{field: 'right', title: '操作' , width: 240, align:'center',toolbar:'#barDemo'}
                 ]
                 ]

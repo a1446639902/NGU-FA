@@ -5,7 +5,7 @@
         insert into account(accountId,fundId,blankCardCode,accountName,blankName,deposit,cardRate,procisionDays,openTime,endTime,accountDesc) values (#{accountId},#{fundId},#{blankCardCode},#{accountName},#{blankName},#{deposit},#{cardRate},#{procisionDays},#{openTime},#{endTime},#{accountDesc,jdbcType=VARCHAR})
     </insert>
     <update id="updateAccount" parameterType="com.yidu.businessParameter.pojo.AccountPojo">
-        update account set fundId=#{fundId,jdbcType=VARCHAR},blankCardCode=#{blankCardCode,jdbcType=VARCHAR},accountName=#{accountName},blankName=#{blankName},deposit=#{deposit},cardRate=#{cardRate},procisionDays=#{procisionDays},openTime=#{openTime},endTime=#{endTime},accountDesc=#{accountDesc,jdbcType=VARCHAR} where accountId=#{accountId}
+        update account set fundId=#{fundId,jdbcType=VARCHAR},accountName=#{accountName},blankName=#{blankName},deposit=#{deposit},cardRate=#{cardRate},procisionDays=#{procisionDays},openTime=#{openTime},endTime=#{endTime},accountDesc=#{accountDesc,jdbcType=VARCHAR} where accountId=#{accountId}
     </update>
     <delete id="deleteAccount" parameterType="list">
         delete from account where accountId in

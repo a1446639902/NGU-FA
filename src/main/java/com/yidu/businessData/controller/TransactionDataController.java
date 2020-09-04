@@ -22,15 +22,20 @@ public class TransactionDataController {
     @Resource
     TransactionDataService transactionDataService;
     @RequestMapping("/selectTransactionData")
-    public HashMap selectTransactionData(){
-        List<TransactionData> transactionDataList = transactionDataService.selectTransactionData();
-        HashMap transactionDataMap = new HashMap();
-        transactionDataMap.put("count",10);
-        transactionDataMap.put("code",0);
-        transactionDataMap.put("msg","");
-        transactionDataMap.put("data",transactionDataList);
+    public HashMap selectTransactionData(int page,int limit){
+        HashMap hashMap = transactionDataService.selectTransactionData(page, limit);
+        int count = (int) hashMap.get("p_count");
+        List<TransactionData> transactionDataList = (List<TransactionData>) hashMap.get("p_cursor");
+        System.out.println("总条数："+count);
+        System.out.println("page="+page+",limit="+limit);
+
+        HashMap tranMap = new HashMap();
+        tranMap.put("count",count);
+        tranMap.put("code",0);
+        tranMap.put("msg","");
+        tranMap.put("data",transactionDataList);
         System.out.println("基金大小"+transactionDataList.size());
-        return transactionDataMap;
+        return tranMap;
     }
     @RequestMapping("/insertTransactionData")
     public int insertTransactionData(TransactionData transactionData){
@@ -38,8 +43,8 @@ public class TransactionDataController {
     }
 
     @RequestMapping("/deleteTransactionData")
-    public int deleteTransactionData(int tradeId){
-        return transactionDataService.deleteTransactionData(tradeId);
+    public int deleteTransactionData(int transactionDataId){
+        return transactionDataService.deleteTransactionData(transactionDataId);
     }
 
     @RequestMapping("/updateTransactionData")
