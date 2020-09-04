@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="../static/css/font.css">
-    <link rel="stylesheet" href="../static/css/xadmin.css">
-    <link rel="stylesheet" href="../static/css/theme9.css">
-    <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../static/js/xadmin.js"></script>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <link rel="stylesheet" href="../css/theme9.css">
+    <script src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]-->
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 
-    <link rel="stylesheet" href="../static/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
 
 
-    <script src="../static/lib/layui/layui.js"></script>
+    <script src="../lib/layui/layui.js"></script>
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <br/>
@@ -159,25 +159,46 @@
             });
             table.render({
                 elem: '#userTable',
-                url: './EquityData/selectEquityData',
+                url: '../TransactionData/selectTransactionData',
                 page: true,
                 height: 498,
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
-                cols: [[ //表头
+                cols: [
+                    [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'equityId', title: '现金账户', width:130, align:'center'}
-                    ,{field: 'dateTime', title: '证券名称', width: 130, align:'center'}
-                    ,{field: 'securityId', title: '券商名称', width:130, align:'center'}
-                    ,{field: 'securityName', title: '交易单价', width: 130, align:'center'}
-                    ,{field: 'equitiesRecord', title: '交易数量', width:130, align:'center'}
-                    ,{field: 'equitiesExright', title: '交易总金额', width: 130, align:'center'}
-                    ,{field: 'receivedDate', title: '实收金额', width: 130, align:'center'}
-                    ,{field: 'equitiesType', title: '交易方式', width: 130, align:'center'}
-                    ,{field: 'proportion', title: '交易日期', width: 130, align:'center'}
-                    ,{field: 'disposeStatus', title: '结算状态', width: 130, align:'center'}
-                    ,{field: 'operation', title: '操作' , width: 140, align:'center'}
-                ]]
+                    ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
+                    ,{field: 'settlementDate', title: '交易数量', width: 130, align:'center'}
+                    ,{field: 'price', title: '交易单价', width:130, align:'center'}
+                    ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
+                    ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
+                    ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
+                    ,{field: 'accountId', title: ' 现金账户', width: 130, align:'center'}
+                    ,{field: 'securitiesId', title: ' 证券名称', width: 130, align:'center'}
+                    ,{field: 'brokersId', title: '券商名称', width: 130, align:'center'}
+                    ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
+                        if(item.transactionDataMode=='1') {
+                                return '买入';
+                            } else if(item.transactionDataMode=='2'){
+                                return '卖出';
+                            } else if(item.transactionDataMode=='3'){
+                                return '分红';
+                            } else if(item.transactionDataMode=='4'){
+                                return '送股';
+                            }
+                        }
+                    }
+                    ,{field: 'status', title: '交易状态', width: 130, align:'center', templet: function(item){
+                            if(item.status=='0') {
+                                return '未结算';
+                            } else if(item.status=='1'){
+                                return '已结算';
+                            }
+                        }
+                    }
+                    ,{field: 'operation', title: '操作' , width: 160, align:'center',toolbar:'#barDemo'}
+                ]
+                ]
             });
             //给工具条的按钮添加事件
             table.on('toolbar(userTable)',function (obj) {
@@ -193,17 +214,6 @@
                             content:$("#addContent"),
                             btn:[]
                         });
-                        $.ajax({
-                            url:'../user/selectRole',
-                            dataType:'json',
-                            type:'post',
-                            success:function(obj){
-                                $.each(obj,function(index,item){
-                                    $('#roleId').append(new Option(item.roleName,item.roleId));//往下拉菜单里添加元素
-                                })
-                                form.render();//菜单渲染 把内容加载进去
-                            }
-                        })
                         form.render();
                         //全屏
                         layer.full(index);
@@ -232,11 +242,11 @@
                         {
                             var ids=[];
                             for (var i = 0; i <data.length; i++) {
-                                ids.push(data[i].userId);
+                                ids.push(data[i].transactionDataId);
                             }
                             layer.confirm('真的删除行么',{icon: 2}, function(index){
                                 layer.close(index);
-                                $.post("../user/deleteUser", {userId:ids.join(',')},function(msg){
+                                $.post("../user/deleteUser", {transactionDataId:ids.join(',')},function(msg){
                                     table.reload('userTable');
                                     layer.msg('删除'+checkStatus.data.length+'条记录', {
                                         title:'提示',
@@ -253,11 +263,11 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到删除行整行的数据
-                alert(data.userId);
+                alert(data.transactionDataId);
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
                         layer.close(index);
-                        $.post("../user/deleteUser", {userId:data.userId+""},function(msg){
+                        $.post("../TransactionData/deleteTransactionData", {transactionDataId:data.transactionDataId+""},function(msg){
                             table.reload('userTable');
                         });
 
@@ -268,25 +278,13 @@
                     form.val('editform',$.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
                         type: 1,
-                        title: '修改权益数据',
+                        title: '修改交易数据',
                         closeBtn: 1,
                         move:false,
                         area: ['500px', '400px'],
                         content:$('#editContent')
                     });
-                    $.ajax({
-                        url:'../user/selectRole',
-                        dataType:'json',
-                        type:'post',
-                        success:function(obj){
 
-                            $.each(obj,function(index,item){
-                                $('#roleId_2').append(new Option(item.roleName,item.roleId));//往下拉菜单里添加元素
-                            })
-                            $("#roleId_2 option[value='"+data.roleId+"']").attr("selected", "selected");
-                            form.render();//菜单渲染 把内容加载进去
-                        }
-                    })
                     form.render();
                     layer.full(index);
                 };
@@ -446,7 +444,7 @@
 
 
         <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button">
