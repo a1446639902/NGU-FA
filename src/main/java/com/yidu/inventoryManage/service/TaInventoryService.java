@@ -36,4 +36,8 @@ public interface TaInventoryService {
      */
     public void updateTaInventory(double tanum,double tatotal,String taInventoryId);
 
+    /**
+     * 新增taInventory（Ta库存表）
+     */
+    public void insertTaInventory(TaInventoryEntity taInventoryEntity);
 }
