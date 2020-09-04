@@ -3,6 +3,7 @@ package com.yidu.businessParameter.service;
 import com.yidu.businessParameter.pojo.Brokers;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,15 +19,15 @@ public interface BrokersService {
      * @param brokers
      * @return
      */
-    boolean insert(Brokers brokers);
+    int insert(Brokers brokers);
 
 
     /**
      * 删除
-     * @param id
+     * @param brokersId
      * @return
      */
-    boolean delete(String id);
+    int brokersDelete(String brokersId);
 
 
     /**
@@ -34,12 +35,12 @@ public interface BrokersService {
      * @param brokers
      * @return
      */
-    boolean update(Brokers brokers);
+    int update(Brokers brokers);
 
 
     /**
-     * 查询所有
+     * 查询
      * @return
      */
-    List<Brokers> select();
+    public HashMap brokersSelect(int page, int limit, String selectBrokersName);
 }

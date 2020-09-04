@@ -30,23 +30,27 @@
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn layui-btn-sm" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加数据</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
         <br/>
+
+
+        <!--根据日期查询-->
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">统计日期</label>
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center" name="dateSelect">统计日期</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="datetime" id="datetime">
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit lay-event="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
+
     </script>
 
 
@@ -67,12 +71,13 @@
             laydate.render({
                 elem: '#datetime1' //指定元素
             });
+
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
-                $.post("",formData,function(msg){
+                $.post("../insertTaInventory",formData,function(msg){
                     if(msg>0){
-                        table.reload('userTable');
+                        table.reload('cashInventoryTable');
                         layer.closeAll();
                         layer.msg('添加成功',{
                             title : '提示',
@@ -82,8 +87,9 @@
                             btn : [ '知道了' ]
                         });
                     }else{
+                        table.reload('cashInventoryTable');
                         layer.closeAll();
-                        layer.msg('添加失败',{
+                        layer.msg('添加成功',{
                             title : '提示',
                             area : [ '200px',
                                 '140px' ],
@@ -92,8 +98,8 @@
                         });
                     }
                 });
-
-
+                //表格的重新加载事件
+                table.reload('cashInventoryTable');
                 return false;
             });
 
@@ -166,21 +172,25 @@
                         //全屏
                         layer.full(index);
                         break;
-                    case 'search':
-                        alert("搜索");
-                        var userName= $("#userName").val();
+
+                //根据日期查询的信息
+                    case 'sreach':
+                        var datetime= $("#datetime").val();
                         //表格的重新加载事件
-                        table.reload('userTable', {
+                        table.reload('cashInventoryTable', {
                             method: 'post'
                             , where: {
-                                'userName': userName
-                            }
-                            , page: {
+                                'datetime': datetime,
+                            }, page: {
                                 curr: 1
                             }
                         });
+                        $.post("../deleteMoreTaInventory", {datetime},function(msg){
+                            table.reload('cashInventoryTable');
+                        });
 
-                        break;
+
+
                     case 'deleteAll':
                         var data = checkStatus.data;
                         //    layer.alert(JSON.stringify(data));
@@ -250,6 +260,9 @@
 
 
         });
+        function myclose() {
+            parent.layer.closeAll();
+        }
     </script>
 </head>
 <body style="overflow: auto; background-color: white;"
@@ -274,13 +287,13 @@
             <div class="layui-inline layui-show-xs-block" style="text-align: center;">
                 <label class="layui-form-label layui-bg-green" style="text-align: center">统计日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="日期" name="datetime" id="datetime1">
+                    <input class="layui-input"  autocomplete="off" placeholder="日期" name="dateTime" id="datetime1">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="text-align: center">金额</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input" placeholder="金额" name="cashAccountName">
+                    <input class="layui-input" placeholder="金额" name="tatotal">
                 </div>
             </div>
         </div>
@@ -292,7 +305,7 @@
             <label class="layui-form-label layui-bg-green" style="text-align: center">数量</label>
 
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="数量" name="balance">
+                <input class="layui-input" placeholder="数量" name="tanum">
             </div>
         </div>
         <br>
@@ -302,14 +315,16 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center; width: 130px; height: 81px; line-height: 81px">备注</label>
             <div class="layui-inline layui-show-xs-block">
-                <textarea name="" required lay-verify="required" placeholder="请输入" class="layui-textarea" style="width: 467px"></textarea>
+                <textarea name="taInventorydesc" required lay-verify="required" placeholder="请输入" class="layui-textarea" style="width: 467px"></textarea>
             </div>
+        </div>
+        <div>
+            <label class="layui-form-label layui-bg-green" style="width: 260px;">注意：手工添加的数据为期初数据！</label>
         </div>
 
 
-
         <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">

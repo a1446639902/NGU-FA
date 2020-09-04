@@ -26,9 +26,10 @@ public class VarietiesRateController {
 
  //删除方法
     @RequestMapping("deleteVarietiesRate")
-    public void deleteVarietiesRate(VarietiesRatePojo varietiesRatePojo){
+    public int deleteVarietiesRate(String exchangeNames,String rateTypes){
         System.out.println("进入删除controller了");
-        int i = varietiesRateService.deleteVarietiesRate(varietiesRatePojo);
+        int i = varietiesRateService.deleteVarietiesRate(exchangeNames,rateTypes);
+        return i;
     }
 
     //增加controller

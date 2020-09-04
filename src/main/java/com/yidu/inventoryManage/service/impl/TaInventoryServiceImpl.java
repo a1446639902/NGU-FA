@@ -3,6 +3,8 @@ package com.yidu.inventoryManage.service.impl;
 import com.yidu.inventoryManage.mapper.TaInventoryMapper;
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
 import com.yidu.inventoryManage.service.TaInventoryService;
+import com.yidu.util.DbUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +22,8 @@ public class TaInventoryServiceImpl implements TaInventoryService {
     @Resource
     private TaInventoryMapper taInventoryMapper;
 
+    @Resource
+    DbUtil dbUtil;
     /**
      * 查询TaInventory（Ta库存）表的service实现方法
      * date: 获得网页根据日期查询的信息（若为空则调用查询所有）
@@ -68,6 +72,34 @@ public class TaInventoryServiceImpl implements TaInventoryService {
     @Override
     public void updateTaInventory(double tanum, double tatotal,String taInventoryId) {
         taInventoryMapper.updateTaInventory(tanum,tatotal,taInventoryId);
+    }
+
+    /**
+     * 新增taInventory（Ta库存表）
+     */
+    @Override
+    public void insertTaInventory(TaInventoryEntity taInventoryEntity) {
+
+        //设置TA库存"100001"Id
+        taInventoryEntity.setTaInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TI));
+
+        //是否为期初数据，0不是，1 是"ertyuio"
+        taInventoryEntity.setSecurityPeriodFlag(1);
+
+
+        //基金Id
+        taInventoryEntity.setFundId("289289289");
+
+
+        System.out.println("TA库存Id"+taInventoryEntity.getTaInventoryId());
+        System.out.println("基金Id来自基金表"+taInventoryEntity.getFundId());
+        System.out.println("Ta数量"+taInventoryEntity.getTanum());
+        System.out.println("现金余额"+taInventoryEntity.getTatotal());
+        System.out.println("统计日期"+taInventoryEntity.getDateTime());
+        System.out.println("是否从其他系统导入的期初数据"+taInventoryEntity.getSecurityPeriodFlag());
+        System.out.println("备注"+taInventoryEntity.getTaInventorydesc());
+
+        taInventoryMapper.insertTaInventory(taInventoryEntity);
     }
 
 }
