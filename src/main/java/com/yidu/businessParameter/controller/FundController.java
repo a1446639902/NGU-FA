@@ -22,13 +22,13 @@ public class FundController {
     @Resource
     FundService fundService;
     @RequestMapping("/selectFund")
-    public HashMap selectFund(int page,int limit){
+    public HashMap selectFund(int page,int limit,String fundId,String fundType){
         HashMap fundMap = new HashMap();
-        HashMap hashMap = fundService.selectFund(page, limit);
+        HashMap hashMap = fundService.selectFund(page,limit,fundId,fundType);
         int count = (int) hashMap.get("p_count");
         List<Fund> fundList = (List<Fund>) hashMap.get("p_cursor");
         System.out.println("总条数："+count);
-        System.out.println("page="+page+",limit="+limit);
+        System.out.println("page="+page+",limit="+limit+",fundId="+fundId+",fundType="+fundType);
         fundMap.put("count",count);
         fundMap.put("code",0);
         fundMap.put("msg","");

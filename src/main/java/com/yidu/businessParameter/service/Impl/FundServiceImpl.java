@@ -4,6 +4,7 @@ package com.yidu.businessParameter.service.Impl;
 import com.yidu.businessParameter.mapper.FundMapper;
 import com.yidu.businessParameter.pojo.Fund;
 import com.yidu.businessParameter.service.FundService;
+import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,21 @@ public class FundServiceImpl implements FundService {
     @Resource
     FundMapper fundMapper;
 
-
+    @Resource
+    DbUtil dbUtil;
     @Override
-    public HashMap selectFund(int page,int limit) {
+    public HashMap selectFund(int page,int limit,String fundId,String fundType) {
+
+        StringBuffer sqlWhere=new StringBuffer();
+        if(fundId!=null && !fundId.equals("")){
+            sqlWhere.append(" AND fundId LIKE  '%"+fundId+"%'" );
+        }
+        if(fundType!=null && !fundType.equals("")){
+            sqlWhere.append(" AND fundType LIKE  '%"+fundType+"%'" );
+        }
         HashMap fundMap = new HashMap();
         fundMap.put("p_tableName",SysTableNameListUtil.F);
-        fundMap.put("p_condition","");
+        fundMap.put("p_condition",sqlWhere.toString());
         fundMap.put("p_pageSize",limit);
         fundMap.put("p_page",page);
         fundMap.put("p_count",0);
@@ -40,6 +50,7 @@ public class FundServiceImpl implements FundService {
 
     @Override
     public int insertFund(Fund fund) {
+        fund.setFundId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.F));
         return fundMapper.insertFund(fund);
     }
 

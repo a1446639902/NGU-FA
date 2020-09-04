@@ -28,7 +28,6 @@ public class TransactionDataController {
         List<TransactionData> transactionDataList = (List<TransactionData>) hashMap.get("p_cursor");
         System.out.println("总条数："+count);
         System.out.println("page="+page+",limit="+limit);
-
         HashMap tranMap = new HashMap();
         tranMap.put("count",count);
         tranMap.put("code",0);

@@ -23,7 +23,7 @@
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn layui-btn-normal layui-bg-green layui-btn layui-btn-sm" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加数据</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
@@ -34,20 +34,20 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">基金代码</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  autocomplete="off" placeholder="请输入基金代码" name="" id="">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入基金代码" name="" id="fundId">
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">基金类型</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <select name="cateid">
+                <select name="cateid" id="fundType">
                     <option placeholder="请输入"></option>
-                    <option>封闭式</option>
-                    <option>开放式</option>
+                    <option value="1">开放式</option>
+                    <option value="2">封闭式</option>
                 </select>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn" lay-event="search"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
     </script>
@@ -147,7 +147,7 @@
                 elem: '#userTable',
                 url: '../fund/selectFund',
                 page: true,
-                height: 498,
+                height: 'full-70',
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
                 cols: [
@@ -181,21 +181,24 @@
                             closeBtn: 1,
                             move:false,
                             content:$("#addContent"),
+                            area: ['893px','600px'],
                             btn:[]
                         });
 
                         form.render();
-                        //全屏
-                        layer.full(index);
+
+                        //全屏layer.full(index);
                         break;
                     case 'search':
                         alert("搜索");
-                        var userName= $("#userName").val();
+                        var fundId= $("#fundId").val();
+                        var fundType= $("#fundType").val();
                         //表格的重新加载事件
                         table.reload('userTable', {
                             method: 'post'
                             , where: {
-                                'userName': userName
+                                'fundId': fundId,
+                                'fundType':fundType
                             }
                             , page: {
                                 curr: 1
@@ -234,7 +237,7 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到删除行整行的数据
-                alert(data.fundId);
+                //alert(data.fundId);
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
                         layer.close(index);
@@ -244,22 +247,26 @@
 
                     });
                 } else if (obj.event === 'edit') {
-                    alert(JSON.stringify(data));
+                    //alert(JSON.stringify(data));
                     form.val('editform',$.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
                         type: 1,
                         title: '修改基金参数',
                         closeBtn: 1,
                         move:false,
-                        area: ['500px', '400px'],
+                        area: ['893px','600px'],
                         content:$('#editContent')
                     });
 
                     form.render();
-                    layer.full(index);
+                    //layer.full(index);全屏弹框
                 };
             })
         });
+        //取消事件
+        function myclose() {
+            layer.closeAll();
+        }
     </script>
 </head>
 <body style="overflow: auto; background-color: white;"
@@ -374,7 +381,7 @@
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>
@@ -480,13 +487,12 @@
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>修改
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>
     </form>
 </div>
-
 
 </body>
 </html>
