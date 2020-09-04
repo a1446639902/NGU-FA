@@ -2,10 +2,12 @@ package com.yidu.systemManage.controller;
 
 import com.yidu.systemManage.pojo.RolePojo;
 import com.yidu.systemManage.service.RoleService;
+import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,10 @@ public class RoleController {
     }
 
     @RequestMapping("/selectRole")
-    public Map<String,Object> selectUser(int page,int limit){
+    public Map<String,Object> selectUser(int page, int limit, HttpServletRequest request){
+
+        String fundId = GetFundIdUtil.getFundId(request);
+        System.out.println("fundId="+fundId);
         Map<String,Object> map = new HashMap<>();
         HashMap roleHashmap = roleService.selectRole(page, limit);
         //响应头
