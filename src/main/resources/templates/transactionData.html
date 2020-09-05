@@ -106,7 +106,7 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
-                $.post("../user/insertUser",formData,function(msg){
+                $.post("../TransactionData/insertTransactionData",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
                         layer.closeAll();
@@ -167,16 +167,35 @@
                 cols: [
                     [ //表头
                     {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'brokersId', title: '交易单号', width: 130, align:'center',hide:true}
                     ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
                     ,{field: 'settlementDate', title: '交易数量', width: 130, align:'center'}
                     ,{field: 'price', title: '交易单价', width:130, align:'center'}
                     ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
                     ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
                     ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
-                    ,{field: 'accountId', title: ' 现金账户', width: 130, align:'center'}
+                    ,{field: 'cashAccountName', title: ' 现金账户', width: 130, align:'center'}
                     ,{field: 'securitiesId', title: ' 证券名称', width: 130, align:'center'}
                     ,{field: 'brokersId', title: '券商名称', width: 130, align:'center'}
-                    ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
+                    ,{field: 'fundId', title: '基金代码', width: 130, align:'center',hide:true}
+                    ,{field: 'fundName', title: '基金名称', width: 130, align:'center',hide:true}
+                    ,{field: 'securitiesId', title: '证券ID', width: 130, align:'center',hide:true}
+                    ,{field: 'brokersId', title: '券商ID', width: 130, align:'center',hide:true}
+                    ,{field: 'brokersName', title: '券商名称', width: 130, align:'center',hide:true}
+                    ,{field: 'seateId', title: '席位ID', width: 130, align:'center',hide:true}
+                    ,{field: 'seateName', title: '席位名称', width: 130, align:'center',hide:true}
+                    ,{field: 'accountId', title: '现金账户ID', width: 130, align:'center',hide:true}
+                    ,{field: 'blankName', title: '银行名称', width: 130, align:'center',hide:true}
+                    ,{field: 'flag', title: '交易表示符1流入,-1流出', width: 130, align:'center',hide:true}
+                    ,{field: 'commission', title: '佣金费用', width: 130, align:'center',hide:true}
+                    ,{field: 'transfer', title: '过户费', width: 130, align:'center',hide:true}
+                    ,{field: 'brokerage', title: '经手费', width: 130, align:'center',hide:true}
+                    ,{field: 'stamp', title: '印花税', width: 130, align:'center',hide:true}
+                    ,{field: 'management', title: '征管费', width: 130, align:'center',hide:true}
+                    ,{field: 'security', title: '证券利息', width: 130, align:'center',hide:true}
+                    ,{field: 'transactionDataDesc', title: '备注', width: 130, align:'center',hide:true}
+                    ,{field: 'brokersId', title: '权益编号', width: 130, align:'center',hide:true}
+                    ,{field: 'EQUITYDATAID', title: '交易方式', width: 130, align:'center', templet: function(item){
                         if(item.transactionDataMode=='1') {
                                 return '买入';
                             } else if(item.transactionDataMode=='2'){
@@ -246,7 +265,7 @@
                             }
                             layer.confirm('真的删除行么',{icon: 2}, function(index){
                                 layer.close(index);
-                                $.post("../user/deleteUser", {transactionDataId:ids.join(',')},function(msg){
+                                $.post("../TransactionData/deleteTransactionData", {transactionDataId:ids.join(',')},function(msg){
                                     table.reload('userTable');
                                     layer.msg('删除'+checkStatus.data.length+'条记录', {
                                         title:'提示',
@@ -262,7 +281,7 @@
             });
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
-                var data = obj.data;//得到删除行整行的数据
+                var data = obj.data;//得到行整行的数据
                 alert(data.transactionDataId);
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
@@ -314,17 +333,29 @@
 <!--增加的div内容-->
 <div id="addContent" style="display: none; height: 100%; width:100%; text-align: center">
     <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
+        <div>
+            <input type="hidden" name="transactionDataId" value="T123">
+            <input type="hidden" name="accountName" value="现金账户">
+            <input type="hidden" name="securitiesName" value="证券名称">
+            <input type="hidden" name="fundId" value="基金id">
+            <input type="hidden" name="fundName" value="券商名称">
+            <input type="hidden" name="brokersName" value="券商名称">
+            <input type="hidden" name="seateName" value="席位名称">
+            <input type="hidden" name="blankName" value="银行名称">
+            <input type="hidden" name="transactionDataDesc" value="备注：我爱你">
+        </div>
+
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="证券ID" name="equityId">
+                <input class="layui-input" placeholder="证券ID" name="securitiesId">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">账户编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="账户ID" name="end" >
+                <input class="layui-input" placeholder="账户ID" name="accountId" >
             </div>
         </div>
         <br>
@@ -332,14 +363,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">券商名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="券商ID" name="dateTime">
+                <input class="layui-input" placeholder="券商ID" name="brokersId">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">席位名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="席位ID" name="securityName">
+                <input class="layui-input" placeholder="席位ID" name="seateId">
             </div>
         </div>
         <br>
@@ -349,7 +380,11 @@
             <div class="layui-form-item" >
                 <label class="layui-form-label layui-bg-green" style="text-align: center">交易方式</label>
                 <div class="layui-input-inline">
-                    <select name="modes" lay-verify="required" id="modes2">
+                    <select name="transactionDataMode" lay-verify="required" id="modes2">
+                        <option value="1">买入</option>
+                        <option value="2">卖出</option>
+                        <option value="3">分红</option>
+                        <option value="4">送股</option>
                     </select>
                 </div>
             </div>
@@ -359,14 +394,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">成交日期</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入成交日期" name="receivedDate" id="start2">
+                <input class="layui-input" placeholder="请输入成交日期" name="dateTime" id="start2">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">交易价格</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入交易价格" name="securityName">
+                <input class="layui-input" placeholder="请输入交易价格" name="price">
             </div>
         </div>
         <br>
@@ -374,14 +409,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">结算日期</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入结算日期" name="receivedDate" id="receivedDate2">
+                <input class="layui-input" placeholder="请输入结算日期" name="settlementDate" id="receivedDate2">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">交易数量</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入交易数量" name="securityName">
+                <input class="layui-input" placeholder="请输入交易数量" name="num">
             </div>
         </div>
         <br>
@@ -389,14 +424,14 @@
         <div class="layui-inline layui-show-xs-block" style="float: left">
             <label class="layui-form-label layui-bg-green" style="text-align: center">交易总金额</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入交易总金额" name="securityName">
+                <input class="layui-input" placeholder="请输入交易总金额" name="totalSum">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">实收金额</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入实收金额" name="securityName">
+                <input class="layui-input" placeholder="请输入实收金额" name="netReceipts">
             </div>
         </div>
         <br>
@@ -404,14 +439,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">佣金费用</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入佣金费用" name="securityName">
+                <input class="layui-input" placeholder="请输入佣金费用" name="commission">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">过户费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入过户费" name="securityName">
+                <input class="layui-input" placeholder="请输入过户费" name="transfer">
             </div>
         </div>
         <br>
@@ -419,14 +454,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">印花税</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入印花税" name="securityName">
+                <input class="layui-input" placeholder="请输入印花税" name="stamp">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">征管费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入征管费" name="securityName">
+                <input class="layui-input" placeholder="请输入征管费" name="management">
             </div>
         </div>
         <br>
@@ -434,14 +469,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">经手费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入经手费" name="securityName">
+                <input class="layui-input" placeholder="请输入经手费" name="brokerage">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券利息</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入证券利息" name="securityName">
+                <input class="layui-input" placeholder="请输入证券利息" name="security">
             </div>
         </div>
 
@@ -467,14 +502,14 @@
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="证券ID" name="equityId">
+                <input class="layui-input" placeholder="证券ID" name="securitiesId">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">账户编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="账户ID" name="end" >
+                <input class="layui-input" placeholder="账户ID" name="accountId" >
             </div>
         </div>
         <br>
@@ -482,14 +517,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">券商名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="券商ID" name="dateTime">
+                <input class="layui-input" placeholder="券商ID" name="brokersId">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">席位名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="席位ID" name="securityName">
+                <input class="layui-input" placeholder="席位ID" name="seateId">
             </div>
         </div>
         <br>
@@ -499,7 +534,11 @@
             <div class="layui-form-item" >
                 <label class="layui-form-label layui-bg-green" style="text-align: center">交易方式</label>
                 <div class="layui-input-inline">
-                    <select name="modes" lay-verify="required" id="modes">
+                    <select name="transactionDataMode" lay-verify="required" id="modes">
+                        <option value="1">买入</option>
+                        <option value="2">卖出</option>
+                        <option value="3">分红</option>
+                        <option value="4">送股</option>
                     </select>
                 </div>
             </div>
@@ -509,14 +548,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">成交日期</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入成交日期" name="receivedDate" id="start">
+                <input class="layui-input" placeholder="请输入成交日期" name="dateTime" id="start">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">交易价格</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入交易价格" name="securityName">
+                <input class="layui-input" placeholder="请输入交易价格" name="price">
             </div>
         </div>
         <br>
@@ -524,14 +563,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">结算日期</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入结算日期" name="receivedDate" id="receivedDate">
+                <input class="layui-input" placeholder="请输入结算日期" name="settlementDate" id="receivedDate">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">交易数量</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入交易数量" name="securityName">
+                <input class="layui-input" placeholder="请输入交易数量" name="num">
             </div>
         </div>
         <br>
@@ -539,14 +578,14 @@
         <div class="layui-inline layui-show-xs-block" style="float: left">
             <label class="layui-form-label layui-bg-green" style="text-align: center">交易总金额</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入交易总金额" name="securityName">
+                <input class="layui-input" placeholder="请输入交易总金额" name="totalSum">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">实收金额</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入实收金额" name="securityName">
+                <input class="layui-input" placeholder="请输入实收金额" name="netReceipts">
             </div>
         </div>
         <br>
@@ -554,14 +593,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">佣金费用</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入佣金费用" name="securityName">
+                <input class="layui-input" placeholder="请输入佣金费用" name="commission">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">过户费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入过户费" name="securityName">
+                <input class="layui-input" placeholder="请输入过户费" name="transfer">
             </div>
         </div>
         <br>
@@ -569,14 +608,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">印花税</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入印花税" name="securityName">
+                <input class="layui-input" placeholder="请输入印花税" name="stamp">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">征管费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入征管费" name="securityName">
+                <input class="layui-input" placeholder="请输入征管费" name="management">
             </div>
         </div>
         <br>
@@ -584,14 +623,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">经手费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入经手费" name="securityName">
+                <input class="layui-input" placeholder="请输入经手费" name="brokerage">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券利息</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入证券利息" name="securityName">
+                <input class="layui-input" placeholder="请输入证券利息" name="security">
             </div>
         </div>
 

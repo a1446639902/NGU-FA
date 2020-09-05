@@ -2,6 +2,7 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +39,7 @@ public class TransactionDataController {
     }
     @RequestMapping("/insertTransactionData")
     public int insertTransactionData(TransactionData transactionData){
+        System.out.println(transactionData);
        return transactionDataService.insertTransactionData(transactionData);
     }
 
