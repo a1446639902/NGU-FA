@@ -14,7 +14,7 @@ import java.util.HashMap;
 @Mapper
 public interface SecuritiesMapper {
     public int insertSecurities(SecuritiesPojo securitiesPojo);
-    public void deleteSecurities(String securitiesId);
+    public int deleteSecurities(String securitiesId);
     public int updateSecurities(SecuritiesPojo securitiesPojo);
     public void selectSecurities(HashMap hashMap);
 }
