@@ -1,139 +1,349 @@
 <!DOCTYPE html>
-<html lang="en">
-<!--戴言路-->
+<!--戴言露-->
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>交易席位</title>
-    <meta name="renderer" content="webkit">
+    <title>劵商设置</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <!--        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />-->
+    <!--<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" /-->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="../static/css/font.css">
     <link rel="stylesheet" href="../static/css/xadmin.css">
+    <link rel="stylesheet" href="../static/css/theme9.css">
     <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../static/js/xadmin.js"></script>
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]-->
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+
+
+    <script src="../lib/layui/layui.js"></script>
+    <!--工具条-->
     <script type="text/html" id="userToolBar">
-        <div class="layui-card-body">
-            <!--库存统计根据时间搜索的表单提交-->
-            <form class="layui-form layui-col-space5" >
-                <div class="layui-inline layui-show-xs-block" >
-                    <button class="layui-btn layui-btn-sm" lay-event="add" style="width: 100px;float: left;height: 36px">席位名称</button>
-                    <div class="layui-inline layui-show-xs-block">
-                        <input type="text" name="username"  placeholder="请输入席位名称" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-                <div class="layui-inline layui-show-xs-block">
-                    <button class="layui-btn layui-btn-sm" lay-event="add" style="width: 100px;float: left;height: 36px">席位类型</button>
-                    <div class="layui-input-inline">
-                        <select name="quiz2">
-                            <option value="">请选择</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="layui-inline layui-show-xs-block">
-                    <button class="layui-btn" style="width: 100px;float: left;height: 36px"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;&nbsp;搜索</i></button>
-                </div>
-                <div class="layui-inline layui-show-xs-block" style="float: right">
-                    <button class="layui-btn" lay-event="add" style="width: 150px"><i class="layui-icon">&#xe654;添加</i></button>
-                    <button class="layui-btn layui-btn-danger" lay-event="edit" style="width: 150px"><i class="layui-icon">&#xe642;批量删除</i></button>
-                </div>
-            </form>
+        <div style="float:right">
+            <button class="layui-btn layui-btn layui-btn-sm" lay-event="add"><i
+                    class="layui-icon">&#xe654;</i>添加数据</button>
+            <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
+                    class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
+        <br/>
+        <form class="layui-form layui-col-space5">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">席位名称</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input type="text" name="username" placeholder="请输入席位名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">席位类型</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <select name="modules" lay-search="" lay-verify="required">
+                        <option value="">--请选择--</option>
+                        <option value="1">贵宾</option>
+                        <option value="1">普通</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn" lay-event="search" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+        </form>
     </script>
 
-    <script>
-        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function(){
-            var layer = layui.layer;
 
+
+    <script type="text/javascript">
+
+        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+            var layer = layui.layer;
             var $ = layui.$;
             var table = layui.table;
             var form = layui.form;
             var formSelects = layui.formSelects;
             var laydate = layui.laydate;
 
+            //新增提交
+            form.on('submit(addsubmit)', function(data){
+                var formData=$('#addform').serialize();
+                $.post("../seateInsert",formData,function(msg){
+                    if(msg>0){
+                        table.reload('userTable');
+                        layer.closeAll();
+                        layer.msg('添加成功',{
+                            title : '提示',
+                            area : [ '200px',
+                                '140px' ],
+                            time : 0,
+                            btn : [ '知道了' ]
+                        });
+                    }else{
+                        layer.closeAll();
+                        layer.msg('添加成功',{
+                            title : '提示',
+                            area : [ '200px',
+                                '140px' ],
+                            time : 0,
+                            btn : [ '知道了' ]
+                        });
+                    }
+                });
 
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定日期
+                //表格的重新加载事件
+                table.reload('userTable');
+                return false;
             });
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
+            //修改提交
+            form.on('submit(editsubmit)', function(data){
+                var formData=$('#editform').serialize();
+                $.post("../seateUpdate",formData,function(msg){
+                    if(msg>0){
+                        table.reload('userTable');
+                        layer.closeAll();
+                        layer.msg('修改成功',{
+                            title : '提示',
+                            area : [ '200px',
+                                '140px' ],
+                            time : 0,
+                            btn : [ '知道了' ]
+                        });
+                    }else{
+                        layer.closeAll();
+                        layer.msg('修改失败',{
+                            title : '提示',
+                            area : [ '200px',
+                                '140px' ],
+                            time : 0,
+                            btn : [ '知道了' ]
+                        });
+                    }
+                });
+                return false;
             });
-
-
-            //表头工具条和标题
             table.render({
                 elem: '#userTable',
-                url: './select',
+                url: '../seateSelect',
                 page: true,
+                height: 500,
                 toolbar: '#userToolBar',//显示在表头的工具条
-                cellMinWidth: 80,
-                height:80,
-                cols: [[
-                    {type:'checkbox'},
-                    {
-                        field: 'inventoryName',
-                        align: 'center',
-                        title: '席位名称',
-                    }, {
-                        field: 'fundId',
-                        title: '席位类型',
-                        align: 'center',
-
-                    }, {
-                        field: 'operator',
-                        title: '佣金利率(%)',
-                        align: 'center',
-
-                    },{
-                        field : 'date',
-                        title : '卷商名称',
-                        align: 'center',
-                        toolbar : '#barDemo',//绑定一个工具条
-                    },{
-                        field: 'data',
-                        title: '席位地址',
-                        align: 'center',
-                    },{
-                        field: 'state',
-                        title: '备注',
-                        align: 'center',
-                    },
-                    {
-                        field: 'state',
-                        title: '操作',
-                        align: 'center',
-                    }
-                ]],page: true   //开启分页
+                minLength:80,
+                cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'brokersId', title: '席位名称',width:260,  align:'center',}
+                        ,{field: 'brokersName', title: '席位类型', width:130,  align:'center'}
+                        ,{field: 'brokersInstructions', title: '佣金利率(%)', width:200 ,align:'center'}
+                        ,{field: 'brokersDesc', title: '劵商名称', width:130 , align:'center'}
+                        ,{field: 'brokersInstructions', title: '席位地址', width:130 , align:'center'}
+                        ,{field: 'brokersDesc', title: '备注',  width:400 ,align:'center'}
+                        ,{title: 'operation', title: '操作' , toolbar:'#barDemo', align:'center'}
+                    ]
+                ]
             });
+            //给工具条的按钮添加事件
+            table.on('toolbar(userTable)',function (obj) {
+                //获取选中复选框的对象，
+                var checkStatus=table.checkStatus(obj.config.id);//得到表格选中行的ID
+                switch (obj.event) {
+                    case 'add':
+                        var index=layer.open({
+                            type: 1,
+                            title: '添加数据信息',
+                            closeBtn: 1,
+                            move:false,
+                            area: ['800px', '700px'],
+                            content:$("#addContent"),
+                            btn:[]
+                        });
+                        form.render();
+                        //全屏
+                        //layer.full(index);
+                        break;
+                    case 'search':
+                        alert("搜索");
+                        var brokersName= $("#brokersName").val();
+                        alert(brokersName);
+                        //表格的重新加载事件
+                        table.reload('userTable', {
+                            method: 'post'
+                            , where: {
+                                'brokersName': brokersName
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        });
+
+                        break;
+                    case 'deleteAll':
+                        var data = checkStatus.data;
+                        //    layer.alert(JSON.stringify(data));
+                        if(data.length==0){
+                            layer.msg("请至少选择一条数据",)
+                        }else
+                        {
+                            var ids=[];
+                            for (var i = 0; i <data.length; i++) {
+                                ids.push(data[i].brokersId);
+                            }
+                            layer.confirm('真的删除行么',{icon: 2}, function(index){
+                                layer.close(index);
+                                $.post("../seateDelete", {brokersId:ids.join(',')},function(msg){
+                                    table.reload('userTable');
+                                    layer.msg('删除'+checkStatus.data.length+'条记录', {
+                                        title:'提示',
+                                        area: ['200px', '140px'],
+                                        time: 0,
+                                        btn: ['知道了']
+                                    });
+                                });
+                            });
+                        }
+                        break;
+                }
+            });
+            //给表格编辑，删除按钮添加点击事件
+            table.on('tool(userTable)', function(obj) {
+                var data = obj.data;//得到删除行整行的数据
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么',{icon: 2}, function(index){
+
+                        layer.close(index);
+                        $.post("../seateDelete", {brokersId:data.brokersId+""},function(msg){
+                            table.reload('userTable');
+                        });
+
+                    });
+                } else if (obj.event === 'edit') {
+                    form.val('editform',$.parseJSON(JSON.stringify(data)));
+                    var index = layer.open({
+                        type: 1,
+                        title: '修改权益数据',
+                        closeBtn: 1,
+                        move:false,
+                        area: ['800px', '700px'],
+                        content:$('#editContent')
+                    });
+                    form.render();
+                    //layer.full(index);
+                };
+            })
         });
-
-
+        function myclose() {
+            parent.layer.closeAll();
+        }
     </script>
-
 </head>
 <body style="overflow: auto; background-color: white;"
       class="layui-view-body layui-content">
+<div>
+    <!--表格-->
+    <table id="userTable" lay-filter="userTable"></table>
+    <!--工具条-->
+    <div style="display: none;" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit"><i
+                class="layui-icon">&#xe642;</i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                class="layui-icon">&#xe640;</i>删除</a>
 
-<!--表格-->
-<table id="userTable" lay-filter="userTable"></table>
+    </div>
+</div>
 
+
+<!--增加的div内容-->
+<div id="addContent" style="display: none; height: 100%; width:100%; text-align: center">
+    <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
+        <div class="layui-inline layui-show-xs-block" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">席位名称</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入席位名称" name="brokersId">
+            </div>
+        </div>
+        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">劵商名称</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入劵商名称" name="brokersName">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">劵商说明</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入劵商说明" name="brokersInstructions">
+            </div>
+        </div>
+        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">劵商备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入劵商备注" name="brokersDesc">
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0px; left: 45%;">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>添加
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+
+<!--修改的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <div class="layui-inline layui-show-xs-block" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">劵商编号</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入劵商编号" name="brokersId">
+            </div>
+        </div>
+        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">劵商名称</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入劵商名称" name="brokersName">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">劵商说明</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入劵商说明" name="brokersInstructions">
+            </div>
+        </div>
+        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="text-align: center">劵商备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" placeholder="请输入劵商备注" name="brokersDesc">
+            </div>
+        </div>
+
+
+        <div style="position: absolute; bottom: 0px; left: 45%;">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>编辑
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
 
 
 </body>
-
-<script>var _hmt = _hmt || []; (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-    var s = document.getElementsByTagName("script")[0];
-
-})();</script>
 </html>

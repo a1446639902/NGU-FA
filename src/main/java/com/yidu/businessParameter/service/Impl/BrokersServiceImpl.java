@@ -69,11 +69,10 @@ public class BrokersServiceImpl implements BrokersService {
      * @return
      */
     @Override
-    public HashMap brokersSelect(int page, int limit, String selectBrokersName) {
-        System.out.println(selectBrokersName);
+    public HashMap brokersSelect(int page, int limit, String brokersName) {
         String sql = "";
-        if (selectBrokersName != null) {
-            sql = sql + " and brokersName like '''%" + selectBrokersName + "%'''";
+        if (brokersName != null&& !brokersName.equals("")) {
+            sql = sql + " and brokersName like '%" + brokersName + "%'";
         }
         System.out.println(sql);
         HashMap brokersMap = new HashMap();
