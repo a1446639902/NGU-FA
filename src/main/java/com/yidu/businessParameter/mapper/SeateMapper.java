@@ -3,6 +3,7 @@ package com.yidu.businessParameter.mapper;
 import com.yidu.businessParameter.pojo.Seate;
 import org.apache.ibatis.annotations.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,15 +20,14 @@ public interface SeateMapper {
      * @return
      */
     @Insert("insert into seate(seateId, seateName, seateType, seateRate, brokersId, seateAddress, seateDesc) values(#{seateId}, #{seateName}, #{seateType}, #{seateRate}, #{brokersId}, #{seateAddress}, #{seateDesc})")
-    boolean seateInsert(Seate seate);
+    int seateInsert(Seate seate);
 
     /**
      * 删除
-     * @param id
+     * @param seateIdList
      * @return
      */
-    @Delete("delete from seate where seateId=#{seateId}")
-    boolean seateDelete(String id);
+    public int seateDelete(List seateIdList);
 
     /**
      * 修改
@@ -35,13 +35,12 @@ public interface SeateMapper {
      * @return
      */
     @Update("update seate set seateName=#{seateName},seateType=#{seateType}, seateRate=#{seateRate}, brokersId=#{brokersId}, seateAddress=#{seateAddress}, seateDesc=#{seateDesc}")
-    boolean SeateUpdate(Seate seate);
+    int SeateUpdate(Seate seate);
 
 
     /**
      * 查询
      * @return
      */
-    @Select("select * from seate")
-    List<Seate> seateSelect();
+    public void seateSelect(HashMap hashMap);
 }

@@ -1,0 +1,90 @@
+package com.yidu.businessParameter.service.Impl;
+
+import com.yidu.businessParameter.mapper.BrokersMapper;
+import com.yidu.businessParameter.mapper.SeateMapper;
+import com.yidu.businessParameter.pojo.Brokers;
+import com.yidu.businessParameter.pojo.Seate;
+import com.yidu.businessParameter.service.SeateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * @name 戴言露
+ * @data 2020/9/5 am
+ *席位信息表实现类
+ */
+@Service
+public class SeateServiceImpl implements SeateService {
+    @Autowired
+    SeateMapper seateMapper;
+
+    /**
+     * 增加
+     * @param seate
+     * @return
+     */
+    @Override
+    public int seateInsert(Seate seate) {
+        return seateMapper.seateInsert(seate);
+    }
+
+
+    /**
+     * 删除
+     * @param seateId
+     * @return
+     */
+    @Override
+    public int seateDelete(String seateId){
+        //定义一个数组接收编号，切割字符串
+        String[] split = seateId.split(",");
+        //定义一个整型集合
+        List<String> seateList = new ArrayList<String>();
+        //循环数组
+        for (String id : split) {
+            //将数组循环的值添加到集合中，强转为整型
+            seateList.add(id);
+        }
+
+        return seateMapper.seateDelete(seateList);
+    }
+
+
+    /**
+     * 修改
+     * @param seate
+     * @return
+     */
+    @Override
+    public int seateUpdate(Seate seate){
+        return seateMapper.SeateUpdate(seate);
+    }
+
+
+    /**
+     * 查询
+     * @return
+     */
+    @Override
+    public HashMap seateSelect(int page, int limit, String selectSeateName) {
+        System.out.println(selectSeateName);
+        String sql = "";
+        if (selectSeateName != null) {
+            sql = sql + " and seateName like '''%" + selectSeateName + "%'''";
+        }
+        System.out.println(sql);
+        HashMap seateMap = new HashMap();
+        seateMap.put("p_tableName", "brokers");
+        seateMap.put("p_condition", sql);
+        seateMap.put("p_pageSize", limit);
+        seateMap.put("p_page", page);
+        seateMap.put("p_count", 0);
+        seateMap.put("p_cursor", null);
+        seateMapper.seateSelect(seateMap);
+        return seateMap;
+    }
+}
