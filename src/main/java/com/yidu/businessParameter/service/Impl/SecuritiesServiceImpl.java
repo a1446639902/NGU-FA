@@ -24,8 +24,8 @@ public class SecuritiesServiceImpl implements SecuritiesService {
     }
 
     @Override
-    public void deleteSecurities(String securitiesId) {
-        securitiesMapper.deleteSecurities(securitiesId);
+    public int deleteSecurities(String securitiesId) {
+        return securitiesMapper.deleteSecurities(securitiesId);
     }
 
     @Override

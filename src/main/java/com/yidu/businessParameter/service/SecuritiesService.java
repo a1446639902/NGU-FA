@@ -14,7 +14,7 @@ import java.util.HashMap;
 @Service
 public interface SecuritiesService {
     public int insertSecurities(SecuritiesPojo securitiesPojo);
-    public void deleteSecurities(String securitiesId);
+    public int deleteSecurities(String securitiesId);
     public int updateSecurities(SecuritiesPojo securitiesPojo);
     public HashMap selectSecurities();
     /*public List<SecuritiesPojo> selectSecurities();*/
