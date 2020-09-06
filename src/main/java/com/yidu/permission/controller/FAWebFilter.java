@@ -1,3 +1,4 @@
+/*
 package com.yidu.permission.controller;
 
 import org.springframework.stereotype.Component;
@@ -9,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+*/
 /**
- * @author cai*/
+ * @author cai*//*
+
 
 
 @Component
@@ -57,3 +60,4 @@ System.out.println("Filter coming");
 
     }
 }
+*/

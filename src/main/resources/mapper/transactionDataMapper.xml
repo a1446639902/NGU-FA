@@ -15,7 +15,7 @@
         <result property="status" column="status" javaType="Integer"></result>
         <result property="price" column="price" javaType="Double"></result>
         <result property="num" column="num" javaType="Double"></result>
-        <result property="accountName" column="accountName" javaType="String"></result> <!--现金账号是AccountName-->
+        <result property="accountName" column="accountName" javaType="String"></result>
         <result property="netReceipts" column="netReceipts" javaType="Double"></result>
         <result property="totalSum" column="totalSum" javaType="Double"></result>
         <result property="flag" column="flag" javaType="Integer"></result>
@@ -46,9 +46,8 @@
     </select>
 
     <insert id="insertTransactionData" parameterType="com.yidu.businessData.pojo.TransactionData">
-        insert into transactionData(transactionDataId,dateTime,settlementDate,fundId,securitiesId,brokersId,seateId,transactionDataMode,status,price,
-    num,accountName,netReceipts,totalSum,flag,commission,transfer,brokerage,stamp,management,security,
-    transactionDataDesc)  values (#{transactionDataId},#{dateTime},#{settlementDate},#{fundId},#{securitiesId},#{brokersId},#{seateId},#{transactionDataMode},#{status},#{price},#{num},#{accountName},#{netReceipts},#{totalSum},#{flag},#{commission},#{transfer},#{brokerage},#{stamp},#{management},#{security},#{transactionDataDesc})
+        insert into transactionData(transactionDataId,dateTime,settlementDate,fundId,securitiesId,brokersId,seateId,transactionDataMode,status,price,num,accountId,netReceipts,totalSum,flag,commission,transfer,brokerage,stamp,management,security,transactionDataDesc)
+    values (#{transactionDataId},#{dateTime},#{settlementDate},#{fundId},#{securitiesId},#{brokersId},#{seateId},#{transactionDataMode},#{status},#{price},#{num},#{accountId},#{netReceipts},#{totalSum},#{flag},#{commission},#{transfer},#{brokerage},#{stamp},#{management},#{security},#{transactionDataDesc})
     </insert>
 
 
@@ -59,7 +58,7 @@
     <update id="updateTransactionData" parameterType="com.yidu.businessData.pojo.TransactionData">
         update transactionData set dateTime=#{dateTime},settlementDate=#{settlementDate},fundId=#{fundId},
     securitiesId=#{securitiesId},brokersId=#{brokersId},seateId=#{seateId},transactionDataMode=#{transactionDataMode},status=#{status},
-    price=#{price},num=#{num},accountName=#{accountName},netReceipts=#{netReceipts},totalSum=#{totalSum},flag=#{flag},
+    price=#{price},num=#{num},accountId=#{accountId},netReceipts=#{netReceipts},totalSum=#{totalSum},flag=#{flag},
     commission=#{commission},transfer=#{transfer},brokerage=#{brokerage}, stamp=#{stamp},management=#{management},
     security=#{security},transactionDataDesc=#{transactionDataDesc}
     where transactionDataId=#{transactionDataId}
