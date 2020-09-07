@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.inventoryManage.mapper.SecuritiesInventoryMapper">
-<!--    证券库存-->
-    <select id="selectStockofSecurities" parameterType="java.util.Map" statementType="CALLABLE">
-     {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=stockofSecuritiesMap})}
+    <insert id="insertSecuritiesInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesInventory">
+        insert into SecuritiesInventory values (#{securitiesInventoryId},#{dateTime},#{securitiesId},#{fundId},#{securityPeriodFlag},#{securitiesNum},#{price},#{total},#{securitiesInventoryDesc})
+    </insert>
+    <update id="updateSecuritiesInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesInventory">
+        update SecuritiesInventory set securityPeriodFlag=#{securityPeriodFlag},securitiesNum=#{securitiesNum},price=#{price},total=#{total},securitiesInventoryDesc=#{securitiesInventoryDesc} where securitiesInventoryId=#{securitiesInventoryId}
+    </update>
+    <delete id="deleteSecuritiesInventory" parameterType="int">
+        delete from securitiesInventory where securitiesInventoryId=#{securitiesInventoryId}
+    </delete>
+    <!--    证券库存-->
+    <select id="selectSecuritiesInventory" parameterType="java.util.Map" statementType="CALLABLE">
+         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=securitiesInventoryMap})}
    </select>
-    <resultMap id="stockofSecuritiesMap" type="com.yidu.inventoryManage.pojo.SecuritiesInventory">
+    <resultMap id="securitiesInventoryMap" type="com.yidu.inventoryManage.pojo.SecuritiesInventory">
         <result property="securitiesInventoryId" column="securitiesInventoryId"></result>
         <result property="dateTime" column="dateTime"></result>
         <result property="securitiesId" column="securitiesId"></result>
@@ -15,5 +24,14 @@
         <result property="price" column="price"></result>
         <result property="total" column="total"></result>
         <result property="securitiesInventoryDesc" column="securitiesInventoryDesc"></result>
+        <association property="securitiesPojo" javaType="com.yidu.businessParameter.pojo.SecuritiesPojo">
+            <result column="securitiesName" property="securitiesName"></result>
+        </association>
+        <association property="fund" javaType="com.yidu.businessParameter.pojo.Fund">
+            <result property="fundName" column="fundName"></result>
+        </association>
+        <association property="accountPojo" javaType="com.yidu.businessParameter.pojo.AccountPojo">
+            <result property="accountName" column="accountName"></result>
+        </association>
     </resultMap>
 </mapper>
