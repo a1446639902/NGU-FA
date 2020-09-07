@@ -1,8 +1,9 @@
 package com.yidu.businessParameter.service;
 
-import com.yidu.businessParameter.pojo.BondPojo;
+import com.yidu.businessParameter.pojo.Bond;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 import java.util.Map;
 
 /**
@@ -11,14 +12,16 @@ import java.util.Map;
  * @date  2020/09/01 15点32分
  * @version 版本1.0
  */
+
+@Service
 public interface BondService {
+    //查询
+    Map<String,Object>selectBond(String pageSize, String page,String securitiesId,String drawStartDate);
     //增加
-    public int insertBond(BondPojo bondPojo);
+    int insertBond(Bond bond);
     //删除
-    public void deleteBond(int securitiesId);
+    int  deleteBond(String securitiesId);
     //修改
-    public int updateBond(BondPojo bondPojo);
-    //查
-    public Map<String,Object> selectBond(String pageSize, String page);
+    int updateBond(Bond bond);
 
 }

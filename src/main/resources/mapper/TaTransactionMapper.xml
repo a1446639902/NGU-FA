@@ -12,8 +12,9 @@
 
     <update id="updateTaTransaction" parameterType="com.yidu.taManage.pojo.TaTransaction">
         update TaTransaction set accountId=#{accountId},transactionType=#{transactionType},fundNum=#{fundNum},cost=#{cost},dateTime=#{dateTime},price=#{price},balanceDate=#{balanceDate},agencies=#{agencies},totalMoney=#{totalMoney},actualMoney=#{actualMoney},transactionStatus=#{transactionStatus} where taTransactionId=#{taTransactionId}</update>
-    <delete id="deleteTaTransaction" parameterType="String">
-        delete from TaTransaction where taTransactionId=#{taTransactionId}
+    <delete id="deleteTaTransaction" parameterType="java.util.List">
+        delete from TaTransaction where taTransactionId in
+        <foreach collection="list" item="taTransactionId" open="(" separator="," close=")">#{taTransactionId}</foreach>
     </delete>
 
     <resultMap id="taTransactionMap" type="com.yidu.taManage.pojo.TaTransaction">
@@ -24,7 +25,7 @@
         <result property="fundNum" column="fundNum" javaType="DOUBLE"></result>
         <result property="accountId" column="accountId" javaType="String"></result>
         <result property="totalMoney" column="totalMoney" javaType="DOUBLE"></result>
-        <result property="actualMoney" column="bondRate" javaType="DOUBLE"></result>
+        <result property="actualMoney" column="actualMoney" javaType="DOUBLE"></result>
         <result property="price" column="price" javaType="DOUBLE"></result>
         <result property="cost" column="cost" javaType="DOUBLE"></result>
         <result property="agencies" column="agencies" javaType="Integer"></result>
@@ -35,5 +36,6 @@
     <select id="selectTaTransaction" parameterType="java.util.Map" statementType="CALLABLE">
         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=taTransactionMap})}
     </select>
+
 
 </mapper>

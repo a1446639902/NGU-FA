@@ -38,9 +38,8 @@
                     class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
         <br/>
-
         <form class="layui-form layui-col-space5">
-            <label class="layui-form-label layui-bg-green" style="width: 90px;text-align: center">交易日期</label>
+            <label class="layui-form-label layui-bg-green" style="width: 90px;text-align: center" >交易日期</label>
 
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input"  autocomplete="off" placeholder="请输入选择日期" name="end" id="start" style="width: 170px;">
@@ -49,10 +48,10 @@
                 <label class="layui-form-label layui-bg-green" style="width: 90px;text-align: center">结算类型</label>
 
                 <div class="layui-inline layui-show-xs-block" style="width: 170px;">
-                    <select name="cateid">
+                    <select name="transactionStatus" id="transactionStatus">
                         <option placeholder="请选择"></option>
-                        <option>已结算</option>
-                        <option>未结算</option>
+                        <option value="1">已结算</option>
+                        <option value="0">未结算</option>
                     </select>
                 </div>
             </div>
@@ -60,15 +59,16 @@
                 <label class="layui-form-label layui-bg-green" style="width: 90px;text-align: center">交易类型</label>
 
                 <div class="layui-inline layui-show-xs-block" style="width: 170px;">
-                    <select name="cateid">
+                    <select name="transactionType" id="transactionType">
                         <option placeholder="请选择"></option>
-                        <option>申购</option>
-                        <option>赎回</option>
+                        <option value="1">认购</option>
+                        <option value="2">申购</option>
+                        <option value="3">赎回</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block" >
-                <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
+                <button class="layui-btn" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
                 </button>
             </div>
         </form>
@@ -86,6 +86,14 @@
             //执行一个laydate实例
             laydate.render({
                 elem: '#start' //指定元素
+            });
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start1' //指定元素
+            });
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start2' //指定元素
             });
 
             //新增提交
@@ -149,10 +157,10 @@
                 elem: '#userTable',
                 url: '../selectTaTransaction',
                 page: true,
+                height: 'full-30',
                 toolbar: '#userToolBar',//显示在表头的工具条
-                title: '用户TA数据表',
-                cellMinWidth: 100,
-                height:'full-70',
+                minLength:80,
+                cellMinWidth:60,
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
@@ -216,12 +224,19 @@
                         break;
                     case 'search':
                         alert("搜索");
-                        var accountName= $("#accountName").val();
+                        var dateTime= $("#start").val();
+                        var transactionStatus= $("#transactionStatus").val();
+                        var transactionType=$("#transactionType").val();
+                        alert(dateTime);
+                        alert(transactionStatus);
+                        alert(transactionType);
                         //表格的重新加载事件
                         table.reload('userTable', {
                             method: 'post'
                             , where: {
-                                'userName': userName
+                                'dateTime': dateTime,
+                                'transactionStatus':transactionStatus,
+                                'transactionType':transactionType
                             }
                             , page: {
                                 curr: 1
@@ -292,7 +307,6 @@
         function quxiao() {
             layer.closeAll();
         }
-
     </script>
 </head>
 <body style="overflow: auto; background-color: white;"
@@ -348,13 +362,11 @@
 
         </div>
 
-
-
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易日期</label>
             <div class="layui-input-inline">
                 <input type="text" name="dateTime" lay-verify="required"
-                       autocomplete="off" placeholder="请输入日期" class="layui-input">
+                       autocomplete="off" placeholder="请输入日期" class="layui-input" id="start1">
             </div>
 
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">单价</label>
@@ -365,13 +377,11 @@
 
         </div>
 
-
-
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">结算日期</label>
             <div class="layui-input-inline">
                 <input type="text" name="balanceDate" lay-verify="required"
-                       autocomplete="off" placeholder="请输入结算日期" class="layui-input">
+                       autocomplete="off" placeholder="请输入日期" class="layui-input" id="start2">
             </div>
 
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">代销机构</label>
@@ -385,8 +395,6 @@
             </div>
         </div>
 
-
-
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">总金额</label>
             <div class="layui-input-inline">
@@ -396,13 +404,11 @@
 
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">实际金额</label>
             <div class="layui-input-inline">
-                <input type="text" name="totalMoney" lay-verify="required"
+                <input type="text" name="actualMoney" lay-verify="required"
                        autocomplete="off" placeholder="请输入实际金额" class="layui-input">
             </div>
 
         </div>
-
-
 
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易状态</label>
@@ -415,11 +421,7 @@
 
             </div>
 
-
-
         </div>
-
-
 
         <div style="position: absolute; bottom: 0px; left: 45%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
@@ -471,8 +473,6 @@
 
         </div>
 
-
-
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易日期</label>
             <div class="layui-input-inline">
@@ -487,8 +487,6 @@
             </div>
 
         </div>
-
-
 
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">结算日期</label>
@@ -508,24 +506,20 @@
             </div>
         </div>
 
-
-
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">总金额</label>
             <div class="layui-input-inline">
-                <input type="text" name="cost" lay-verify="required"
+                <input type="text" name="totalMoney" lay-verify="required"
                        autocomplete="off" placeholder="请输入总金额" class="layui-input">
             </div>
 
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">实际金额</label>
             <div class="layui-input-inline">
-                <input type="text" name="totalMoney" lay-verify="required"
+                <input type="text" name="actualMoney" lay-verify="required"
                        autocomplete="off" placeholder="请输入实际金额" class="layui-input">
             </div>
 
         </div>
-
-
 
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易状态</label>
@@ -552,4 +546,3 @@
 </div>
 </body>
 </html>
-

@@ -18,11 +18,11 @@ import java.util.Map;
 
 public interface TatransactionService {
     //查询
-    Map<String,Object> selectTatransaction(String pageSize, String page);
+    Map<String,Object> selectTatransaction(String pageSize, String page,String dateTime,String transactionStatus,String transactionType);
     //增加
     public int insertTatransaction(TaTransaction tatransaction);
     //删除
-    public void  deleteTatransaction(String taTransactionId);
+    public int  deleteTatransaction(String taTransactionId);
     //修改
     public int updataTetransaction(TaTransaction tatransaction);
 }

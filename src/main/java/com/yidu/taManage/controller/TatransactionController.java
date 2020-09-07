@@ -46,11 +46,13 @@ public class TatransactionController {
         return b;
     }
     @RequestMapping("/selectTaTransaction")
-    public Map<String,Object> selectTatransaction(String page, String limit) {
+    public Map<String,Object> selectTatransaction(String page, String limit,String dateTime,String transactionStatus,String transactionType) {
         System.out.println("进来了");
-        Map<String,Object> map=tatransactionService.selectTatransaction(limit, page);
-        List<TaTransaction> tatransactionList= (List<TaTransaction>) map.get("tatransactionList");
+        System.out.println(dateTime+","+","+transactionStatus+","+transactionType);
+        Map<String,Object> map=tatransactionService.selectTatransaction(limit, page,dateTime,transactionStatus,transactionType);
+        List<TaTransaction> tatransactionList= (List<TaTransaction>) map.get("taTransactionList");
         int count = (int) map.get("count");
+
         //以layui要求存储响应数据格式
         Map<String, Object> json = new HashMap<>();
         json.put("code",0);

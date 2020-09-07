@@ -1,9 +1,10 @@
 package com.yidu.businessParameter.service.Impl;
 
 import com.yidu.businessParameter.mapper.BondMapper;
-import com.yidu.businessParameter.pojo.BondPojo;
+import com.yidu.businessParameter.pojo.Bond;
 import com.yidu.businessParameter.service.BondService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -18,35 +19,17 @@ import java.util.Map;
  *  @version 版本1.0
  */
 @Service
+@Transactional
 public class BondServiceImpl implements BondService {
     @Resource
     BondMapper bondMapper;
-
     @Override
-    public int insertBond(BondPojo bondPojo) {
-        int i = bondMapper.insertBond(bondPojo);
-        return i;
-    }
-
-    @Override
-    public void deleteBond(int securitiesId) {
-        bondMapper.deleteBond(securitiesId);
-    }
-
-    @Override
-    public int updateBond(BondPojo bondPojo) {
-        int a= bondMapper.updateBond(bondPojo);
-        return a;
-    }
-
-    @Override
-    public Map<String, Object> selectBond(String pageSize, String page) {
-        //创建一个结果集Map用于存放两个结果变量
-        Map<String , Object> resultMap = new HashMap<>();
-        //定义一个分页条数变量
+    public Map<String, Object> selectBond(String pageSize, String page,String securitiesId,String drawStartDate) {
+        Map<String, Object> resultMap = new HashMap<>();
+        //定义分页
         int v_pageSize = 0;
         //判断传入的pageSize是否为null/空
-        if (pageSize!=null&&!pageSize.equals("")){
+        if (pageSize!=null &&!pageSize.equals("")){
             //通过Integer包装类将String类型转换成int基础数据类型
             v_pageSize=Integer.parseInt(pageSize);
         }
@@ -57,12 +40,20 @@ public class BondServiceImpl implements BondService {
             //通过Integer包装类将String类型转换成int基础数据类型
             v_page=Integer.parseInt(page);
         }
+        StringBuffer sqlWhere=new StringBuffer();
+        if (securitiesId!=null && !securitiesId.equals("")){
+            sqlWhere.append(" AND securitiesId LIKE  '%"+securitiesId+"%'" );
+        }
+        if (drawStartDate!=null&&!drawStartDate.equals("")){
+            sqlWhere.append(" AND drawStartDate LIKE  '%"+drawStartDate+"%'" );
+
+        }
         //创建一个Map，用于存储过程的调用传值
-        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map=new HashMap<>();
         //传入存储过程需要查询的表名
-        map.put("p_tableName","taTransaction");
+        map.put("p_tableName","bond");
         //传入查询条件
-        map.put("p_condition","");
+        map.put("p_condition",sqlWhere.toString());
         //传入分页显示条数
         map.put("p_pageSize",v_pageSize);
         //传入分页页码
@@ -74,15 +65,43 @@ public class BondServiceImpl implements BondService {
         //调用Mapper执行查询
         bondMapper.selectBond(map);
         //接收返回数据
-        List<BondPojo> bondPojoList = (List<BondPojo>) map.get("p_cursor");
+        List<Bond> bondList= (List<Bond>) map.get("p_cursor");
         //接收返回总条数
         int v_count = (int) map.get("p_count");
         //将结果放入结果集Map
-        resultMap.put("bondPojoList",bondPojoList);
+        resultMap.put("bondList",bondList);
         resultMap.put("count",v_count);
+        String p_condition = (String) map.get("p_condition");
+        System.out.println(p_condition);
         //返回结果集Map
         System.out.println(v_count);
-        System.out.println(bondPojoList);
+        System.out.println(bondList);
+        System.out.println(sqlWhere.toString());
         return resultMap;
+    }
+
+    @Override
+    public int insertBond(Bond bond) {
+        int msg = bondMapper.insertBond(bond);
+        return msg;
+    }
+
+    @Override
+    public int   deleteBond(String securitiesId) {
+
+        String[] split=securitiesId.split(",");
+        ArrayList<Object> arrayList=new ArrayList<>();
+        for (String id :split){
+            arrayList.add(id);
+        }
+        return bondMapper.deleteBond(arrayList);
+    }
+
+
+
+    @Override
+    public int updateBond(Bond bond) {
+        int i = bondMapper.updateBond(bond);
+        return i;
     }
 }
