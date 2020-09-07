@@ -13,7 +13,7 @@ import java.io.IOException;
  * 过滤器
  */
 
-@Component
+/*@Component*/
 @WebFilter("*")
 public class FAWebFilter implements Filter {
 
