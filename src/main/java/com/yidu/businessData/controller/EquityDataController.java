@@ -28,8 +28,8 @@ public class EquityDataController {
     }
 
     @RequestMapping("deleteEquityData")
-    public int deleteEquityData(String equityId) {
-        int i = equityDataService.deleteEquityData(equityId);
+    public int deleteEquityData(String equityDataId) {
+        int i = equityDataService.deleteEquityData(equityDataId);
         return i;
     }
 
@@ -41,9 +41,11 @@ public class EquityDataController {
     }
 
     @RequestMapping("selectEquityData")
-    public Map<String, Object> selectEquityData(String page, String limit) {
+    public Map<String, Object> selectEquityData(String page, String limit,String equitiesType,String equitiesExright) {
+        System.out.println(equitiesType);
+        System.out.println(equitiesExright);
         //调用Service层执行查询，接收返回结果集Map
-        Map<String, Object> map = equityDataService.selectEquityData(limit, page);
+        Map<String, Object> map = equityDataService.selectEquityData(limit, page,equitiesType,equitiesExright);
         List<EquityData> equityDataList = (List<EquityData>) map.get("equityDataList");
         int count = (int) map.get("count");
         //以layui要求存储响应数据格式
