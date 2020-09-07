@@ -48,10 +48,10 @@ public class VarietiesRateController {
     }
 //    查询controller
     @RequestMapping("selectVarietiesRate")
-    public Map<String,Object> selectVarieties(String page,String limit){
+    public Map<String,Object> selectVarieties(String page,String limit,String exchangeName,String rateType){
         System.out.println("进入了查询Controller");
         //调用Service层 返回结果集map
-        Map<String,Object> map =varietiesRateService.selectVarietiesRate(limit,page);
+        Map<String,Object> map =varietiesRateService.selectVarietiesRate(limit,page,exchangeName,rateType);
         //从结果集中拿出结果
         //接收返回数据
         List<VarietiesRatePojo> varietiesRates= (List<VarietiesRatePojo>) map.get("varietiesRates");
