@@ -1,10 +1,12 @@
 package com.yidu.taManage.service.Impl;
 
-import com.yidu.taManage.mapper.TaTransactionMapper;
-import com.yidu.taManage.pojo.TaTransactionPojo;
-import com.yidu.taManage.service.TaTransactionService;
-import org.springframework.stereotype.Service;
 
+
+
+import com.yidu.taManage.mapper.TaTransactionMapper;
+import com.yidu.taManage.pojo.TaTransaction;
+import com.yidu.taManage.service.TatransactionService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -18,14 +20,11 @@ import java.util.Map;
  *  @version 版本1.0
  */
 @Service
-public class TaTransactionServiceImpl implements TaTransactionService {
+public class TaTransactionServiceImpl implements TatransactionService {
     @Resource
     TaTransactionMapper taTransactionMapper;
     @Override
-    /**
-     * 查所有
-     */
-    public Map<String, Object> selectTaTransaction(String pageSize, String page) {
+    public Map<String, Object> selectTatransaction(String pageSize, String page) {
         //创建一个结果集Map用于存放两个结果变量
         Map<String, Object> resultMap = new HashMap<>();
         //定义一个分页条数变量
@@ -59,8 +58,10 @@ public class TaTransactionServiceImpl implements TaTransactionService {
         //调用Mapper执行查询
         taTransactionMapper.selectTaTransaction(map);
         //接收返回数据
-        List<TaTransactionPojo> tatransactionList= (List<TaTransactionPojo>) map.get("p_cursor");
+        List<TaTransaction> tatransactionList= (List<TaTransaction>) map.get("p_cursor");
         //接收返回总条数
+
+
 
         int v_count = (int) map.get("p_count");
         //将结果放入结果集Map
@@ -72,34 +73,23 @@ public class TaTransactionServiceImpl implements TaTransactionService {
         return resultMap;
     }
 
-    /**
-     * 添加
-     * @param tatransaction
-     * @return
-     */
+
     @Override
-    public int insertTaTransaction(TaTransactionPojo tatransaction) {
+    public int insertTatransaction(TaTransaction tatransaction) {
         int i = taTransactionMapper.insertTaTransaction(tatransaction);
         return i;
     }
 
-    /**
-     * 删除
-     * @param transactionId
-     */
     @Override
-    public void deleteTaTransaction(int transactionId) {
+    public void deleteTatransaction(String transactionId) {
         taTransactionMapper.deleteTaTransaction(transactionId);
     }
 
-    /**
-     * 修改
-     * @param tatransaction
-     * @return
-     */
+
     @Override
-    public int updateTaTransaction(TaTransactionPojo tatransaction) {
+    public int updataTetransaction(TaTransaction tatransaction) {
         int a  = taTransactionMapper.updateTaTransaction(tatransaction);
         return a;
     }
+
 }

@@ -1,6 +1,6 @@
 package com.yidu.taManage.mapper;
 
-import com.yidu.taManage.pojo.TaTransactionPojo;
+import com.yidu.taManage.pojo.TaTransaction;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Map;
@@ -14,7 +14,6 @@ import java.util.Map;
 
 @Mapper
 public interface TaTransactionMapper {
-
     /**
      * 查询基金信息
      * @param
@@ -26,16 +25,16 @@ public interface TaTransactionMapper {
      * @param tatransaction
      * @return int
      */
-    int insertTaTransaction(TaTransactionPojo tatransaction);
+    int insertTaTransaction(TaTransaction tatransaction);
     /**
      * 删除基金信息
-     * @param transactionId
+     * @param taTransactionId
      */
-    void deleteTaTransaction(int transactionId);
+    void deleteTaTransaction(String taTransactionId);
     /**
      * 修改基金信息
      * @param tatransaction
      * @return
      */
-    int updateTaTransaction(TaTransactionPojo tatransaction);
+    int updateTaTransaction(TaTransaction tatransaction);
 }
