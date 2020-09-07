@@ -4,6 +4,7 @@ import com.yidu.permission.pojo.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * user的dao接口
@@ -11,11 +12,11 @@ import java.util.HashMap;
 @Mapper
 public interface UserMapper {
 
-    public void selectUser(HashMap userMap);
+    public Integer selectUser1(Map<String,String> map);
 
-    public void deleteUser(int userId);
+    public void deleteUser1(int userId);
 
-    public void insertUser(UserInfo userInfo);
+    public void insertUser1(UserInfo userInfo);
 
 
 }

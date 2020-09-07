@@ -339,8 +339,8 @@
 }
 
 .layuimini-menu-left .layui-nav .layui-nav-item a {
-    height: 30px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
     padding-right: 30px;
 }
 
@@ -650,7 +650,7 @@
     top: 36px;
     bottom: 0px;
     width: 100%;
-    background: rgba(255, 255, 255,0);
+    background: rgb(255, 255, 255,0);
     padding: 0px;
     overflow: hidden;
 }
