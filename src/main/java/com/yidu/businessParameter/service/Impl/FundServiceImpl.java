@@ -25,8 +25,7 @@ public class FundServiceImpl implements FundService {
     @Resource
     FundMapper fundMapper;
 
-    @Resource
-    DbUtil dbUtil;
+
     @Override
     public HashMap selectFund(int page,int limit,String fundId,String fundType) {
 
@@ -50,7 +49,6 @@ public class FundServiceImpl implements FundService {
 
     @Override
     public int insertFund(Fund fund) {
-        fund.setFundId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.F));
         return fundMapper.insertFund(fund);
     }
 

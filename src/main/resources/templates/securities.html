@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
@@ -42,121 +43,104 @@
             <input class="layui-input"  autocomplete="off" placeholder="请输入证券名称" name="selectsecuritieName" id="securitieName">
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn"  lay-submit="" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button class="layui-btn"  lay-submit="" data-type="reload" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
-
-
     </form>
 
 </script>
-                <table id="test" lay-filter="test"></table>
+<table id="test" lay-filter="test"></table>
 
 
-                <script src="/layui/layui.js"></script>
-                <script type="text/javascript">
-                    layui.use(['table', 'form', 'layer','laydate'], function() {
-                        var table = layui.table;
-                        var form = layui.form;
-                        var layer = layui.layer;
-                        var laydate=layui.laydate;
-                        var $ = layui.$;
+<script src="/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['table', 'form', 'layer','laydate'], function() {
+        var table = layui.table;
+        var form = layui.form;
+        var layer = layui.layer;
+        var laydate=layui.laydate;
+        var $ = layui.$;
 
-                        //第一个实例
-                        table.render({
-                            elem: '#test'
-                            , height: 512
-                            , toolbar: '#userToolBar'
-                            , url: '../selectSecurities' //数据接口
-                            , page: true //开启分页
-                            , cols: [
-                                [ //表头
-                                    {type: 'checkbox', fixed: 'left'}
-                                    , {
-                                    field: 'securitiesId',
-                                    title: '证券ID',
-                                    width: 110,
-                                    sort: true,
-                                    fixed: 'left'
-                                }
-                                    , {field: 'securitiesName', title: '证券名称', width: 110}
-                                    , {field: 'securitiesType', title: '证券类型', width: 110, sort: true}
-                                    , {field: 'issueDate', title: '发行日期', width: 110}
-                                    , {field: 'delayDate', title: '延迟日期', width: 177}
-                                    , {field: 'stockId', title: '模块ID', width: 110, sort: true}
-                                    , {field: 'exchange', title: '交易所', width: 110, sort: true}
-                                    , {field: 'securitiesDesc', title: '备注', width: 110}
-                                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
-                                ]
-                            ]
-                        });
-
-                        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-                            var data = obj.data; //获得当前行数据
-                            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-                            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-
-                            if (layEvent === 'del') { //删除
-                                layer.confirm('真的删除行么', function (index) {
-                                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                                    layer.close(index);
-                                    //向服务端发送删除指令
-                                    $.post("../deleteSecurities", "securitiesId=" + data.securitiesId, function (msg) {
-                                        if (msg > 0) {
-                                            table.reload('test');
-                                            layer.closeAll();
-                                            layer.msg('删除成功', {
-                                                title: '提示',
-                                                area: ['200px',
-                                                    '140px'],
-                                                time: 0,
-                                                btn: ['知道了']
-                                            });
-                                        } else {
-                                            layer.closeAll();
-                                            layer.msg('删除失败', {
-                                                title: '提示',
-                                                area: ['200px',
-                                                    '140px'],
-                                                time: 0,
-                                                btn: ['知道了']
-                                            });
-                                        }
-
-                                    });
-                                    return false;
-                                });
-                            }
-
-                            else if(layEvent=="edit"){
-                                alert("修改证券信息");
-                               form.val("editform",$.parseJSON(JSON.stringify(data)));//第二个参数可以是json字符串也可以是json对象
-                                layer.open({
-                                    type: 1,
-                                    title: '修改证券信息',
-                                    area: ['893px', '600px'],
-                                    content: $("#editContent")
-                                });
-                            }
-                        });
+        //第一个实例
+        //查询
+        table.render({
+            elem: '#test'
+            , height: 512
+            , toolbar: '#userToolBar'
+            , url: '../selectSecurities' //数据接口
+            , page: true //开启分页
+            , cols: [
+                [ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                    , {
+                    field: 'securitiesId',
+                    title: '证券ID',
+                    width: 110,
+                    sort: true,
+                    fixed: 'left'
+                }
+                    , {field: 'securitiesName', title: '证券名称', width: 110}
+                    , {field: 'securitiesType', title: '证券类型', width: 110, sort: true}
+                    , {field: 'issueDate', title: '发行日期', width: 110}
+                    , {field: 'delayDate', title: '延迟日期', width: 177}
+                    , {field: 'stockId', title: '模块ID', width: 110, sort: true}
+                    , {field: 'exchange', title: '交易所', width: 110, sort: true}
+                    , {field: 'securitiesDesc', title: '备注', width: 110}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
+                ]
+            ]
+        });
 
 
-                        //修改提交
-                        form.on('submit(editsubmit)',function () {
-                            var data = $('#editform').serialize();//获取表单区域所有值
-                            $.post("../updateSecurities",data,function(msg){
+        //给工具条的按钮添加事件
+        table.on('toolbar(test)', function (obj) {
+            var userName = $("#userName").val();
+            switch (obj.event) {
+                case "search":
+                    var blankName=$('#blankName').val();
+                    var accountName=$('#accountName').val();
+                    alert(blankName,accountName);
+                    table.reload('test', {
+                        method: 'post',
+                        page: {
+                            curr: 1
+                        },
+                        where:{
+                            'blankName':blankName,
+                            'accountName':accountName
+                        }
+                    });
+                    break;
+
+                case "add":
+                    layer.open({
+                        type: 1,
+                        title: '新增证券信息',
+                        area: ['893px', '550px'],
+                        content: $("#addContent")
+                    });
+                    break;
+                //删除多行
+                case "deleteAll":
+                    //获得选中的对象
+                    var checkStatus = table.checkStatus("myTable"); //idTest 即为基础参数 id 对应的值
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var accountIds = [];
+                    var dataArr = checkStatus.data; //获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        accountIds.push(n.accountId);
+                    });
+                    if (dataArr.length == 0) {
+                        layer.msg("请先选中数据");
+                    }
+                    else {
+                        layer.confirm('真的删除行么', function () {
+                            layer.close();
+                            //向服务端发送删除指令
+                            $.post("../account/deleteAccount", "accountId="+accountIds,function(msg){
                                 if(msg>0){
-                                    table.reload('test');
+                                    table.reload('myTable');
                                     layer.closeAll();
-                                    layer.msg('修改成功',{
-                                        title : '提示',
-                                        area : [ '200px',
-                                            '140px' ],
-                                        time : 0,
-                                        btn : [ '知道了' ]
-                                    });
-                                }else{
-                                    layer.closeAll();
-                                    layer.msg('修改失败',{
+                                    layer.msg('删除成功',{
                                         title : '提示',
                                         area : [ '200px',
                                             '140px' ],
@@ -164,17 +148,136 @@
                                         btn : [ '知道了' ]
                                     });
                                 }
-
+                                else{
+                                    layer.closeAll();
+                                    layer.msg('删除失败',{
+                                        title : '提示',
+                                        area : [ '200px',
+                                            '140px' ],
+                                        time : 0,
+                                        btn : [ '知道了' ]
+                                    });
+                                }
                             });
-                            return false;//解决弹出层闪退问题
+                            return false;
                         });
+                    }
+                    break;
+            }
+        });
+
+        //删除
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.post("../deleteSecurities", "securitiesId=" + data.securitiesId, function (msg) {
+                        if (msg > 0) {
+                            table.reload('test');
+                            layer.closeAll();
+                            layer.msg('删除成功', {
+                                title: '提示',
+                                area: ['200px',
+                                    '140px'],
+                                time: 0,
+                                btn: ['知道了']
+                            });
+                        } else {
+                            layer.closeAll();
+                            layer.msg('删除失败', {
+                                title: '提示',
+                                area: ['200px',
+                                    '140px'],
+                                time: 0,
+                                btn: ['知道了']
+                            });
+                        }
+                    });
+                    return false;
+                });
+            }
+
+            //修改
+            else if(layEvent=="edit"){
+                form.val("editform",$.parseJSON(JSON.stringify(data)));//第二个参数可以是json字符串也可以是json对象
+
+                layer.open({
+                    type: 1,
+                    title: '修改证券信息',
+                    area: ['893px', '600px'],
+                    content: $("#editContent")
+                });
+            }
+        });
 
 
-                    })
-                </script>
-            </div>
-        </div>
-    </div>
+        //新增提交
+        form.on('submit(addsubmit)', function(data){
+            var accounts=$('#addform').serialize();
+            $.post("../insertSecurities",accounts,function(msg){
+                if(msg>0){
+                    table.reload('test');
+                    layer.closeAll();
+                    layer.msg('添加成功',{
+                        title : '提示',
+                        area : [ '200px',
+                            '140px' ],
+                        time : 0,
+                        btn : [ '知道了' ]
+                    });
+                }else{
+                    layer.closeAll();
+                    layer.msg('添加失败',{
+                        title : '提示',
+                        area : [ '200px',
+                            '140px' ],
+                        time : 0,
+                        btn : [ '知道了' ]
+                    });
+                }
+            });
+            return false;
+        });
+
+
+        //修改提交
+        form.on('submit(editsubmit)',function () {
+            var data = $('#editform').serialize();//获取表单区域所有值
+            $.post("../updateSecurities",data,function(msg){
+                if(msg>0){
+                    table.reload('test');
+                    layer.closeAll();
+                    layer.msg('修改成功',{
+                        title : '提示',
+                        area : [ '200px',
+                            '140px' ],
+                        time : 0,
+                        btn : [ '知道了' ]
+                    });
+                }else{
+                    layer.closeAll();
+                    layer.msg('修改失败',{
+                        title : '提示',
+                        area : [ '200px',
+                            '140px' ],
+                        time : 0,
+                        btn : [ '知道了' ]
+                    });
+                }
+            });
+            return false;//解决弹出层闪退问题
+        });
+    })
+</script>
+</div>
+</div>
+</div>
 </div>
 
 <div style="display: none;" id="barDemo">
@@ -185,23 +288,23 @@
 
 </div>
 
-
 <!--修改的div内容-->
 <div id="editContent"
      style="display: none; height: 100%; height: 100%; text-align: center;">
     <form id="editform" lay-filter="editform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;" >
-        <input type="hidden" name="accountId"/>
-        <input type="hidden" name="fundId"/>
+
+
         <div>
             <div class="layui-row">
                 <div class="layui-col-xs6">
+
                     <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" >证券ID</label>
+                        <label class="layui-form-label layui-bg-green" >证券名称</label>
                         <div class="layui-input-inline">
                             <input type="text" name="securitiesId" lay-verify="required"
-                                   disabled="disabled" autocomplete="off" placeholder="请输入证券ID" class="layui-input">
+                                   autocomplete="off" placeholder="请输入证券名称" class="layui-input">
                         </div>
                     </div>
 
@@ -212,10 +315,11 @@
                                    autocomplete="off" placeholder="请输入证券名称" class="layui-input">
                         </div>
                     </div>
+
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >发行时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="issueDate" name="openTime" lay-verify="required"
+                            <input type="text" id="issueDate" name="issueDate" lay-verify="required"
                                    placeholder="请选择日期" class="layui-input">
                         </div>
                     </div>
@@ -223,7 +327,7 @@
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >延迟时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="delayDate" name="openTime" lay-verify="required"
+                            <input type="text" id="delayDate" name="delayDate" lay-verify="required"
                                    placeholder="请选择日期" class="layui-input">
                         </div>
                     </div>
@@ -238,14 +342,13 @@
 
                 </div>
 
-
-                    <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" >交易所</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="exchange" lay-verify="required"
-                                   autocomplete="off" placeholder="请输入交易所" class="layui-input">
-                        </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >交易所</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="exchange" lay-verify="required"
+                               autocomplete="off" placeholder="请输入交易所" class="layui-input">
                     </div>
+                </div>
 
             </div>
             <div class="layui-form-item" style="text-align: center;">
@@ -265,6 +368,81 @@
     </form>
 </div>
 
+
+<!--添加div的内容-->
+<div id="addContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="addform" lay-filter="addform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <div class="layui-row">
+            <div class="layui-col-xs6">
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >证券ID</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="securitiesId" lay-verify="required"
+                               autocomplete="off" placeholder="请输入证券ID" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >证券名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="securitiesName" lay-verify="required"
+                               autocomplete="off" placeholder="请输入证券名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >发行时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="issueDate" lay-verify="required"
+                               placeholder="请选择日期" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >延迟时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="delayDate" lay-verify="required"
+                               placeholder="请选择日期" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >板块ID</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="stockId" lay-verify="required"
+                               autocomplete="off" placeholder="请输入板块ID" class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green" >交易所</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="exchange" lay-verify="required"
+                           autocomplete="off" placeholder="请输入交易所" class="layui-input">
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <div class="layui-input-inline">
+                <textarea name="securitiesDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 15px; left: 39%;">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>添加
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

@@ -3,11 +3,11 @@ package com.yidu.businessData.service.impl;
 import com.yidu.businessData.mapper.TransactionDataMapper;
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
-import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *交易数据表
@@ -24,7 +24,8 @@ public class TransactionDataImpl implements TransactionDataService {
     @Override
     public HashMap selectTransactionData(int page,int limit) {
         HashMap tranMap = new HashMap();
-        tranMap.put("p_tableName", SysTableNameListUtil.TD);
+        String transactionData=" (select * from transactionData tr join securities se on tr.securitiesId=se.securitiesId join account ac on tr.accountId=ac.accountId join seate se on tr.seateId=se.seateId join brokers br on tr.brokersId=br.brokersId join fund f on tr.fundId = f.fundId) ";
+        tranMap.put("p_tableName", transactionData);
         tranMap.put("p_condition","");
         tranMap.put("p_pageSize",limit);
         tranMap.put("p_page",page);
@@ -36,6 +37,7 @@ public class TransactionDataImpl implements TransactionDataService {
 
     @Override
     public int insertTransactionData(TransactionData transactionData) {
+        System.out.println(transactionData);
         return transactionDataMapper.insertTransactionData(transactionData);
     }
 

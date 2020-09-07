@@ -42,5 +42,5 @@ public interface BrokersService {
      * 查询
      * @return
      */
-    public HashMap brokersSelect(int page, int limit, String selectBrokersName);
+    public HashMap brokersSelect(int page, int limit, String brokersName);
 }

@@ -3,7 +3,9 @@ package com.yidu.businessParameter.controller;
 import com.yidu.businessParameter.pojo.SecuritiesPojo;
 import com.yidu.businessParameter.service.SecuritiesService;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -23,17 +25,17 @@ public class SecuritiesController {
     SecuritiesService securitiesService;
 
     //添加
-/*    @RequestMapping(value = "/insertSecurities",method = {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = "/insertSecurities",method = {RequestMethod.GET,RequestMethod.POST})
     public int insertSecurities(@ModelAttribute SecuritiesPojo securitiesPojo){
         int i = securitiesService.insertSecurities(securitiesPojo);
         return i;
-    }*/
+    }
 
-    @RequestMapping("/insertSecurities")
+  /*  @RequestMapping("/insertSecurities")
     public void insertSecurities(){
         SecuritiesPojo securitiesPojo=new SecuritiesPojo("600990","天美集团",1,"20200822","20200823","003",1,"好汽油石化造");
         securitiesService.insertSecurities(securitiesPojo);
-    }
+    }*/
 
     //修改
     @RequestMapping("/updateSecurities")
@@ -54,8 +56,8 @@ public class SecuritiesController {
     }*/
 
     @RequestMapping("/deleteSecurities")
-    public void deleteSecurities(String securitiesId){
-        securitiesService.deleteSecurities(securitiesId);
+    public int deleteSecurities(String securitiesId){
+        return securitiesService.deleteSecurities(securitiesId);
     }
 
     //查询

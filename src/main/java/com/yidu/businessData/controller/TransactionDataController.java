@@ -2,6 +2,8 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
+import com.yidu.util.DbUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,9 @@ import java.util.List;
 public class TransactionDataController {
     @Resource
     TransactionDataService transactionDataService;
+
+    @Resource
+    DbUtil dbUtil;
     @RequestMapping("/selectTransactionData")
     public HashMap selectTransactionData(int page,int limit){
         HashMap hashMap = transactionDataService.selectTransactionData(page, limit);
@@ -38,6 +43,10 @@ public class TransactionDataController {
     }
     @RequestMapping("/insertTransactionData")
     public int insertTransactionData(TransactionData transactionData){
+        String s = dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD);
+        transactionData.setTransactionDataId(s);
+
+        System.out.println(transactionData);
        return transactionDataService.insertTransactionData(transactionData);
     }
 
