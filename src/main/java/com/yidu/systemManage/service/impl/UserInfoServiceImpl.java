@@ -6,6 +6,7 @@ import com.yidu.systemManage.service.UserInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,8 +26,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public int deleteUser(int userId) {
-        return userInfoMapper.deleteUser(userId);
+    public int deleteUser(String userId) {
+        String[] split = userId.split(",");
+        List<String>userInfoList=new ArrayList<String>();
+        for (String id:split) {
+            userInfoList.add(id);
+        }
+        return userInfoMapper.deleteUser(userInfoList);
     }
 
     @Override

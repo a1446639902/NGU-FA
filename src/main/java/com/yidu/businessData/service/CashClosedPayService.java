@@ -19,5 +19,5 @@ public interface CashClosedPayService {
     int insertCashClosedPay(CashClosedPayPojo cashClosePay);
     int deleteCashClosedPay(String cashClosedPayId);
     int updateCashClosedPay(CashClosedPayPojo cashClosePay);
-    Map<String,Object> selectCashClosedPay(String pageSize, String page);
+    Map<String,Object> selectCashClosedPay(String pageSize, String page,String dateTime,String serviceType);
 }

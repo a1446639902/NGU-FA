@@ -7,17 +7,17 @@ package com.yidu.systemManage.pojo;
  * @version 1.1
  */
 public class UserInfoPojo {
-    private int userId;
+    private String userId;
     private String userName;
     private String userPwd;
-    private String roleId;
+    private int roleId;
     private int status;
     private String userInfoDesc;
 
     public UserInfoPojo() {
     }
 
-    public UserInfoPojo(int userId, String userName, String userPwd, String roleId, int status, String userInfoDesc) {
+    public UserInfoPojo(String userId, String userName, String userPwd, int roleId, int status, String userInfoDesc) {
         this.userId = userId;
         this.userName = userName;
         this.userPwd = userPwd;
@@ -26,11 +26,11 @@ public class UserInfoPojo {
         this.userInfoDesc = userInfoDesc;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -50,11 +50,11 @@ public class UserInfoPojo {
         this.userPwd = userPwd;
     }
 
-    public String getRoleId() {
+    public int getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 
@@ -77,10 +77,10 @@ public class UserInfoPojo {
     @Override
     public String toString() {
         return "UserInfoPojo{" +
-                "userId=" + userId +
+                "userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", userPwd='" + userPwd + '\'' +
-                ", roleId='" + roleId + '\'' +
+                ", roleId=" + roleId +
                 ", status=" + status +
                 ", userInfoDesc='" + userInfoDesc + '\'' +
                 '}';

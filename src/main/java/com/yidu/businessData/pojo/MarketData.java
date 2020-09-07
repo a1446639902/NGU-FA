@@ -1,11 +1,13 @@
 package com.yidu.businessData.pojo;
 
 /*
-  @type:实体类
+  @type:行情数据实体类
  *@author wufeiyun
- * time 2020-9-4 15:36
+ * time 2020-9-7 15:36
   version 1.0
  * */
+
+import com.yidu.businessParameter.pojo.SecuritiesPojo;
 
 public class MarketData {
 private String marketId;  //行情ID
@@ -14,7 +16,7 @@ private String dateTime;  //录入证券的日期
 private double openPrice;
 private double closingPrice;
 private String marketDesc;  //行情数据的其他信息
-
+private SecuritiesPojo securitiesPojo;
     public MarketData() {
     }
 
@@ -65,6 +67,14 @@ private String marketDesc;  //行情数据的其他信息
 
     public void setSecuritiesId(String securitiesName) {
         this.securitiesId = securitiesName;
+    }
+
+    public SecuritiesPojo getSecuritiesPojo() {
+        return securitiesPojo;
+    }
+
+    public void setSecuritiesPojo(SecuritiesPojo securitiesPojo) {
+        this.securitiesPojo = securitiesPojo;
     }
 
     public MarketData(String marketId, String securitiesId, String dateTime, double openPrice, double closingPrice, String marketDesc) {

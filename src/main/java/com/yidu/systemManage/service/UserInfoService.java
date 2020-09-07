@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public interface UserInfoService {
     public int insertUser(UserInfoPojo userInfoPojo);
-    public int deleteUser(int userId);
+    public int deleteUser(String userId);
     public int updateUser(UserInfoPojo userInfoPojo);
     public HashMap selectUser();
 }

@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
@@ -59,6 +60,18 @@
         var layer = layui.layer;
         var laydate=layui.laydate;
         var $ = layui.$;
+        laydate.render({
+            elem:'#addopen'
+        });
+        laydate.render({
+            elem:'#addend'
+        });
+        laydate.render({
+            elem:'#addopen2'
+        });
+        laydate.render({
+            elem:'#addend2'
+        });
 
         //第一个实例
         //查询
@@ -71,13 +84,7 @@
             , cols: [
                 [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    , {
-                    field: 'securitiesId',
-                    title: '证券ID',
-                    width: 110,
-                    sort: true,
-                    fixed: 'left'
-                }
+                    , {field: 'securitiesId', title: '证券ID', width: 110, sort: true}
                     , {field: 'securitiesName', title: '证券名称', width: 110}
                     , {field: 'securitiesType', title: '证券类型', width: 110, sort: true}
                     , {field: 'issueDate', title: '发行日期', width: 110}
@@ -115,19 +122,19 @@
                     layer.open({
                         type: 1,
                         title: '新增证券信息',
-                        area: ['893px', '550px'],
+                        area: ['693px', '550px'],
                         content: $("#addContent")
                     });
                     break;
                 //删除多行
                 case "deleteAll":
                     //获得选中的对象
-                    var checkStatus = table.checkStatus("myTable"); //idTest 即为基础参数 id 对应的值
+                    var checkStatus = table.checkStatus("test"); //idTest 即为基础参数 id 对应的值
                     // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                    var accountIds = [];
+                    var securitiesIds = [];
                     var dataArr = checkStatus.data; //获取选中行的数据
                     $.each(dataArr, function (i, n) {
-                        accountIds.push(n.accountId);
+                        securitiesIds.push(n.securitiesId);
                     });
                     if (dataArr.length == 0) {
                         layer.msg("请先选中数据");
@@ -136,9 +143,9 @@
                         layer.confirm('真的删除行么', function () {
                             layer.close();
                             //向服务端发送删除指令
-                            $.post("../account/deleteAccount", "accountId="+accountIds,function(msg){
+                            $.post("../deleteSecurities", "securitiesId="+securitiesIds,function(msg){
                                 if(msg>0){
-                                    table.reload('myTable');
+                                    table.reload('test');
                                     layer.closeAll();
                                     layer.msg('删除成功',{
                                         title : '提示',
@@ -210,7 +217,7 @@
                 layer.open({
                     type: 1,
                     title: '修改证券信息',
-                    area: ['893px', '600px'],
+                    area: ['693px', '550px'],
                     content: $("#editContent")
                 });
             }
@@ -274,6 +281,9 @@
             return false;//解决弹出层闪退问题
         });
     })
+    function myclose() {
+        layer.closeAll();
+    }
 </script>
 </div>
 </div>
@@ -301,10 +311,10 @@
                 <div class="layui-col-xs6">
 
                     <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" >证券名称</label>
+                        <label class="layui-form-label layui-bg-green" >证券ID</label>
                         <div class="layui-input-inline">
                             <input type="text" name="securitiesId" lay-verify="required"
-                                   autocomplete="off" placeholder="请输入证券名称" class="layui-input">
+                                   autocomplete="off" placeholder="请输入证券ID" class="layui-input">
                         </div>
                     </div>
 
@@ -317,17 +327,31 @@
                     </div>
 
                     <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" >发行时间</label>
+                        <label class="layui-form-label layui-bg-green" >证券类型</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="issueDate" name="issueDate" lay-verify="required"
-                                   placeholder="请选择日期" class="layui-input">
+                            <select  name="securitiesType">
+                                <option value="">请选择</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+
+                            </select>
                         </div>
                     </div>
 
                     <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >发行时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="addopen" name="issueDate" lay-verify="required"
+                                   placeholder="请选择日期" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >延迟时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="delayDate" name="delayDate" lay-verify="required"
+                            <input type="text" id="addend" name="delayDate" lay-verify="required"
                                    placeholder="请选择日期" class="layui-input">
                         </div>
                     </div>
@@ -335,21 +359,28 @@
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >板块ID</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="stockId" lay-verify="required"
-                                   autocomplete="off" placeholder="请输入板块ID" class="layui-input">
+                            <select  name="stockId">
+                                <option value="">请选择</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
                         </div>
                     </div>
 
-                </div>
 
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green" >交易所</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="exchange" lay-verify="required"
-                               autocomplete="off" placeholder="请输入交易所" class="layui-input">
+
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" >交易所</label>
+                        <div class="layui-input-inline">
+                            <select  name="exchange">
+                                <option value="">请选择</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+
+                            </select>
+                        </div>
                     </div>
                 </div>
-
             </div>
             <div class="layui-form-item" style="text-align: center;">
                 <div class="layui-input-inline">
@@ -357,11 +388,11 @@
                 </div>
             </div>
         </div>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 50px; left: 40%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>修改
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>
@@ -392,18 +423,33 @@
                                autocomplete="off" placeholder="请输入证券名称" class="layui-input">
                     </div>
                 </div>
+
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >证券类型</label>
+                    <div class="layui-input-inline">
+                        <select  name="securitiesType">
+                            <option value="">请选择</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+
+                        </select>
+                    </div>
+                </div>
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >发行时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="issueDate" lay-verify="required"
+                        <input type="text" id="addopen2" name="issueDate" lay-verify="required"
                                placeholder="请选择日期" class="layui-input">
                     </div>
                 </div>
+            </div>
+
+            <div class="layui-col-xs6">
 
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >延迟时间</label>
                     <div class="layui-input-inline">
-                        <input type="text"  name="delayDate" lay-verify="required"
+                        <input type="text" id="addend2" name="delayDate" lay-verify="required"
                                placeholder="请选择日期" class="layui-input">
                     </div>
                 </div>
@@ -411,38 +457,42 @@
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >板块ID</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="stockId" lay-verify="required"
-                               autocomplete="off" placeholder="请输入板块ID" class="layui-input">
+                        <select  name="stockId">
+                            <option value="">请选择</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >交易所</label>
+                    <div class="layui-input-inline">
+                        <select  name="exchange">
+                            <option value="">请选择</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+
+                        </select>
                     </div>
                 </div>
 
             </div>
-
-
             <div class="layui-form-item" style="text-align: center;">
-                <label class="layui-form-label layui-bg-green" >交易所</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="exchange" lay-verify="required"
-                           autocomplete="off" placeholder="请输入交易所" class="layui-input">
+                    <textarea name="securitiesDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
                 </div>
             </div>
-
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <div class="layui-input-inline">
-                <textarea name="securitiesDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
+            <div style="position: absolute; bottom: 15px; left: 40%;">
+                <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                    <i class="layui-icon">&#x1005;</i>添加
+                </button>
+                <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                    <i class="layui-icon">&#x1006;</i>取消
+                </button>
             </div>
-        </div>
-        <div style="position: absolute; bottom: 15px; left: 39%;">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
-                <i class="layui-icon">&#x1005;</i>添加
-            </button>
-            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
-                <i class="layui-icon">&#x1006;</i>取消
-            </button>
         </div>
     </form>
 </div>
-
 </body>
 </html>
