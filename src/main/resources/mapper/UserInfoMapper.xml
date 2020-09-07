@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.systemManage.mapper.UserInfoMapper">
     <resultMap id="userMap" type="com.yidu.systemManage.pojo.UserInfoPojo">
-        <result property="userId" column="userId" javaType="Integer"></result>
+        <result property="userId" column="userId" javaType="String"></result>
         <result property="userName" column="userName" javaType="String"></result>
         <result property="userPwd" column="userPwd" javaType="String"></result>
-        <result property="roleId" column="roleId" javaType="String"></result>
+        <result property="roleId" column="roleId" javaType="Integer"></result>
         <result property="status" column="status" javaType="Integer"></result>
         <result property="userInfoDesc" column="userInfoDesc" javaType="String"></result>
     </resultMap>
@@ -24,7 +24,15 @@
                 update UserInfo set userName=#{userName},userPwd=#{userPwd},roleId=#{roleId},status=#{status},userInfoDesc=#{userInfoDesc} where userId=#{userId}
         </update>
 
-    <delete id="deleteUser" parameterType="com.yidu.systemManage.pojo.UserInfoPojo">
-                delete from userInfo where userId=#{userId}
+    <delete id="deleteUser" parameterType="list">
+        delete from userInfo where userId in
+        <foreach collection="list" item="userId" open="("
+                 separator="," close=")">
+            #{userId}
+        </foreach>
     </delete>
+
+    <insert id="insertUser" parameterType="com.yidu.systemManage.pojo.UserInfoPojo">
+      insert into userInfo values(#{userId},#{userName},#{userPwd},#{roleId},#{status},#{userInfoDesc})
+  </insert>
 </mapper>
