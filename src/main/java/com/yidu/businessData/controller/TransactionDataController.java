@@ -3,11 +3,13 @@ package com.yidu.businessData.controller;
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
 import com.yidu.util.DbUtil;
+import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,20 +41,23 @@ public class TransactionDataController {
         tranMap.put("code",0);
         tranMap.put("msg","");
         tranMap.put("data",transactionDataList);
+        System.out.println("shuju"+transactionDataList);
         System.out.println("基金大小"+transactionDataList.size());
         return tranMap;
     }
     @RequestMapping("/insertTransactionData")
-    public int insertTransactionData(TransactionData transactionData){
-        String s = dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD);
-        transactionData.setTransactionDataId(s);
+    public int insertTransactionData(TransactionData transactionData, HttpServletRequest request){
+        transactionData.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));
+        transactionData.setFundId(GetFundIdUtil.getFundId(request));
+
+
 
         System.out.println(transactionData);
        return transactionDataService.insertTransactionData(transactionData);
     }
 
     @RequestMapping("/deleteTransactionData")
-    public int deleteTransactionData(int transactionDataId){
+    public int deleteTransactionData(String transactionDataId){
         return transactionDataService.deleteTransactionData(transactionDataId);
     }
 
