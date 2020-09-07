@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>收益支付页面</title>
+    <title>交易结算设置</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -45,14 +45,18 @@
                 minLength:80,
                 cols: [
                     [ //表头
-                    {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'businessDate', title: '账户名称', width:210, align:'center'}
-                    ,{field: 'crcsId', title: '存款类型', width: 210, align:'center'}
-                    ,{field: 'cashAccountName', title: '业务类型', width:210, align:'center'}
-                    ,{field: 'fundId', title: '首付金额', width: 210, align:'center'}
-                    ,{field: 'fundName', title: '流入流出', width:210, align:'center'}
-                    ,{field: 'fundName', title: '导入数据', width:210, align:'center'}
-                    ,{field: 'fundName', title: '业务时间', width:210, align:'center'}
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'equityId', title: '证券名称', width:130, align:'center'}
+                        ,{field: 'securityName', title: '券商名称', width: 130, align:'center'}
+                        ,{field: 'cashAccountName', title: '现金账户', width:130, align:'center'}
+                        ,{field: 'equitiesType', title: '交易单价', width: 130, align:'center'}
+                        ,{field: 'equitiesExright', title: '交易数量', width:130, align:'center'}
+                        ,{field: 'securityNum', title: '交易金额', width:130, align:'center'}
+                        ,{field: 'proportion', title: '实收金额', width:130, align:'center'}
+                        ,{field: 'settlementAmount', title: '交易类型', width:130, align:'center'}
+                        ,{field: 'securityNum', title: '交易日期', width:130, align:'center'}
+                        ,{field: 'proportion', title: '结算日期', width:130, align:'center'}
+                        ,{field: 'settlementAmount', title: '交易状态', width:130, align:'center'}
                 ]
                 ]
             });
@@ -62,32 +66,20 @@
                 page: true,
                 height: 498,
                 minLength:80,
-                cols: [[ //表头
-                    {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'businessDate', title: '账户名称', width:210, align:'center'}
-                    ,{field: 'crcsId', title: '证券名称', width: 210, align:'center'}
-                    ,{field: 'cashAccountName', title: '业务类型', width:210, align:'center'}
-                    ,{field: 'fundId', title: '流入流出', width: 210, align:'center'}
-                    ,{field: 'fundName', title: '业务时间', width:210, align:'center'}
-                    ,{field: 'fundId', title: '总金额', width: 210, align:'center'}
-                    ,{field: 'fundName', title: '出去标志', width:210, align:'center'}
-                ]]
-            });
-            table.render({
-                elem: '#userTable3',
-                url: './selectUser',
-                page: true,
-                height: 498,
-                minLength:80,
                 cols: [
                     [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'businessDate', title: '账户名称', width:210, align:'center'}
-                    ,{field: 'crcsId', title: '业务类型', width: 210, align:'center'}
-                    ,{field: 'cashAccountName', title: '收支金额', width:210, align:'center'}
-                    ,{field: 'fundId', title: '流入流出', width: 210, align:'center'}
-                    ,{field: 'fundName', title: '导入数据', width:210, align:'center'}
-                    ,{field: 'fundName', title: '业务时间', width:210, align:'center'}
+                    ,{field: 'equityId', title: '证券名称', width:130, align:'center'}
+                    ,{field: 'securityName', title: '券商名称', width: 130, align:'center'}
+                    ,{field: 'cashAccountName', title: '现金账户', width:130, align:'center'}
+                    ,{field: 'equitiesType', title: '交易单价', width: 130, align:'center'}
+                    ,{field: 'equitiesExright', title: '交易数量', width:130, align:'center'}
+                    ,{field: 'securityNum', title: '交易金额', width:130, align:'center'}
+                    ,{field: 'proportion', title: '实收金额', width:130, align:'center'}
+                    ,{field: 'settlementAmount', title: '交易类型', width:130, align:'center'}
+                    ,{field: 'securityNum', title: '交易日期', width:130, align:'center'}
+                    ,{field: 'proportion', title: '结算日期', width:130, align:'center'}
+                    ,{field: 'settlementAmount', title: '交易状态', width:130, align:'center'}
                 ]
                 ]
             });
@@ -99,17 +91,29 @@
 <div style="margin-top: 20px;margin-left: 10px">
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="businessDate" id="start">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易方式</label>
 
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="businessDate" id="start">
+                    <select name="cateid">
+                        <option>请选择</option>
+                        <option>申购</option>
+                        <option>赎回</option>
+                        <option>分红</option>
+                        <option>送股</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon layui-icon-table"></i>统计</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="sreach">结算</button>
             </div>
         </form>
 
@@ -117,10 +121,9 @@
 </div>
 
 <div class="layui-tab" lay-filter="test">
-    <ul class="layui-tab-title">
-        <li class="layui-this" lay-id="11">现金利息收入</li>
-        <li lay-id="22">债券利息收入</li>
-        <li lay-id="33">支付两费</li>
+    <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <li class="layui-this" lay-id="1">未结算</li>
+        <li lay-id="2">已结算</li>
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
@@ -129,9 +132,6 @@
         </div>
         <div class="layui-tab-item">
             <table id="userTable2" lay-filter="userTable"></table>
-        </div>
-        <div class="layui-tab-item">
-            <table id="userTable3" lay-filter="userTable"></table>
         </div>
     </div>
 </div>

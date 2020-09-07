@@ -1,18 +1,16 @@
-package com.yidu.inventoryManage.mapper;
+package com.yidu.inventoryManage.service;
 
 import com.yidu.inventoryManage.pojo.SecuritiesInventory;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 /*
-  @type:证券库存mapper层
+  @type:证券库存dao层
  *@author wufeiyun
  * time 2020-9-7 15:36
   version 1.0
  * */
-@Mapper
-public interface SecuritiesInventoryMapper {
-    public void selectSecuritiesInventory(HashMap hashMap);
+public interface SecuritiesInventoryService {
+    public HashMap selectSecuritiesInventory(int page,int limit,String sreachTime,String sreachId);
     public int updateSecuritiesInventory(SecuritiesInventory securitiesInventory);
     public int deleteSecuritiesInventory(int securitiesInventoryId);
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory);

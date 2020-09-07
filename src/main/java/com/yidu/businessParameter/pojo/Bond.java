@@ -6,32 +6,19 @@ package com.yidu.businessParameter.pojo;
  *  @date 2020/9/01
  *  @version 版本1.0
  */
-public class BondPojo {
-    private String securitiesId ; //来自证券信息表
-    private String bondName;  //债券名称
-    private String drawStartDate;//计息起始日期
-    private String drawEndDate;//计息结束日期
-    private double bondType;//债券类型  1=银行间  0=非银行间
-    private double parRate;//票面利率
-    private double bondRate;//债券利息
-    private String bondRateAmount;//票面金额
-    private double payInterestNum;//付息次数  1=1年一次  2=1年俩次 3=1年四次
-    private String desc;//备注
+public class Bond {
+    private String securitiesId;        //PK ,FK证券编号  来自证券信息表
+    private String bondName;            //债券名称
+    private String drawStartDate;       //计息起始日期
+    private String drawEndDate;         //计息结束日期
+    private int    bondType;            //债券类型  1=银行间  0=非银行间
+    private double parRate;             //票面利率
+    private double bondRate;            //债券利息
+    private String bondRateAmount;      //票面金额
+    private int    payInterestNum ;      //付息次数  1=1年一次  2=1年俩次 3=1年四次
+    private String bondDesc;             //备注
 
-    /**
-     * 带参构造方法
-     * @param securitiesId  //来自证券信息表
-     * @param bondName  //债券名称
-     * @param drawStartDate//计息起始日期
-     * @param drawEndDate//计息结束日期
-     * @param bondType//债券类型  1=银行间  0=非银行间
-     * @param parRate//票面利率
-     * @param bondRate//债券利息
-     * @param bondRateAmount //票面金额
-     * @param payInterestNum//付息次数  1=1年一次  2=1年俩次 3=1年四次
-     * @param desc  //备注
-     */
-    public BondPojo(String securitiesId, String bondName, String drawStartDate, String drawEndDate, double bondType, double parRate, double bondRate, String bondRateAmount, double payInterestNum, String desc) {
+    public Bond(String securitiesId, String bondName, String drawStartDate, String drawEndDate, int bondType, double parRate, double bondRate, String bondRateAmount, int payInterestNum, String bondDesc) {
         this.securitiesId = securitiesId;
         this.bondName = bondName;
         this.drawStartDate = drawStartDate;
@@ -41,20 +28,10 @@ public class BondPojo {
         this.bondRate = bondRate;
         this.bondRateAmount = bondRateAmount;
         this.payInterestNum = payInterestNum;
-        this.desc = desc;
+        this.bondDesc = bondDesc;
     }
 
-    /**
-     * 默认构造方法
-     */
-    public BondPojo() {
-    }
-
-    /**
-     * SET/GET方法
-     * @return
-     */
-
+    public  Bond(){}
 
     public String getSecuritiesId() {
         return securitiesId;
@@ -88,11 +65,11 @@ public class BondPojo {
         this.drawEndDate = drawEndDate;
     }
 
-    public double getBondType() {
+    public int getBondType() {
         return bondType;
     }
 
-    public void setBondType(double bondType) {
+    public void setBondType(int bondType) {
         this.bondType = bondType;
     }
 
@@ -120,26 +97,25 @@ public class BondPojo {
         this.bondRateAmount = bondRateAmount;
     }
 
-    public double getPayInterestNum() {
+    public int getPayInterestNum() {
         return payInterestNum;
     }
 
-    public void setPayInterestNum(double payInterestNum) {
+    public void setPayInterestNum(int payInterestNum) {
         this.payInterestNum = payInterestNum;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getBondDesc() {
+        return bondDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setBondDesc(String bondDesc) {
+        this.bondDesc = bondDesc;
     }
-
 
     @Override
     public String toString() {
-        return "BondPojo{" +
+        return "Bond{" +
                 "securitiesId='" + securitiesId + '\'' +
                 ", bondName='" + bondName + '\'' +
                 ", drawStartDate='" + drawStartDate + '\'' +
@@ -149,7 +125,7 @@ public class BondPojo {
                 ", bondRate=" + bondRate +
                 ", bondRateAmount='" + bondRateAmount + '\'' +
                 ", payInterestNum=" + payInterestNum +
-                ", desc='" + desc + '\'' +
+                ", bondDesc='" + bondDesc + '\'' +
                 '}';
     }
 }

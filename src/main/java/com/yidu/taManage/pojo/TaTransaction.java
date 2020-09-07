@@ -6,54 +6,23 @@ package com.yidu.taManage.pojo;
  *  @date 2020/09/01
  *  版本 1.0
  */
-public class TaTransactionPojo {
-    private String taTransactionId;//PK , 交易数据编号 TA202008310001
-    private String dateTime;//交易日期
-    private String balanceDate;//结算日期
-    private String fundId;//FK 基金Id来自基金表
-    private double fundNum;//交易数量
-    private String accountId;//FK 来自现金账户表 现金账户Id
-    private double totalMoney;//总金额
-    private double actualMoney;//实际交易金额
-    private double price;//单价(昨日单位净值)
-    private double cost;//费用
-    private double agencies;//代销机构1=建设银行  2=工商银行  3=农业银行
-    private double transactionType;//1认购 2申购 3赎回
-    private double transactionStatus;//1结算 0未结算
 
-    /**
-     * 带参构造方法
-     * @param taTransactionId //PK , 交易数据编号 TA202008310001
-     * @param dateTime  //交易日期
-     * @param balanceDate   //结算日期
-     * @param fundId    //FK 基金Id来自基金表
-     * @param fundNum   //交易数量
-     * @param accountId //FK 来自现金账户表 现金账户Id
-     * @param totalMoney    //总金额
-     * @param actualMoney   //实际交易金额
-     * @param price //单价(昨日单位净值)
-     * @param cost  //费用
-     * @param agencies  //代销机构1=建设银行  2=工商银行  3=农业银行
-     * @param transactionType   //1认购 2申购 3赎回
-     * @param transactionStatus//1结算 0未结算
-     */
-    public TaTransactionPojo(String taTransactionId, String dateTime, String balanceDate, String fundId, double fundNum, String accountId, double totalMoney, double actualMoney, double price, double cost, double agencies, double transactionType, double transactionStatus) {
-        this.taTransactionId = taTransactionId;
-        this.dateTime = dateTime;
-        this.balanceDate = balanceDate;
-        this.fundId = fundId;
-        this.fundNum = fundNum;
-        this.accountId = accountId;
-        this.totalMoney = totalMoney;
-        this.actualMoney = actualMoney;
-        this.price = price;
-        this.cost = cost;
-        this.agencies = agencies;
-        this.transactionType = transactionType;
-        this.transactionStatus = transactionStatus;
-    }
-    public TaTransactionPojo() {
-    }
+public class TaTransaction {
+    private String taTransactionId;      //PK , 交易数据编号 TA202008310001
+    private String dateTime;           //交易日期
+    private String balanceDate;        //结算日期
+    private String fundId;             //FK 基金Id来自基金表
+    private double fundNum;            //交易数量
+    private String accountId;          //FK 来自现金账户表 现金账户Id
+    private double totalMoney;         //总金额
+    private double actualMoney;        //实际交易金额
+    private double price;              //单价(昨日单位净值)
+    private double cost;               //费用
+    private int    agencies;           //代销机构1=建设银行  2=工商银行  3=农业银行
+    private int    transactionType;    //1认购 2申购 3赎回
+    private int    transactionStatus;  //1结算 0未结算
+
+    public TaTransaction(){}
 
     public String getTaTransactionId() {
         return taTransactionId;
@@ -135,33 +104,33 @@ public class TaTransactionPojo {
         this.cost = cost;
     }
 
-    public double getAgencies() {
+    public int getAgencies() {
         return agencies;
     }
 
-    public void setAgencies(double agencies) {
+    public void setAgencies(int agencies) {
         this.agencies = agencies;
     }
 
-    public double getTransactionType() {
+    public int getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(double transactionType) {
+    public void setTransactionType(int transactionType) {
         this.transactionType = transactionType;
     }
 
-    public double getTransactionStatus() {
+    public int getTransactionStatus() {
         return transactionStatus;
     }
 
-    public void setTransactionStatus(double transactionStatus) {
+    public void setTransactionStatus(int transactionStatus) {
         this.transactionStatus = transactionStatus;
     }
 
     @Override
     public String toString() {
-        return "TaTransactionPojo{" +
+        return "TaTransaction{" +
                 "taTransactionId='" + taTransactionId + '\'' +
                 ", dateTime='" + dateTime + '\'' +
                 ", balanceDate='" + balanceDate + '\'' +

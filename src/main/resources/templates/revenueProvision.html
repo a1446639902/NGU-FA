@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>收益计提页面</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <link rel="stylesheet" href="../css/theme9.css">
+    <script src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]-->
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <script src="../lib/layui/layui.js"></script>
+
+    <script type="text/javascript">
+
+        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var $ = layui.$;
+            var table = layui.table;
+            var form = layui.form;
+            var formSelects = layui.formSelects;
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定元素
+
+            });
+            table.render({
+                elem: '#userTable',
+                url: '/account/selectAccount',
+                page: true,
+                height: 498,
+                minLength:80,
+                cols: [
+                    [ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'blankName', title: '银行名称', width:210, align:'center'}
+                    ,{field: 'accountName', title: '账户名字', width: 210, align:'center'}
+                    ,{field: 'cashAccountName', title: '卡号余额(元)', width:210, align:'center'}
+                    ,{field: 'deposit', title: '存款类型', width: 210, align:'center'}
+                    ,{field: 'cardRate', title: '年利率(%)', width:210, align:'center'}
+                    ,{field: 'fundName', title: '业务日期', width:210, align:'center'}
+                    ,{field: 'fundName', title: '计息期间', width:210, align:'center'}
+                    ,{field: 'fundName', title: '利息(元)', width:210, align:'center'}
+                ]
+                ]
+            });
+            table.render({
+                elem: '#userTable2',
+                url: './selectUser',
+                page: true,
+                height: 498,
+                minLength:80,
+                cols: [
+                    [ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'businessDate', title: '账户名称', width:210, align:'center'}
+                    ,{field: 'crcsId', title: '证券名称', width: 210, align:'center'}
+                    ,{field: 'cashAccountName', title: '业务类型', width:210, align:'center'}
+                    ,{field: 'fundId', title: '流入流出', width: 210, align:'center'}
+                    ,{field: 'fundName', title: '业务时间', width:210, align:'center'}
+                    ,{field: 'fundId', title: '总金额', width: 210, align:'center'}
+                    ,{field: 'fundName', title: '出去标志', width:210, align:'center'}
+                ]
+                ]
+            });
+            table.render({
+                elem: '#userTable3',
+                url: './selectUser',
+                page: true,
+                height: 498,
+                minLength:80,
+                cols: [
+                    [ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'businessDate', title: '账户名称', width:210, align:'center'}
+                    ,{field: 'crcsId', title: '业务类型', width: 210, align:'center'}
+                    ,{field: 'cashAccountName', title: '收支金额', width:210, align:'center'}
+                    ,{field: 'fundId', title: '流入流出', width: 210, align:'center'}
+                    ,{field: 'fundName', title: '导入数据', width:210, align:'center'}
+                    ,{field: 'fundName', title: '业务时间', width:210, align:'center'}
+                ]
+                ]
+            });
+            });
+</script>
+</head>
+<body>
+
+<div style="margin-top: 20px;margin-left: 10px">
+        <form class="layui-form layui-col-space5">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
+
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="businessDate" id="start">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon layui-icon-table"></i>统计</button>
+            </div>
+        </form>
+
+
+</div>
+
+<div class="layui-tab" lay-filter="test">
+    <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="11">现金利息收入</li>
+        <li lay-id="22">债券利息收入</li>
+        <li lay-id="33">支付两费</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <!--表格-->
+            <table id="userTable" lay-filter="userTable"></table>
+        </div>
+        <div class="layui-tab-item">
+            <table id="userTable2" lay-filter="userTable"></table>
+        </div>
+        <div class="layui-tab-item">
+            <table id="userTable3" lay-filter="userTable"></table>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    layui.use('element', function(){
+        var $ = layui.jquery
+            ,element = layui.element;
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#test=/, '');
+        element.tabChange('test', layid);
+
+        element.on('tab(test)', function(elem){
+            location.hash = 'test='+ $(this).attr('lay-id');
+        });
+
+    });
+</script>
+</body>
+</html>

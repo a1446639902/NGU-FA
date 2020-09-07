@@ -33,14 +33,7 @@
         <result property="seateName" column="seateName" javaType="String"></result>
         <result property="blankName" column="blankName" javaType="String"></result>
     </resultMap>
-       <!--
-        accountId  //现金账户
-        securitiesName    //证券名称
-        fundName;        //基金名称
-        brokersName;                  //券商名称
-        seateName;                //席位名称
-        blankName;                 //银行名称
-        EQUITYDATAID;                 //权益编号-->
+
     <select id="selectTransactionData" parameterType="map" statementType="CALLABLE">
          {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=transactionDataMapper})}
     </select>
@@ -51,7 +44,7 @@
     </insert>
 
 
-    <delete id="deleteTransactionData" parameterType="int">
+    <delete id="deleteTransactionData" parameterType="String">
          delete from transactionData where transactionDataId=#{transactionDataId}
     </delete>
 
