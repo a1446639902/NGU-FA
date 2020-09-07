@@ -19,7 +19,7 @@ import java.util.Map;
 public class UserController {
     @Resource
     UserService userService;
-    @RequestMapping("selectUser")
+ /*   @RequestMapping("selectUser")
     public Map<String,Object> selectUser(String page, String limit){
         Map<String,Object> map = new HashMap<>();
         Map<String, Object> resultMap = userService.selectUser(page, limit);
@@ -40,23 +40,39 @@ public class UserController {
     public void insertUser(UserInfo userInfo){
 
         userService.insertUser(new UserInfo());
-    }
-
+    }*/
+    //验证登录
     @RequestMapping("checkLogin")
     public Map<String,Object> checkLogin(String userName, String userPwd, String fundId, HttpServletRequest request){
         System.out.println("userName="+userName+",userPwd="+userPwd+",fundId="+fundId);
         Map<String, Object> map = new HashMap<>();
+        Map<String, String> map2 = new HashMap<>();
+        map2.put("userName",userName);
+        map2.put("userPwd",userPwd);
         //调用数据库查询是否有该用户
-
-        //先写死 给code赋值 1是登录成功 0是登录失败
-        map.put("code",1);
-        HttpSession session = request.getSession(false);
-        if (session!=null){
-            session=request.getSession();
+        int i = userService.selectUser1(map2);
+        if (i>0){
+            map.put("code",1);
+            HttpSession session = request.getSession(false);
+            if (session!=null){
+                session=request.getSession();
+            }
+            session.setAttribute("userName",userName);
+            session.setAttribute("fundId",fundId);
+        }else {
+            map.put("code", 0);
         }
-        session.setAttribute("userName",userName);
-        session.setAttribute("fundId",fundId);
         return map;
     }
-
+    //退出登录
+    @RequestMapping("logout")
+    public Map<String ,Object> logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        session.removeAttribute("userName");
+        session.removeAttribute("fundId");
+        Map<String, Object> map = new HashMap<>();
+        map.put("code",1);
+        map.put("msg","已退出，3秒后转跳到登录页面！");
+        return map;
+    }
 }

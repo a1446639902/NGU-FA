@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     @Resource
     DbUtil dbUtil;
-    @Override
+  /*  @Override
     public Map<String,Object> selectUser(String page, String limit) {
         int vPage = 0;
         if (page!=null && !page.equals("")){
@@ -46,15 +46,25 @@ public class UserServiceImpl implements UserService {
         resultHashMap.put("userList",userList);
 
         return resultHashMap;
+    }*/
+
+    @Override
+    public Integer selectUser1(Map<String,String> map) {
+        Integer i = userMapper.selectUser1(map);
+        if (i==null){
+            i=0;
+        }
+        System.out.println("i="+i);
+        return i;
     }
 
     @Override
-    public void deleteUser(int userId) {
+    public void deleteUser1(int userId) {
 
     }
 
     @Override
-    public void insertUser(UserInfo userInfo) {
+    public void insertUser1(UserInfo userInfo) {
         String s = dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
         System.out.println(s);
     }

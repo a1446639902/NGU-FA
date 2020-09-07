@@ -6,7 +6,7 @@ import java.util.Map;
 
 
 public interface UserService {
-    Map<String,Object> selectUser(String page, String limit);
-    public void deleteUser(int userId);
-    public void insertUser(UserInfo userInfo);
+    Integer selectUser1(Map<String,String> map);
+    public void deleteUser1(int userId);
+    public void insertUser1(UserInfo userInfo);
 }

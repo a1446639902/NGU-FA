@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="x-admin-sm">
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>NGU后台系统</title>
@@ -56,15 +56,15 @@
     </ul>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">admin</a>
+            <a href="javascript:;"><span th:text="${session.userName}"></span></a>
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
+                <!--<dd>
+                    <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>-->
+                <!--<dd>
+                    <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>-->
                 <dd>
-                    <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
-                <dd>
-                    <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-                <dd>
-                    <a href="login.html">退出</a></dd>
+                    <a class="offLogin" href="login">退出</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item to-index">
@@ -452,13 +452,34 @@
 <style id="theme_style"></style>
 <!-- 右侧主体结束 -->
 <!-- 中部结束 -->
-<script>//百度统计可去掉
+<script>
+    //百度统计可去掉
     var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
-    })();</script>
+    })();
+
+ layui.use(['layer','jquery'],function () {
+        var $ =layui.jquery,
+            layer=layui.layer;
+        $('.offLogin').on('click',function () {
+            $.ajax({
+                url:'../logout',
+                type:'post',
+                success:function (obj) {
+                    if (obj.code===1){
+                        layer.msg(obj.msg);
+                        setTimeout("window.location='./'",3000)
+                    }else {
+                        layer.msg("退出异常！");
+                    }
+                }
+            });
+        });
+ });
+</script>
 </body>
 
 </html>

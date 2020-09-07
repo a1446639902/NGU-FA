@@ -59,10 +59,10 @@ public class BrokersController {
      * @return
      */
     @RequestMapping("/brokersSelect")
-    public HashMap brokersSelect(int page,int limit,String selectBrokersName) {
+    public HashMap brokersSelect(int page,int limit,String brokersName) {
         System.out.println("进来了");
-        System.out.println(page+","+limit+","+selectBrokersName);
-        HashMap hashMap = brokersService.brokersSelect(page,limit,selectBrokersName);
+        System.out.println(page+","+limit+","+brokersName);
+        HashMap hashMap = brokersService.brokersSelect(page,limit,brokersName);
         int count = (int) hashMap.get("p_count");
         List<Brokers> brokersList = (List<Brokers>) hashMap.get("p_cursor");
         HashMap brokersMap = new HashMap();
