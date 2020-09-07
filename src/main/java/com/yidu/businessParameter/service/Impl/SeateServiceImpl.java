@@ -70,15 +70,14 @@ public class SeateServiceImpl implements SeateService {
      * @return
      */
     @Override
-    public HashMap seateSelect(int page, int limit, String selectSeateName) {
-        System.out.println(selectSeateName);
+    public HashMap seateSelect(int page, int limit, String seateName) {
         String sql = "";
-        if (selectSeateName != null) {
-            sql = sql + " and seateName like '''%" + selectSeateName + "%'''";
+        if (seateName != null) {
+            sql = sql + " and seateName like '%" + seateName + "%'";
         }
         System.out.println(sql);
         HashMap seateMap = new HashMap();
-        seateMap.put("p_tableName", "brokers");
+        seateMap.put("p_tableName", "seart");
         seateMap.put("p_condition", sql);
         seateMap.put("p_pageSize", limit);
         seateMap.put("p_page", page);

@@ -62,10 +62,10 @@ public class SeateController {
      * @return
      */
     @RequestMapping("/seateSelect")
-    public HashMap seateSelect(int page, int limit, String selectSeateName) {
+    public HashMap seateSelect(int page, int limit, String seateName) {
         System.out.println("进来了");
-        System.out.println(page+","+limit+","+selectSeateName);
-        HashMap hashMap = seateService.seateSelect(page,limit,selectSeateName);
+        System.out.println(page+","+limit+","+seateName);
+        HashMap hashMap = seateService.seateSelect(page,limit,seateName);
         int count = (int) hashMap.get("p_count");
         List<Seate> seateList = (List<Seate>) hashMap.get("p_cursor");
         HashMap seateMap = new HashMap();

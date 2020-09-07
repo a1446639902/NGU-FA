@@ -18,8 +18,12 @@
 
     <link rel="stylesheet" href="../lib/layui/css/layui.css">
 
+    <link rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layuimini/css/public.css" media="all">
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
-    <script src="../lib/layui/layui.js"></script>
+
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
@@ -55,39 +59,74 @@
 
     <script type="text/javascript">
 
-        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+        layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], function () {
             var layer = layui.layer;
             var $ = layui.$;
             var table = layui.table;
             var form = layui.form;
+            var tableSelect = layui.tableSelect;
             var laydate = layui.laydate;
 
 
             //执行一个laydate实例 日期
             laydate.render({
-                elem: '#date' //指定元素
+                elem: '#date1', //指定元素
             });
-            //执行一个laydate实例
             laydate.render({
-                elem: '#start' //指定元素
+                elem: '#date'
             });
 
-            laydate.render({
-                elem: '#start2'
-            })
 
-            laydate.render({
-                elem: '#equitiesRecord'
-            })
+            //基金管理公司下拉表单
+            tableSelect.render({
+                elem:'#managerName'
+                ,checkedKey:'managerId'
+                ,table:{
+                    url:'../selectSecurities'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'checkbox'},
+                            {field:'securitiesId',title:'管理人Id'},
+                            {field: 'securitiesName',title:'管理人名称'},
+                            {field: 'securitiesType',title: '管理费率'}
 
-            laydate.render({
-                elem: '#equitiesExright'
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    var NEWJSON = []
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.securitiesName)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
             })
+            //基金托管银行公司下拉表单
+            tableSelect.render({
+                elem:'#trusteeName'
+                ,checkedKey:'trusteeId'
+                ,table:{
+                    url:'../selectSecurities'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'checkbox'},
+                            {field:'trusteeId',title:'托管人Id'},
+                            {field: 'trusteeName',title:'托管人名称'},
+                            {field: 'trusteeType',title: '托管费率'}
 
-            laydate.render({
-                elem: '#receivedDate'
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    var NEWJSON = []
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.trusteeName)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
             })
-
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
@@ -303,7 +342,7 @@
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 140px;">  成立日期</label>
             <div class="layui-input-inline" >
-                <input type="text" placeholder="成立日期" name="setUpDate" id="date" style="width: 190px;"  lay-verify="date"  autocomplete="off" class="layui-input">
+                <input type="text" placeholder="成立日期" name="setUpDate" id="date1" style="width: 190px;"  lay-verify="date"  autocomplete="off" class="layui-input">
             </div>
             <label class="layui-form-label layui-bg-green" style="width: 140px;margin-left: 50px;"> 基金类型 </label>
             <div class="layui-input-inline" >
@@ -319,14 +358,14 @@
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 140px;">  基金管理公司 </label>
             <div class="layui-input-inline">
-                <input type="text" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" id="fundcompany" >
-                <input type="text" style="display: none;" name="managerId" placeholder="基金管理公司" autocomplete="off" class="layui-input"  id="fundcompany01">
+                <input type="text" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" id="managerName" >
+                <input type="text" style="display: none;" name="managerId" placeholder="基金管理公司" autocomplete="off" class="layui-input"  id="managerId">
 
             </div>
             <label class="layui-form-label layui-bg-green" style="width: 140px;margin-left: 50px;">基金托管银行</label>
             <div class="layui-input-inline">
-                <input type="text" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" id="fundbank">
-                <input type="text"  style="display: none;" name="trusteeBlank" placeholder="基金托管银行" autocomplete="off" class="layui-input"  id="fundbank01" >
+                <input type="text" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" id="trusteeName">
+                <input type="text"  style="display: none;" name="trusteeBlank" placeholder="基金托管银行" autocomplete="off" class="layui-input"  id="trusteeBlank" >
 
             </div>
         </div>
@@ -424,14 +463,14 @@
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 140px;">  基金管理公司 </label>
             <div class="layui-input-inline">
-                <input type="text" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" id="fundcompany" >
-                <input type="text" style="display: none;" name="managerId" placeholder="基金管理公司" autocomplete="off" class="layui-input"  id="fundcompany01" value="110">
+                <input type="text" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" id="managerName1" >
+                <input type="text" style="display: none;" name="managerId" placeholder="基金管理公司" autocomplete="off" class="layui-input"  id="managerId1" value="110">
 
             </div>
             <label class="layui-form-label layui-bg-green" style="width: 140px;margin-left: 50px;">基金托管银行</label>
             <div class="layui-input-inline">
-                <input type="text" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" id="fundbank">
-                <input type="text"  style="display: none;" name="trusteeBlank" placeholder="基金托管银行" autocomplete="off" class="layui-input"  id="fundbank01" value="110">
+                <input type="text" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" id="trusteeName1">
+                <input type="text"  style="display: none;" name="trusteeBlank" placeholder="基金托管银行" autocomplete="off" class="layui-input"  id="trusteeBlank1" value="110">
 
             </div>
         </div>
