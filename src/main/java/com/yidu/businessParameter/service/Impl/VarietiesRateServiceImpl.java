@@ -34,14 +34,14 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
     public int deleteVarietiesRate(String exchangeNames,String rateTypes) {
         String[] exchangeName= new String[0];
         String[] rateType= new String[0];
-        System.out.println("交易所："+exchangeNames+"\n交易类型："+rateTypes);
+//        System.out.println("交易所："+exchangeNames+"\n交易类型："+rateTypes);
         int i=0;
         if (exchangeNames!=null && !exchangeNames.equals("")){
-            System.out.println("我进入切割了1");
+//            System.out.println("我进入切割了1");
             exchangeName=exchangeNames.split(",");
         }
         if (rateTypes!=null && !rateTypes.equals("")){
-            System.out.println("我进入切割了2");
+//            System.out.println("我进入切割了2");
             rateType=rateTypes.split(",");
         }
         for (int j = 0; j <exchangeName.length && j<rateType.length; j++) {
@@ -58,7 +58,7 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
     }
 
     @Override
-    public Map<String,Object> selectVarietiesRate(String pageSize, String page) {
+    public Map<String,Object> selectVarietiesRate(String pageSize, String page,String exchangeName,String rateType) {
         //创建一个结果集Map用于存放两个结果变量
         Map<String,Object> resultMap=new HashMap<>();
         //定义一个分页条数变量
@@ -75,12 +75,23 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
             //通过Integer包装类将String类型转换成int基础数据类型
             v_page=Integer.parseInt(page);
         }
+        //根据传回来的exchangeName和rateType判断是否需要增加sql语句的where条件
+        StringBuffer sqlWhere=new StringBuffer();
+        System.out.println("exchangeName:="+exchangeName+"rateType:="+rateType);
+        if (exchangeName!=null&&!exchangeName.equals("")){
+            int v_exchangeName=Integer.parseInt(exchangeName);
+            sqlWhere.append(" and exchangeName="+v_exchangeName+" ");
+        }
+        if(rateType!=null && !rateType.equals("")){
+            int v_rateType=Integer.parseInt(rateType);
+            sqlWhere.append(" and rateType="+v_rateType+" ");
+        }
         //创建一个Map，用于存储过程的调用传值
         Map<String,Object> map=new HashMap<>();
         //传入存储过程需要查询的表名
         map.put("p_tableName","varietiesRate");
         //传入查询条件
-        map.put("p_condition","");
+        map.put("p_condition",sqlWhere.toString());
         //传入分页显示条数
         map.put("p_pageSize",v_pageSize);
         //传入分页页码
@@ -101,4 +112,5 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
         //返回结果集Map
         return resultMap;
     }
+
 }

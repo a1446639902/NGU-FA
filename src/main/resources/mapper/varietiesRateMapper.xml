@@ -13,7 +13,7 @@
     </delete>
 
     <update id="updateVarietiesRate" parameterType="com.yidu.businessParameter.pojo.VarietiesRatePojo">
-        update varietiesRate set stampDuty=#{stampDuty},transferFee=#{transferFee},collectionRate=#{collectionRate},brokerage=#{brokerage} where exchangeName=#{exchangeName},rateType=#{rateType}
+        update varietiesRate set stampDuty=#{stampDuty},transferFee=#{transferFee},collectionRate=#{collectionRate},brokerage=#{brokerage} where exchangeName=#{exchangeName} and rateType=#{rateType}
     </update>
 
     <select id="selectVarietiesRate" parameterType="java.util.Map" statementType="CALLABLE">

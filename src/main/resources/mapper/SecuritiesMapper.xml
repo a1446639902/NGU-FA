@@ -39,7 +39,11 @@
         insert into securities values(#{securitiesId},#{securitiesName},#{securitiesType},#{issueDate},#{delayDate},#{stockId},#{exchange},#{securitiesDesc})
     </insert>
 
-    <delete id="deleteSecurities" parameterType="com.yidu.businessParameter.pojo.SecuritiesPojo">
-        delete from securities where securitiesId=#{securitiesId}
+    <delete id="deleteSecurities" parameterType="list">
+        delete from securities where securitiesId in
+        <foreach collection="list" item="securitiesId" open="("
+                 separator="," close=")">
+            #{securitiesId}
+        </foreach>
     </delete>
 </mapper>

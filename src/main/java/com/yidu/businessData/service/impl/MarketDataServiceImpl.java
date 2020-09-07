@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+
 /*
   @type:实现类
  *@author wufeiyun
@@ -20,12 +21,18 @@ public class MarketDataServiceImpl implements MarketDataService {
     MarketDataMapper marketDataMapper;
 
     @Override
-    public HashMap selectMarKetDate() {
+    public HashMap selectMarKetDate(String marketId,String dateTime,int page,int limit) {
         HashMap marketDataMap = new HashMap();
-        marketDataMap.put("p_tableName","market");
-        marketDataMap.put("p_condition","");
-        marketDataMap.put("p_pageSize",4);
-        marketDataMap.put("p_page",1);
+        marketDataMap.put("p_tableName","(select * from MARKET m  join SECURITIES s on m.SECURITIESID=s.SECURITIESID;)");
+        if (marketId!=null&&marketId!=""){
+            marketDataMap.put("p_condition","and marketId like '%marketId%' ");
+        }else if(dateTime!=null&&dateTime!=""){
+            marketDataMap.put("p_condition","and marketId like '%"+marketId+"%' and dateTime="+dateTime);
+        }else{
+            marketDataMap.put("p_condition","");
+        }
+        marketDataMap.put("p_pageSize",limit);
+        marketDataMap.put("p_page",page);
         marketDataMap.put("p_count",0);
         marketDataMap.put("p_cursor",null);
         marketDataMapper.selectMarKetDate(marketDataMap);
@@ -48,22 +55,27 @@ public class MarketDataServiceImpl implements MarketDataService {
     }
 
     @Override
-    public HashMap selectMarKetDate1(String marketId,String dateTime) {
+    public HashMap selectMarKetDate1(int page,int limit,String searchMarketId,String searchTime) {
         HashMap marketDataMap = new HashMap();
-        marketDataMap.put("p_tableName","market");
-        if (marketId!=null&&marketId!=""){
-            marketDataMap.put("p_condition","and marketId like %marketId%");
+        marketDataMap.put("p_tableName","(select * from MARKET m  join SECURITIES s on m.SECURITIESID=s.SECURITIESID)");
+
+        if(searchMarketId!=null&&searchMarketId!=""){
+            marketDataMap.put("p_condition","and marketId like '%"+searchMarketId+"%'");
         }
-        if(dateTime!=null&&dateTime!=""){
-            marketDataMap.put("p_condition","and marketId like %marketId% and dateTime=dataTime");
+        else if (searchTime!=null&&searchTime!=""){
+            marketDataMap.put("p_condition"," and marketId like '%" +searchMarketId+"%' and dateTime like '%"+ searchTime+"%'");
+        }else {
+            marketDataMap.put("p_condition","");
         }
 
-        marketDataMap.put("p_pageSize",4);
-        marketDataMap.put("p_page",1);
+
+        marketDataMap.put("p_pageSize",limit);
+        marketDataMap.put("p_page",page);
         marketDataMap.put("p_count",0);
         marketDataMap.put("p_cursor",null);
         marketDataMapper.selectMarKetDate(marketDataMap);
         return marketDataMap;
     }
+
 
 }

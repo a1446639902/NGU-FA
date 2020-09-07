@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.yidu.businessParameter.mapper.BondMapper">
 
-<!--基金参数-->
-
-    <!--<select id="selectBond" resultType="com.yidu.businessParameter.pojo.BondPojo">
-        select * from bond
-    </select>-->
-
-    <select id="selectBond" >
-        select * from bond
-    </select>
-
-
-    <insert id="insertBond" parameterType="com.yidu.businessParameter.pojo.BondPojo">
-       insert into bond values(#{securitiesId},#{bondName},#{drawStartDate},#{drawEndDate},#{bondType},#{parRate},#{bondRate},#{bondRateAmount},#{payInterestNum},#{desc})
+    <!--增加-->
+    <insert id="insertBond" parameterType="com.yidu.businessParameter.pojo.Bond">
+        insert into bond(securitiesId,bondName,drawStartDate,drawEndDate,bondType,parRate,bondRate,bondRateAmount,payInterestNum,bondDesc) values
+        (#{securitiesId},#{bondName},#{drawStartDate},#{drawEndDate},#{bondType},#{parRate},#{bondRate},#{bondRateAmount},#{payInterestNum},#{bondDesc})
     </insert>
-
-    <delete id="deleteBond" parameterType="int">
-        delete from bond where fundId=#{fundId}
-    </delete>
-
-
-    <update id="updateBond" parameterType="com.yidu.businessParameter.pojo.BondPojo">
-        update bond set bondName=#{bondName},drawStartDate=#{drawStartDate},drawEndDate=#{drawEndDate},
-    bondType=#{bondType},parRate=#{parRate},bondRate=#{bondRate},
-    bondRateAmount=#{bondRateAmount},payInterestNum=#{payInterestNum},desc=#{desc}
-    where securitiesId=#{securitiesId}
+    <!--修改-->
+    <update id="updateBond" parameterType="com.yidu.businessParameter.pojo.Bond">
+    update bond set bondName=#{bondName},drawStartDate=#{drawStartDate},drawEndDate=#{drawEndDate},bondType=#{bondType},parRate=#{parRate},bondRate=#{bondRate},bondRateAmount=#{bondRateAmount},payInterestNum=#{payInterestNum},bondDesc=#{bondDesc}  where securitiesId=#{securitiesId}
     </update>
+    <!--删除-->
+    <delete id="deleteBond" parameterType="java.util.List">  delete from Bond where securitiesId in
+        <foreach collection="list" item="securitiesId" open="(" separator="," close=")">#{securitiesId}</foreach>
+    </delete>
+    <resultMap id="BondMap" type="com.yidu.businessParameter.pojo.Bond">
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="bondName" column="bondName" javaType="String"></result>
+        <result property="drawStartDate" column="drawStartDate" javaType="String"></result>
+        <result property="drawEndDate" column="drawEndDate" javaType="String"></result>
+        <result property="bondType" column="bondType" javaType="Integer"></result>
+        <result property="parRate" column="parRate" javaType="Double"></result>
+        <result property="bondRate" column="bondRate" javaType="Double"></result>
+        <result property="bondRateAmount" column="bondRateAmount" javaType="String"></result>
+        <result property="payInterestNum" column="payInterestNum" javaType="Integer"></result>
+        <result property="bondDesc" column="bondDesc" javaType="String"></result>
 
-
+    </resultMap>
+    <!--查询-->
+    <select id="selectBond" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=BondMap})}
+    </select>
 
 
 

@@ -23,6 +23,9 @@ public class TransactionDataImpl implements TransactionDataService {
 
     @Override
     public HashMap selectTransactionData(int page,int limit) {
+
+
+
         HashMap tranMap = new HashMap();
         String transactionData=" (select * from transactionData tr join securities se on tr.securitiesId=se.securitiesId join account ac on tr.accountId=ac.accountId join seate se on tr.seateId=se.seateId join brokers br on tr.brokersId=br.brokersId join fund f on tr.fundId = f.fundId) ";
         tranMap.put("p_tableName", transactionData);
@@ -42,7 +45,7 @@ public class TransactionDataImpl implements TransactionDataService {
     }
 
     @Override
-    public int deleteTransactionData(int transactionDataId) {
+    public int deleteTransactionData(String transactionDataId) {
         return transactionDataMapper.deleteTransactionData(transactionDataId);
     }
 
