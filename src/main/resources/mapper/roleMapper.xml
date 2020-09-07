@@ -3,7 +3,7 @@
 <mapper namespace="com.yidu.systemManage.mapper.RoleMapper">
     <!--增加角色-->
     <insert id="insertRole" parameterType="com.yidu.systemManage.pojo.RolePojo">
-        insert into role (roleId,roleName,roleDesc) values (#{roleId},#{roleName},#{roleDesc})
+        insert into role (roleId,roleName,status,roleDesc) values (#{roleId},#{roleName},#{status},#{roleDesc})
     </insert>
 
     <!--删除角色-->
@@ -17,13 +17,14 @@
 
     <!--修改角色-->
     <update id="updateRole" parameterType="com.yidu.systemManage.pojo.RolePojo">
-       update role set roleName=#{roleName} , roleDesc=#{roleDesc} where roleId=#{roleId}
+       update role set roleName=#{roleName} , status=#{status} , roleDesc=#{roleDesc} where roleId=#{roleId}
     </update>
 
     <!--查询角色-->
     <resultMap id="roleMap" type="com.yidu.systemManage.pojo.RolePojo">
         <result property="roleId" column="roleId" javaType="Integer"></result>
         <result property="roleName" column="roleName" javaType="String"></result>
+        <result property="status" column="status" javaType="Integer"></result>
         <result property="roleDesc" column="roleDesc" javaType="String"></result>
     </resultMap>
     <select id="selectRole" parameterType="java.util.Map" statementType="CALLABLE">

@@ -103,6 +103,7 @@
                 {field:'idTest',type: 'checkbox', fixed: 'left',align: 'center'}
                 ,{field:'roleId',  title: '角色id',sort:true,align: 'center'}
                 ,{field:'roleName', title: '角色名称',sort:true,align: 'center'}
+                ,{field:'statusString', title: '启用状态',sort:true,align: 'center'}
                 ,{field:'roleDesc',title: '备注',align: 'center'}
                 ,{field: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
             ]
@@ -256,6 +257,17 @@
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label">是否启用</label>
+            <div class="layui-input-inline">
+                <!--<input type="text" name="status" lay-verify="required"
+                       autocomplete="off" placeholder="请输入角色名" class="layui-input">-->
+                <select  name="status">
+                    <option value="1">启用</option>
+                    <option value="0">未启用</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-inline">
                 <input type="text" name="roleDesc" lay-verify="required"
@@ -292,7 +304,17 @@
                        autocomplete="off" placeholder="请输入角色名" class="layui-input">
             </div>
         </div>
-
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label">是否启用</label>
+            <div class="layui-input-inline">
+                <!--<input type="text" name="status" lay-verify="required"
+                       autocomplete="off" placeholder="是否激活" class="layui-input">-->
+                <select name="status">
+                    <option value="1">启用</option>
+                    <option value="0">未启用</option>
+                </select>
+            </div>
+        </div>
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label">备注：</label>
             <div class="layui-input-inline">
@@ -311,7 +333,7 @@
         </div>-->
         <div style="position: absolute; bottom: 0px; left: 45%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
-                <i class="layui-icon">&#x1005;</i>添加
+                <i class="layui-icon">&#x1005;</i>修改
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button">
                 <i class="layui-icon">&#x1006;</i>取消
