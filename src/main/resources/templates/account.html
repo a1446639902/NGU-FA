@@ -146,7 +146,7 @@
                             layer.confirm('真的删除行么', function () {
                                 layer.close();
                                 //向服务端发送删除指令
-                                $.post("../account/deleteAccount", "accountId="+accountIds,function(msg){
+                                $.post("../account/deleteAccount","accountId="+accountIds,function(msg){
                                     if(msg>0){
                                         table.reload('myTable');
                                         layer.closeAll();
@@ -316,8 +316,15 @@
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >银行名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="blankName" lay-verify="required"
-                               autocomplete="off" placeholder="请输入账户名称" class="layui-input">
+                        <select name="blankName">
+                            <option value="">请选择</option>
+                            <option value="中国银行" selected>中国银行</option>
+                            <option value="建设银行">建设银行</option>
+                            <option value="工商银行">工商银行</option>
+                            <option value="农业银行">农业银行</option>
+                        </select>
+                        <!-- <input type="text" name="blankName" lay-verify="required"
+                                autocomplete="off" placeholder="请输入账户名称" class="layui-input">-->
                     </div>
                 </div>
                 <div class="layui-form-item" style="text-align: center;">
@@ -410,7 +417,7 @@
                         <label class="layui-form-label layui-bg-green" >银行卡号</label>
                         <div class="layui-input-inline">
                             <input type="text" name="blankCardCode" lay-verify="required"
-                            disabled="disabled"       autocomplete="off" placeholder="请输入银行卡号" class="layui-input">
+                                   disabled="disabled"       autocomplete="off" placeholder="请输入银行卡号" class="layui-input">
                         </div>
                     </div>
 
