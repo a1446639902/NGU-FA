@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * @author cai*/
-
+ * 过滤器
+ */
 
 @Component
 @WebFilter("*")
@@ -28,8 +28,7 @@ public class FAWebFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         //强转为HttpServletResponse
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-System.out.println("Filter coming");
-
+        System.out.println("Filter coming");
         //获取session
         HttpSession session = request.getSession(false);
         if (session==null){
