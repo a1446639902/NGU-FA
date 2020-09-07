@@ -15,6 +15,6 @@ import java.util.HashMap;
 public interface TransactionDataService {
     public HashMap selectTransactionData(int page,int limit);
     public int insertTransactionData(TransactionData transactionData);
-    public int deleteTransactionData(int transactionDataId);
+    public int deleteTransactionData(String transactionDataId);
     public int updateTransactionData(TransactionData transactionData);
 }

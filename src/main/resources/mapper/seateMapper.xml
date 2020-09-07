@@ -3,8 +3,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.businessParameter.mapper.SeateMapper">
     <delete id="seateDelete" parameterType="list">
-        delete from brokers where seateId in
-        <foreach collection="list" item="brokersId" open="("
+        delete from seate where seateId in
+        <foreach collection="list" item="seateId" open="("
                  separator="," close=")">
             #{seateId}
         </foreach>
