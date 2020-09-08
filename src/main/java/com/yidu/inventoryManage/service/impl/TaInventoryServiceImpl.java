@@ -6,6 +6,7 @@ import com.yidu.inventoryManage.service.TaInventoryService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * date:2020/9/2
  */
 @Service
+@Transactional
 public class TaInventoryServiceImpl implements TaInventoryService {
 
     @Resource
@@ -31,8 +33,12 @@ public class TaInventoryServiceImpl implements TaInventoryService {
      * @return 查询的结果List
      */
     @Override
-    public List<TaInventoryEntity> selectTaInventory() {
-        return taInventoryMapper.selectTaInventory();
+    public List<TaInventoryEntity> selectTaInventory(String datetime) {
+        if (datetime == null || datetime =="") {
+            return taInventoryMapper.selectTaInventory();
+        }else {
+            return taInventoryMapper.selectDateTaInventory(datetime);
+        }
     }
 
 

@@ -4,7 +4,7 @@
 <html>
 <head>
 <!--
-    title:库存统计界面
+    title:TA库存统计界面
     name:ZouJi
     date:2020/9/3
 -->
@@ -44,10 +44,10 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center" name="dateSelect">统计日期</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="datetime" id="datetime">
+                <input class="layui-input"  autocomplete="off" placeholder="请选择统计日期" name="datetime" id="dateTime3"/>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit lay-event="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <a class="layui-btn"  lay-submit lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</a>
             </div>
         </form>
 
@@ -71,7 +71,9 @@
             laydate.render({
                 elem: '#datetime1' //指定元素
             });
-
+            laydate.render({
+                elem: '#dateTime3' //指定元素
+            });
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
@@ -137,7 +139,7 @@
                 elem: '#cashInventoryTable',
                 url: '../selectTaInventory',
                 page: true,
-                height: 498,
+                height: "full-70",
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
                 cols: [
@@ -149,7 +151,7 @@
                     ,{field: 'tatotal', title: 'TA金额',align: 'center',}
                     ,{field: 'dateTime', title: '统计日期',align: 'center',sort: true}
                     ,{field: 'taInventorydesc', title: '备注',align: 'center',}
-                    ,{fixed: 'right', width: 240, align:'center', toolbar: '#barDemo'}
+                    ,{fixed: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
                 ]
                 ]
             });
@@ -174,8 +176,9 @@
                         break;
 
                 //根据日期查询的信息
-                    case 'sreach':
-                        var datetime= $("#datetime").val();
+                    case 'search':
+                        var datetime = $("#dateTime3").val();
+                        alert(datetime)
                         //表格的重新加载事件
                         table.reload('cashInventoryTable', {
                             method: 'post'
@@ -185,12 +188,10 @@
                                 curr: 1
                             }
                         });
-                        $.post("../deleteMoreTaInventory", {datetime},function(msg){
+                        $.post("../selectTaInventory",{datetime},function(msg){
                             table.reload('cashInventoryTable');
                         });
-
-
-
+                        break;
                     case 'deleteAll':
                         var data = checkStatus.data;
                         //    layer.alert(JSON.stringify(data));
