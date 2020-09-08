@@ -3,6 +3,7 @@ package com.yidu.businessParameter.mapper;
 import com.yidu.businessParameter.pojo.Bond;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 @Mapper
 public interface BondMapper {
     //查询
-    void selectBond(Map map);
+    HashMap selectBond(Map map);
     //增加
     public int insertBond(Bond bond);
     //删除

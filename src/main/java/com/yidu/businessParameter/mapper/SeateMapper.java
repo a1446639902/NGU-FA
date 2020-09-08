@@ -34,7 +34,7 @@ public interface SeateMapper {
      * @param seate
      * @return
      */
-    @Update("update seate set seateName=#{seateName},seateType=#{seateType}, seateRate=#{seateRate}, brokersId=#{brokersId}, seateAddress=#{seateAddress}, seateDesc=#{seateDesc}")
+    @Update("update seate set seateName=#{seateName},seateType=#{seateType}, seateRate=#{seateRate}, brokersId=#{brokersId}, seateAddress=#{seateAddress}, seateDesc=#{seateDesc} where seateId=#{seateId}")
     int SeateUpdate(Seate seate);
 
 
@@ -42,5 +42,5 @@ public interface SeateMapper {
      * 查询
      * @return
      */
-    public void seateSelect(HashMap hashMap);
+    public HashMap seateSelect(HashMap hashMap);
 }
