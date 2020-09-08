@@ -4,6 +4,7 @@ import com.yidu.businessParameter.mapper.SecuritiesMapper;
 import com.yidu.businessParameter.pojo.SecuritiesPojo;
 import com.yidu.businessParameter.service.SecuritiesService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * @vesion 1.1
  **/
 @Service
+@Transactional
 public class SecuritiesServiceImpl implements SecuritiesService {
     @Resource
     SecuritiesMapper securitiesMapper;

@@ -4,6 +4,7 @@ import com.yidu.systemManage.mapper.UserInfoMapper;
 import com.yidu.systemManage.pojo.UserInfoPojo;
 import com.yidu.systemManage.service.UserInfoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * @version 1.0
  */
 @Service
+@Transactional
 public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     UserInfoMapper userInfoMapper;
@@ -40,6 +42,29 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoMapper.updateUser(userInfoPojo);
     }
 
+/*    @Override
+    public HashMap selectUser(*//*int page, int limit, int searchstatus, String searchuserName*//*) {
+        HashMap userMap=new HashMap();
+
+        userMap.put("p_tableName","(select * from userInfo)");
+        if (searchuserName!=""){
+            userMap.put("p_condition","and status like '%\"+status+\"%'");
+        }
+        else if (searchuserName!=null&&searchuserName!=""){
+            userMap.put("p_condition"," and status like '%" +searchstatus+"%' and userName like '%"+ searchuserName+"%'");
+        }else {
+            userMap.put("p_condition","");
+        }
+
+        userMap.put("p_tableName","userInfo");
+        userMap.put("p_condition","");
+        userMap.put("p_pageSize",10);
+        userMap.put("p_page",1);
+        userMap.put("p_count",0);
+        userMap.put("p_cursor",null);
+        userInfoMapper.selectUser(userMap);
+        return userMap;
+    }*/
     @Override
     public HashMap selectUser() {
         HashMap userMap=new HashMap();
