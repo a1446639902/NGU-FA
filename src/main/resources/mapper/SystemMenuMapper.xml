@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.permission.mapper.SystemMenuMapper">
+    <select id="selectSystemMenu" resultType="com.yidu.permission.pojo.SystemMenu">
+        select functionId,parentId,title,src,icon,target from function
+    </select>
+</mapper>

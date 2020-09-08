@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+/*@RestController
 @RequestMapping("user")
 public class UserController {
     @Resource
     UserService userService;
- /*   @RequestMapping("selectUser")
+    @RequestMapping("selectUser")
     public Map<String,Object> selectUser(String page, String limit){
         Map<String,Object> map = new HashMap<>();
         Map<String, Object> resultMap = userService.selectUser(page, limit);
@@ -42,7 +42,7 @@ public class UserController {
         userService.insertUser(new UserInfo());
     }*/
     //验证登录
-    @RequestMapping("checkLogin")
+ /*   @RequestMapping("checkLogin")
     public Map<String,Object> checkLogin(String userName, String userPwd, String fundId, HttpServletRequest request){
         System.out.println("userName="+userName+",userPwd="+userPwd+",fundId="+fundId);
         Map<String, Object> map = new HashMap<>();
@@ -63,9 +63,9 @@ public class UserController {
             map.put("code", 0);
         }
         return map;
-    }
+    }*/
     //退出登录
-    @RequestMapping("logout")
+/*    @RequestMapping("logout")
     public Map<String ,Object> logout(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         session.removeAttribute("userName");
@@ -75,4 +75,4 @@ public class UserController {
         map.put("msg","已退出，3秒后转跳到登录页面！");
         return map;
     }
-}
+}*/

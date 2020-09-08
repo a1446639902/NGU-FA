@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,6 +57,18 @@ public class RoleController {
         map.put("count",roleHashmap.get("p_count"));
         //需要传递的游标变量
         map.put("data",roleHashmap.get("p_cursor"));
+
+        //通过数据库查询出来的status，设置对应相应的状态
+        List<RolePojo> cursor = (List<RolePojo>) roleHashmap.get("p_cursor");
+        for (RolePojo value : cursor) {
+            int status = value.getStatus();
+            if (status==0){
+                value.setStatusString("未启用");
+            }else {
+                value.setStatusString("启用");
+            }
+        }
+        System.out.println("现在要输出游标变量"+cursor);
         return map;
     }
 }

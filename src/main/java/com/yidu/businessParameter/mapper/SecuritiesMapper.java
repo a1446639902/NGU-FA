@@ -4,6 +4,7 @@ import com.yidu.businessParameter.pojo.SecuritiesPojo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 用户的dao方法
@@ -14,7 +15,7 @@ import java.util.HashMap;
 @Mapper
 public interface SecuritiesMapper {
     public int insertSecurities(SecuritiesPojo securitiesPojo);
-    public int deleteSecurities(String securitiesId);
+    public int deleteSecurities(List securitiesIdList);
     public int updateSecurities(SecuritiesPojo securitiesPojo);
     public void selectSecurities(HashMap hashMap);
 }

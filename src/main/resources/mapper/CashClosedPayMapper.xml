@@ -6,14 +6,14 @@
 <mapper namespace="com.yidu.businessData.mapper.CashClosedPayMapper">
 
     <insert id="insertCashClosedPay" parameterType="com.yidu.businessData.pojo.CashClosedPayPojo">
-        insert into cashClosedPay values (#{cashClosedPayId},#{fundId},#{accountId},#{securitiesId},#{serviceType},#{amount},#{dateTime},#{flag})
+        insert into cashClosedPay values (#{cashClosedPayId},#{fundId},#{accountId},#{serviceType},#{amount},#{dateTime},#{flag})
     </insert>
 
     <update id="updateCashClosedPay" parameterType="com.yidu.businessData.pojo.CashClosedPayPojo">
-        update cashClosedPay set cashClosedPayId=#{cashClosedPayId},fundId=#{fundId},accountId=#{accountId},securitiesId=#{securitiesId},serviceType=#{serviceType},amount=#{amount},dateTime=#{dateTime},flag=#{flag}
+        update cashClosedPay set accountId=#{accountId},serviceType=#{serviceType},amount=#{amount},dateTime=#{dateTime},flag=#{flag} where cashClosedPayId=#{cashClosedPayId}
     </update>
 
-    <delete id="deleteCashClosedPay" parameterType="INTEGER">
+    <delete id="deleteCashClosedPay" parameterType="String">
         delete from cashClosedPay where cashClosedPayId=#{cashClosedPayId}
     </delete>
 
@@ -23,8 +23,9 @@
     <resultMap id="cashClosedPay_map" type="com.yidu.businessData.pojo.CashClosedPayPojo">
         <result property="cashClosedPayId" column="cashClosedPayId" javaType="String"></result>
         <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="fundName" column="fundName" javaType="String"></result>
         <result property="accountId" column="accountId" javaType="String"></result>
-        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
         <result property="serviceType" column="serviceType" javaType="Integer"></result>
         <result property="amount" column="amount" javaType="Double"></result>
         <result property="dateTime" column="dateTime" javaType="String"></result>

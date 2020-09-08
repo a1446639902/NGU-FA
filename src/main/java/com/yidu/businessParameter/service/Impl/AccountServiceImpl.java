@@ -8,6 +8,7 @@ import com.yidu.businessParameter.service.AccountService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -18,9 +19,10 @@ import java.util.List;
  * 现金账户表
  * @Type：服务层的实现类
  * @author 黄志豪
- * @version 1.2
+ * @version 1.3
  * @time 2020/9/4
  **/
+@Transactional
 @Service
 public class AccountServiceImpl implements AccountService {
     @Resource
@@ -37,7 +39,8 @@ public class AccountServiceImpl implements AccountService {
             sql=sql+" and blankName='"+blankName+"'";
         }
         HashMap accountMap = new HashMap();
-        accountMap.put("p_tableName",SysTableNameListUtil.A);
+        //select * from account where fundId='"+289289289+"'"
+        accountMap.put("p_tableName","(select * from account where fundId='289289289')");
         accountMap.put("p_condition",sql);
         accountMap.put("p_pageSize",limit);
         accountMap.put("p_page",page);
@@ -50,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public int insertAccount(AccountPojo accountPojo) {
         accountPojo.setAccountId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.A));
-        accountPojo.setFundId("5");
+        accountPojo.setFundId("289289289");
         return accountMapper.insertAccount(accountPojo);
     }
 

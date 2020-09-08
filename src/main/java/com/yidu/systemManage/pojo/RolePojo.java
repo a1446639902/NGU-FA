@@ -11,14 +11,18 @@ public class RolePojo {
     private int roleId;
     private String roleName;
     private String roleDesc;
+    private int status;
+    private String statusString; //通过status的状态进行赋值，并传递给前端显示
 
     public RolePojo() {
     }
 
-    public RolePojo(int roleId, String roleName, String roleDesc) {
+    public RolePojo(int roleId, String roleName, String roleDesc, int status, String statusString) {
         this.roleId = roleId;
         this.roleName = roleName;
         this.roleDesc = roleDesc;
+        this.status = status;
+        this.statusString = statusString;
     }
 
     @Override
@@ -27,6 +31,8 @@ public class RolePojo {
                 "roleId=" + roleId +
                 ", roleName='" + roleName + '\'' +
                 ", roleDesc='" + roleDesc + '\'' +
+                ", status=" + status +
+                ", statusString='" + statusString + '\'' +
                 '}';
     }
 
@@ -52,5 +58,21 @@ public class RolePojo {
 
     public void setRoleDesc(String roleDesc) {
         this.roleDesc = roleDesc;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 }

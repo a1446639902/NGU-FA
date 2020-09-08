@@ -1,0 +1,178 @@
+<!-- name:tang -->
+<!-- data:2020/09/03 -->
+<!-- 版本:0.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>交易结算设置</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <link rel="stylesheet" href="../css/theme9.css">
+    <script src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]-->
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+
+
+    <script src="../lib/layui/layui.js"></script>
+
+    <script type="text/javascript">
+
+        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var $ = layui.$;
+            var table = layui.table;
+            var form = layui.form;
+            var formSelects = layui.formSelects;
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定元素
+
+            });
+            table.render({
+                elem: '#userTable',
+                url: './selectUser',
+                page: true,
+                height: 498,
+                minLength:80,
+                cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'fundId', title: '基金', width:150, align:'center'}
+                        ,{field: 'accountId', title: '现金账户', width: 150, align:'center'}
+                        ,{field: 'price', title: '单价', width: 150, align:'center'}
+                        ,{field: 'fundNum', title: '数量', width: 150, align:'center'}
+                        ,{field: 'totalMoney', title: '总金额', width: 150, align:'center'}
+                        ,{field: 'dateTime', title: '交易日期', width:150, align:'center'}
+                        ,{field: 'transactionType',title:'类型' ,width: 150,align :'center',templet:function (item) {
+                            if (item.transactionType=='1'){
+                                return '认购';
+                            }else if (item.transactionType=='2'){
+                                return '申购';
+                            }else if (item.transactionType=='3'){
+                                return '赎回';
+                            }
+                        }}
+                        ,{field: 'transactionStatus',title:'状态' ,width: 150,align :'center',templet:function (item) {
+                            if(item.transactionStatus=='1'){
+                                return '已结算';
+                            }else  if(item.transactionStatus=='0'){
+                                return '未结算';
+                            }
+                        }}
+                    ]
+                ]
+            });
+            table.render({
+                elem: '#userTable2',
+                url: './selectUser',
+                page: true,
+                height: 498,
+                minLength:80,
+                cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'fundId', title: '基金', width:150, align:'center'}
+                        ,{field: 'accountId', title: '现金账户', width: 150, align:'center'}
+                        ,{field: 'price', title: '单价', width: 150, align:'center'}
+                        ,{field: 'fundNum', title: '数量', width: 150, align:'center'}
+                        ,{field: 'totalMoney', title: '总金额', width: 150, align:'center'}
+                        ,{field: 'dateTime', title: '交易日期', width:150, align:'center'}
+                        ,{field: 'transactionType',title:'类型' ,width: 150,align :'center',templet:function (item) {
+                            if (item.transactionType=='1'){
+                                return '认购';
+                            }else if (item.transactionType=='2'){
+                                return '申购';
+                            }else if (item.transactionType=='3'){
+                                return '赎回';
+                            }
+                        }}
+                        ,{field: 'transactionStatus',title:'状态' ,width: 150,align :'center',templet:function (item) {
+                            if(item.transactionStatus=='1'){
+                                return '已结算';
+                            }else  if(item.transactionStatus=='0'){
+                                return '未结算';
+                            }
+                        }}
+                    ]
+                ]
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div style="margin-top: 20px;margin-left: 10px">
+    <form class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易日期</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="businessDate" id="start">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易类型</label>
+
+            <div class="layui-inline layui-show-xs-block">
+                <select name="cateid">
+                    <option>请选择</option>
+                    <option>申购</option>
+                    <option>赎回</option>
+                    <option>送股</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  lay-submit="" lay-filter="sreach">结算</button>
+        </div>
+    </form>
+
+
+</div>
+
+<div class="layui-tab" lay-filter="test">
+    <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <li class="layui-this" lay-id="1">未结算</li>
+        <li lay-id="2">已结算</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <!--表格-->
+            <table id="userTable" lay-filter="userTable"></table>
+        </div>
+        <div class="layui-tab-item">
+            <table id="userTable2" lay-filter="userTable"></table>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('element', function(){
+        var $ = layui.jquery
+            ,element = layui.element;
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#test=/, '');
+        element.tabChange('test', layid);
+
+        element.on('tab(test)', function(elem){
+            location.hash = 'test='+ $(this).attr('lay-id');
+        });
+
+    });
+</script>
+</body>
+</html>
