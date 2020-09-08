@@ -69,8 +69,9 @@
                     {type: 'checkbox', fixed: 'left'}
                     ,{field: 'securitiesInventoryId', title: '证券库存Id', align:'center'}
                     ,{field: 'dateTime', title: '证券日期', align:'center'}
-                    ,{field: 'securitiesId', title: '证券代码', align:'center'}
                     ,{templet:'<div>{{d.securitiesPojo.securitiesName}}</div>',title: '证券名称', align:'center', }
+                    ,{templet:'<div>{{d.accountPojo.accountName}}</div>',title: '账户名称', align:'center', }
+                    ,{templet:'<div>{{d.fund.fundName}}</div>',title: '基金名称', align:'center',sort:true }
                     ,{field: 'securityPeriodFlag', title: '是否从其他表导入初期数据', align:'center'}
                     ,{field: 'securitiesNum', title: '证券数量', align:'center'}
                     ,{field: 'price', title: '单位成本', align:'center'}
@@ -106,6 +107,58 @@
                 }
             })
 
+            // 基金数据列表
+            tableSelect.render({
+                elem:'#fund'
+                ,checkedKey:'id'
+                ,searchPlaceholder: '关键词搜索'
+                ,table:{
+                    url:'/fund/selectFund'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'radio'},
+                            {field:'fundId',title:'基金ID'},
+                            {field: 'fundName',title:'基金名称'}
+                        ]
+                    ]
+                }
+
+                ,done:function (elem,data) {
+                    var NEWJSON = []
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.fundId)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+            // 账户数据列表
+
+            // 基金数据列表
+            tableSelect.render({
+                elem:'#account'
+                ,checkedKey:'id'
+                ,searchPlaceholder: '关键词搜索'
+                ,table:{
+                    url:'/account/selectAccount'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'radio'},
+                            {field:'accountId',title:'账户Id'},
+                            {field: 'accountName',title:'账户名称'}
+                        ]
+                    ]
+                }
+
+                ,done:function (elem,data) {
+                    var NEWJSON = []
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.accountId)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
             table.on('toolbar(myTable)', function (obj) {
                 var sreachTime = $("#sreachTime").val();
                 var sreachId = $("#sreachId").val();
@@ -322,6 +375,18 @@
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">基金名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="fundId" placeholder="请输入" autocomplete="off" class="layui-input" id="fund">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">账户Id</label>
+            <div class="layui-input-inline">
+                <input type="text" name="accountId" placeholder="请输入" autocomplete="off" class="layui-input" id="account">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">是否导入</label>
             <div class="layui-input-inline">
                 <select name="securityPeriodFlag" id="editSecurityPeriodFlag1">
@@ -334,7 +399,7 @@
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">证券数量</label>
             <div class="layui-input-inline">
-                <input type="text" name="securitiesNum" lay-verify="required"
+                <input type="text" name="securitiesNum" lay-verify="number"
                        autocomplete="off" placeholder="请输入证券数量" class="layui-input">
             </div>
         </div>
@@ -342,7 +407,7 @@
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">单位成本</label>
             <div class="layui-input-inline">
-                <input type="text" name="price" lay-verify="required"
+                <input type="text" name="price" lay-verify="number"
                        autocomplete="off" placeholder="请输入单位成本" class="layui-input">
             </div>
         </div>
@@ -350,7 +415,7 @@
             <label class="layui-form-label" style="background-color: rgba(0,150,136,1)">总金额</label>
             <div class="layui-input-inline">
                 <input type="text" name="total" lay-verify="required"
-                       autocomplete="off" placeholder="请输入总金额" class="layui-input">
+                       autocomplete="off" placeholder="请输入总金额" class="layui-input" id="total">
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">

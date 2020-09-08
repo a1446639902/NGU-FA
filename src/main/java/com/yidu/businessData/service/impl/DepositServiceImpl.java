@@ -6,6 +6,7 @@ import com.yidu.businessData.service.DepositService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -14,31 +15,43 @@ import java.util.HashMap;
  * 存款业务表
  * @Type 服务层的实现类
  * @author 黄志豪
- * @version 1.0
- * @time 2020/9/7
+ * @version 1.1
+ * @time 2020/9/8
  **/
-//@Service
+@Transactional
+@Service
 public class DepositServiceImpl implements DepositService {
-    //@Resource
+    @Resource
     DepositMapper depositMapper;
-    //@Resource
+    @Resource
     DbUtil dbUtil;
     @Override
-    public HashMap selectDeposit(int page,int limit) {
+    public HashMap selectDeposit(int page,int limit,String businessType,String dateEnd) {
         HashMap depositMap = new HashMap<>();
-        depositMap.put("p_tableName", SysTableNameListUtil.DE);
-        depositMap.put("p_condition","");
+        StringBuffer stringBuffer = new StringBuffer();
+        System.out.println(stringBuffer.toString());
+        if(businessType!=null && !businessType.equals("")){
+            stringBuffer.append(" and businessType="+businessType);
+        }
+        if(dateEnd!=null && !dateEnd.equals("")){
+            stringBuffer.append(" and endDate='"+dateEnd+"'");
+        }
+        depositMap.put("p_tableName","(select deposit.*,account.accountName outAccountName, (select accountName from account where accountId=deposit.inAccountId) inAccountName from deposit join account on deposit.outAccountId = account.accountid)");
+        depositMap.put("p_condition",stringBuffer.toString());
         depositMap.put("p_pageSize",limit);
         depositMap.put("p_page",page);
         depositMap.put("p_count",0);
         depositMap.put("p_cursor",null);
         depositMapper.selectDeposit(depositMap);
+        System.out.println(depositMap.get("p_cursor"));
         return depositMap;
     }
 
     @Override
     public int insertDeposit(DepositPojo depositPojo) {
         depositPojo.setDepositId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.DE));
+        depositPojo.setFundId("289289289");
+        depositPojo.setDirectionOfMoney(-1);
         return depositMapper.insertDeposit(depositPojo);
     }
 

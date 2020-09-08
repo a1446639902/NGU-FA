@@ -13,18 +13,20 @@ import java.util.List;
  * 存款业务表
  * @Type 控制层
  * @author 黄志豪
- * @version 1.0
- * @time 2020/9/7
+ * @version 1.1
+ * @time 2020/9/8
  **/
-//@RestController
+@RestController
 @RequestMapping("/deposit")
 public class DepositController {
-    //@Resource
+    @Resource
     DepositService depositService;
     @RequestMapping("/selectDeposit")
-    public HashMap selectDeposit(int page,int limit){
+    public HashMap selectDeposit(int page,int limit,String businessType,String dateEnd){
         System.out.println(page+limit);
-        HashMap depositMap = depositService.selectDeposit(page, limit);
+        System.out.println(businessType);
+        System.out.println(dateEnd);
+        HashMap depositMap = depositService.selectDeposit(page, limit, businessType, dateEnd);
         int count = (int) depositMap.get("p_count");
         List<DepositPojo> depositPojoList = (List<DepositPojo>) depositMap.get("p_cursor");
         HashMap hashMap = new HashMap<>();
@@ -36,13 +38,14 @@ public class DepositController {
     }
     @RequestMapping("/insertDeposit")
     public int insertDeposit(DepositPojo depositPojo){
-       return depositService.insertDeposit(depositPojo);
+        System.out.println(depositPojo);
+        return depositService.insertDeposit(depositPojo);
     }
     @RequestMapping("/updateDeposit")
     public int updateDeposit(DepositPojo depositPojo){
         return depositService.updateDeposit(depositPojo);
     }
-    @RequestMapping("/")
+    @RequestMapping("/deleteDeposit")
     public int deleteDeposit(int depositId){
         return depositService.deleteDeposit(depositId);
     }

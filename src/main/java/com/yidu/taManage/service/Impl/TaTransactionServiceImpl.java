@@ -7,6 +7,7 @@ import com.yidu.taManage.mapper.TaTransactionMapper;
 import com.yidu.taManage.pojo.TaTransaction;
 import com.yidu.taManage.service.TatransactionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.Map;
  *  @version 版本1.0
  */
 @Service
+@Transactional
 public class TaTransactionServiceImpl implements TatransactionService {
     @Resource
     TaTransactionMapper taTransactionMapper;

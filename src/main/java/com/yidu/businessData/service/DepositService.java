@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @time 2020/9/7
  **/
 public interface DepositService {
-    public HashMap selectDeposit(int page,int limit);
+    public HashMap selectDeposit(int page,int limit,String businessType,String dateEnd);
     public int insertDeposit(DepositPojo depositPojo);
     public int updateDeposit(DepositPojo depositPojo);
     public int deleteDeposit(int depositId);

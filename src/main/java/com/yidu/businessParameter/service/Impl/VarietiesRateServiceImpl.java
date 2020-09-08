@@ -25,8 +25,8 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
     VarietiesRateMapper varietiesRateMapper;
     @Override
     public int insertVarietiesRate(VarietiesRatePojo varietiesRatePojo) {
-        int exchangeName=varietiesRatePojo.getExchangeName();
-        int rateType=varietiesRatePojo.getRateType();
+//        int exchangeName=varietiesRatePojo.getExchangeName();
+//        int rateType=varietiesRatePojo.getRateType();
         return varietiesRateMapper.insertVarietiesRate(varietiesRatePojo);
     }
 
@@ -37,16 +37,14 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
 //        System.out.println("交易所："+exchangeNames+"\n交易类型："+rateTypes);
         int i=0;
         if (exchangeNames!=null && !exchangeNames.equals("")){
-//            System.out.println("我进入切割了1");
             exchangeName=exchangeNames.split(",");
         }
         if (rateTypes!=null && !rateTypes.equals("")){
-//            System.out.println("我进入切割了2");
             rateType=rateTypes.split(",");
         }
         for (int j = 0; j <exchangeName.length && j<rateType.length; j++) {
-            System.out.println("_交易所:"+exchangeName[j]);
-            System.out.println("_交易类型:"+rateType[j]);
+//            System.out.println("_交易所:"+exchangeName[j]);
+//            System.out.println("_交易类型:"+rateType[j]);
             i=varietiesRateMapper.deleteVarietiesRate(Integer.parseInt(exchangeName[j]),Integer.parseInt(rateType[j]));
         }
        return i;
