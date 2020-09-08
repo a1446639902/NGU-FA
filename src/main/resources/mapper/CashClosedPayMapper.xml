@@ -10,10 +10,10 @@
     </insert>
 
     <update id="updateCashClosedPay" parameterType="com.yidu.businessData.pojo.CashClosedPayPojo">
-        update cashClosedPay set fundId=#{fundId},accountId=#{accountId},serviceType=#{serviceType},amount=#{amount},dateTime=#{dateTime},flag=#{flag} where cashClosedPayId=#{cashClosedPayId}
+        update cashClosedPay set accountId=#{accountId},serviceType=#{serviceType},amount=#{amount},dateTime=#{dateTime},flag=#{flag} where cashClosedPayId=#{cashClosedPayId}
     </update>
 
-    <delete id="deleteCashClosedPay" parameterType="INTEGER">
+    <delete id="deleteCashClosedPay" parameterType="String">
         delete from cashClosedPay where cashClosedPayId=#{cashClosedPayId}
     </delete>
 
