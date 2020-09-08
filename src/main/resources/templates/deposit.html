@@ -16,7 +16,7 @@
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn layui-btn-normal layui-bg-green layui-btn-sm" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加存款</button>
         </div>
         <br/>
@@ -24,23 +24,23 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center" >业务类型</label>
                 <div class="layui-inline layui-show-xs-block" style="text-align: center">
-                    <select name="cateid" >
-                        <option>请选择业务类型</option>
-                        <option>三天存款</option>
-                        <option>七天存款</option>
-                        <option>活期存款</option>
+                    <select name="searchBusinessType" id="searchBusinessType" >
+                        <option value="">请选择业务类型</option>
+                        <option value="1">三天存款</option>
+                        <option value="2">七天存款</option>
+                        <option value="3">活期存款</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">到期时间</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择日期" name="end" id="start">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择日期" name="dateEnd" id="start">
                 </div>
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="search" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
     </script>
@@ -48,12 +48,12 @@
 
     <script type="text/javascript">
 
-        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+        layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], function () {
             var layer = layui.layer;
             var $ = layui.$;
             var table = layui.table;
             var form = layui.form;
-            var formSelects = layui.formSelects;
+            var tableSelect = layui.tableSelect;
             var laydate = layui.laydate;
 
             //执行一个laydate实例
@@ -71,7 +71,7 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
-                $.post("../user/insertUser",formData,function(msg){
+                $.post("../deposit/insertDeposit",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
                         layer.closeAll();
@@ -122,28 +122,49 @@
                 });
                 return false;
             });
-           /* table.render({
+            table.render({
                 elem: '#userTable',
-                url: './selectUser',
+                url: '../deposit/selectDeposit',
                 page: true,
                 height: 498,
                 toolbar: '#userToolBar',//显示在表头的工具条
+                cellMinWidth:60,
                 minLength:80,
                 cols: [
                     [ //表头
-                    {field: 'id', title: '基金Id', width:110,align:'center'}
-                    ,{field: 'id', title: '流出账户Id', width:150,align:'center'}
-                    ,{field: 'username', title: '流出账户', width:165,align:'center'}
-                    ,{field: 'experience', title: '流入账户Id', width: 150,align:'center'}
-                    ,{field: 'sex', title: '流入账户', width:165,align:'center'}
-                    ,{field: 'score', title: '业务类型', width: 145,align:'center'}
-                    ,{field: 'city', title: '存款金额', width:160,align:'center'}
-                    ,{field: 'city', title: '到期日期', width:150,align:'center'}
-                    ,{field: 'city', title: '是否处理', width:145,align:'center'}
-                    ,{field: 'right', title: '操作',width: 180, align:'center', toolbar: '#barDemo'}
+                        {field: 'fundId', title: '基金Id', width:110,align:'center'}
+                        ,{field: 'outAccountId', title: '流出账户Id', width:150,align:'center'}
+                        ,{field: 'outAccountName', title: '流出账户', width:165,align:'center'}
+                        ,{field: 'inAccountId', title: '流入账户Id', width: 150,align:'center'}
+                        ,{field: 'inAccountName', title: '流入账户', width:165,align:'center'}
+                        ,{field: 'businessType', title: '业务类型', width: 145,align:'center',
+                            templet:function (item) {
+                                if(item.businessType==1){
+                                    return '定期三天'
+                                }
+                                else if(item.businessType==2){
+                                    return '定期七天'
+                                }
+                                else if(item.businessType==3){
+                                    return '活期'
+                                }
+                            }}
+                        ,{field: 'money', title: '存款金额', width:160,align:'center'}
+                        ,{field: 'endDate', title: '到期日期', width:150,align:'center'}
+                        ,{field: 'flag', title: '是否处理', width:145,align:'center',
+                            templet:function (item) {
+                                 if(item.flag==0){
+                                   return '未办理'
+                                 }
+                                 else if(item.flag==1){
+                                     return '已办理'
+                                 }
+                            }
+                        }
+                        ,{field: 'right', title: '操作',width: 180, align:'center', toolbar: '#barDemo'}
+                    ]
                 ]
-                ]
-            });*/
+            });
             //给工具条的按钮添加事件
             table.on('toolbar(userTable)',function (obj) {
                 //获取选中复选框的对象，
@@ -156,31 +177,25 @@
                             closeBtn: 1,
                             move:false,
                             content:$("#addContent"),
+                            area: ['893px', '550px'],
                             btn:[]
                         });
-                        $.ajax({
-                            url:'../user/selectRole',
-                            dataType:'json',
-                            type:'post',
-                            success:function(obj){
-                                $.each(obj,function(index,item){
-                                    $('#roleId').append(new Option(item.roleName,item.roleId));//往下拉菜单里添加元素
-                                })
-                                form.render();//菜单渲染 把内容加载进去
-                            }
-                        })
                         form.render();
                         //全屏
-                        layer.full(index);
+                       /* layer.full(index);*/
                         break;
                     case 'search':
                         alert("搜索");
-                        var userName= $("#userName").val();
+                        var businessType= $("#searchBusinessType").val();
+                        var dateEnd=$("#start").val();
+                        alert(businessType);
+                        alert(dateEnd);
                         //表格的重新加载事件
                         table.reload('userTable', {
                             method: 'post'
                             , where: {
-                                'userName': userName
+                                'businessType': businessType,
+                                'dateEnd':dateEnd
                             }
                             , page: {
                                 curr: 1
@@ -256,7 +271,66 @@
                     layer.full(index);
                 };
             })
+            //新增流出账号的下拉表格
+            tableSelect.render({
+                elem:'#insertBlankCardCode',
+                checkedKey:'blankCardCode',
+                table:{
+                    url:'../account/selectAccount',
+                    cellMinWidth: 60,
+                    cols:[
+                        [   {type:'radio'},
+                            {field:'accountName',title:'账户名称',width:100},
+                            {field: 'blankCardCode',title:'银行卡号',width: 100},
+                            {field: 'blankName',title: '银行名称'},
+                            {field: 'accountId',title: '账号Id',hidden:true}
+                        ]
+                    ]
+                },
+                done:function (elem,data) {
+                    //elem:返回之前input对象；data:表格返回的选中的数据 []
+                    var newJson=[];
+                    //遍历选中的数据
+                    $.each(data.data,function (index,item) {
+                        newJson.push(item.blankCardCode);
+                        $("#insertOutAccountId").val(item.accountId);//给隐藏域中的val赋值
+                        $("#insertOutAccountName").val(item.accountName);//给账户名称中的val赋值
+                        $("#outBlankName").val(item.blankName);//给银行名称中的val赋值
+                    });
+                    elem.val(newJson.join(","));//给输入框里显示的值赋值
 
+                }
+            })
+            //新增流入账户的下拉表格
+            tableSelect.render({
+                elem:'#insertInBlankCardCode',
+                checkedKey:'blankCardCode',
+                table:{
+                    url:'../account/selectAccount',
+                    cellMinWidth: 60,
+                    cols:[
+                        [   {type:'radio'},
+                            {field:'accountName',title:'账户名称',width:100},
+                            {field: 'blankCardCode',title:'银行卡号',width: 100},
+                            {field: 'blankName',title: '银行名称'},
+                            {field: 'accountId',title: '账号Id',hidden:true}
+                        ]
+                    ]
+                },
+                done:function (elem,data) {
+                    //elem:返回之前input对象；data:表格返回的选中的数据 []
+                    var newJson=[];
+                    //遍历选中的数据
+                    $.each(data.data,function (index,item) {
+                        newJson.push(item.blankCardCode);
+                        $("#insertInAccountId").val(item.accountId);//给隐藏域中的val赋值
+                        $("#insertInAccountName").val(item.accountName);//给账户名称中的val赋值
+                        $("#inBlankName").val(item.blankName);//给银行名称中的val赋值
+                    });
+                    elem.val(newJson.join(","));//给输入框里显示的值赋值
+
+                }
+            })
 
         });
         function myclose() {
@@ -283,22 +357,23 @@
      style="display: none; height: 100%; height: 100%; text-align: center;">
     <form id="addform" lay-filter="addform"
           class="layui-form layui-form-pane"
-          style="margin: 30px auto; display: inline-block;">
+          style="margin: 0px auto; display: inline-block;">
         <fieldset class="layui-elem-field layui-field-title"
-                  style="margin-top: 50px;">
+                  style="margin-top: 10px;">
             <legend>流出账户</legend>
         </fieldset>
         <div>
             <div class="layui-inline layui-show-xs-block">
+                <input type="hidden" name="outAccountId" id="insertOutAccountId">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">流出账户</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择流出账户">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择流出账户" id="insertBlankCardCode" name="blankCardCode">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户名称</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户名称">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户名称" name="outAccountName" id="insertOutAccountName">
                 </div>
             </div>
         </div>
@@ -307,13 +382,13 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户银行</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户银行">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户银行" name="outBlankName" id="outBlankName">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">存款金额</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入存款金额">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入存款金额" name="money">
                 </div>
             </div>
         </div>
@@ -323,15 +398,16 @@
         </fieldset>
         <div>
             <div class="layui-inline layui-show-xs-block">
+                <input type="hidden" name="inAccountId" id="insertInAccountId">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">流入账户</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择流入账户">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择流入账户" name="inBlankCardCode" id="insertInBlankCardCode">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户名称</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户名称">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户名称" name="inAccountName" id="insertInAccountName">
                 </div>
             </div>
         </div>
@@ -340,17 +416,17 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户银行</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户银行">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择账户银行" name="inBlankName" id="inBlankName">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center" >业务类型</label>
                 <div class="layui-inline layui-show-xs-block" style="text-align: center;width: 187px">
-                    <select name="cateid" >
-                        <option>请选择业务类型</option>
-                        <option>三天存款</option>
-                        <option>七天存款</option>
-                        <option>活期存款</option>
+                    <select name="businessType" >
+                        <option value="">请选择业务类型</option>
+                        <option value="1">三天存款</option>
+                        <option value="2">七天存款</option>
+                        <option value="3">活期存款</option>
                     </select>
                 </div>
             </div>
@@ -360,18 +436,18 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择业务日期" name="end" id="end">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择业务日期" name="businessDate" id="end">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">到期日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择到期日期" name="end" id="up">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择到期日期" name="endDate" id="up">
                 </div>
             </div>
         </div>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+        <div style="position: absolute; bottom: 0px; left: 40%;">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit" >
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">

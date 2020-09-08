@@ -6,6 +6,7 @@ import com.yidu.cashControl.service.BankTreasurerService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.HashMap;
  * @version 1.1
  * @time 2020/9/7
  **/
+@Transactional
 @Service
 public class BankTreasurerServiceImpl implements BankTreasurerService {
     @Resource
