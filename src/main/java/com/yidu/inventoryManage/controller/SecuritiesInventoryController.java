@@ -52,7 +52,6 @@ public class SecuritiesInventoryController {
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory){
         System.out.println(securitiesInventory);
         securitiesInventory.setSecuritiesInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SI));
-        securitiesInventory.setFundId("121");
         int i = securitiesInventoryService.insertSecuritiesInventory(securitiesInventory);
         return i;
     }
