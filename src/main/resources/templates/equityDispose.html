@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="../static/css/font.css">
-    <link rel="stylesheet" href="../static/css/xadmin.css">
-    <link rel="stylesheet" href="../../static/css/theme9.css">
-    <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../static/js/xadmin.js"></script>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <link rel="stylesheet" href="../../css/theme9.css">
+    <script src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]-->
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 
-    <link rel="stylesheet" href="../static/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
 
 
-    <script src="../static/lib/layui/layui.js"></script>
+    <script src="../lib/layui/layui.js"></script>
 
     <script type="text/javascript">
 
@@ -39,39 +39,43 @@
             });
             table.render({
                 elem: '#userTable',
-                url: './selectUser',
+                url: '../selectEquityDispose',
                 page: true,
                 height: 498,
                 minLength:80,
-                cols: [[ //表头
+                cols: [
+                    [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'equityId', title: '权益编号', width:150, align:'center'}
-                    ,{field: 'securityName', title: '证券名称', width: 150, align:'center'}
-                    ,{field: 'cashAccountName', title: '账户名称', width:150, align:'center'}
+                    ,{field: 'equityDataId', title: '权益编号', width:150, align:'center'}
+                    ,{field: 'securitiesName', title: '证券名称', width: 150, align:'center'}
+                    ,{field: 'accountName', title: '账户名称', width:150, align:'center'}
                     ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center'}
                     ,{field: 'equitiesExright', title: '除权日期', width:150, align:'center'}
-                    ,{field: 'securityNum', title: '证券数量', width:150, align:'center'}
+                    ,{field: 'securitiesNum', title: '证券数量', width:150, align:'center'}
                     ,{field: 'proportion', title: '比例', width:150, align:'center'}
                     ,{field: 'settlementAmount', title: '结算金额', width:150, align:'center'}
-                ]]
+                ]
+                ]
             });
             table.render({
                 elem: '#userTable2',
-                url: './selectUser',
+                url: '../selectEquityDispose',
                 page: true,
                 height: 498,
                 minLength:80,
-                cols: [[ //表头
+                cols: [
+                    [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'equityId', title: '权益编号', width:150, align:'center'}
-                    ,{field: 'securityName', title: '证券名称', width: 150, align:'center'}
-                    ,{field: 'cashAccountName', title: '账户名称', width:150, align:'center'}
-                    ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center'}
-                    ,{field: 'equitiesExright', title: '除权日期', width:150, align:'center'}
-                    ,{field: 'securityNum', title: '证券数量', width:150, align:'center'}
-                    ,{field: 'proportion', title: '比例', width:150, align:'center'}
-                    ,{field: 'settlementAmount', title: '结算金额', width:150, align:'center'}
-                ]]
+                        ,{field: 'equityDataId', title: '权益编号', width:150, align:'center'}
+                        ,{field: 'securitiesName', title: '证券名称', width: 150, align:'center'}
+                        ,{field: 'accountName', title: '账户名称', width:150, align:'center'}
+                        ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center'}
+                        ,{field: 'equitiesExright', title: '除权日期', width:150, align:'center'}
+                        ,{field: 'securitiesNum', title: '证券数量', width:150, align:'center'}
+                        ,{field: 'proportion', title: '比例', width:150, align:'center'}
+                        ,{field: 'settlementAmount', title: '结算金额', width:150, align:'center'}
+                ]
+                ]
             });
         });
     </script>

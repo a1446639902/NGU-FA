@@ -29,7 +29,7 @@ public class TaInventoryController {
 
         System.out.println(datetime);
 
-        List<TaInventoryEntity> taInventoryEntity = taInventoryService.selectTaInventory();
+        List<TaInventoryEntity> taInventoryEntity = taInventoryService.selectTaInventory(datetime);
         HashMap userMap = new HashMap();
         userMap.put("count",10);
         userMap.put("code",0);

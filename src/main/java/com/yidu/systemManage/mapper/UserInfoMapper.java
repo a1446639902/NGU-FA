@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface UserInfoMapper {
     public int insertUser(UserInfoPojo userInfoPojo);
-    public int deleteUser(int userId);
+    public int deleteUser(List userIdList);
     public int updateUser(UserInfoPojo userInfoPojo);
     public void selectUser(HashMap hashMap);
 }

@@ -23,12 +23,15 @@ public class UserInfoController {
     UserInfoService userInfoService;
 
     //添加
-   /* @RequestMapping(value = "/insertUser",method = {RequestMethod.GET,RequestMethod.POST})
-    public int insertUser(@ModelAttribute UserInfoPojo userInfoPojo){
+    @RequestMapping("/insertUsers")
+    public int insertUser(UserInfoPojo userInfoPojo){
+        return userInfoService.insertUser(userInfoPojo);
 
-        int i = userInfoService.insertUser(userInfoPojo);
-        return i;
-    }*/
+    }
+
+
+
+
 
     //修改
     @RequestMapping("/updateUsers")
@@ -38,8 +41,8 @@ public class UserInfoController {
 
     //删除
     @RequestMapping("/deleteUsers")
-    public int deleteUser(int userId){
-       return userInfoService.deleteUser(userId);
+    public int deleteUser(String userId){
+        return userInfoService.deleteUser(userId);
     }
     //查询
     @RequestMapping("/selectUsers")
@@ -61,8 +64,8 @@ public class UserInfoController {
         return userList;
     }*/
 
-    /* *//*查询用户*//*
-    @RequestMapping("/insertUser")
+
+  /*  @RequestMapping("/insertUser")
     public List<UserPojo> insertUser(UserPojo userPojo){
         return userService.insertUserInfo(userPojo);
     }*/
