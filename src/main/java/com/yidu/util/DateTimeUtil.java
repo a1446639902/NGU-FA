@@ -44,6 +44,7 @@ public class DateTimeUtil {
     }
 
     public static void main(String[] args) {
+
         String systemDateTime = DateTimeUtil.getSystemDateTime(DateTimeUtil.type14);
         System.out.println(systemDateTime);
     }

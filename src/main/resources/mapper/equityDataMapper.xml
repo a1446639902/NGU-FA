@@ -3,16 +3,16 @@
 <mapper namespace="com.yidu.businessData.mapper.EquityDataMapper">
 
     <insert id="insertEquityData">
-        insert into equityData values(#{equityDataId},#{dateTime},#{securityId},#{securitiesName},#{equitiesRecord},#{equitiesExright},#{receivedDate},#{equitiesType},#{proportion},#{disposeStatus})
+        insert into equityData values(#{equityDataId},#{dateTime},#{securityId},<!--#{securitiesName},-->#{equitiesRecord},#{equitiesExright},#{receivedDate},#{equitiesType},#{proportion},#{disposeStatus})
     </insert>
     <!--修改-->
     <update id="updateEquityData">
-        update equityData set dateTime=#{dateTime},securityId=#{securityId},securitiesName=#{securitiesName},equitiesRecord=#{equitiesRecord},equitiesExright=#{equitiesExright},receivedDate=#{receivedDate},equitiesType=#{equitiesType},proportion=#{proportion},disposeStatus=#{disposeStatus} where equityDataId=#{equityDataId}
+        update equityData set dateTime=#{dateTime},securityId=#{securityI1d},<!-->equitiesRecord=#{equitiesRecord},-->equitiesExright=#{equitiesExright},receivedDate=#{receivedDate},equitiesType=#{equitiesType},proportion=#{proportion},disposeStatus=#{disposeStatus} where equityDataId=#{equityDataId}
     </update>
     <!--删除-->
     <delete id="deleteEquityData" parameterType="java.util.List">
         delete from equityData where equityDataId in
-        <foreach collection="list" item="equityId"
+        <foreach collection="list" item="equityDataId"
                  open="(" separator="," close=")">
             #{equityDataId}
         </foreach>

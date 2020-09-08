@@ -10,24 +10,51 @@ package com.yidu.businessData.pojo;
 public class CashClosedPayPojo {
     private String cashClosedPayId;     //现金应收应付
     private String fundId;              //基金信息表Id  fund表
+    private String fundName;            //基金名称
     private String accountId;           //账户信息表ID  account表
-    private String securitiesId;        //证券信息表ID  securities表
+    private String accountName;         //账户名称
     private int serviceType;            //业务类型 1=“管理费”2=“托管费”3=“存款利息”4=“申购赎回款"        **
     private double amount;              //金额                                                    **
     private String dateTime;            //日期                                                    **
-    private int flag;                   //资金流向 1=“流入”-1 =“流出”                               **
+    private int flag;                   //资金流向 1=“流入” -1=“流出”                               **
 
     public CashClosedPayPojo(){}
-    public CashClosedPayPojo(String cashClosedPayId, String fundId, String accountId, String securitiesId,
+    public CashClosedPayPojo(String cashClosedPayId, String fundId, String accountId,
                              int serviceType, double amount, String dateTime, int flag) {
         this.cashClosedPayId = cashClosedPayId;
         this.fundId = fundId;
         this.accountId = accountId;
-        this.securitiesId = securitiesId;
         this.serviceType = serviceType;
         this.amount = amount;
         this.dateTime = dateTime;
         this.flag = flag;
+    }
+
+    public CashClosedPayPojo(String cashClosedPayId, String fundId, String fundName, String accountId, String accountName,
+                             int serviceType, double amount, String dateTime, int flag) {
+        this.cashClosedPayId = cashClosedPayId;
+        this.fundId = fundId;
+        this.fundName = fundName;
+        this.accountId = accountId;
+        this.accountName = accountName;
+        this.serviceType = serviceType;
+        this.amount = amount;
+        this.dateTime = dateTime;
+        this.flag = flag;
+    }
+
+    public String getFundName() {
+        return fundName;
+    }
+    public void setFundName(String fundName) {
+        this.fundName = fundName;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getCashClosedPayId() {
@@ -49,13 +76,6 @@ public class CashClosedPayPojo {
     }
     public void setAccountId(String accountId) {
         this.accountId = accountId;
-    }
-
-    public String getSecuritiesId() {
-        return securitiesId;
-    }
-    public void setSecuritiesId(String securitiesId) {
-        this.securitiesId = securitiesId;
     }
 
     public int getServiceType() {
@@ -91,8 +111,9 @@ public class CashClosedPayPojo {
         return "CashClosedPayPojo{" +
                 "cashClosedPayId='" + cashClosedPayId + '\'' +
                 ", fundId='" + fundId + '\'' +
+                ", fundName='" + fundName + '\'' +
                 ", accountId='" + accountId + '\'' +
-                ", securitiesId='" + securitiesId + '\'' +
+                ", accountName='" + accountName + '\'' +
                 ", serviceType=" + serviceType +
                 ", amount=" + amount +
                 ", dateTime='" + dateTime + '\'' +

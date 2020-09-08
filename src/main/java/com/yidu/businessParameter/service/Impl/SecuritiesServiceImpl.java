@@ -6,7 +6,9 @@ import com.yidu.businessParameter.service.SecuritiesService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * author xbf
@@ -25,7 +27,16 @@ public class SecuritiesServiceImpl implements SecuritiesService {
 
     @Override
     public int deleteSecurities(String securitiesId) {
-        return securitiesMapper.deleteSecurities(securitiesId);
+        //定义一个数组接收编号，切割字符串
+        String[] split = securitiesId.split(",");
+        //定义一个整型集合
+        List<String> securitiesList = new ArrayList<String>();
+        //循环数组
+        for (String id : split) {
+            //将数组循环的值添加到集合中，强转为整型
+            securitiesList.add(id);
+        }
+        return securitiesMapper.deleteSecurities(securitiesList);
     }
 
     @Override

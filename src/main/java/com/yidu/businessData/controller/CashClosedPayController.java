@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,28 +27,28 @@ public class CashClosedPayController {
     CashClosedPayService cashClosedPayService;
 
     @RequestMapping("insertCashClosedPay")
-    public int insertCash(CashClosedPayPojo cashClosedPay){
-        System.out.println("进入了新增Controller");
+    public int insertCashClosedPay(CashClosedPayPojo cashClosedPay){
+        System.out.println("进入了cashClosedPay新增Controller");
         int i = cashClosedPayService.insertCashClosedPay(cashClosedPay);
         return i;
     };
     @RequestMapping("deleteCashClosedPay")
     public int deleteCashClosedPay(String cashClosedPayId){
-        System.out.println("进入了删除Controller");
+        System.out.println("进入了cashClosedPay删除Controller");
         int i = cashClosedPayService.deleteCashClosedPay(cashClosedPayId);
         return i;
     };
     @RequestMapping("updateCashClosedPay")
     public int updateCashClosedPay(CashClosedPayPojo cashClosePay){
-        System.out.println("进入了修改Controller");
+        System.out.println("进入了cashClosedPay修改Controller");
         int i = cashClosedPayService.updateCashClosedPay(cashClosePay);
         return i;
     };
     @RequestMapping("selectCashClosedPay")
-    public Map<String,Object> selectCashClosedPay(String page, String limit){
-        System.out.println("进入了查询Controller");
+    public Map<String,Object> selectCashClosedPay(String page, String limit,String dateTime,String serviceType){
+        System.out.println("进入了cashClosedPay查询Controller");
         //调用Service层 返回结果集map
-        Map<String,Object> map =cashClosedPayService.selectCashClosedPay(limit,page);
+        Map<String,Object> map =cashClosedPayService.selectCashClosedPay(limit,page,dateTime,serviceType);
         //从结果集中拿出结果
         //接收返回数据
         List<CashClosedPayPojo> cashClosedPays= (List<CashClosedPayPojo>) map.get("cashClosedPays");

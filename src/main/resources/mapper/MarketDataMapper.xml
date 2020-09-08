@@ -9,6 +9,9 @@
         <result property="openPrice" column="openPrice" javaType="Double"></result>
         <result property="closingPrice" column="closingPrice" javaType="Double"></result>
         <result property="marketDesc" column="marketDesc" javaType="String"></result>
+        <association property="securitiesPojo" javaType="com.yidu.businessParameter.pojo.SecuritiesPojo">
+            <result column="securitiesName" property="securitiesName"></result>
+        </association>
     </resultMap>
     <select id="selectMarKetDate" parameterType="java.util.Map" statementType="CALLABLE">
          {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=MarketDataMap})}
@@ -18,7 +21,7 @@
         delete from market where marketId=#{marketId}
     </delete>
    <update id="updateMarketDate" parameterType="com.yidu.businessData.pojo.MarketData">
-       update market set securitiesId=#{securitiesId},dateTime=#{dateTime},openPrice=#{openPrice},closingPrice=#{closingPrice} where marketId=#{marketId}
+       update market set dateTime=#{dateTime},openPrice=#{openPrice},closingPrice=#{closingPrice},marketDesc=#{marketDesc} where marketId=#{marketId}
    </update>
    <insert id="insertMarketDate" parameterType="com.yidu.businessData.pojo.MarketData">
        insert into market values (#{marketId},#{securitiesId},#{dateTime},#{openPrice},#{closingPrice},#{marketDesc})
