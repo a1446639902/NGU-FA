@@ -9,7 +9,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="../css/font.css">
     <link rel="stylesheet" href="../css/xadmin.css">
-    <link rel="stylesheet" href="../css/theme9.css">
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -17,7 +16,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 
-    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+
 
 
     <script src="../lib/layui/layui.js"></script>
@@ -29,7 +28,6 @@
             var $ = layui.$;
             var table = layui.table;
             var form = layui.form;
-            var formSelects = layui.formSelects;
             var laydate = layui.laydate;
 
             //执行一个laydate实例
@@ -39,84 +37,129 @@
             });
             table.render({
                 elem: '#userTable',
-                url: './selectUser',
+                url: '../Settlement/selectSettlement?status=0',
+                page: true,
+                height: 498,
+                minLength:80,
+                toolbar: '#userToolBar',
+                cols: [
+                    [ //表头
+                         {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
+                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
+                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
+                        ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
+                        ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
+                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
+                        ,{field: 'accountName', title: ' 现金账户', width: 130, align:'center'}
+                        ,{field: 'securitiesName', title: ' 证券名称', width: 130, align:'center'}
+                        ,{field: 'brokersName', title: '券商名称', width: 130, align:'center'}
+                        ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
+                            if(item.transactionDataMode=='1') {
+                                return '买入';
+                            } else if(item.transactionDataMode=='2'){
+                                return '卖出';
+                            } else if(item.transactionDataMode=='3'){
+                                return '分红';
+                            } else if(item.transactionDataMode=='4'){
+                                return '送股';
+                            }
+                        }
+                    }
+                        ,{field: 'status', title: '交易状态', width: 130, align:'center', templet: function(item){
+                            if(item.status=='0') {
+                                return '未结算';
+                            } else if(item.status=='1'){
+                                return '已结算';
+                            }
+                        }
+                    }
+                ]
+                ]
+            });
+
+
+
+            table.render({
+                elem: '#userTable2',
+                url: '../Settlement/selectSettlement?status=1',
                 page: true,
                 height: 498,
                 minLength:80,
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'equityId', title: '证券名称', width:130, align:'center'}
-                        ,{field: 'securityName', title: '券商名称', width: 130, align:'center'}
-                        ,{field: 'cashAccountName', title: '现金账户', width:130, align:'center'}
-                        ,{field: 'equitiesType', title: '交易单价', width: 130, align:'center'}
-                        ,{field: 'equitiesExright', title: '交易数量', width:130, align:'center'}
-                        ,{field: 'securityNum', title: '交易金额', width:130, align:'center'}
-                        ,{field: 'proportion', title: '实收金额', width:130, align:'center'}
-                        ,{field: 'settlementAmount', title: '交易类型', width:130, align:'center'}
-                        ,{field: 'securityNum', title: '交易日期', width:130, align:'center'}
-                        ,{field: 'proportion', title: '结算日期', width:130, align:'center'}
-                        ,{field: 'settlementAmount', title: '交易状态', width:130, align:'center'}
-                ]
-                ]
-            });
-            table.render({
-                elem: '#userTable2',
-                url: './selectUser',
-                page: true,
-                height: 498,
-                minLength:80,
-                cols: [
-                    [ //表头
-                    {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'equityId', title: '证券名称', width:130, align:'center'}
-                    ,{field: 'securityName', title: '券商名称', width: 130, align:'center'}
-                    ,{field: 'cashAccountName', title: '现金账户', width:130, align:'center'}
-                    ,{field: 'equitiesType', title: '交易单价', width: 130, align:'center'}
-                    ,{field: 'equitiesExright', title: '交易数量', width:130, align:'center'}
-                    ,{field: 'securityNum', title: '交易金额', width:130, align:'center'}
-                    ,{field: 'proportion', title: '实收金额', width:130, align:'center'}
-                    ,{field: 'settlementAmount', title: '交易类型', width:130, align:'center'}
-                    ,{field: 'securityNum', title: '交易日期', width:130, align:'center'}
-                    ,{field: 'proportion', title: '结算日期', width:130, align:'center'}
-                    ,{field: 'settlementAmount', title: '交易状态', width:130, align:'center'}
-                ]
+                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
+                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
+                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
+                        ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
+                        ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
+                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
+                        ,{field: 'accountName', title: ' 现金账户', width: 130, align:'center'}
+                        ,{field: 'securitiesName', title: ' 证券名称', width: 130, align:'center'}
+                        ,{field: 'brokersName', title: '券商名称', width: 130, align:'center'}
+                        ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
+                            if(item.transactionDataMode=='1') {
+                                return '买入';
+                            } else if(item.transactionDataMode=='2'){
+                                return '卖出';
+                            } else if(item.transactionDataMode=='3'){
+                                return '分红';
+                            } else if(item.transactionDataMode=='4'){
+                                return '送股';
+                            }
+                        }
+                    }
+                        ,{field: 'status', title: '交易状态', width: 130, align:'center', templet: function(item){
+                            if(item.status=='0') {
+                                return '未结算';
+                            } else if(item.status=='1'){
+                                return '已结算';
+                            }
+                        }
+                    }
+                        ,{field: 'operation', title: '操作' , width: 160, align:'center',toolbar:'#barDemo'}
+                    ]
                 ]
             });
             });
+
+
 </script>
 </head>
+
 <body>
 
 <div style="margin-top: 20px;margin-left: 10px">
+    <!--工具条-->
+    <script type="text/html" id="userToolBar">
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="businessDate" id="start">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易方式</label>
-
                 <div class="layui-inline layui-show-xs-block">
-                    <select name="cateid">
-                        <option>请选择</option>
-                        <option>申购</option>
-                        <option>赎回</option>
-                        <option>分红</option>
-                        <option>送股</option>
+                    <select name="transactionDataMode" id="transactionDataMode1">
+                        <option placeholder="请选择"></option>
+                        <option value="1">买入</option>
+                        <option value="2">卖出</option>
+                        <option value="3">分红</option>
+                        <option value="4">送股</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="sreach" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach">结算</button>
+                <button class="layui-btn"  lay-submit="settlement" lay-filter="settlement" id="settlement">结算</button>
             </div>
         </form>
-
+    </script>
 
 </div>
 
@@ -126,10 +169,10 @@
         <li lay-id="2">已结算</li>
     </ul>
     <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show">
-            <!--表格-->
-            <table id="userTable" lay-filter="userTable"></table>
-        </div>
+            <div class="layui-tab-item layui-show">
+                <!--表格-->
+                <table id="userTable" lay-filter="userTable"></table>
+            </div>
         <div class="layui-tab-item">
             <table id="userTable2" lay-filter="userTable"></table>
         </div>
@@ -146,11 +189,21 @@
         var layid = location.hash.replace(/^#test=/, '');
         element.tabChange('test', layid);
 
+        //反结算和结算按钮
         element.on('tab(test)', function(elem){
             location.hash = 'test='+ $(this).attr('lay-id');
+            var submit = $(this).attr('lay-id')
+            if (submit == '2'){
+                $('#settlement').html("反结算")
+            }
+            if (submit == '1'){
+                $('#settlement').html("结算")
+            }
         });
-
     });
 </script>
+
+
+
 </body>
 </html>

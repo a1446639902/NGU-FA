@@ -40,6 +40,8 @@
                         <option value="2">申购赎回清算款</option>
                         <option value="3">买卖交易清算款</option>
                         <option value="4">债券利息</option>
+                        <option value="5">存款业务</option>
+                        <option value="6">两费</option>
                     </select>
                 </div>
             </div>
@@ -165,6 +167,12 @@
                                 }
                                 else if(item.allocatingType==4){
                                     return '债券利息';
+                                }
+                                else if(item.allocatingType==5){
+                                    return '存款业务';
+                                }
+                                else if(item.allocatingType==6){
+                                    return '两费';
                                 }
                         }}
                         ,{field: 'flag', title: '调拨方向', width: 120,align:'center'
@@ -404,6 +412,8 @@
                                 <option value="2">申购赎回清算款</option>
                                 <option value="3">买卖交易清算款</option>
                                 <option value="4">债券利息</option>
+                                <option value="5">存款业务</option>
+                                <option value="6">两费</option>
                             </select>
                         </div>
                     </div>
@@ -487,6 +497,8 @@
                                 <option value="2">申购赎回清算款</option>
                                 <option value="3">买卖交易清算款</option>
                                 <option value="4">债券利息</option>
+                                <option value="5">存款业务</option>
+                                <option value="6">两费</option>
                             </select>
                         </div>
                     </div>
