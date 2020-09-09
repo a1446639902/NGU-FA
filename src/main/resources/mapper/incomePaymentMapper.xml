@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.dayDispose.mapper.IncomePaymentMapper">
+<!--    现金应收应付-->
+    <select id="selectCashClosedPays" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,jdbcType=VARCHAR,mode=IN},#{p_condition,jdbcType=VARCHAR,mode=IN},#{p_pageSize,jdbcType=INTEGER,mode=IN},#{p_page,jdbcType=INTEGER,mode=IN},#{p_count,jdbcType=INTEGER,mode=OUT},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=cashClosedPays_map})}
+    </select>
+    <resultMap id="cashClosedPays_map" type="com.yidu.dayDispose.pojo.IncomePaymentPojo">
+        <result property="cashClosedPayInventoryId" column="cashClosedPayInventoryId" javaType="String"></result>
+        <result property="deposit" column="deposit" javaType="Integer"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="businessType" column="businessType" javaType="Integer"></result>
+        <result property="totalMoney" column="totalMoney" javaType="Double"></result>
+        <result property="businessDate" column="businessDate" javaType="String"></result>
+        <result property="businessStatus" column="businessStatus" javaType="Integer"></result>
+    </resultMap>
+<!--     证券应收应付-->
+    <select id="selectSecuritiesClosedPay" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,jdbcType=VARCHAR,mode=IN},#{p_condition,jdbcType=VARCHAR,mode=IN},#{p_pageSize,jdbcType=INTEGER,mode=IN},#{p_page,jdbcType=INTEGER,mode=IN},#{p_count,jdbcType=INTEGER,mode=OUT},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=securitiesClosedPay_map})}
+    </select>
+    <resultMap id="securitiesClosedPay_map" type="com.yidu.dayDispose.pojo.IncomePaymentPojo">
+        <result property="securitiesClosedPayInventoryId" column="securitiesClosedPayInventoryId" javaType="String"></result>
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="securitiesType" column="securitiesType" javaType="Integer"></result>
+        <result property="totalMoney" column="totalPrice" javaType="Double"></result>
+        <result property="businessDate" column="dateTime" javaType="String"></result>
+        <result property="businessStatus" column="flag" javaType="Integer"></result>
+    </resultMap>
+<!--    -->
+    <select id="selectTwoCost" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,jdbcType=VARCHAR,mode=IN},#{p_condition,jdbcType=VARCHAR,mode=IN},#{p_pageSize,jdbcType=INTEGER,mode=IN},#{p_page,jdbcType=INTEGER,mode=IN},#{p_count,jdbcType=INTEGER,mode=OUT},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=twoCost_map})}
+    </select>
+    <resultMap id="twoCost_map" type="com.yidu.dayDispose.pojo.IncomePaymentPojo">
+        <result property="cashClosedPayInventoryId" column="cashClosedPayInventoryId" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="businessType" column="businessType" javaType="Integer"></result>
+        <result property="totalMoney" column="totalMoney" javaType="Double"></result>
+        <result property="businessDate" column="businessDate" javaType="String"></result>
+        <result property="businessStatus" column="businessStatus" javaType="Integer"></result>
+    </resultMap>
+</mapper>

@@ -95,33 +95,7 @@
                 });
                 return false;
             });
-            //修改提交
-            form.on('submit(editsubmit)', function(data){
-                var formData=$('#editform').serialize();
-                $.post("../user/updateUser",formData,function(msg){
-                    if(msg>0){
-                        table.reload('userTable');
-                        layer.closeAll();
-                        layer.msg('修改成功',{
-                            title : '提示',
-                            area : [ '200px',
-                                '140px' ],
-                            time : 0,
-                            btn : [ '知道了' ]
-                        });
-                    }else{
-                        layer.closeAll();
-                        layer.msg('修改失败',{
-                            title : '提示',
-                            area : [ '200px',
-                                '140px' ],
-                            time : 0,
-                            btn : [ '知道了' ]
-                        });
-                    }
-                });
-                return false;
-            });
+
             table.render({
                 elem: '#userTable',
                 url: '../deposit/selectDeposit',
@@ -137,6 +111,8 @@
                         ,{field: 'outAccountName', title: '流出账户', width:165,align:'center'}
                         ,{field: 'inAccountId', title: '流入账户Id', width: 150,align:'center'}
                         ,{field: 'inAccountName', title: '流入账户', width:165,align:'center'}
+                        ,{field: 'businessDate', title: '业务时间', width:165,align:'center',hidden:true}
+                        ,{field: 'depositId', title: '存款业务Id', width:165,align:'center',hidden:true}
                         ,{field: 'businessType', title: '业务类型', width: 145,align:'center',
                             templet:function (item) {
                                 if(item.businessType==1){
@@ -233,43 +209,56 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到删除行整行的数据
-                alert(data.userId);
+                var endDateHaoMiao = new Date(data.endDate).getTime();//获得到期日期的时间
+                var dateTimeHaoMiao = new Date(data.businessDate).getTime();//获得业务日期时间
+                var nowTimeHaoMiao = new Date().getTime();//获得当前日期的时间
+
+               /* alert(data.userId);*/
                 if (obj.event === 'del') {
-                    layer.confirm('真的删除行么',{icon: 2}, function(index){
-                        layer.close(index);
-                        $.post("../user/deleteUser", {userId:data.userId+""},function(msg){
-                            table.reload('userTable');
+                    if(data.flag==1){
+                        layer.msg('已处理业务无法删除');
+                    }
+                    else if(data.flag==0) {
+                        layer.confirm('真的删除行么', {icon: 1}, function (index) {
+                            layer.close(index);
+                            $.post("../deposit/deleteDeposit","depositId="+data.depositId,function (msg) {
+                                if(msg>0){
+                                    layer.msg('删除成功');
+                                }
+                                else{
+                                    layer.msg('出现一个错误处理失败');
+                                }
+                                table.reload('userTable');
+                            });
+
+
                         });
-
-                    });
-                } else if (obj.event === 'edit') {
-                    alert(JSON.stringify(data));
-
-                    form.val('editform',$.parseJSON(JSON.stringify(data)));
-                    var index = layer.open({
-                        type: 1,
-                        title: '修改员工',
-                        closeBtn: 1,
-                        move:false,
-                        area: ['500px', '400px'],
-                        content:$('#editContent')
-                    });
-                    $.ajax({
-                        url:'../user/selectRole',
-                        dataType:'json',
-                        type:'post',
-                        success:function(obj){
-
-                            $.each(obj,function(index,item){
-                                $('#roleId_2').append(new Option(item.roleName,item.roleId));//往下拉菜单里添加元素
-                            })
-                            $("#roleId_2 option[value='"+data.roleId+"']").attr("selected", "selected");
-                            form.render();//菜单渲染 把内容加载进去
+                    }
+                }
+                else if (obj.event === 'edit') {
+                        if(data.flag==1){
+                            layer.msg('已处理不可重复操作');
                         }
-                    })
-                    form.render();
+                        else if(endDateHaoMiao>nowTimeHaoMiao && data.businessType!=3){
+                            layer.msg('存款未到期无法处理');
+                        }
+                        else{
+                            layer.confirm('确认对此存款进行到期处理?',{icon: 1}, function(index){
+                                layer.close(index);
+                                $.post("../deposit/updateDeposit",data,function(msg){
+                                        if(msg>0){
+                                            layer.msg('已处理');
+                                        }else{
+                                            layer.msg('出现一个错误处理失败');
+                                        }
+                                    });
+                                table.reload('userTable');
+                            });
+                        }
                     layer.full(index);
-                };
+                    }
+
+
             })
             //新增流出账号的下拉表格
             tableSelect.render({

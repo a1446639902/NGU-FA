@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
- *
+ *现金应收应付服务类
  * @ClassName CashClosedPayService
  * @Description: TODO
  * @Author 硠君

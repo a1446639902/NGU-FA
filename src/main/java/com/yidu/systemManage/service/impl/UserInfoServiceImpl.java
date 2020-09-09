@@ -68,7 +68,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public HashMap selectUser() {
         HashMap userMap=new HashMap();
-        userMap.put("p_tableName","userInfo");
+        String tableName ="(select * from userInfo join role on userInfo.roleId=role.roleId)";
+        userMap.put("p_tableName",tableName);
         userMap.put("p_condition","");
         userMap.put("p_pageSize",10);
         userMap.put("p_page",1);

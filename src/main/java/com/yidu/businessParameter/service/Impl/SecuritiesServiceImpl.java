@@ -49,7 +49,8 @@ public class SecuritiesServiceImpl implements SecuritiesService {
     @Override
     public HashMap selectSecurities() {
         HashMap securitiesMap = new HashMap();
-        securitiesMap.put("p_tableName","securities");
+        String tableName="(select * from securities join stock on securities.stockId=stock.stockId)";
+        securitiesMap.put("p_tableName",tableName);
         securitiesMap.put("p_condition","");
         securitiesMap.put("p_pageSize",10);
         securitiesMap.put("p_page",1);
