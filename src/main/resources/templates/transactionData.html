@@ -29,18 +29,18 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易日期</label>
 
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入交易日期" name="end" id="end">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入交易日期" name="dateTime" id="end">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券代码</label>
 
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input" placeholder="请输入证券代码" name="equityId">
+                    <input class="layui-input" placeholder="请输入证券代码" name="securitiesName" id="equityId">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="sreach" lay-event="search" ><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
         <br>
@@ -96,9 +96,138 @@
             laydate.render({
                 elem: '#settlementDate1'
             })
-            //证券下拉表单
+            //添加证券下拉表单
             tableSelect.render({
-                elem:'#securitiesId'
+                elem:'#securitiesName'
+                ,checkedKey:'securitiesName'
+                ,table:{
+                    url:'../selectSecurities'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'checkbox'},
+                            {field:'securitiesId',title:'证券id'},
+                            {field: 'securitiesName',title:'证券名称'},
+                            {field: 'securitiesType',title: '证券类型', templet: function(item){
+                                    if(item.securitiesType=='1') {
+                                        return '债券';
+                                    } else if(item.securitiesType=='2'){
+                                        return '股票';
+                                    }
+                                }},
+                            {field: 'securitiesType',title: '证券地址', templet: function(item){
+                                    if(item.securitiesType=='1') {
+                                        return '上交所';
+                                    } else if(item.securitiesType=='2'){
+                                        return '深交所';
+                                    }
+                                }}
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    var NEWJSON = [];
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.securitiesName);
+                        $("#securitiesId").val(item.securitiesId);
+                    })
+                    elem.val(NEWJSON.join(","));
+
+                }
+            })
+
+            //添加现金账户下拉表单
+            tableSelect.render({
+                elem:'#accountName'
+                ,checkedKey:'accountName'
+                ,table:{
+                    url:'../account/selectAccount'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'checkbox'},
+                            {field:'accountId',title:'账户编号'},
+                            {field: 'accountName',title:'账户名称'}
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    var NEWJSON = [];
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.accountName);
+                        $("#accountId").val(item.accountId);
+                    })
+                    elem.val(NEWJSON.join(","));
+
+                }
+            })
+
+            //添加券商下拉表单
+            tableSelect.render({
+                elem:'#brokersName'
+                ,checkedKey:'brokersName'
+                ,table:{
+                    url:'../brokersSelect'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'checkbox'},
+                            {field:'brokersId',title:'券商编号'},
+                            {field: 'brokersName',title:'券商名称'},
+                            {field: 'brokersInstructions',title:'券商描述'}
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    alert("选中的数据：" + data);
+                    var NEWJSON = [];
+                   layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.brokersName);
+                        $("#brokersId").val(item.brokersId);
+                    });
+                    elem.val(NEWJSON.join(","));
+                    //席位名称下拉表单
+                    tableSelect.render({
+                        elem:'#seateName'
+                        ,checkedKey:'seateName'
+                        ,table:{
+                            url:'../seateSelect?brokersId=' + $("#brokersId").val()
+                            ,cellMinWidth: 60
+                            ,cols:[
+                                [
+                                    {type:'checkbox'},
+                                    {field:'seateId',title:'席位编号'},
+                                    {field:'seateName',title:'席位名称'},
+                                    {field:'seateRate',title:'佣金利率'},
+                                    {field:'brokersId',title:'券商名称'},
+                                    {field: 'seateAddress',title:'地址', templet: function(item){
+                                            if(item.seateAddress=='1') {
+                                                return '上交所';
+                                            } else if(item.seateAddress=='2'){
+                                                return '深交所';
+                                            }
+                                        }}
+
+                                ]
+                            ]
+                        }
+                        ,done:function (elem,data) {
+                            var NEWJSON = [];
+                            layui.each(data.data,function (index,item) {
+                                NEWJSON.push(item.seateName);
+                                $("#seateId").val(item.seateId);
+                            })
+                            elem.val(NEWJSON.join(","));
+
+                        }
+                    });
+
+                }
+            });
+
+            //修改证券下拉表单
+            tableSelect.render({
+                elem:'#securitiesName2'
                 ,checkedKey:'securitiesId'
                 ,table:{
                     url:'../selectSecurities'
@@ -126,17 +255,19 @@
                     ]
                 }
                 ,done:function (elem,data) {
-                    var NEWJSON = []
+                    var NEWJSON = [];
                     layui.each(data.data,function (index,item) {
-                        NEWJSON.push(item.securitiesName)
+                        NEWJSON.push(item.securitiesName);
+                        $("#securitiesId2").val(item.securitiesId);
                     })
-                    elem.val(NEWJSON.join(","))
+                    elem.val(NEWJSON.join(","));
+
                 }
             })
 
-            //基金下拉表单
+            //修改现金账户下拉表单
             tableSelect.render({
-                elem:'#accountId'
+                elem:'#accountName2'
                 ,checkedKey:'accountId'
                 ,table:{
                     url:'../account/selectAccount'
@@ -150,18 +281,20 @@
                     ]
                 }
                 ,done:function (elem,data) {
-                    var NEWJSON = []
+                    var NEWJSON = [];
                     layui.each(data.data,function (index,item) {
-                        NEWJSON.push(item.accountName)
+                        NEWJSON.push(item.accountName);
+                        $("#accountId2").val(item.accountId);
                     })
-                    elem.val(NEWJSON.join(","))
+                    elem.val(NEWJSON.join(","));
+
                 }
             })
 
-            //券商下拉表单
+            //添加券商下拉表单
             tableSelect.render({
-                elem:'#brokersId'
-                ,checkedKey:'brokersId'
+                elem:'#brokersName2'
+                ,checkedKey:'brokersName'
                 ,table:{
                     url:'../brokersSelect'
                     ,cellMinWidth: 60
@@ -175,47 +308,53 @@
                     ]
                 }
                 ,done:function (elem,data) {
-                    var NEWJSON = []
+                    alert("选中的数据：" + data);
+                    var NEWJSON = [];
                     layui.each(data.data,function (index,item) {
-                        NEWJSON.push(item.brokersName)
-                    })
-                    elem.val(NEWJSON.join(","))
-                }
-            })
+                        NEWJSON.push(item.brokersName);
+                        $("#brokersId2").val(item.brokersId);
+                    });
+                    elem.val(NEWJSON.join(","));
+                    //席位名称下拉表单
+                    tableSelect.render({
+                        elem:'#seateName2'
+                        ,checkedKey:'seateName'
+                        ,table:{
+                            url:'../seateSelect?brokersId=' + $("#brokersId2").val()
+                            ,cellMinWidth: 60
+                            ,cols:[
+                                [
+                                    {type:'checkbox'},
+                                    {field:'seateId',title:'席位编号'},
+                                    {field:'seateName',title:'席位名称'},
+                                    {field:'seateRate',title:'佣金利率'},
+                                    {field:'brokersId',title:'券商名称'},
+                                    {field: 'seateAddress',title:'地址', templet: function(item){
+                                            if(item.seateAddress=='1') {
+                                                return '上交所';
+                                            } else if(item.seateAddress=='2'){
+                                                return '深交所';
+                                            }
+                                        }}
 
-            //席位名称下拉表单
-            tableSelect.render({
-                elem:'#seateId'
-                ,checkedKey:'seateId'
-                ,table:{
-                    url:'../seateSelect'
-                    ,cellMinWidth: 60
-                    ,cols:[
-                        [
-                            {type:'checkbox'},
-                            {field:'seateId',title:'席位编号'},
-                            {field:'seateName',title:'席位名称'},
-                            {field:'seateRate',title:'佣金利率'},
-                            {field:'brokersId',title:'券商名称'},
-                            {field: 'seateAddress',title:'地址', templet: function(item){
-                                    if(item.seateAddress=='1') {
-                                        return '上交所';
-                                    } else if(item.seateAddress=='2'){
-                                        return '深交所';
-                                    }
-                                }}
+                                ]
+                            ]
+                        }
+                        ,done:function (elem,data) {
+                            var NEWJSON = [];
+                            layui.each(data.data,function (index,item) {
+                                NEWJSON.push(item.seateName);
+                                $("#seateId2").val(item.seateId);
+                            })
+                            elem.val(NEWJSON.join(","));
 
-                        ]
-                    ]
+                        }
+                    });
+
                 }
-                ,done:function (elem,data) {
-                    var NEWJSON = []
-                    layui.each(data.data,function (index,item) {
-                        NEWJSON.push(item.seateName)
-                    })
-                    elem.val(NEWJSON.join(","))
-                }
-            })
+            });
+
+
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
@@ -281,7 +420,7 @@
                 cols: [
                     [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'brokersId', title: '交易单号', width: 130, align:'center',hide:true}
+                    ,{field: 'transactionDataId', title: '交易单号', width: 130, align:'center',hide:true}
                     ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
                     ,{field: 'num', title: '交易数量', width: 130, align:'center'}
                     ,{field: 'price', title: '交易单价', width:130, align:'center'}
@@ -290,7 +429,7 @@
                     ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
                     ,{field: 'accountName', title: ' 现金账户', width: 130, align:'center'}
                     ,{field: 'securitiesName', title: ' 证券名称', width: 130, align:'center'}
-                    ,{field: 'brokersIName', title: '券商名称', width: 130, align:'center'}
+                    ,{field: 'brokersName', title: '券商名称', width: 130, align:'center'}
                     ,{field: 'fundId', title: '基金代码', width: 130, align:'center',hide:true}
                     ,{field: 'fundName', title: '基金名称', width: 130, align:'center',hide:true}
                     ,{field: 'securitiesId', title: '证券ID', width: 130, align:'center',hide:true}
@@ -308,7 +447,6 @@
                     ,{field: 'management', title: '征管费', width: 130, align:'center',hide:true}
                     ,{field: 'security', title: '证券利息', width: 130, align:'center',hide:true}
                     ,{field: 'transactionDataDesc', title: '备注', width: 130, align:'center',hide:true}
-                    ,{field: 'brokersId', title: '权益编号', width: 130, align:'center',hide:true}
                     ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
                         if(item.transactionDataMode=='1') {
                                 return '买入';
@@ -353,14 +491,14 @@
                         break;
                     case 'search':
                         alert("搜索");
-                        var end= $("#end").val();
-                        var equityId= $("#equityId").val();
+                        var dateTime= $("#end").val();
+                        var securitiesName= $("#equityId").val();
                         //表格的重新加载事件
                         table.reload('userTable', {
                             method: 'post'
                             , where: {
-                                'dateTime': end,
-                                'equityId': equityId,
+                                'dateTime': dateTime,
+                                'securitiesName': securitiesName
                             }
                             , page: {
                                 curr: 1
@@ -426,26 +564,27 @@
     <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
         <div>
             <input type="hidden" name="transactionDataId">
-            <input type="hidden" name="securitiesName">
+            <input type="hidden" name="securitiesId" id="securitiesId">
             <input type="hidden" name="fundId">
-            <input type="hidden" name="fundName">
-            <input type="hidden" name="brokersName">
-            <input type="hidden" name="seateName" value="席位名称">
-            <input type="hidden" name="blankName">
+            <input type="hidden" name="fundName" value="一度教育">
+            <input type="hidden" name="accountId" id="accountId">
+            <input type="hidden" name="brokersId" id="brokersId">
+            <input type="hidden" name="seateId" id="seateId">
+            <input type="hidden" name="blankName" value="中国银行">
             <input type="hidden" name="transactionDataDesc" value="备注：我爱你">
         </div>
 
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="证券ID" name="securitiesId" id="securitiesId">
+                <input class="layui-input" placeholder="证券ID" name="securitiesName" id="securitiesName">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">账户编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="账户ID" name="accountId" id="accountId">
+                <input class="layui-input" placeholder="账户ID" name="accountName" id="accountName">
             </div>
         </div>
         <br>
@@ -453,14 +592,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">券商名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="券商ID" name="brokersId" id="brokersId">
+                <input class="layui-input" placeholder="券商ID" name="brokersName" id="brokersName">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">席位名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="席位ID" name="seateId" id="seateId">
+                <input class="layui-input" placeholder="席位ID" name="seateName" id="seateName">
             </div>
         </div>
         <br>
@@ -587,29 +726,29 @@
 <div id="editContent"
      style="display: none; height: 100%; height: 100%; text-align: center;">
     <form id="editform" lay-filter="editform" class="layui-form layui-form-pane" style="margin: 30px auto; display: inline-block;">
-
         <div>
             <input type="hidden" name="transactionDataId">
-            <input type="hidden" name="securitiesName" value="证券名称">
-            <input type="hidden" name="fundId" value="基金id">
-            <input type="hidden" name="fundName" value="券商名称">
-            <input type="hidden" name="brokersName" value="券商名称">
-            <input type="hidden" name="seateName" value="席位名称">
-            <input type="hidden" name="blankName" value="银行名称">
-            <input type="hidden" name="transactionDataDesc" value="备注：我爱你">
+            <input type="hidden" name="securitiesId" id="securitiesId2">
+            <input type="hidden" name="fundId">
+            <input type="hidden" name="fundName">
+            <input type="hidden" name="accountId" id="accountId2">
+            <input type="hidden" name="brokersId" id="brokersId2">
+            <input type="hidden" name="seateId" id="seateId2">
+            <input type="hidden" name="blankName">
+            <input type="hidden" name="transactionDataDesc">
         </div>
 
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="证券ID" name="securitiesId">
+                <input class="layui-input" placeholder="证券ID" name="securitiesName" id="securitiesName2">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">账户编号</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="账户ID" name="accountId" >
+                <input class="layui-input" placeholder="账户ID" name="accountName" id="accountName2">
             </div>
         </div>
         <br>
@@ -617,14 +756,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">券商名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="券商ID" name="brokersId">
+                <input class="layui-input" placeholder="券商ID" name="brokersName" id="brokersName2">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">席位名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="席位ID" name="seateId">
+                <input class="layui-input" placeholder="席位ID" name="seateName" id="seateName2">
             </div>
         </div>
         <br>
@@ -744,7 +883,5 @@
         </div>
     </form>
 </div>
-
-
 </body>
 </html>

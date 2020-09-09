@@ -1,37 +1,11 @@
-package com.yidu.businessData.pojo;
+package com.yidu.businessDispose.pojo;
 
 /**
- * 交易数据表
- * @Type:实体类
  * @author Tmac
- * @time 2020/9/1  11:54
- * @version   1.0
+ * @version 1.0
+ * @time 2020/9/8  11:35
  **/
-public class TransactionData {
-
-    /*  transactionDataId	Varchar2(50)	PK 交易的单子号(主键) T2020083100001
-      dateTime	date	成交日期(交易成交的日期)
-      settlementDate	date	结算日期(交易结算的日期)
-      fundId	Varchar2(50)	FK 基金代码来自基金表
-      securitiesId	Varchar2(50)	FK 证券编号 （证券表的ID）
-      brokersId	Varchar2(50)	FK 券商ID(引用券商表的券商的ID)
-      seateId	Varchar2(50)	FK 席位Id(交易席位的Id)
-      mode	Number(1)	交易方式(1买入、2卖出，3分红，4送股)
-      status	Number(1)	交易状态（0未结算，1已结算）
-      price	number(14,2)	交易价格(单价)
-      num	number(14,2)	交易数量
-      accountId	Varchar2(50)	FK 来自现金账户表
-      netReceipts	number(14,2)	实收金额
-      totalSum	number(14,2)	交易总金额
-      flag	number(14,2)	交易标识,1流入，-1流出
-      commission	number(14,2)	佣金费用（券商）
-      transfer	number(14,2)	过户费（交易所）
-      brokerage	number(14,2)	经手费（交易所）
-      stamp	number(14,2)	印花税（上交国家的税）
-      management	number(14,2)	征管费（上交国家的税）
-      security	number(14,2)	证券利息
-      desc	varchar2(50)	备注
-  */
+public class Settlement {
     private String transactionDataId;         //PK 交易的单子号(主键) T2020083100001
     private String accountName;                //现金账户
     private String securitiesName;                //证券名称
@@ -61,10 +35,10 @@ public class TransactionData {
     private Double security;        //证券利息
     private String transactionDataDesc;            //备注
 
-    public TransactionData() {
+    public Settlement() {
     }
 
-    public TransactionData(String transactionDataId, String accountName, String securitiesName, Double price, Double num, Double netReceipts, Double totalSum, int transactionDataMode, String dateTime, String settlementDate, int status, String fundId, String fundName, String securitiesId, String brokersId, String brokersName, String seateId, String seateName, String accountId, String blankName, int flag, Double commission, Double transfer, Double brokerage, Double stamp, Double management, Double security, String transactionDataDesc) {
+    public Settlement(String transactionDataId, String accountName, String securitiesName, Double price, Double num, Double netReceipts, Double totalSum, int transactionDataMode, String dateTime, String settlementDate, int status, String fundId, String fundName, String securitiesId, String brokersId, String brokersName, String seateId, String seateName, String accountId, String blankName, int flag, Double commission, Double transfer, Double brokerage, Double stamp, Double management, Double security, String transactionDataDesc) {
         this.transactionDataId = transactionDataId;
         this.accountName = accountName;
         this.securitiesName = securitiesName;
@@ -321,7 +295,7 @@ public class TransactionData {
 
     @Override
     public String toString() {
-        return "TransactionData{" +
+        return "settlement{" +
                 "transactionDataId='" + transactionDataId + '\'' +
                 ", accountName='" + accountName + '\'' +
                 ", securitiesName='" + securitiesName + '\'' +
