@@ -43,7 +43,7 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 90px;text-align: center">席位类型</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <select name="modules" lay-search="" lay-verify="required" style="width: 130px">
+                    <select name="modules" id="modules" lay-search="" lay-verify="required" style="width: 130px">
                         <option value="">--请选择--</option>
                         <option value="1">贵宾</option>
                         <option value="2">普通</option>
@@ -124,7 +124,7 @@
                         <div class="layui-inline layui-show-xs-block">
 
                             <input class="layui-input" placeholder="请输入劵商名称" name="brokersName" id="insertBrokers">
-                            <input type="hidden"  name="brokersId" id="brokersId1">
+                            <input type="hidden" name="brokersId" id="brokersId1">
                         </div>
                     </div>
                     <div class="layui-form-item" style="text-align: center;">
@@ -143,8 +143,8 @@
             </div>
         </div>
         <div style="position: absolute; left: 35%; bottom: 18px;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
-                <i class="layui-icon">&#x1005;</i>修改
+            <button class="layui-btn" lay-submit="add" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>新增
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
@@ -450,7 +450,13 @@
                     ,{field: 'seateRate', title: '佣金利率(%)', width:128 ,align:'center'}
                     ,{field: 'brokersId', title: '劵商编号', width:128 , align:'center'}
                     ,{field: 'brokersName', title: '劵商名称', width:128 , align:'center'}
-                    ,{field: 'seateAddress', title: '席位地址', width:128 , align:'center'}
+                    ,{field: 'seateAddress', title: '席位地址', width:128 , align:'center',
+                    templet:function (item) {
+                        if(item.seateAddress==1){
+                            return '上海'
+                        }else if(item.seateAddress==2){}
+                        return '深圳'
+                    }}
                     ,{field: 'seateDesc', title: '备注',  width:128 ,align:'center'}
                     ,{title: 'operation', title: '操作' ,toolbar:'#barDemo', align:'center'}
                 ]
@@ -480,13 +486,15 @@
 
                     var seateName= $("#seateName").val();
                     var brokersId= $("#brokersId").val();
+                    var modules= $("#modules").val();
                     //alert(seateName);
                     //表格的重新加载事件
                     table.reload('userTable', {
                         method: 'post'
                         , where: {
                             'seateName': seateName,
-                            'brokersId': brokersId
+                            'brokersId': brokersId,
+                            'modules': modules
                         }
                         , page: {
                             curr: 1
@@ -568,7 +576,7 @@
                 $.each(data.data,function (index,item) {
                     newJson.push(item.brokersName);
                     alert(item.brokersId)
-                    $("#brokersId1").val(item.brokersId);
+                    $("#brokersId2").val(item.brokersId);
                 });
                 elem.val(newJson.join(","));//给输入框里显示的值赋值
 
@@ -594,7 +602,7 @@
                 //遍历选中的数据
                 $.each(data.data,function (index,item) {
                     newJson.push(item.brokersName);
-                    $("#brokersId2").val(item.brokersId);
+                    $("#brokersId1").val(item.brokersId);
                 });
                 elem.val(newJson.join(","));//给输入框里显示的值赋值
             }
