@@ -2,7 +2,7 @@
 <html  class="x-admin-sm">
 <head>
 	<meta charset="UTF-8">
-	<title>后台登录-X-admin2.2</title>
+	<title>NGU-后台登录</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -12,6 +12,7 @@
 	  <link rel="stylesheet" href="../css/xadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
+
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -29,11 +30,10 @@
             <hr class="hr15">
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
-            <select name="fundName" lay-verify="required"   class="layui-select-tips">
-                <!--数据库导入-->
-                <option value="289289289">一度基金</option>
+            <select id="fundx" name="fundName" >
+
             </select>
-            <hr class="hr15">
+
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20" >
         </form>
@@ -44,50 +44,77 @@
             location.href='index';
         }
         $(function  () {
-            layui.use('form', function(){
-              var form = layui.form;
-              // layer.msg('玩命卖萌中', function(){
-              //   //关闭后的操作
-              //   });
-              //监听提交
-              form.on('submit(login)', function(data){
-                // alert(888)
-                  //获取登录的数据
-                 var userName = data.field.username;
-                 var userPwd = data.field.password;
-                 var fundId = data.field.fundName;
+            layui.use(['form'], function () {
+                var $ = layui.jquery;
+                var form = layui.form;
+                // layer.msg('玩命卖萌中', function(){
+                //   //关闭后的操作
+                //   });
+                //监听提交
+                form.on('submit(login)', function (data) {
+                    // alert(888)
+                    //获取登录的数据
+                    var userName = data.field.username;
+                    var userPwd = data.field.password;
+                    var fundId = data.field.fundName;
 
-                 $.ajax({
-                     type:'post',
-                     url:'../user/checkLogin',
-                     data:'userName='+userName+'&userPwd='+userPwd+'&fundId='+fundId+'',
-                     success:function (obj) {
-                        if (obj.code===1){
-                            layer.msg('用户'+userName+'登陆成功！');
-                            setTimeout(send,3000);
-                        }else {
-                            layer.msg('登陆失败！请检查用户名或密码！');
-                        }
-                     },
-                 });
-                // layer.msg(JSON.stringify(data.field),function(){
-                //     //location.href='index'
-                // });
-                return false;
-              });
+                    $.ajax({
+                        type: 'post',
+                        url: '../user/checkLogin',
+                        data: 'userName=' + userName + '&userPwd=' + userPwd + '&fundId=' + fundId + '',
+                        success: function (obj) {
+                            if (obj.code === 1) {
+                                layer.msg('用户' + userName + '登陆成功！');
+                                setTimeout(send, 3000);
+                            } else {
+                                layer.msg('登陆失败！请检查用户名或密码！');
+                            }
+                        },
+                    });
+                    // layer.msg(JSON.stringify(data.field),function(){
+                    //     //location.href='index'
+                    // });
+                    return false;
+                });
             });
         })
+
     </script>
     <!-- 底部结束 -->
     <script>
-    //百度统计可去掉
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+      //hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
       var s = document.getElementsByTagName("script")[0]; 
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
+<script >
+    layui.use('form',function () {
+        var $=layui.jquery,form=layui.form;
+        $.ajax({
+            url:'../fund/selectFund',
+            dataType:'json',
+            type:'post',
+            data:{page:1,limit:10},
+            success:function(obj){
+                $('#fundx').empty();
+                $('#fundx').append(new Option('请选择基金',''));
+                $.each(obj.data,function(index,item){
+                    // alert("jinal");
+                    // alert(item.fundName);
+                    $('#fundx').append(new Option(item.fundName,item.fundId));//往下拉菜单里添加元素
+                    // alert(item.fundName);
+                });
+                // alert(11);
+                form.render();//菜单渲染 把内容加载进去
+
+            }
+        })
+
+
+    })
+</script>
 </body>
 </html>

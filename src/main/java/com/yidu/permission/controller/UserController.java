@@ -49,6 +49,8 @@ public class UserController {
         Map<String, String> map2 = new HashMap<>();
         map2.put("userName",userName);
         map2.put("userPwd",userPwd);
+
+
         //调用数据库查询是否有该用户
         int i = userService.selectUser1(map2);
         if (i>0){

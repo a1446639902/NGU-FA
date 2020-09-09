@@ -29,5 +29,4 @@ public class ViewController {
         String reqUri = uri.substring(6, length);
         return reqUri;
     }
-
 }
