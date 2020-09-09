@@ -69,7 +69,7 @@ public class SeateServiceImpl implements SeateService {
      * @return
      */
     @Override
-    public HashMap seateSelect(int page, int limit, String seateName,String brokersId) {
+    public HashMap seateSelect(int page, int limit, String seateName,String brokersId,String modules) {
         String sql = "";
         //多表查询的拼接
         String tableName = "(select * from seate join brokers br on seate.brokersId = br.brokersId where 1=1";
@@ -82,7 +82,9 @@ public class SeateServiceImpl implements SeateService {
         if (seateName != null) {
             sql = sql + " and seateName like '%" + seateName + "%'";
         }
-
+        if (modules != null && modules!=""){
+            sql=sql+" and seateType="+modules;
+        }
         System.out.println(sql);
         HashMap seateMap = new HashMap();
         seateMap.put("p_tableName", tableName);

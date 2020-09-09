@@ -6,20 +6,24 @@ package com.yidu.dayDispose.pojo;
 * date 2020-9-8
 * */
 public class RevenueProvision {
-    private String accountId;
-    private String fundId;
-    private String blankCardCode;
-    private String accountName;
-    private String blankName;
-    private int deposit;
-    private double cardRate;
-    private int procisionDays;
-    private String openTime;
-    private String endTime;
-    private String accountDesc;
-    private Double cashBlance;
+    private String accountId; //账户Id
+    private String fundId;   //基金Id
+    private String blankCardCode; //银行卡号
+    private String accountName;  //账户名称
+    private String blankName;  //银行名称
+    private int deposit;  //存款类型Id
+    private double cardRate; //年利率
+    private int procisionDays;  //计息期间Id
+    private String openTime; //开户时间
+    private String endTime;  //结束时间
+    private String accountDesc; //账户备注
+    private Double cashBlance;  //账户余额
     private Double interest; //利息
     private String businessDate; //业务日期
+    private String depositName;//存款类型名字
+    private String dateTime; //统计日期
+    private int procisionDayName;//计息期间天数
+
     public String getAccountId() {
         return accountId;
     }
@@ -124,9 +128,6 @@ public class RevenueProvision {
         this.interest = interest;
     }
 
-    public RevenueProvision() {
-    }
-
     public String getBusinessDate() {
         return businessDate;
     }
@@ -135,7 +136,34 @@ public class RevenueProvision {
         this.businessDate = businessDate;
     }
 
-    public RevenueProvision(String accountId, String fundId, String blankCardCode, String accountName, String blankName, int deposit, double cardRate, int procisionDays, String openTime, String endTime, String accountDesc, Double cashBlance, Double interest, String businessDate) {
+    public String getDepositName() {
+        return depositName;
+    }
+
+    public void setDepositName(String depositName) {
+        this.depositName = depositName;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public int getProcisionDayName() {
+        return procisionDayName;
+    }
+
+    public void setProcisionDayName(int procisionDayName) {
+        this.procisionDayName = procisionDayName;
+    }
+
+    public RevenueProvision() {
+    }
+
+    public RevenueProvision(String accountId, String fundId, String blankCardCode, String accountName, String blankName, int deposit, double cardRate, int procisionDays, String openTime, String endTime, String accountDesc, Double cashBlance, Double interest, String businessDate, String depositName, String dateTime, int procisionDayName) {
         this.accountId = accountId;
         this.fundId = fundId;
         this.blankCardCode = blankCardCode;
@@ -150,6 +178,9 @@ public class RevenueProvision {
         this.cashBlance = cashBlance;
         this.interest = interest;
         this.businessDate = businessDate;
+        this.depositName = depositName;
+        this.dateTime = dateTime;
+        this.procisionDayName = procisionDayName;
     }
 
     @Override
@@ -169,7 +200,9 @@ public class RevenueProvision {
                 ", cashBlance=" + cashBlance +
                 ", interest=" + interest +
                 ", businessDate='" + businessDate + '\'' +
+                ", depositName='" + depositName + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                ", procisionDayName=" + procisionDayName +
                 '}';
     }
-
 }

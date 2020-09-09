@@ -8,6 +8,7 @@
         <result property="roleId" column="roleId" javaType="Integer"></result>
         <result property="status" column="status" javaType="Integer"></result>
         <result property="userInfoDesc" column="userInfoDesc" javaType="String"></result>
+        <result property="roleName" column="roleName" javaType="String"></result>
         <association property="rolePojo" javaType="com.yidu.systemManage.pojo.RolePojo">
             <result column="roleName" property="roleName"></result>
         </association>
