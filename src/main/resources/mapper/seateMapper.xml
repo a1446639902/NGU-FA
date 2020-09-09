@@ -15,6 +15,7 @@
         <result property="seateType" column="seateType" javaType="int"></result>
         <result property="seateRate" column="seateRate" javaType="int"></result>
         <result property="brokersId" column="brokersId" javaType="String"></result>
+        <result property="brokersName" column="brokersName" javaType="String"></result>
         <result property="seateAddress" column="seateAddress" javaType="int"></result>
         <result property="seateDesc" column="seateDesc" javaType="String"></result>
     </resultMap>
