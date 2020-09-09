@@ -4,32 +4,36 @@ package com.yidu.businessData.pojo;
  * 存款业务表
  * @Type 实体类
  * @author 黄志豪
- * @version 1.0
- * @time 2020/9/7
+ * @version 1.1
+ * @time 2020/9/8
  **/
 public class DepositPojo {
     private String depositId;           //存款业务Id   流水
     private String fundId;              //基金Id
-    private String outAccountId;        //流出现金账户
+    private String outAccountId;        //流出现金账户Id
+    private String outAccountName;      //流出现金账号名称
     private String inAccountId;         //流入现金账户
-    private int directionOfMoney;       //资金调拨方向  1代表流入 -1代表流出
+    private String inAccountName;       //流入现金账户名称
+    private final int directionOfMoney=1;       //资金调拨方向  1代表流入 -1代表流出
     private String businessDate;        //业务时间
     private int businessType;           //业务类型 1代表定期三天 2代表七天 3代表活期
     private double money;               //存款金额
     private double interest;            //所含利息
     private String endDate;             //存款业务到期时间
     private int flag;                   //到期办理标志   0未办理 1已办理
+
     private String depositDesc;         //备注
 
     public DepositPojo() {
     }
 
-    public DepositPojo(String depositId, String fundId, String outAccountId, String inAccountId, int directionOfMoney, String businessDate, int businessType, double money, double interest, String endDate, int flag, String depositDesc) {
+    public DepositPojo(String depositId, String fundId, String outAccountId, String outAccountName, String inAccountId, String inAccountName, String businessDate, int businessType, double money, double interest, String endDate, int flag, String depositDesc) {
         this.depositId = depositId;
         this.fundId = fundId;
         this.outAccountId = outAccountId;
+        this.outAccountName = outAccountName;
         this.inAccountId = inAccountId;
-        this.directionOfMoney = directionOfMoney;
+        this.inAccountName = inAccountName;
         this.businessDate = businessDate;
         this.businessType = businessType;
         this.money = money;
@@ -63,6 +67,14 @@ public class DepositPojo {
         this.outAccountId = outAccountId;
     }
 
+    public String getOutAccountName() {
+        return outAccountName;
+    }
+
+    public void setOutAccountName(String outAccountName) {
+        this.outAccountName = outAccountName;
+    }
+
     public String getInAccountId() {
         return inAccountId;
     }
@@ -71,12 +83,16 @@ public class DepositPojo {
         this.inAccountId = inAccountId;
     }
 
-    public int getDirectionOfMoney() {
-        return directionOfMoney;
+    public String getInAccountName() {
+        return inAccountName;
     }
 
-    public void setDirectionOfMoney(int directionOfMoney) {
-        this.directionOfMoney = directionOfMoney;
+    public void setInAccountName(String inAccountName) {
+        this.inAccountName = inAccountName;
+    }
+
+    public int getDirectionOfMoney() {
+        return directionOfMoney;
     }
 
     public String getBusinessDate() {
@@ -141,7 +157,9 @@ public class DepositPojo {
                 "depositId='" + depositId + '\'' +
                 ", fundId='" + fundId + '\'' +
                 ", outAccountId='" + outAccountId + '\'' +
+                ", outAccountName='" + outAccountName + '\'' +
                 ", inAccountId='" + inAccountId + '\'' +
+                ", inAccountName='" + inAccountName + '\'' +
                 ", directionOfMoney=" + directionOfMoney +
                 ", businessDate='" + businessDate + '\'' +
                 ", businessType=" + businessType +

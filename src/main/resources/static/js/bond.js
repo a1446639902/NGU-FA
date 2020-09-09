@@ -134,12 +134,12 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 					closeBtn: 1,
 					move:false,
 					content:$("#addContent"),
-					btn:[]
+					area:['800px','500px'],
 				});
 
 				form.render();
 				//全屏
-				layer.full(index);
+				//layer.full(index);
 				break;
 			case 'search':
 				alert("搜索");
@@ -207,12 +207,12 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 				title: '修改员工',
 				closeBtn: 1,
 				move:false,
-				area: ['500px', '400px'],
+				area:['800px','500px'],
 				content:$('#editContent')
 			});
 
 			form.render();
-			layer.full(index);
+			//layer.full(index);
 		};
 	})
 });

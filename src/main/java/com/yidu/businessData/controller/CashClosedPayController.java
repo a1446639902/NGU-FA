@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class CashClosedPayController {
     CashClosedPayService cashClosedPayService;
 
     @RequestMapping("insertCashClosedPay")
-    public int insertCash(CashClosedPayPojo cashClosedPay){
+    public int insertCashClosedPay(CashClosedPayPojo cashClosedPay){
         System.out.println("进入了cashClosedPay新增Controller");
         int i = cashClosedPayService.insertCashClosedPay(cashClosedPay);
         return i;

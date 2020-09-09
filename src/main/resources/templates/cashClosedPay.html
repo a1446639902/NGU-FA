@@ -25,25 +25,23 @@
 
     <!--工具条-->
     <script type="text/html" id="userToolBar">
-        <div style="float:right">
+        <div style="float:right;margin-top: 3px">
             <button class="layui-btn layui-btn layui-btn layui-btn-sm" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加数据</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
-
         <form class="layui-form layui-col-space5">
-            <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
-
-                <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="businessDate" id="start">
+            <div class="layui-form-item" style="width: 110px;text-align: center">
+                <label class="layui-form-label layui-bg-green" >业务日期</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" placeholder="请输入统计日期" name="dateTime" id="start">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务类型</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <select name="businessType">
+                    <select name="serviceType" id="serviceType">
                         <option value="">请选择</option>
                         <option value="1">管理费 </option>
                         <option value="2">托管费</option>
@@ -61,7 +59,6 @@
 
 
     <script type="text/javascript">
-
         layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], function () {
             var layer = layui.layer;
             var $ = layui.$;
@@ -76,7 +73,7 @@
                 ,checkedKey:'id'
                 ,table:{
                     url:'/account/selectAccount'
-                    ,cellMinWidth: 60
+                    ,cellMinWidth: 80
                     ,cols:[
                         [
                             {type:'radio'},
@@ -89,22 +86,25 @@
                     ]
                 }
                 ,done:function (elem,data) {
-                    var NEWJSON = []
+                    var NEWJSON1 = [];
                     layui.each(data.data,function (index,item) {
-                        NEWJSON.push(item.accountName)
+                        NEWJSON1.push(item.accountName);
+                        NEWJSON1.push(item.blankName);
+                        $("#insertAccountId").val(item.accountId);//给隐藏域中的val赋值
+                        $("#insertFundId").val(item.fundId);//给隐藏域中的val赋值
                     })
-                    elem.val(NEWJSON.join(","))
+                    elem.val(NEWJSON1.join(","))
                 }
             })
             tableSelect.render({
                 elem:'#selectTable2'
                 ,checkedKey:'id'
                 ,table:{
-                    url:'../lib/layuimini/api/tableSelect.json'
-                    ,cellMinWidth: 60
+                    url:'/account/selectAccount'
+                    ,cellMinWidth: 80
                     ,cols:[
                         [
-                            {type:'checkbox'},
+                            {type:'radio'},
                             {field:'accountId',title:'accountId  ',hide:true},
                             {field:'fundId',title:'fundId  ',hide:true},
                             {field: 'accountName',title:'账户名称'},
@@ -115,12 +115,14 @@
                 }
                 ,done:function (elem,data) {
                     //elem:返回之前的input对象，data：表格返回的选中的数据
-                    var NEWJSON = []
+                    var NEWJSON2 = [];
                     //遍历选中数据
-                    layui.each(data.data,function (index,item) {//给隐藏域中的val赋值
-                        NEWJSON.push(item.accountName)
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON2.push(item.accountName);
+                        NEWJSON2.push(item.blankName);  //给选定信息放到文本框中
+                        $("#updateAccountId").val(item.accountId);//给隐藏域中的val赋值
                     })
-                    elem.val(NEWJSON.join(","))//给输入框显示的值赋值
+                    elem.val(NEWJSON2.join(","));//给输入框显示的值赋值
                 }
             })
             //执行一个laydate实例
@@ -133,21 +135,18 @@
             laydate.render({
                 elem: '#start3'
             })
-
-            laydate.render({
+           /* laydate.render({
                 elem: '#equitiesRecord'
             })
-
             laydate.render({
                 elem: '#equitiesExright'
             })
-
             laydate.render({
                 elem: '#receivedDate'
-            })
+            })*/
 
             //新增提交
-            form.on('submit(addsubmit)', function(data){
+            form.on('submit(addSubmit)', function(data){
                 var formData=$('#addform').serialize();
                 $.post("/insertCashClosedPay",formData,function(msg){
                     if(msg>0){
@@ -174,8 +173,8 @@
                 return false;
             });
             //修改提交
-            form.on('submit(editsubmit)', function(data){
-                var formData=$('#editform').serialize();
+            form.on('submit(editSubmit)', function(data){
+                var formData=$('#editForm').serialize();
                 $.post("/updateCashClosedPay",formData,function(msg){
                     if(msg>0){
                         table.reload('cashClosedPayTable');
@@ -262,12 +261,14 @@
 
                     case 'search':
                         alert("搜索");
-                        var userName= $("#userName").val();
+                        var dateTime= $("#start").val();
+                        var serviceType=$("#serviceType").val();
                         //表格的重新加载事件
                         table.reload('cashClosedPayTable', {
                             method: 'post'
                             , where: {
-                                'userName': userName
+                                'dateTime':dateTime,
+                                'serviceType': serviceType
                             }
                             , page: {
                                 curr: 1
@@ -314,30 +315,16 @@
 
                     });
                 } else if (obj.event === 'edit') {
-                    // alert(JSON.stringify(data));
-                    form.val('editform',$.parseJSON(JSON.stringify(data)));
+                    alert(JSON.stringify(data));
+                    form.val('editForm',$.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
                         type: 1,
-                        title: '修改权益数据',
+                        title: '修改交易数据',
                         closeBtn: 1,
                         move:false,
                         area: ['750px', '650px'],
                         content:$('#editContent')
                     });
-                    $.ajax({
-                        url:'/selectCashClosedPay',
-                        dataType:'json',
-                        type:'post',
-                        /*回调函数，下拉列表
-                        success:function(obj){
-
-                            $.each(obj,function(index,item){
-                                $('#roleId_2').append(new Option(item.roleName,item.roleId));//往下拉菜单里添加元素
-                            })
-                            $("#roleId_2 option[value='"+data.roleId+"']").attr("selected", "selected");
-                            form.render();//菜单渲染 把内容加载进去
-                        }*/
-                    })
                     form.render();
                     //全屏 layer.full(index);
                 };
@@ -357,7 +344,7 @@
     <!--表格-->
     <table id="cashClosedPayTable" lay-filter="cashClosedPayTable"></table>
     <!--工具条-->
-    <div style="display: none;" id="barDemo">
+    <div  id="barDemo"><!--style="display: none;"-->
         <a class="layui-btn layui-btn-xs" lay-event="edit"><i
                 class="layui-icon">&#xe642;</i>编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
@@ -368,36 +355,38 @@
 
 
 <!--增加的div内容-->
-<div id="addContent" style="display: none; height: 100%; width:100%; text-align: center">
-    <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
-        <div class="layui-inline layui-show-xs-block" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">账户</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 195px">
-                <input class="layui-input" placeholder="请选择银行编号" id="selectTable1" autocomplete="off" >
+<div id="addContent" style="display: none; height: 100%; text-align: center">
+    <form id="addform" lay-filter="addform" class="layui-form layui-form-pane" style="margin: 30px auto; display: inline-block;">
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green" >账户</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请选择银行编号" id="selectTable1" autocomplete="off" lay-verify="required">
                 <input name="accountId" type="hidden" id="insertAccountId">
-                <input name="cashClosedPayId" type="hidden" id="insertCashClosedPayId">
+                <input name="fundId" type="hidden" id="insertFundId">
             </div>
         </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">业务日期</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 195px">
-                <input class="layui-input" placeholder="请输入业务日期" name="businessDate" id="start3">
+        <br />
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green">业务日期</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请输入业务日期" name="dateTime" id="start3" lay-verify="required">
             </div>
         </div>
         <br/>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">资金流向</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 195px">
-                <select name="businessStatus">
+        <div class="layui-form-item" style="text-align: center">
+            <label class="layui-form-label layui-bg-green" >资金流向</label>
+            <div class="layui-input-inline" >
+                <select name="flag" required>
                     <option value="1">流入</option>
                     <option value="-1">流出</option>
                 </select>
             </div>
         </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">业务类型</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 195px">
-                <select name="businessType">
+        <br />
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green" >业务类型</label>
+            <div class="layui-input-inline" >
+                <select name="serviceType" lay-verify="required">
                     <option value="">请选择</option>
                     <option value="1">管理费 </option>
                     <option value="2">托管费</option>
@@ -406,16 +395,16 @@
                 </select>
             </div>
         </div>
-        <br>
-        <div class="layui-inline layui-show-xs-block" style="float: left">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">总金额</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 195px">
-                <input class="layui-input" placeholder="请输入总金额" name="toalMoney" >
+        <br />
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green" >总金额</label>
+            <div class="layui-input-inline" >
+                <input class="layui-input" placeholder="请输入总金额" name="amount" lay-verify="required">
             </div>
         </div>
         <br>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+        <div style="position: absolute; bottom: 0px; left: 40%;text-align: center;">
+            <button class="layui-btn" lay-submit="" lay-filter="addSubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myClose()">
@@ -427,38 +416,40 @@
 
 <!--修改的div内容-->
 <div id="editContent"
-     style="display: none; height: 100%; height: 100%; text-align: center;">
-    <form id="editform" lay-filter="editform"
+     style="display: none; height: 100%; text-align: center;">
+    <form id="editForm" lay-filter="editForm"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-        <div class="layui-inline layui-show-xs-block" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">账户编号</label>
-            <div class="layui-inline layui-show-xs-block">
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green">账户编号</label>
+            <div class="layui-input-inline">
                 <input class="layui-input" placeholder="请选择银行编号" id="selectTable2" autocomplete="off">
+                <input name="accountId" type="hidden" id="updateAccountId">
                 <input name="cashClosedPayId" type="hidden">
             </div>
         </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">业务日期</label>
-
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入业务日期" name="businessDate" id="start2">
+        <br />
+        <div class="layui-form-item" style="text-align: center">
+            <label class="layui-form-label layui-bg-green" >业务日期</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请输入业务日期" name="dateTime" id="start2">
             </div>
         </div>
         <br/>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">资金流向</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 195px">
-                <select name="businessStatus">
+        <div class="layui-form-item" style="text-align: center">
+            <label class="layui-form-label layui-bg-green" >资金流向</label>
+            <div class="layui-input-inline" >
+                <select name="flag">
                     <option value="1">流入</option>
                     <option value="-1">流出</option>
                 </select>
             </div>
         </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">业务类型</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 195px">
-                <select name="businessType">
+        <br />
+        <div class="layui-form-item" style="text-align: center">
+            <label class="layui-form-label layui-bg-green" >业务类型</label>
+            <div class="layui-input-inline" >
+                <select name="serviceType">
                     <option value="">请选择</option>
                     <option value="1">管理费 </option>
                     <option value="2">托管费</option>
@@ -467,16 +458,16 @@
                 </select>
             </div>
         </div>
-        <br>
-        <div class="layui-inline layui-show-xs-block" style="float: left">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">总金额</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入总金额" name="toalMoney" >
+        <br />
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-green" >总金额</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请输入总金额" name="amount" >
             </div>
         </div>
         <br>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+        <div style="position: absolute; bottom: 0px; left: 40%;">
+            <button class="layui-btn" lay-submit="" lay-filter="editSubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myClose()">

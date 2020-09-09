@@ -4,6 +4,7 @@ import com.yidu.systemManage.mapper.RoleMapper;
 import com.yidu.systemManage.pojo.RolePojo;
 import com.yidu.systemManage.service.RoleService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.HashMap;
  * @Type:角色biz类的实现类
  * @time2020-9-1 22:54
  **/
+@Transactional
 @Service
 public class RoleServiceImpl implements RoleService {
     @Resource

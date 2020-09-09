@@ -13,18 +13,20 @@ import java.util.List;
  * 存款业务表
  * @Type 控制层
  * @author 黄志豪
- * @version 1.0
- * @time 2020/9/7
+ * @version 1.2
+ * @time 2020/9/9
  **/
-//@RestController
+@RestController
 @RequestMapping("/deposit")
 public class DepositController {
-    //@Resource
+    @Resource
     DepositService depositService;
     @RequestMapping("/selectDeposit")
-    public HashMap selectDeposit(int page,int limit){
+    public HashMap selectDeposit(int page,int limit,String businessType,String dateEnd){
         System.out.println(page+limit);
-        HashMap depositMap = depositService.selectDeposit(page, limit);
+        System.out.println(businessType);
+        System.out.println(dateEnd);
+        HashMap depositMap = depositService.selectDeposit(page, limit, businessType, dateEnd);
         int count = (int) depositMap.get("p_count");
         List<DepositPojo> depositPojoList = (List<DepositPojo>) depositMap.get("p_cursor");
         HashMap hashMap = new HashMap<>();
@@ -36,14 +38,21 @@ public class DepositController {
     }
     @RequestMapping("/insertDeposit")
     public int insertDeposit(DepositPojo depositPojo){
-       return depositService.insertDeposit(depositPojo);
+        System.out.println("存款业务的新增===========");
+        System.out.println(depositPojo);
+        return depositService.insertDeposit(depositPojo);
     }
     @RequestMapping("/updateDeposit")
     public int updateDeposit(DepositPojo depositPojo){
+        System.out.println("修改=========================");
+        System.out.println(depositPojo);
         return depositService.updateDeposit(depositPojo);
     }
-    @RequestMapping("/")
-    public int deleteDeposit(int depositId){
+    @RequestMapping("/deleteDeposit")
+    public int deleteDeposit(String depositId){
+        System.out.println("删除==========================");
+        System.out.println("depositId="+depositId);
+
         return depositService.deleteDeposit(depositId);
     }
 }

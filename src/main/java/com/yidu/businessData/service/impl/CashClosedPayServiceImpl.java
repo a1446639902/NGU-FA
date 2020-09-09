@@ -4,10 +4,13 @@ import com.yidu.businessData.mapper.CashClosedPayMapper;
 import com.yidu.businessData.pojo.CashClosedPayPojo;
 import com.yidu.businessData.service.CashClosedPayService;
 import com.yidu.util.DbUtil;
+import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -20,6 +23,7 @@ import java.util.*;
  * @Version 1.0
  **/
 @Service
+@Transactional
 public class CashClosedPayServiceImpl implements CashClosedPayService {
     @Resource
     CashClosedPayMapper cashClosedPayMapper;
@@ -28,28 +32,40 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
     
     @Override
     public int insertCashClosedPay(CashClosedPayPojo cashClosedPay) {
+        System.out.println("新增的cashClosedPay:="+cashClosedPay);
+        //得到当天当前数据表中的最大Id
         String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
+        //将获得的最大id赋值给实体类中，作为参数调用sql语句
         cashClosedPay.setCashClosedPayId(cashClosedPayId);
+       /* //得到请求中的session中的fundId
+        String fundId = GetFundIdUtil.getFundId(request);
+        //将得到的fundId赋值到实体类中
+        cashClosedPay.setCashClosedPayId(fundId);*/
         return cashClosedPayMapper.insertCashClosedPay(cashClosedPay);
     }
 
     @Override
     public int deleteCashClosedPay(String cashClosedPayId) {
+        System.out.println("删除的cashClosedPayId:="+cashClosedPayId);
         String[] cashClosedPayIds=cashClosedPayId.split(",");
+        int i=0;
         ArrayList<Object> cashClosedList=new ArrayList<>();
         for (String cashId:cashClosedPayIds) {
-            cashClosedList.add(cashId);
+//            cashClosedList.add(cashId);
+            i = cashClosedPayMapper.deleteCashClosedPay(cashId);
         }
-        return cashClosedPayMapper.deleteCashClosedPay(cashClosedPayId);
+        return i;
     }
 
     @Override
     public int updateCashClosedPay(CashClosedPayPojo cashClosedPay) {
+        System.out.println("修改的cashClosedPay:="+cashClosedPay);
         return cashClosedPayMapper.updateCashClosedPay(cashClosedPay);
     }
 
     @Override
     public Map<String,Object> selectCashClosedPay(String pageSize, String page,String dateTime,String serviceType) {
+        System.out.println("dateTime:="+dateTime+"\n serviceType:="+serviceType);
         System.out.println("进入了查询的实现类");
 //创建一个结果集用于接受存储过程的返回结果
         Map<String,Object> resultMap = new HashMap<>();
@@ -80,7 +96,7 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
 //创建一个结果集用于接收数据库存储过程所需条件
         Map<String,Object> map = new HashMap<>();
         map.put("p_tableName","cashClosedPay c join fund f on f.fundId=c.fundId join account a on a.accountId=c.accountId");
-        map.put("p_condition","");
+        map.put("p_condition",sqlWhere.toString());
         map.put("p_pageSize",v_pageSize);
         map.put("p_page",v_page);
         map.put("p_count",0);

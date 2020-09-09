@@ -98,7 +98,7 @@ layui.use(['form', 'table'], function () {
             layer.confirm('真的删除行么', function (index) {
                 $.ajax({
                     type: 'post',
-                    url: '.deleteUser',
+                    url: './deleteUser',
                     data: {"userId":obj.data.userId},
                     success:function (object) {
                         if (object.msg==='success'){

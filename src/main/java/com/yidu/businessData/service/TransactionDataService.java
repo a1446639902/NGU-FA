@@ -13,7 +13,7 @@ import java.util.HashMap;
  **/
 
 public interface TransactionDataService {
-    public HashMap selectTransactionData(int page,int limit);
+    public HashMap selectTransactionData(int page,int limit,String dateTime,String securitiesName);
     public int insertTransactionData(TransactionData transactionData);
     public int deleteTransactionData(String transactionDataId);
     public int updateTransactionData(TransactionData transactionData);
