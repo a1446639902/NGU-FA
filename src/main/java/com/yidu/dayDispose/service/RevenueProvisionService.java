@@ -4,4 +4,5 @@ import java.util.HashMap;
 
 public interface RevenueProvisionService {
     public HashMap selectRevenueProvision(int page, int limit);
+    public HashMap selectBondInterest(int page, int limit ,String dateTime);
 }
