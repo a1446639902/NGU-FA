@@ -1,7 +1,7 @@
 package com.yidu.businessParameter.pojo;
 
 /**author xbf
- *date 2020-9-1
+ *date 2020-9-9
  * 证券信息实体类
  * @vesion 1.0
  **/
@@ -14,11 +14,13 @@ public class SecuritiesPojo {
     private String stockId;
     private int exchange;
     private String securitiesDesc;
+    private StockPojo stockPojo;
+    private String stockName;
 
     public SecuritiesPojo() {
     }
 
-    public SecuritiesPojo(String securitiesId, String securitiesName, int securitiesType, String issueDate, String delayDate, String stockId, int exchange, String securitiesDesc) {
+    public SecuritiesPojo(String securitiesId, String securitiesName, int securitiesType, String issueDate, String delayDate, String stockId, int exchange, String securitiesDesc, StockPojo stockPojo, String stockName) {
         this.securitiesId = securitiesId;
         this.securitiesName = securitiesName;
         this.securitiesType = securitiesType;
@@ -27,6 +29,8 @@ public class SecuritiesPojo {
         this.stockId = stockId;
         this.exchange = exchange;
         this.securitiesDesc = securitiesDesc;
+        this.stockPojo = stockPojo;
+        this.stockName = stockName;
     }
 
     public String getSecuritiesId() {
@@ -91,6 +95,22 @@ public class SecuritiesPojo {
 
     public void setSecuritiesDesc(String securitiesDesc) {
         this.securitiesDesc = securitiesDesc;
+    }
+
+    public StockPojo getStockPojo() {
+        return stockPojo;
+    }
+
+    public void setStockPojo(StockPojo stockPojo) {
+        this.stockPojo = stockPojo;
+    }
+
+    public String getStockName() {
+        return stockName;
+    }
+
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
     }
 
     @Override
