@@ -3,7 +3,7 @@
 <mapper namespace="com.yidu.cashControl.mapper.BankTreasurerMapper">
     <insert id="insertBankTreasurer" parameterType="com.yidu.cashControl.pojo.BankTreasurerPojo">
         insert into bankTreasurer(bankTreasurerId,fundId,totalPrice,accountId,flag,dbTime,dateTime,businessId,allocatingType,bankTreasurerDesc) values
-        (#{bankTreasurerId},#{fundId},#{totalPrice},#{accountId},#{flag},#{dbTime},#{dateTime},#{businessId},#{allocatingType},#{bankTreasurerDesc})
+        (#{bankTreasurerId},#{fundId},#{totalPrice},#{accountId},#{flag},#{dbTime},#{dateTime},#{businessId},#{allocatingType},#{bankTreasurerDesc,jdbcType=VARCHAR})
     </insert>
     <update id="updateBankTreasurer" parameterType="com.yidu.cashControl.pojo.BankTreasurerPojo">
         update bankTreasurer set totalPrice=#{totalPrice},accountId=#{accountId},flag=#{flag},dbTime=#{dbTime},allocatingType=#{allocatingType},bankTreasurerDesc=#{bankTreasurerDesc,jdbcType=VARCHAR} where bankTreasurerId=#{bankTreasurerId}
@@ -14,6 +14,9 @@
                  separator="," close=")">
             #{bankTreasurerId}
         </foreach>
+    </delete>
+    <delete id="deleteBankTreasurerByBusinessId" parameterType="string">
+        delete from bankTreasurer where businessId=#{businessId}
     </delete>
     <resultMap id="bankTreasurerMap" type="com.yidu.cashControl.pojo.BankTreasurerPojo">
         <result property="bankTreasurerId" column="bankTreasurerId" javaType="String"></result>
