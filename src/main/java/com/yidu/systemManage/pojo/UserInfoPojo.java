@@ -14,11 +14,12 @@ public class UserInfoPojo {
     private int status;
     private String userInfoDesc;
     private RolePojo rolePojo;
+    private String roleName;
 
     public UserInfoPojo() {
     }
 
-    public UserInfoPojo(String userId, String userName, String userPwd, int roleId, int status, String userInfoDesc, RolePojo rolePojo) {
+    public UserInfoPojo(String userId, String userName, String userPwd, int roleId, int status, String userInfoDesc, RolePojo rolePojo, String roleName) {
         this.userId = userId;
         this.userName = userName;
         this.userPwd = userPwd;
@@ -26,6 +27,15 @@ public class UserInfoPojo {
         this.status = status;
         this.userInfoDesc = userInfoDesc;
         this.rolePojo = rolePojo;
+        this.roleName = roleName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getUserId() {

@@ -5,4 +5,5 @@ package com.yidu.dayDispose.controller;
  * @Mr.Zou
  **/
 public class InventoryController {
+
 }

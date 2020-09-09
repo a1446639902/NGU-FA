@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
@@ -84,14 +85,15 @@
             , cols: [
                 [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    , {field: 'securitiesId', title: '证券ID', width: 110, sort: true}
-                    , {field: 'securitiesName', title: '证券名称', width: 110}
-                    , {field: 'securitiesType', title: '证券类型', width: 110, sort: true}
-                    , {field: 'issueDate', title: '发行日期', width: 110}
-                    , {field: 'delayDate', title: '延迟日期', width: 177}
-                    , {field: 'stockId', title: '模块ID', width: 110, sort: true}
-                    , {field: 'exchange', title: '交易所', width: 110, sort: true}
-                    , {field: 'securitiesDesc', title: '备注', width: 110}
+                    , {field: 'securitiesId', title: '证券ID', width: 105, sort: true}
+                    , {field: 'securitiesName', title: '证券名称', width: 105}
+                    , {field: 'securitiesType', title: '证券类型', width: 105, sort: true,templet:'#securitiesTypedemo'}
+                    , {field: 'issueDate', title: '发行日期', width: 105}
+                    , {field: 'delayDate', title: '延迟日期', width: 105}
+                    , {field: 'stockId', title: '模块ID', width: 105, sort: true,hide:true}
+                    , {field: 'stockName', title: '模块名称', width: 105, sort: true}
+                    , {field: 'exchange', title: '交易所', width: 105, sort: true,templet: '#exchangedemo'}
+                    , {field: 'securitiesDesc', title: '备注', width: 105}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
                 ]
             ]
@@ -100,7 +102,6 @@
 
         //给工具条的按钮添加事件
         table.on('toolbar(test)', function (obj) {
-            var userName = $("#userName").val();
             switch (obj.event) {
                 case "search":
                     var blankName=$('#blankName').val();
@@ -125,6 +126,19 @@
                         area: ['693px', '550px'],
                         content: $("#addContent")
                     });
+                    $.ajax({
+                        url:'../selectStock?page=1&limit=10000',
+                        dataType:'json',
+                        type:'post',
+                        success:function(obj){
+                            $('#stockId').empty();
+                            $.each(obj.data,function(index,item){
+                                $('#stockId').append(new Option(item.stockName,item.stockId));//往下拉菜单里添加元素
+                            })
+
+                            form.render();//菜单渲染 把内容加载进去
+                        }
+                    })
                     break;
                 //删除多行
                 case "deleteAll":
@@ -220,6 +234,20 @@
                     area: ['693px', '550px'],
                     content: $("#editContent")
                 });
+                $.ajax({
+                    url:'../selectStock?page=1&limit=10000',
+                    dataType:'json',
+                    type:'post',
+                    success:function(obj){
+                        $('#stockId_2').empty();
+                        $.each(obj.data,function(index,item){
+                            $('#stockId_2').append(new Option(item.stockName,item.stockId));//往下拉菜单里添加元素
+                        })
+                        $("#stockId_2 option[value='"+data.stockId+"']").attr("selected", "selected");
+
+                        form.render();//菜单渲染 把内容加载进去
+                    }
+                })
             }
         });
 
@@ -290,6 +318,26 @@
 </div>
 </div>
 
+<script type="text/html" id="securitiesTypedemo">
+    {{# if (d.securitiesType == 1) { }}
+    <span class="layui-badge layui-bg-orange">债券</span>
+
+    {{# }else{ }}
+    <span class="layui-badge layui-bg-green">股票</span>
+
+    {{# } }}
+</script>
+
+<script type="text/html" id="exchangedemo">
+    {{# if (d.exchange == 1) { }}
+    <span class="layui-badge layui-bg-orange">上交所</span>
+
+    {{# }else{ }}
+    <span class="layui-badge layui-bg-green">深交所</span>
+
+    {{# } }}
+</script>
+
 <div style="display: none;" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i
             class="layui-icon">&#xe642;</i>编辑</a>
@@ -359,10 +407,9 @@
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >板块ID</label>
                         <div class="layui-input-inline">
-                            <select  name="stockId">
-                                <option value="">请选择</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
+                            <select id="stockId_2" name="stockId" xm-select="add" xm-select-radio=""
+                                    xm-select-search="" lay-verify="required"
+                                    xm-select-direction="down" xm-select-search-type="dl">
                             </select>
                         </div>
                     </div>
@@ -457,10 +504,9 @@
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >板块ID</label>
                     <div class="layui-input-inline">
-                        <select  name="stockId">
-                            <option value="">请选择</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                        <select id="stockId" name="stockId" xm-select="add" xm-select-radio=""
+                                xm-select-search="" lay-verify="required"
+                                xm-select-direction="down" xm-select-search-type="dl">
                         </select>
                     </div>
                 </div>

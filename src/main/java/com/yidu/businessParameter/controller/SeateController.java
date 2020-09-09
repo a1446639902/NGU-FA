@@ -63,12 +63,13 @@ public class SeateController {
      * @return
      */
     @RequestMapping("/seateSelect")
-    public HashMap seateSelect(String page, String limit, String seateName,String brokersId) {
+    public HashMap seateSelect(String page, String limit, String seateName,String brokersId,String modules) {
         System.out.println("进来了");
         System.out.println(page+","+limit+","+seateName);
+        System.out.println("modules"+modules);
         int page1 = Integer.parseInt(page);
         int limit1 = Integer.parseInt(limit);
-        HashMap hashMap = seateService.seateSelect(page1,limit1,seateName,brokersId);
+        HashMap hashMap = seateService.seateSelect(page1,limit1,seateName,brokersId,modules);
         int count = (int) hashMap.get("p_count");
         List<Seate> seateList = (List<Seate>) hashMap.get("p_cursor");
         HashMap seateMap = new HashMap();

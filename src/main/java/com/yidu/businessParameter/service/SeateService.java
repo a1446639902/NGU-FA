@@ -39,5 +39,5 @@ public interface SeateService {
      * 查询
      * @return
      */
-    public HashMap seateSelect(int page, int limit, String seateName,String brokersId);
+    public HashMap seateSelect(int page, int limit, String seateName,String brokersId,String modules);
 }
