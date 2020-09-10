@@ -7,7 +7,7 @@
     <update id="updateSecuritiesInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesInventory">
         update SecuritiesInventory set securityPeriodFlag=#{securityPeriodFlag},securitiesNum=#{securitiesNum},price=#{price},total=#{total},securitiesInventoryDesc=#{securitiesInventoryDesc} where securitiesInventoryId=#{securitiesInventoryId}
     </update>
-    <delete id="deleteSecuritiesInventory" parameterType="int">
+    <delete id="deleteSecuritiesInventory" parameterType="string">
         delete from securitiesInventory where securitiesInventoryId=#{securitiesInventoryId}
     </delete>
     <!--    证券库存-->
