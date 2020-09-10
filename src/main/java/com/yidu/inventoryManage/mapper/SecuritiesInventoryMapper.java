@@ -14,6 +14,6 @@ import java.util.HashMap;
 public interface SecuritiesInventoryMapper {
     public void selectSecuritiesInventory(HashMap hashMap);
     public int updateSecuritiesInventory(SecuritiesInventory securitiesInventory);
-    public int deleteSecuritiesInventory(int securitiesInventoryId);
+    public int deleteSecuritiesInventory(String securitiesInventoryId);
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory);
 }

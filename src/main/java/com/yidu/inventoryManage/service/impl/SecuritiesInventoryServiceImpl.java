@@ -26,7 +26,7 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
     public HashMap selectSecuritiesInventory(int page,int limit,String sreachTime,String sreachId) {
         HashMap securitiesInventoryMap = new HashMap();
         securitiesInventoryMap.put("p_tableName","(select * from securitiesInventory se join fund f on se.fundId=f.fundId\n" +
-                "join ACCOUNT a on se.accountId= a.accountId join securities s on se.SECURITIESID=s.SECURITIESID)");
+                "join securities s on se.SECURITIESID=s.SECURITIESID)");
         if(sreachTime!=null&&sreachTime!=""){
             securitiesInventoryMap.put("p_condition"," and dateTime like '%"+sreachTime+"%'");
         }
@@ -50,8 +50,12 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
     }
 
     @Override
-    public int deleteSecuritiesInventory(int securitiesInventoryId) {
-        int i = securitiesInventoryMapper.deleteSecuritiesInventory(securitiesInventoryId);
+    public int deleteSecuritiesInventory(String securitiesInventoryId) {
+        int i=0;
+        String[] split = securitiesInventoryId.split(",");
+        for (String s : split) {
+            i = securitiesInventoryMapper.deleteSecuritiesInventory(s);
+        }
         return i;
     }
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory){
