@@ -17,5 +17,5 @@ public interface UserInfoService {
     public int insertUser(UserInfoPojo userInfoPojo);
     public int deleteUser(String userId);
     public int updateUser(UserInfoPojo userInfoPojo);
-    public HashMap selectUser();
+    public HashMap selectUser(/*int page,int limit,int searchstatus,String searchuserName*/);
 }

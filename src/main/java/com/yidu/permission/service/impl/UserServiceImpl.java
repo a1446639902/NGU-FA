@@ -22,31 +22,6 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     @Resource
     DbUtil dbUtil;
-  /*  @Override
-    public Map<String,Object> selectUser(String page, String limit) {
-        int vPage = 0;
-        if (page!=null && !page.equals("")){
-            vPage = Integer.parseInt(page);
-        }
-        int vLimit = 0;
-        if (limit!=null && !limit.equals("")){
-            vLimit = Integer.parseInt(limit);
-        }
-        HashMap userMap = new HashMap();
-        userMap.put("p_tableName","userInfo");
-        userMap.put("p_condition","");
-        userMap.put("p_pageSize",vLimit);
-        userMap.put("p_page",vPage);
-        userMap.put("p_count",0);
-        userMap.put("p_cursor",null);
-        userMapper.selectUser(userMap);
-        List<UserInfo> userList = (List<UserInfo>) userMap.get("p_cursor");
-        Map<String,Object> resultHashMap = new HashMap<>();
-        resultHashMap.put("count",userMap.get("p_count"));
-        resultHashMap.put("userList",userList);
-
-        return resultHashMap;
-    }*/
 
     @Override
     public Integer selectUser1(Map<String,String> map) {

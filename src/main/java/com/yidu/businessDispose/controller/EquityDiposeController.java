@@ -1,7 +1,7 @@
 package com.yidu.businessDispose.controller;
 
 import com.yidu.businessDispose.pojo.EquityDispose;
-import com.yidu.businessDispose.service.impl.EquityDisposeService;
+import com.yidu.businessDispose.service.EquityDisposeService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

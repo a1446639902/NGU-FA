@@ -8,6 +8,10 @@
         <result property="roleId" column="roleId" javaType="Integer"></result>
         <result property="status" column="status" javaType="Integer"></result>
         <result property="userInfoDesc" column="userInfoDesc" javaType="String"></result>
+        <result property="roleName" column="roleName" javaType="String"></result>
+        <association property="rolePojo" javaType="com.yidu.systemManage.pojo.RolePojo">
+            <result column="roleName" property="roleName"></result>
+        </association>
     </resultMap>
     <select id="selectUser" parameterType="java.util.Map" statementType="CALLABLE">
         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=userMap})}

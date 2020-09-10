@@ -28,6 +28,8 @@
         <result property="stockId" column="stockId"></result>
         <result property="exchange" column="exchange"></result>
         <result property="securitiesDesc" column="securitiesDesc"></result>
+        <result property="stockName" column="stockName"></result>
+
     </resultMap>
 
 

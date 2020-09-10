@@ -1,5 +1,6 @@
 package com.yidu.permission.controller;
 
+import com.yidu.util.GetFundIdUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,5 +29,4 @@ public class ViewController {
         String reqUri = uri.substring(6, length);
         return reqUri;
     }
-
 }

@@ -4,6 +4,7 @@ import com.yidu.businessParameter.mapper.SecuritiesMapper;
 import com.yidu.businessParameter.pojo.SecuritiesPojo;
 import com.yidu.businessParameter.service.SecuritiesService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * @vesion 1.1
  **/
 @Service
+@Transactional
 public class SecuritiesServiceImpl implements SecuritiesService {
     @Resource
     SecuritiesMapper securitiesMapper;
@@ -47,7 +49,8 @@ public class SecuritiesServiceImpl implements SecuritiesService {
     @Override
     public HashMap selectSecurities() {
         HashMap securitiesMap = new HashMap();
-        securitiesMap.put("p_tableName","securities");
+        String tableName="(select * from securities join stock on securities.stockId=stock.stockId)";
+        securitiesMap.put("p_tableName",tableName);
         securitiesMap.put("p_condition","");
         securitiesMap.put("p_pageSize",10);
         securitiesMap.put("p_page",1);

@@ -11,18 +11,28 @@ public class Seate {
     private int seateType;   //席位类型
     private double seateRate;//佣金费率 年利率？/100
     private String brokersId;//券商编号  Fk  券商编号id  来自券商信息表（brokers）
+    private String brokersName;//券商名称    来自券商信息表（brokers）
     private int seateAddress;//1=上海  2=深圳
     private String seateDesc;//备注
     public Seate(){}
 
-    public Seate(String seateId, String seateName, int seateType, double seateRate, String brokersId, int seateAddress, String seateDesc) {
+    public Seate(String seateId, String seateName, int seateType, double seateRate, String brokersId, String brokersName, int seateAddress, String seateDesc) {
         this.seateId = seateId;
         this.seateName = seateName;
         this.seateType = seateType;
         this.seateRate = seateRate;
         this.brokersId = brokersId;
+        this.brokersName = brokersName;
         this.seateAddress = seateAddress;
         this.seateDesc = seateDesc;
+    }
+
+    public String getBrokersName() {
+        return brokersName;
+    }
+
+    public void setBrokersName(String brokersName) {
+        this.brokersName = brokersName;
     }
 
     public String getSeateId() {
@@ -89,8 +99,9 @@ public class Seate {
                 ", seateType=" + seateType +
                 ", seateRate=" + seateRate +
                 ", brokersId='" + brokersId + '\'' +
+                ", brokersName='" + brokersName + '\'' +
                 ", seateAddress=" + seateAddress +
-                ", desc='" + seateDesc + '\'' +
+                ", seateDesc='" + seateDesc + '\'' +
                 '}';
     }
 }

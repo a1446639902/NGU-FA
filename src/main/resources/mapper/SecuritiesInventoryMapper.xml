@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.inventoryManage.mapper.SecuritiesInventoryMapper">
     <insert id="insertSecuritiesInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesInventory">
-        insert into SecuritiesInventory values (#{securitiesInventoryId},#{dateTime},#{securitiesId},#{fundId},#{securityPeriodFlag},#{securitiesNum},#{price},#{total},#{securitiesInventoryDesc})
+        insert into SecuritiesInventory values (#{securitiesInventoryId},#{dateTime},#{securitiesId},#{accountId},#{fundId},#{securityPeriodFlag},#{securitiesNum},#{price},#{total},#{securitiesInventoryDesc})
     </insert>
     <update id="updateSecuritiesInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesInventory">
         update SecuritiesInventory set securityPeriodFlag=#{securityPeriodFlag},securitiesNum=#{securitiesNum},price=#{price},total=#{total},securitiesInventoryDesc=#{securitiesInventoryDesc} where securitiesInventoryId=#{securitiesInventoryId}

@@ -17,5 +17,5 @@ public interface DepositMapper {
     public void  selectDeposit(HashMap hashMap);
     public int insertDeposit(DepositPojo depositPojo);
     public int updateDeposit(DepositPojo depositPojo);
-    public int deleteDeposit(int depositId);
+    public int deleteDeposit(String depositId);
 }

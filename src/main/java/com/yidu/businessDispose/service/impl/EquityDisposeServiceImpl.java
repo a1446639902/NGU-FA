@@ -1,8 +1,8 @@
 package com.yidu.businessDispose.service.impl;
 
-import com.yidu.businessData.mapper.EquityDataMapper;
 import com.yidu.businessDispose.mapper.EquityDisposeMapper;
 import com.yidu.businessDispose.pojo.EquityDispose;
+import com.yidu.businessDispose.service.EquityDisposeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Service
-public class EquityDisposeServiceImpl implements EquityDisposeService{
+public class EquityDisposeServiceImpl implements EquityDisposeService {
     @Resource
     EquityDisposeMapper equityDisposeMapper;
     @Override
@@ -45,7 +45,7 @@ public class EquityDisposeServiceImpl implements EquityDisposeService{
         }
 
 
-        String p_tableName="(select equityDataId,securitiesName,accountName,equitiesType,equitiesExright,securitiesNum,proportion from equityData,securities,account,cashInventory)";
+        String p_tableName="(select equityDataId,securitiesName,accountName,equitiesType,equitiesExright,securitiesNum,proportion from equityData,securities,account,securitiesInventory)";
 
 
         //创建一个Map，用于存储过程的调用传值

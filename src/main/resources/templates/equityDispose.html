@@ -49,7 +49,15 @@
                     ,{field: 'equityDataId', title: '权益编号', width:150, align:'center'}
                     ,{field: 'securitiesName', title: '证券名称', width: 150, align:'center'}
                     ,{field: 'accountName', title: '账户名称', width:150, align:'center'}
-                    ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center'}
+                    ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center',
+                        templet: function (item) {
+                            if (item.equitiesType == 1) {
+                                return '送股';
+                            } else if (item.equitiesType == '2') {
+                                return '分红';
+                            }
+                        }
+                    }
                     ,{field: 'equitiesExright', title: '除权日期', width:150, align:'center'}
                     ,{field: 'securitiesNum', title: '证券数量', width:150, align:'center'}
                     ,{field: 'proportion', title: '比例', width:150, align:'center'}
@@ -69,7 +77,15 @@
                         ,{field: 'equityDataId', title: '权益编号', width:150, align:'center'}
                         ,{field: 'securitiesName', title: '证券名称', width: 150, align:'center'}
                         ,{field: 'accountName', title: '账户名称', width:150, align:'center'}
-                        ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center'}
+                        ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center',
+                        templet: function (item) {
+                            if (item.equitiesType == 1) {
+                                return '送股';
+                            } else if (item.equitiesType == '2') {
+                                return '分红';
+                            }
+                        }
+                    }
                         ,{field: 'equitiesExright', title: '除权日期', width:150, align:'center'}
                         ,{field: 'securitiesNum', title: '证券数量', width:150, align:'center'}
                         ,{field: 'proportion', title: '比例', width:150, align:'center'}
@@ -94,7 +110,7 @@
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">权益类型</label>
 
             <div class="layui-inline layui-show-xs-block">
-                <select name="cateid">
+                <select name="equitiesType" id="equitiesType">
                     <option>请选择</option>
                     <option>分红</option>
                     <option>送股</option>
@@ -105,7 +121,7 @@
             <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn"  lay-submit="" lay-filter="sreach">结算</button>
+            <button class="layui-btn"  lay-submit="settlement" lay-filter="settlement" id="settlement">结算</button>
         </div>
     </form>
 
@@ -128,8 +144,6 @@
     </div>
 </div>
 
-
-
 <script>
     layui.use('element', function(){
         var $ = layui.jquery
@@ -140,6 +154,13 @@
 
         element.on('tab(test)', function(elem){
             location.hash = 'test='+ $(this).attr('lay-id');
+            var submit = $(this).attr('lay-id')
+            if (submit == '2'){
+                $('#settlement').html("反结算")
+            }
+            if (submit == '1'){
+                $('#settlement').html("结算")
+            }
         });
 
     });
