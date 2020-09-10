@@ -70,7 +70,6 @@
                     ,{field: 'securitiesInventoryId', title: '证券库存Id', align:'center'}
                     ,{field: 'dateTime', title: '证券日期', align:'center'}
                     ,{templet:'<div>{{d.securitiesPojo.securitiesName}}</div>',title: '证券名称', align:'center', }
-                    ,{templet:'<div>{{d.accountPojo.accountName}}</div>',title: '账户名称', align:'center', }
                     ,{templet:'<div>{{d.fund.fundName}}</div>',title: '基金名称', align:'center',sort:true }
                     ,{field: 'securityPeriodFlag', title: '是否从其他表导入初期数据', align:'center'}
                     ,{field: 'securitiesNum', title: '证券数量', align:'center'}
@@ -192,14 +191,14 @@
                     //删除多行
                     case "deleteAll":
                         //获得选中的对象
-                        var checkStatus = table.checkStatus("myTable"); //idTest 即为基础参数 id 对应的值
+                        var securitiesInventoryId = table.checkStatus("myTable"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
                         var marketIds = [];
                         var dataArr = checkStatus.data; //获取选中行的数据
                         $.each(dataArr, function (i, n) {
-                            marketIds.push(n.marketId);
+                            securitiesInventoryId.push(n.securitiesInventoryId);
                         });
-                        alert(marketIds);
+                        alert(securitiesInventoryId);
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
                         }
@@ -207,7 +206,7 @@
                             layer.confirm('真的删除行么', function () {
                                 layer.close();
                                 //向服务端发送删除指令
-                                $.post("../SecuritiesInventory/deleteSecuritiesInventory", "marketIds="+marketIds,function(msg){
+                                $.post("../SecuritiesInventory/deleteSecuritiesInventory", "securitiesInventoryId="+securitiesInventoryId,function(msg){
                                     if(msg>0){
                                         table.reload('myTable');
                                         layer.closeAll();
@@ -244,6 +243,7 @@
                 var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
                 if (layEvent === 'del') { //删除
+                    alert(data.securitiesInventoryId);
                     layer.confirm('真的删除行么', function (index) {
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);

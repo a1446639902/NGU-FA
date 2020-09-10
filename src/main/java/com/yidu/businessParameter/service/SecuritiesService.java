@@ -16,6 +16,6 @@ public interface SecuritiesService {
     public int insertSecurities(SecuritiesPojo securitiesPojo);
     public int deleteSecurities(String securitiesId);
     public int updateSecurities(SecuritiesPojo securitiesPojo);
-    public HashMap selectSecurities();
+    public HashMap selectSecurities(int page,int limit,String securitiesId,String securitiesName);
     /*public List<SecuritiesPojo> selectSecurities();*/
 }

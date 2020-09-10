@@ -8,4 +8,5 @@ import java.util.HashMap;
 public interface RevenueProvisionMapper {
     public void selectRevenueProvision(HashMap hashMap);
     public void selectBondInterest(HashMap hashMap);
+    public void selectTwoFees(HashMap hashMap);
 }

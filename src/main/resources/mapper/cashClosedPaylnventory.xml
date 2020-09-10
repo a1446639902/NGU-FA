@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.inventoryManage.mapper.CashClosedPaylnventoryMapper">
-
+    <!--增加-->
     <insert id="insertCashClosedPaylnventory">
-        insert into cashClosedPayInventory values(#{cashClosedPayInventoryId},#{businessDate},#{cashAccountName},#{fundId},#{businessType},#{businessStatus},#{initialSigns},#{totalMoney})
+        insert into cashClosedPayInventory values(#{cashClosedPayInventoryId},#{businessDate},#{accountId},#{fundId},#{businessType},#{businessStatus},#{initialSigns},#{totalMoney})
     </insert>
     <!--修改-->
     <update id="updateCashClosedPaylnventory">
-        update cashClosedPayInventory set businessDate=#{businessDate},cashAccountName=#{cashAccountName},fundId=#{fundId},businessType=#{businessType},businessStatus=#{businessStatus},initialSigns=#{initialSigns},totalMoney=#{totalMoney} where cashClosedPayInventoryId=#{cashClosedPayInventoryId}
-    </update>
+        update CashClosedPayInventory set businessDate=#{businessDate},accountId=#{accountId},fundId=#{fundId},businessType=#{businessType},businessStatus=#{businessStatus},initialSigns=#{initialSigns},totalMoney=#{totalMoney} where cashClosedPayInventoryId=#{cashClosedPayInventoryId}    </update>
     <!--删除-->
     <delete id="deleteCashClosedPaylnventory" parameterType="java.util.List">
         delete from cashClosedPayInventory where cashClosedPayInventoryId in
-        <foreach collection="list" item="equityDataId"
+        <foreach collection="list" item="cashClosedPayInventoryId"
                  open="(" separator="," close=")">
             #{cashClosedPayInventoryId}
         </foreach>
@@ -21,12 +20,13 @@
     <resultMap id="cashClosedPayInventoryMap" type="com.yidu.inventoryManage.pojo.CashClosedPayInventory">
         <result property="cashClosedPayInventoryId" column="cashClosedPayInventoryId" javaType="String"></result>
         <result property="businessDate" column="businessDate" javaType="String"></result>
-        <result property="cashAccountName" column="cashAccountName" javaType="String"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
         <result property="fundId" column="fundId" javaType="String"></result>
         <result property="businessType" column="businessType" javaType="Integer"></result>
         <result property="businessStatus" column="businessStatus" javaType="Integer"></result>
         <result property="initialSigns" column="initialSigns" javaType="Integer"></result>
         <result property="totalMoney" column="totalMoney" javaType="Integer"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
     </resultMap>
 
     <select id="selectCashClosedPaylnventory" parameterType="java.util.Map" statementType="CALLABLE">

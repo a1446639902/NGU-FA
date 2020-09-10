@@ -12,6 +12,13 @@ import java.util.HashMap;
 public interface SecuritiesInventoryService {
     public HashMap selectSecuritiesInventory(int page,int limit,String sreachTime,String sreachId);
     public int updateSecuritiesInventory(SecuritiesInventory securitiesInventory);
-    public int deleteSecuritiesInventory(int securitiesInventoryId);
+    public int deleteSecuritiesInventory(String securitiesInventoryId);
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory);
+
+    /**
+     * 根据日期删除的service层的接口
+     * @param date
+     */
+    public void deleteDateSecuritiesInventory(String date);
+
 }

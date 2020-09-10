@@ -44,7 +44,7 @@ public class SecuritiesInventoryController {
         return i;
     }
     @RequestMapping("deleteSecuritiesInventory")
-    public int deleteSecuritiesInventory(int securitiesInventoryId){
+    public int deleteSecuritiesInventory(String securitiesInventoryId){
         int i = securitiesInventoryService.deleteSecuritiesInventory(securitiesInventoryId);
         return i;
     }
