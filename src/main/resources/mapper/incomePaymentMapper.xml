@@ -26,8 +26,6 @@
         <result property="securitiesClosedPayInventoryId" column="securitiesClosedPayInventoryId" javaType="String"></result>
         <result property="securitiesId" column="securitiesId" javaType="String"></result>
         <result property="securitiesName" column="securitiesName" javaType="String"></result>
-        <result property="accountId" column="accountId" javaType="String"></result>
-        <result property="accountName" column="accountName" javaType="String"></result>
         <result property="securitiesType" column="securitiesType" javaType="Integer"></result>
         <result property="totalMoney" column="totalPrice" javaType="Double"></result>
         <result property="businessDate" column="dateTime" javaType="String"></result>

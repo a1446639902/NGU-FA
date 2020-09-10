@@ -42,13 +42,11 @@ public class IncomePaymentPojo {
         this.accountName = accountName;
     }
     //证券应收应付
-    public IncomePaymentPojo(Double totalMoney, int businessStatus, String businessDate, String accountId, String accountName,
-                             String securitiesClosedPayInventoryId, int securitiesType, String securitiesId, String securitiesName) {
+    public IncomePaymentPojo(Double totalMoney, int businessStatus, String businessDate, String securitiesClosedPayInventoryId,
+                             int securitiesType, String securitiesId, String securitiesName) {
         this.totalMoney = totalMoney;
         this.businessStatus = businessStatus;
         this.businessDate = businessDate;
-        this.accountId = accountId;
-        this.accountName = accountName;
         this.securitiesClosedPayInventoryId = securitiesClosedPayInventoryId;
         this.securitiesType = securitiesType;
         this.securitiesId = securitiesId;
