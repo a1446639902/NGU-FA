@@ -4,9 +4,11 @@ import com.yidu.businessData.pojo.EquityData;
 import com.yidu.inventoryManage.mapper.CashClosedPaylnventoryMapper;
 import com.yidu.inventoryManage.pojo.CashClosedPayInventory;
 import com.yidu.inventoryManage.service.CashClosedPaylnventoryService;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +38,7 @@ public class CashClosedPaylnventoryServiceImpl implements CashClosedPaylnventory
 
     @Override
     public int updateCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory) {
+        System.out.println(cashClosedPayInventory);
         return cashClosedPaylnventoryMapper.updateCashClosedPaylnventory(cashClosedPayInventory);
     }
 
@@ -66,10 +69,16 @@ public class CashClosedPaylnventoryServiceImpl implements CashClosedPaylnventory
             v_businessType = Integer.parseInt(businessType);
             sqlWhere.append("AND businessType LIKE '%" + v_businessType + "%'");
         }
+
+
+        String p_tableName = "(select * from " + SysTableNameListUtil.CCPI +" c " + "join (select fundName,fundId from "+SysTableNameListUtil.F+" ) f " + "on c.fundId=f.fundId "+
+                "join (select accountId,accountName from "+SysTableNameListUtil.A+") a "+"on c.accountId=a.accountId)";
         //创建一个Map，用于存储过程的调用传值
+
+
         Map<String,Object> map = new HashMap<>();
         //传入存储过程需要的查询的表名
-        map.put("p_tableName","cashClosedPayInventory");
+        map.put("p_tableName",p_tableName);
         //传入查询条件
         map.put("p_condition",sqlWhere.toString());
         //传入分页显示条数

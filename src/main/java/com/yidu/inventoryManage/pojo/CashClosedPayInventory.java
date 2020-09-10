@@ -8,25 +8,29 @@ public class CashClosedPayInventory {
      */
     private String cashClosedPayInventoryId;                      //现金应收应付库存编号
     private String businessDate;                //业务日期
-    private String cashAccountName;             //现金账户名称
+    private String accountName;             //现金账户名称
     private String fundId;                       //基金Id
+    private String fundName;                     //现金名称
     private int businessType;                   //业务类型  1.管理费 2.托管费  3.存款利息  4.申购赎回费
     private int businessStatus;                 //业务状态 1.流入  -1流出
     private int initialSigns;                   //期初标志 1.是   0.否
-    private int totalMoney;                     //总金额
+    private int totalMoney;//总金额
+    private String accountId;//现金账户ID
 
     public CashClosedPayInventory() {
     }
 
-    public CashClosedPayInventory(String cashClosedPayInventoryId, String businessDate, String cashAccountName, String fundId, int businessType, int businessStatus, int initialSigns, int totalMoney) {
+    public CashClosedPayInventory(String cashClosedPayInventoryId, String businessDate, String accountName, String fundId, String fundName, int businessType, int businessStatus, int initialSigns, int totalMoney, String accountId) {
         this.cashClosedPayInventoryId = cashClosedPayInventoryId;
         this.businessDate = businessDate;
-        this.cashAccountName = cashAccountName;
+        this.accountName = accountName;
         this.fundId = fundId;
+        this.fundName = fundName;
         this.businessType = businessType;
         this.businessStatus = businessStatus;
         this.initialSigns = initialSigns;
         this.totalMoney = totalMoney;
+        this.accountId = accountId;
     }
 
     public String getCashClosedPayInventoryId() {
@@ -45,12 +49,12 @@ public class CashClosedPayInventory {
         this.businessDate = businessDate;
     }
 
-    public String getCashAccountName() {
-        return cashAccountName;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setCashAccountName(String cashAccountName) {
-        this.cashAccountName = cashAccountName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getFundId() {
@@ -59,6 +63,14 @@ public class CashClosedPayInventory {
 
     public void setFundId(String fundId) {
         this.fundId = fundId;
+    }
+
+    public String getFundName() {
+        return fundName;
+    }
+
+    public void setFundName(String fundName) {
+        this.fundName = fundName;
     }
 
     public int getBusinessType() {
@@ -93,17 +105,27 @@ public class CashClosedPayInventory {
         this.totalMoney = totalMoney;
     }
 
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
     @Override
     public String toString() {
         return "CashClosedPayInventory{" +
                 "cashClosedPayInventoryId='" + cashClosedPayInventoryId + '\'' +
                 ", businessDate='" + businessDate + '\'' +
-                ", cashAccountName='" + cashAccountName + '\'' +
+                ", accountName='" + accountName + '\'' +
                 ", fundId='" + fundId + '\'' +
+                ", fundName='" + fundName + '\'' +
                 ", businessType=" + businessType +
                 ", businessStatus=" + businessStatus +
                 ", initialSigns=" + initialSigns +
                 ", totalMoney=" + totalMoney +
+                ", accountId='" + accountId + '\'' +
                 '}';
     }
 }
