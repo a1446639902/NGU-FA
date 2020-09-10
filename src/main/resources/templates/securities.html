@@ -35,17 +35,16 @@
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券ID</label>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <input class="layui-input"  autocomplete="off" placeholder="请输入证券ID" name="selectsecuritiesId" id="securitiesId">
+            <input class="layui-input"  autocomplete="off" placeholder="请输入证券ID" name="securitiesId" id="securitiesId">
         </div>
-
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券名称</label>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <input class="layui-input"  autocomplete="off" placeholder="请输入证券名称" name="selectsecuritieName" id="securitieName">
+            <input class="layui-input"  autocomplete="off" placeholder="请输入证券名称" name="securitiesName" id="securitiesName">
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn"  lay-submit="" data-type="reload" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button class="layui-btn"  lay-submit lay-event="search" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
     </form>
 
@@ -85,15 +84,15 @@
             , cols: [
                 [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    , {field: 'securitiesId', title: '证券ID', width: 105, sort: true}
-                    , {field: 'securitiesName', title: '证券名称', width: 105}
-                    , {field: 'securitiesType', title: '证券类型', width: 105, sort: true,templet:'#securitiesTypedemo'}
-                    , {field: 'issueDate', title: '发行日期', width: 105}
-                    , {field: 'delayDate', title: '延迟日期', width: 105}
-                    , {field: 'stockId', title: '模块ID', width: 105, sort: true,hide:true}
-                    , {field: 'stockName', title: '模块名称', width: 105, sort: true}
-                    , {field: 'exchange', title: '交易所', width: 105, sort: true,templet: '#exchangedemo'}
-                    , {field: 'securitiesDesc', title: '备注', width: 105}
+                    , {field: 'securitiesId', title: '证券ID', width: 120, sort: true}
+                    , {field: 'securitiesName', title: '证券名称', width: 120}
+                    , {field: 'securitiesType', title: '证券类型', width: 120, sort: true,templet:'#securitiesTypedemo'}
+                    , {field: 'issueDate', title: '发行日期', width: 120}
+                    , {field: 'delayDate', title: '延迟日期', width: 120}
+                    , {field: 'stockId', title: '模块ID', width: 120, sort: true,hide:true}
+                    , {field: 'stockName', title: '模块名称', width: 120, sort: true}
+                    , {field: 'exchange', title: '交易所', width: 120, sort: true,templet: '#exchangedemo'}
+                    , {field: 'securitiesDesc', title: '备注', width: 120}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
                 ]
             ]
@@ -104,17 +103,16 @@
         table.on('toolbar(test)', function (obj) {
             switch (obj.event) {
                 case "search":
-                    var blankName=$('#blankName').val();
-                    var accountName=$('#accountName').val();
-                    alert(blankName,accountName);
+                    var securitiesId=$('#securitiesId').val();
+                    var securitiesName=$('#securitiesName').val();
                     table.reload('test', {
                         method: 'post',
                         page: {
                             curr: 1
                         },
                         where:{
-                            'blankName':blankName,
-                            'accountName':accountName
+                            'securitiesId':securitiesId,
+                            'securitiesName':securitiesName
                         }
                     });
                     break;
@@ -320,20 +318,20 @@
 
 <script type="text/html" id="securitiesTypedemo">
     {{# if (d.securitiesType == 1) { }}
-    <span class="layui-badge layui-bg-orange">债券</span>
+    债券
 
     {{# }else{ }}
-    <span class="layui-badge layui-bg-green">股票</span>
+    股票
 
     {{# } }}
 </script>
 
 <script type="text/html" id="exchangedemo">
     {{# if (d.exchange == 1) { }}
-    <span class="layui-badge layui-bg-orange">上交所</span>
+    上交所
 
     {{# }else{ }}
-    <span class="layui-badge layui-bg-green">深交所</span>
+    深交所
 
     {{# } }}
 </script>

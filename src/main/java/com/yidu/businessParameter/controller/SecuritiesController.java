@@ -62,8 +62,8 @@ public class SecuritiesController {
 
     //查询
     @RequestMapping("/selectSecurities")
-    public HashMap selectSecurities(){
-        HashMap hashMap=securitiesService.selectSecurities();
+    public HashMap selectSecurities(int page,int limit,String securitiesId,String securitiesName){
+        HashMap hashMap=securitiesService.selectSecurities(page,limit,securitiesId,securitiesName);
         int count=(int)hashMap.get("p_count");
         List<SecuritiesPojo> securitiesPojoList = (List<SecuritiesPojo>) hashMap.get("p_cursor");
         HashMap securitiesMap=new HashMap();

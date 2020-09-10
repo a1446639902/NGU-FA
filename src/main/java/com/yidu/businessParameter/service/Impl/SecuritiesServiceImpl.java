@@ -47,6 +47,29 @@ public class SecuritiesServiceImpl implements SecuritiesService {
     }
 
     @Override
+    public HashMap selectSecurities(int page, int limit, String securitiesId, String securitiesName) {
+        String sql="";
+        if(securitiesId !=null && !securitiesId.equals("")){
+            sql=sql+" and securitiesId like '%"+securitiesId+"%'";
+        }
+        if(securitiesName !=null && !securitiesName.equals("")){
+            sql=sql+" and securitiesName like '%"+securitiesName+"%'";
+        }
+
+
+        HashMap securitiesMap = new HashMap();
+        String tableName="(select * from securities join stock on securities.stockId=stock.stockId)";
+        securitiesMap.put("p_tableName",tableName);
+        securitiesMap.put("p_condition",sql);
+        securitiesMap.put("p_pageSize",limit);
+        securitiesMap.put("p_page",page);
+        securitiesMap.put("p_count",0);
+        securitiesMap.put("p_cursor",null);
+        securitiesMapper.selectSecurities(securitiesMap);
+        return securitiesMap;
+    }
+
+   /* @Override
     public HashMap selectSecurities() {
         HashMap securitiesMap = new HashMap();
         String tableName="(select * from securities join stock on securities.stockId=stock.stockId)";
@@ -58,5 +81,5 @@ public class SecuritiesServiceImpl implements SecuritiesService {
         securitiesMap.put("p_cursor",null);
         securitiesMapper.selectSecurities(securitiesMap);
         return securitiesMap;
-    }
+    }*/
 }
