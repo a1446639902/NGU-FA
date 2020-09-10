@@ -1,5 +1,3 @@
-/*
-
 
 
 
@@ -15,23 +13,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-
-
-
-
-//过滤器
-
-
-
-
-
-
-
-
+/**
+ * 过滤器
+ */
 
 @Component
-
-
 @WebFilter("*")
 public class FAWebFilter implements Filter {
 
@@ -59,6 +45,7 @@ public class FAWebFilter implements Filter {
         ||request.getRequestURI().startsWith("/js")
         ||request.getRequestURI().startsWith("/lib")
         ||request.getRequestURI().equals("/user/checkLogin")
+        ||request.getRequestURI().equals("/fund/selectFund")
         ||request.getRequestURI().equals("/page/login")
         ||session.getAttribute("userName")!=null){
             filterChain.doFilter(request,response);
@@ -74,5 +61,3 @@ public class FAWebFilter implements Filter {
 
     }
 }
-
-*/

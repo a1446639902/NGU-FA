@@ -14,9 +14,4 @@ public interface UserMapper {
 
     public Integer selectUser1(Map<String,String> map);
 
-    public void deleteUser1(int userId);
-
-    public void insertUser1(UserInfo userInfo);
-
-
 }

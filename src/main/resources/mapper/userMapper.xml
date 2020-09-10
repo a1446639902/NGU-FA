@@ -10,24 +10,6 @@
         <result property="status" column="status" javaType="Integer"></result>
         <result property="userInfoDesc" column="userInfoDesc" javaType="String"></result>
     </resultMap>
-<!--    <select id="selectUser" parameterType="java.util.Map" statementType="CALLABLE">
-        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=com.yidu.permission.mapper.UserMapper.cursorMap})}
-    </select>-->
-<!--    <parameterMap id="userMap" type="java.util.Map">-->
-<!--        <parameter property="p_tableName" jdbcType="VARCHAR" mode="IN"></parameter>-->
-<!--        <parameter property="p_condition" jdbcType="VARCHAR" mode="IN"></parameter>-->
-<!--        <parameter property="p_pageSize" jdbcType="INTEGER" mode="IN"></parameter>-->
-<!--        <parameter property="p_page" jdbcType="INTEGER" mode="IN"></parameter>-->
-<!--        <parameter property="p_count" jdbcType="INTEGER" mode="OUT"></parameter>-->
-<!--        <parameter property="p_cursor" jdbcType="CURSOR" resultMap="cursorMap" mode="OUT"></parameter>-->
-<!--    </parameterMap>-->
-<!--    <delete id="deleteUser" parameterType="integer">
-        delete from userInfo where userId=#{userId}
-    </delete>
-
-    <insert id="insertUser" parameterType="com.yidu.permission.pojo.UserInfo">
-        insert into userInfo values(#{userId},#{userName},#{userPwd},#{roleId},#{status},#{userInfoDesc});
-    </insert>-->
     <select id="selectUser1" parameterType="java.util.Map" resultType="Integer">
         select * from userInfo where userName=#{userName} and userPwd=#{userPwd}
     </select>

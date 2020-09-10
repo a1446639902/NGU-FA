@@ -42,30 +42,32 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoMapper.updateUser(userInfoPojo);
     }
 
-/*    @Override
-    public HashMap selectUser(*//*int page, int limit, int searchstatus, String searchuserName*//*) {
+   @Override
+    public HashMap selectUser(int page, int limit,  Integer status, String userName) {
+       String sql="";
+       if (status!=null && !status.equals("")){
+           sql=sql+" and status like '%"+status+"%'";
+       }
+
+       if(userName !=null && !userName.equals("")){
+           sql=sql+" and userName like '%"+userName+"%'";
+       }
+       System.out.println("xxxxxxxxxxxx");
+       System.out.println(sql);
+
+
         HashMap userMap=new HashMap();
-
-        userMap.put("p_tableName","(select * from userInfo)");
-        if (searchuserName!=""){
-            userMap.put("p_condition","and status like '%\"+status+\"%'");
-        }
-        else if (searchuserName!=null&&searchuserName!=""){
-            userMap.put("p_condition"," and status like '%" +searchstatus+"%' and userName like '%"+ searchuserName+"%'");
-        }else {
-            userMap.put("p_condition","");
-        }
-
-        userMap.put("p_tableName","userInfo");
-        userMap.put("p_condition","");
-        userMap.put("p_pageSize",10);
-        userMap.put("p_page",1);
-        userMap.put("p_count",0);
+        String tableName ="(select * from userInfo join role on userInfo.roleId=role.roleId)";
+        userMap.put("p_tableName",tableName);
+        userMap.put("p_condition",sql);
+        userMap.put("p_pageSize",limit);
+        userMap.put("p_page",page);
+        userMap.put("p_count","count");
         userMap.put("p_cursor",null);
         userInfoMapper.selectUser(userMap);
         return userMap;
-    }*/
-    @Override
+    }
+/*    @Override
     public HashMap selectUser() {
         HashMap userMap=new HashMap();
         String tableName ="(select * from userInfo join role on userInfo.roleId=role.roleId)";
@@ -77,5 +79,5 @@ public class UserInfoServiceImpl implements UserInfoService {
         userMap.put("p_cursor",null);
         userInfoMapper.selectUser(userMap);
         return userMap;
-    }
+    }*/
 }

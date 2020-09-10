@@ -124,7 +124,7 @@ public class CashInventoryServiceImpl implements CashInventoryService {
                  cashInventoryEntity.setCashInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CI));
                  System.out.println("现金库存Id为："+cashInventoryEntity.getCashInventoryId());
                 //基金id 来自（基金表）
-                    cashInventoryEntity.setFundId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.F));
+                    cashInventoryEntity.setFundId("289289289");
                     System.out.println("基金id为："+cashInventoryEntity.getFundId());
                 //现金余额
                      System.out.println("现金余额为："+cashInventoryEntity.getCashBlance());

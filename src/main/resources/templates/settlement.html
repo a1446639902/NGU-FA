@@ -33,59 +33,18 @@
             //执行一个laydate实例
             laydate.render({
                 elem: '#start' //指定元素
-
             });
+            laydate.render({
+                elem: '#start1' //指定元素
+            });
+            //未结算表格数据
             table.render({
                 elem: '#userTable',
                 url: '../Settlement/selectSettlement?status=0',
                 page: true,
                 height: 498,
                 minLength:80,
-                toolbar: '#userToolBar',
-                cols: [
-                    [ //表头
-                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
-                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
-                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
-                        ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
-                        ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
-                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
-                        ,{field: 'accountName', title: ' 现金账户', width: 130, align:'center'}
-                        ,{field: 'securitiesName', title: ' 证券名称', width: 130, align:'center'}
-                        ,{field: 'brokersName', title: '券商名称', width: 130, align:'center'}
-                        ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
-                            if(item.transactionDataMode=='1') {
-                                return '买入';
-                            } else if(item.transactionDataMode=='2'){
-                                return '卖出';
-                            } else if(item.transactionDataMode=='3'){
-                                return '分红';
-                            } else if(item.transactionDataMode=='4'){
-                                return '送股';
-                            }
-                        }
-                    }
-                        ,{field: 'status', title: '交易状态', width: 130, align:'center', templet: function(item){
-                            if(item.status=='0') {
-                                return '未结算';
-                            } else if(item.status=='1'){
-                                return '已结算';
-                            }
-                        }
-                    }
-                ]
-                ]
-            });
-
-
-
-            table.render({
-                elem: '#userTable2',
-                url: '../Settlement/selectSettlement?status=1',
-                page: true,
-                height: 498,
-                minLength:80,
+                toolbar:'#userToolBar',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
@@ -122,28 +81,250 @@
                     ]
                 ]
             });
+
+
+            //已结算表格数据
+            table.render({
+                elem: '#userTable2',
+                url: '../Settlement/selectSettlement?status=1',
+                page: true,
+                height: 498,
+                minLength:80,
+                toolbar:'#userToolBar2',
+                cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
+                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
+                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
+                        ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
+                        ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
+                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
+                        ,{field: 'accountName', title: ' 现金账户', width: 130, align:'center'}
+                        ,{field: 'securitiesName', title: ' 证券名称', width: 130, align:'center'}
+                        ,{field: 'brokersName', title: '券商名称', width: 130, align:'center'}
+                        ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
+                            if(item.transactionDataMode=='1') {
+                                return '买入';
+                            } else if(item.transactionDataMode=='2'){
+                                return '卖出';
+                            } else if(item.transactionDataMode=='3'){
+                                return '分红';
+                            } else if(item.transactionDataMode=='4'){
+                                return '送股';
+                            }
+                        }
+                    }
+                        ,{field: 'status', title: '交易状态', width: 130, align:'center', templet: function(item){
+                            if(item.status=='0') {
+                                return '未结算';
+                            } else if(item.status=='1'){
+                                return '已结算';
+                            }
+                        }
+                    }
+                        ,{field: 'operation', title: '操作' , width: 160, align:'center',toolbar:'#barDemo'}
+                    ]
+                ]
             });
+            //给工具条的结算添加事件
+            table.on('toolbar(userTable)', function (obj) {
 
-
-</script>
+                switch (obj.event) {
+                    case "search":
+                        //获得选中的对象
+                        var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
+                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                        var transactionDataIds = [];
+                        var dataArr = checkStatus.data; //获取选中行的数据
+                        $.each(dataArr, function (i, n) {
+                            transactionDataIds.push(n.transactionDataId);
+                        });
+                        if (dataArr.length == 0) {
+                            layer.msg("请先选中数据");
+                        }
+                        else {
+                           /* layer.confirm('真的要结算嘛',{icon: 2}, function(index){
+                                layer.close(index);
+                                $.post("../seateDelete", {seateId:ids.join(',')},function(msg){
+                                    table.reload('userTable');
+                                    layer.msg('删除'+checkStatus.data.length+'条记录', {
+                                        title:'提示',
+                                        area: ['200px', '140px'],
+                                        time: 0,
+                                        btn: ['知道了']
+                                    });
+                                });
+                            });*/
+                            layer.confirm('真的要结算嘛', function () {
+                                alert("结算=========================");
+                              //  layer.close();
+                                //向服务端发送删除指令
+                                $.post("../Settlement/updateSettlement?status=0","transactionDataIds="+transactionDataIds,function(msg){
+                                    if(msg>0){
+                                        table.reload('userTable');
+                                        table.reload('userTable2');  /!*渲染刷新*!/
+                                        layer.closeAll();
+                                        layer.msg('结算成功',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                    else{
+                                        layer.closeAll();
+                                        layer.msg('结算失败',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                });
+                                return false;
+                            });
+                        }
+                        break;
+                    case 'select':
+                        alert("搜索");
+                        var dateTime= $("#start").val();
+                        var transactionDataMode= $("#cateId").val();
+                        //表格的重新加载事件
+                        table.reload('userTable', {
+                            method: 'post'
+                            , where: {
+                                'dateTime': dateTime,
+                                'transactionDataMode': transactionDataMode
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        });
+                        break;
+                };
+            });
+            //给工具条的反结算添加事件
+            table.on('toolbar(userTable2)', function (obj) {
+                switch (obj.event) {
+                    case "search2":
+                        //获得选中的对象
+                        var checkStatus = table.checkStatus("userTable2"); //idTest 即为基础参数 id 对应的值
+                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                        var transactionDataIds = [];
+                        var dataArr = checkStatus.data; //获取选中行的数据
+                        $.each(dataArr, function (i, n) {
+                            transactionDataIds.push(n.transactionDataId);
+                        });
+                        if (dataArr.length == 0) {
+                            layer.msg("请先选中数据");
+                        }
+                        else {
+                            layer.confirm('真的要反结算嘛', function () {
+                                layer.close();
+                                //向服务端发送删除指令
+                                $.post("../Settlement/updateSettlement?status=1","transactionDataIds="+transactionDataIds,function(msg){
+                                    if(msg>0){
+                                        table.reload('userTable2');
+                                        table.reload('userTable');  /*渲染刷新*/
+                                        layer.closeAll();
+                                        layer.msg('反结算成功',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            time : 0,
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                    else{
+                                        layer.closeAll();
+                                        layer.msg('反结算失败',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            time : 0,
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                });
+                                return false;
+                            });
+                        }
+                        break;
+                    case 'select':
+                        var dateTime= $("#start1").val();
+                        var transactionDataMode= $("#cateId1").val();
+                        //表格的重新加载事件
+                        table.reload('userTable2', {
+                            method: 'post'
+                            , where: {
+                                'dateTime': dateTime,
+                                'transactionDataMode': transactionDataMode
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        });
+                        break;
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
 
-<div style="margin-top: 20px;margin-left: 10px">
-    <!--工具条-->
-    <script type="text/html" id="userToolBar">
+<!--结算表头-->
+<script type="text/html" id="userToolBar">
+    <div style="margin-top: 0px;margin-left: 0px" >
+    <form class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易方式</label>
+
+            <div class="layui-inline layui-show-xs-block">
+                <select name="transactionDataMode" id="cateId">
+                    <option placeholder="请选择"></option>
+                    <option value="1">买入</option>
+                    <option value="2">卖出</option>
+                    <option value="3">分红</option>
+                    <option value="4">送股</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  lay-submit="" lay-filter="select" lay-event="select"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  type="button" lay-submit="settlement" lay-filter="search" lay-event="search" name="settlement" id="settlement" onclick="return false;" >结算</button>
+        </div>
+    </form>
+    <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <li class="layui-this" lay-id="1">未结算</li>
+        <li lay-id="2">已结算</li>
+    </ul>
+</div>
+</script>
+
+<!--反结算表头-->
+<script type="text/html" id="userToolBar2">
+    <div style="margin-top: 0px;margin-left: 0px" >
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start1">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易方式</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <select name="transactionDataMode" id="transactionDataMode1">
+                    <select name="transactionDataMode" id="cateId1">
                         <option placeholder="请选择"></option>
                         <option value="1">买入</option>
                         <option value="2">卖出</option>
@@ -153,57 +334,30 @@
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="select" lay-event="select"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="settlement" lay-filter="settlement" id="settlement">结算</button>
+                <button class="layui-btn"  type="button" lay-submit="settlement" lay-filter="search2" lay-event="search2" name="settlement" id="settlement1" onclick="return false"; >反结算</button>
             </div>
         </form>
-    </script>
+        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+            <li class="layui-this" lay-id="1">未结算</li>
+            <li lay-id="2">已结算</li>
+        </ul>
+    </div>
+</script>
 
-</div>
-
+<!--渲染表格层-->
 <div class="layui-tab" lay-filter="test">
-    <ul class="layui-tab-title" style="border-bottom-color: #009688">
-        <li class="layui-this" lay-id="1">未结算</li>
-        <li lay-id="2">已结算</li>
-    </ul>
     <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <!--表格-->
-                <table id="userTable" lay-filter="userTable"></table>
-            </div>
+        <div class="layui-tab-item layui-show">
+            <!--表格-->
+            <table id="userTable" lay-filter="userTable"></table>
+        </div>
         <div class="layui-tab-item">
-            <table id="userTable2" lay-filter="userTable"></table>
+            <table id="userTable2" lay-filter="userTable2"></table>
         </div>
     </div>
 </div>
-
-
-
-<script>
-    layui.use('element', function(){
-        var $ = layui.jquery
-            ,element = layui.element;
-        //Hash地址的定位
-        var layid = location.hash.replace(/^#test=/, '');
-        element.tabChange('test', layid);
-
-        //反结算和结算按钮
-        element.on('tab(test)', function(elem){
-            location.hash = 'test='+ $(this).attr('lay-id');
-            var submit = $(this).attr('lay-id')
-            if (submit == '2'){
-                $('#settlement').html("反结算")
-            }
-            if (submit == '1'){
-                $('#settlement').html("结算")
-            }
-        });
-    });
-</script>
-
-
-
 </body>
 </html>

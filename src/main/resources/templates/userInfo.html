@@ -32,24 +32,23 @@
 
     <form class="layui-form layui-col-space5" id="toolbarFrom">
         <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">用户状态</label>
-        </div>
-        <div class="layui-inline layui-show-xs-block">
-            <select name="searchstatus" id="searchstatus">
-                <option value="">请选择</option>
-                <option value="1">开启</option>
-                <option value="2">关闭</option>
-            </select>
-        </div>
-
-        <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">用户名称</label>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <input class="layui-input"  autocomplete="off" placeholder="请输入用户名称" name="searchuserName" id="selectuserName">
+            <input class="layui-input"  autocomplete="off" placeholder="请输入用户名称" name="userName" id="userName">
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn"  lay-submit="" data-type="reload" lay-event="search" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">用户状态</label>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <select id="status">
+                <option value="">请选择</option>
+                <option value="1">开启</option>
+                <option value="0">关闭</option>
+            </select>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  lay-submit lay-event="search" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
     </form>
 
@@ -156,19 +155,19 @@
 
 
             //给工具条的按钮添加事件
-            table.on('toolbar(test)', function (obj) {
+            table.on('toolbar(userTable)', function (obj) {
                 switch (obj.event) {
                     case "search":
-                        var searchstatus=$('#searchstatus').val();
-                        var searchuserName=$('#selectuserName').val();
+                        var userName=$('#userName').val();
+                        var status=$('#status').val();
                         table.reload('test', {
                             method: 'post',
                             page: {
                                 curr: 1
                             },
                             where:{
-                                'searchstatus':searchstatus,
-                                'searchuserName':searchuserName
+                                'userName':userName,
+                                'status':status
                             }
                         });
                         break;

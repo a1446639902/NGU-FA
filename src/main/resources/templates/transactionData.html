@@ -179,7 +179,6 @@
                     ]
                 }
                 ,done:function (elem,data) {
-                    alert("选中的数据：" + data);
                     var NEWJSON = [];
                    layui.each(data.data,function (index,item) {
                         NEWJSON.push(item.brokersName);
@@ -308,7 +307,7 @@
                     ]
                 }
                 ,done:function (elem,data) {
-                    alert("选中的数据：" + data);
+                    //alert("选中的数据：" + data);
                     var NEWJSON = [];
                     layui.each(data.data,function (index,item) {
                         NEWJSON.push(item.brokersName);
@@ -490,7 +489,7 @@
                         //全屏弹窗 layer.full(index);
                         break;
                     case 'search':
-                        alert("搜索");
+                        //alert("搜索");
                         var dateTime= $("#end").val();
                         var securitiesName= $("#equityId").val();
                         //表格的重新加载事件
@@ -511,7 +510,7 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到行整行的数据
-                alert(data.transactionDataId);
+                //alert(data.transactionDataId);
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
                         layer.close(index);

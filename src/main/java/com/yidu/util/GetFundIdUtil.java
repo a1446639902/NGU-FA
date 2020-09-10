@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * 获取基金Id的工具类
+ * 获取session里面数据的工具类
  * @author cai
  */
 

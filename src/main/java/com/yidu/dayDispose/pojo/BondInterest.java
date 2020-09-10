@@ -22,6 +22,7 @@ public class BondInterest {
      private int securityPeriodFlag; //是否导入初期数据
      private int securitiesNum; //债券数量
      private String dateTime; //统计日期
+     private double interest;
      public BondInterest() {
    }
 
@@ -145,42 +146,52 @@ public class BondInterest {
           this.dateTime = dateTime;
      }
 
-     public BondInterest(String securitiesId, String bondName, String drawStartDate, String drawEndDate, int bondType, double parRate, double bondRate, double bondRateAmount, int payInterestNum, String payInterest, String fundId, String accountId, int securityPeriodFlag, int securitiesNum, String dateTime) {
-          this.securitiesId = securitiesId;
-          this.bondName = bondName;
-          this.drawStartDate = drawStartDate;
-          this.drawEndDate = drawEndDate;
-          this.bondType = bondType;
-          this.parRate = parRate;
-          this.bondRate = bondRate;
-          this.bondRateAmount = bondRateAmount;
-          this.payInterestNum = payInterestNum;
-          this.payInterest = payInterest;
-          this.fundId = fundId;
-          this.accountId = accountId;
-          this.securityPeriodFlag = securityPeriodFlag;
-          this.securitiesNum = securitiesNum;
-          this.dateTime = dateTime;
-     }
+    public double getInterest() {
+        return interest;
+    }
 
-     @Override
-     public String toString() {
-          return "BondInterest{" +
-                  "securitiesId='" + securitiesId + '\'' +
-                  ", bondName='" + bondName + '\'' +
-                  ", drawStartDate='" + drawStartDate + '\'' +
-                  ", drawEndDate='" + drawEndDate + '\'' +
-                  ", bondType=" + bondType +
-                  ", parRate=" + parRate +
-                  ", bondRate=" + bondRate +
-                  ", bondRateAmount=" + bondRateAmount +
-                  ", payInterestNum=" + payInterestNum +
-                  ", payInterest='" + payInterest + '\'' +
-                  ", fundId='" + fundId + '\'' +
-                  ", accountId='" + accountId + '\'' +
-                  ", securityPeriodFlag=" + securityPeriodFlag +
-                  ", securitiesNum=" + securitiesNum +
-                  ", dateTime='" + dateTime + '\'' +
-                  '}';
-     }
+    public void setInterest(double interest) {
+        this.interest = interest;
+    }
+
+    public BondInterest(String securitiesId, String bondName, String drawStartDate, String drawEndDate, int bondType, double parRate, double bondRate, double bondRateAmount, int payInterestNum, String payInterest, String fundId, String accountId, int securityPeriodFlag, int securitiesNum, String dateTime, double interest) {
+        this.securitiesId = securitiesId;
+        this.bondName = bondName;
+        this.drawStartDate = drawStartDate;
+        this.drawEndDate = drawEndDate;
+        this.bondType = bondType;
+        this.parRate = parRate;
+        this.bondRate = bondRate;
+        this.bondRateAmount = bondRateAmount;
+        this.payInterestNum = payInterestNum;
+        this.payInterest = payInterest;
+        this.fundId = fundId;
+        this.accountId = accountId;
+        this.securityPeriodFlag = securityPeriodFlag;
+        this.securitiesNum = securitiesNum;
+        this.dateTime = dateTime;
+        this.interest = interest;
+    }
+
+    @Override
+    public String toString() {
+        return "BondInterest{" +
+                "securitiesId='" + securitiesId + '\'' +
+                ", bondName='" + bondName + '\'' +
+                ", drawStartDate='" + drawStartDate + '\'' +
+                ", drawEndDate='" + drawEndDate + '\'' +
+                ", bondType=" + bondType +
+                ", parRate=" + parRate +
+                ", bondRate=" + bondRate +
+                ", bondRateAmount=" + bondRateAmount +
+                ", payInterestNum=" + payInterestNum +
+                ", payInterest='" + payInterest + '\'' +
+                ", fundId='" + fundId + '\'' +
+                ", accountId='" + accountId + '\'' +
+                ", securityPeriodFlag=" + securityPeriodFlag +
+                ", securitiesNum=" + securitiesNum +
+                ", dateTime='" + dateTime + '\'' +
+                ", interest=" + interest +
+                '}';
+    }
 }

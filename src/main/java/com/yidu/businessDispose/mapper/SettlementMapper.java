@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 交易结算
@@ -17,5 +18,6 @@ public interface SettlementMapper {
         public void selectSettlement(HashMap hashMap);
         public int insertSettlement(Settlement settlement);
         public int deleteSettlement(String transactionDataId);
-        public int updateSettlement(Settlement settlement);
+        public int updateSettlement(List transactionDataIdList);
+        public int updateSettlementTwo(List transactionDataIdList);
     }

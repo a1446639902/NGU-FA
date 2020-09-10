@@ -15,6 +15,7 @@ import java.util.HashMap;
  * time 2020-9-7 15:36
   version 1.0
  * */
+
 @Service
 public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryService {
     @Resource
@@ -26,7 +27,7 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
     public HashMap selectSecuritiesInventory(int page,int limit,String sreachTime,String sreachId) {
         HashMap securitiesInventoryMap = new HashMap();
         securitiesInventoryMap.put("p_tableName","(select * from securitiesInventory se join fund f on se.fundId=f.fundId\n" +
-                "join ACCOUNT a on se.accountId= a.accountId join securities s on se.SECURITIESID=s.SECURITIESID)");
+                " join securities s on se.SECURITIESID=s.SECURITIESID)");
         if(sreachTime!=null&&sreachTime!=""){
             securitiesInventoryMap.put("p_condition"," and dateTime like '%"+sreachTime+"%'");
         }
@@ -49,8 +50,10 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
         return i;
     }
 
+
+
     @Override
-    public int deleteSecuritiesInventory(int securitiesInventoryId) {
+    public int deleteSecuritiesInventory(String securitiesInventoryId) {
         int i = securitiesInventoryMapper.deleteSecuritiesInventory(securitiesInventoryId);
         return i;
     }
@@ -58,5 +61,15 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
         securitiesInventory.setSecuritiesInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.M));
         int i = securitiesInventoryMapper.insertSecuritiesInventory(securitiesInventory);
         return i;
+    }
+
+/**
+     * 根据日期删除的service实现类
+     * @param date
+     */
+
+    @Override
+    public void deleteDateSecuritiesInventory(String date) {
+        securitiesInventoryMapper.deleteDateSecuritiesInventory(date);
     }
 }
