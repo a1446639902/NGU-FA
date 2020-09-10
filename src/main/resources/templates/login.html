@@ -65,7 +65,7 @@
                         success: function (obj) {
                             if (obj.code === 1) {
                                 layer.msg('用户' + userName + '登陆成功！');
-                                setTimeout(send, 3000);
+                                setTimeout(send, 1000);
                             } else {
                                 layer.msg('登陆失败！请检查用户名或密码！');
                             }
@@ -77,8 +77,7 @@
                     return false;
                 });
             });
-        })
-
+        });
     </script>
     <!-- 底部结束 -->
     <script>
@@ -100,7 +99,7 @@
             data:{page:1,limit:10},
             success:function(obj){
                 $('#fundx').empty();
-                $('#fundx').append(new Option('请选择基金',''));
+                //$('#fundx').append(new Option('请选择基金',''));
                 $.each(obj.data,function(index,item){
                     // alert("jinal");
                     // alert(item.fundName);
@@ -109,12 +108,9 @@
                 });
                 // alert(11);
                 form.render();//菜单渲染 把内容加载进去
-
             }
-        })
-
-
-    })
+        });
+    });
 </script>
 </body>
 </html>

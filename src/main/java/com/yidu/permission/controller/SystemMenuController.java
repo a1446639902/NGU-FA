@@ -25,7 +25,6 @@ public class SystemMenuController {
      */
     @RequestMapping("selectSystemMenu")
     public List<SystemMenu> selectSystemMenu(){
-
         List<SystemMenu> systemMenuList = systemMenuService.selectSystemMenu();
         System.out.println("systemMenuList="+systemMenuList);
         return systemMenuList;

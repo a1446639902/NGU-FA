@@ -13,6 +13,7 @@
 <!--     <link rel="stylesheet" href="./css/theme4.css">-->
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
+    <script type="text/javascript" src="../js/systemMenu.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -31,11 +32,11 @@
     <div class="left_open">
         <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
     </div>
-    <ul class="layui-nav left fast-add" lay-filter="">
+    <!--<ul class="layui-nav left fast-add" lay-filter="">
         <li class="layui-nav-item">
             <a href="javascript:;">+新增</a>
             <dl class="layui-nav-child">
-                <!-- 二级菜单 -->
+                &lt;!&ndash; 二级菜单 &ndash;&gt;
                 <dd>
                     <a onclick="xadmin.open('最大化','./userDemo','','',true)">
                         <i class="iconfont">&#xe6a2;</i>弹出最大化</a></dd>
@@ -53,7 +54,7 @@
                         <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>
             </dl>
         </li>
-    </ul>
+    </ul>-->
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
             <a href="javascript:;"><span th:text="${session.userName}"></span></a>
@@ -76,6 +77,10 @@
 <!-- 左侧菜单开始 -->
 <div class="left-nav">
     <div id="side-nav">
+
+    <!--    <ul id="nav">
+
+        </ul>-->
         <ul id="nav">
             <li>
                 <a href="javascript:;">
@@ -225,9 +230,6 @@
                     </li>
                 </ul>
             </li>
-
-
-
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="业务处理">&#xe726;</i>
@@ -478,6 +480,7 @@
         });
  });
 </script>
+
 </body>
 
 </html>

@@ -20,8 +20,6 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;
-    @Resource
-    DbUtil dbUtil;
 
     @Override
     public Integer selectUser1(Map<String,String> map) {
@@ -31,17 +29,6 @@ public class UserServiceImpl implements UserService {
         }
         System.out.println("i="+i);
         return i;
-    }
-
-    @Override
-    public void deleteUser1(int userId) {
-
-    }
-
-    @Override
-    public void insertUser1(UserInfo userInfo) {
-        String s = dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
-        System.out.println(s);
     }
 
 }
