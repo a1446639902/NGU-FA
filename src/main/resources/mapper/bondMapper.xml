@@ -24,7 +24,7 @@
         <result property="bondType" column="bondType" javaType="Integer"></result>
         <result property="parRate" column="parRate" javaType="Double"></result>
         <result property="bondRate" column="bondRate" javaType="Double"></result>
-        <result property="bondRateAmount" column="bondRateAmount" javaType="String"></result>
+        <result property="bondRateAmount" column="bondRateAmount" javaType="Double"></result>
         <result property="payInterestNum" column="payInterestNum" javaType="Integer"></result>
         <result property="bondDesc" column="bondDesc" javaType="String"></result>
 
