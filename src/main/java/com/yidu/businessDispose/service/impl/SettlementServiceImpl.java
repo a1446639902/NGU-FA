@@ -4,9 +4,11 @@ import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessDispose.mapper.SettlementMapper;
 import com.yidu.businessDispose.pojo.Settlement;
 import com.yidu.businessDispose.service.SettlementService;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -50,6 +52,7 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Override
     public int insertSettlement(Settlement settlement) {
+
         System.out.println(settlement);
         return settlementMapper.insertSettlement(settlement);
     }
@@ -60,7 +63,18 @@ public class SettlementServiceImpl implements SettlementService {
     }
 
     @Override
-    public int updateSettlement(Settlement settlement) {
-        return settlementMapper.updateSettlement(settlement);
+    public int updateSettlement(String transactionDataIds,String status) {
+        ArrayList transactionDataIdList = new ArrayList<>();
+        String[] split = transactionDataIds.split(",");
+        for (String transactionDataId : split) {
+                transactionDataIdList.add(transactionDataId);
+        }
+        System.out.println(transactionDataIdList);
+        if(status.equals("0")) {
+            return settlementMapper.updateSettlement(transactionDataIdList);
+        }else {
+            return settlementMapper.updateSettlementTwo(transactionDataIdList);
+        }
+
     }
 }

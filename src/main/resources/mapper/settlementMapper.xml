@@ -27,6 +27,7 @@
         <result property="security" column="security" javaType="Double"></result>
         <result property="transactionDataDesc" column="transactionDataDesc" javaType="String"></result>
         <result property="accountId" column="accountId" javaType="String"></result>
+
         <result property="securitiesName" column="securitiesName" javaType="String"></result>
         <result property="fundName" column="fundName" javaType="String"></result>
         <result property="brokersName" column="brokersName" javaType="String"></result>
@@ -48,13 +49,19 @@
          delete from transactionData where transactionDataId=#{transactionDataId}
     </delete>
 
-    <update id="updateSettlement" parameterType="com.yidu.businessDispose.pojo.Settlement">
-        update transactionData set dateTime=#{dateTime},settlementDate=#{settlementDate},fundId=#{fundId},
-    securitiesId=#{securitiesId},brokersId=#{brokersId},seateId=#{seateId},transactionDataMode=#{transactionDataMode},status=#{status},
-    price=#{price},num=#{num},accountId=#{accountId},netReceipts=#{netReceipts},totalSum=#{totalSum},flag=#{flag},
-    commission=#{commission},transfer=#{transfer},brokerage=#{brokerage}, stamp=#{stamp},management=#{management},
-    security=#{security},transactionDataDesc=#{transactionDataDesc}
-    where transactionDataId=#{transactionDataId}
+    <update id="updateSettlement" parameterType="list">
+        update transactionData set status=1 where transactionDataId in
+        <foreach collection="list" item="transactionDataId" open="("
+                 separator="," close=")">
+        #{transactionDataId}
+        </foreach>
+    </update>
+    <update id="updateSettlementTwo" parameterType="list">
+        update transactionData set status=0 where transactionDataId in
+        <foreach collection="list" item="transactionDataId" open="("
+                 separator="," close=")">
+            #{transactionDataId}
+        </foreach>
     </update>
 
 </mapper>

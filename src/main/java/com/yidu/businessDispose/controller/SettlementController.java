@@ -60,7 +60,7 @@ public class SettlementController {
         }
 
         @RequestMapping("/updateSettlement")
-        public int updateTransactionData(Settlement settlement){
-            return settlementService.updateSettlement(settlement);
+        public int updateTransactionData(String transactionDataIds,String status){
+            return settlementService.updateSettlement(transactionDataIds,status);
         }
     }

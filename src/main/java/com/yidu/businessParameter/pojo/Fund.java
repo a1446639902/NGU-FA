@@ -34,7 +34,7 @@ public class Fund {
     private int provisionDays;		//1=360天；2=365天；3=366天
     private String setUpDate;       //基金成立时间
     private String fundDesc;	    //备注
-    private String  accountId="18574388728";      //FK 账户信息表
+    private String  accountId;      //FK 账户信息表
 
     public Fund() {
     }
