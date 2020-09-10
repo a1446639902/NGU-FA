@@ -1,4 +1,3 @@
-/*
 package com.yidu.inventoryManage.service.impl;
 
 import com.yidu.inventoryManage.mapper.SecuritiesInventoryMapper;
@@ -10,13 +9,12 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-*/
 /*
   @type:证券库存实现类
  *@author wufeiyun
  * time 2020-9-7 15:36
   version 1.0
- * *//*
+ * */
 
 @Service
 public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryService {
@@ -55,7 +53,7 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
 
 
     @Override
-    public int deleteSecuritiesInventory(int securitiesInventoryId) {
+    public int deleteSecuritiesInventory(String securitiesInventoryId) {
         int i = securitiesInventoryMapper.deleteSecuritiesInventory(securitiesInventoryId);
         return i;
     }
@@ -65,15 +63,13 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
         return i;
     }
 
-    */
 /**
      * 根据日期删除的service实现类
      * @param date
-     *//*
+     */
 
     @Override
     public void deleteDateSecuritiesInventory(String date) {
         securitiesInventoryMapper.deleteDateSecuritiesInventory(date);
     }
 }
-*/
