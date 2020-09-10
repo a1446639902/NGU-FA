@@ -55,7 +55,7 @@ public class BankTreasurerServiceImpl implements BankTreasurerService {
     @Override
     public int insertBankTreasurer(BankTreasurerPojo bankTreasurerPojo) {
         bankTreasurerPojo.setBankTreasurerId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT));
-        bankTreasurerPojo.setFundId("123456");
+        bankTreasurerPojo.setFundId("289289289");
         bankTreasurerPojo.setDateTime("2020-09-07");
         return bankTreasurerMapper.insertBankTreasurer(bankTreasurerPojo);
     }

@@ -43,5 +43,22 @@
         <result property="securityPeriodFlag" column="securityPeriodFlag"></result>
         <result property="securitiesNum" column="securitiesNum"></result>
         <result property="dateTime" column="dateTime"></result>
+        <result property="interest" column="interest"></result>
+    </resultMap>
+
+    <select id="selectTwoFees" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=TwoFeesMap})}
+    </select>
+    <resultMap id="TwoFeesMap" type="com.yidu.dayDispose.pojo.TwoFees">
+        <result property="fundId" column="fundId"></result>
+<!--        <result property="fundName" column="fundName" javaType="String"></result>-->
+        <result property="fundType" column="fundType"></result>
+        <result property="managerId" column="managerId"></result>
+        <result property="trusteeBlank" column="trusteeBlank"></result>
+        <result property="managerRate" column="managerRate"></result>
+        <result property="hostingRate" column="hostingRate"></result>
+<!--        <result property="valueStatisticsDate" column="valueStatisticsDate"></result>-->
+        <result property="management" column="management"></result>
+        <result property="custody" column="custody"></result>
     </resultMap>
 </mapper>

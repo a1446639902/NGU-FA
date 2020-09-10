@@ -81,6 +81,7 @@ public class DepositServiceImpl implements DepositService {
         //调用资金调拨表的新增方法
         bankTreasurerMapper.insertBankTreasurer(bankTreasurerPojo);
         //副账户流入
+        bankTreasurerPojo.setBankTreasurerId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT));
         bankTreasurerPojo.setAccountId(depositPojo.getInAccountId());
         bankTreasurerPojo.setAccountName(depositPojo.getInAccountName());
         bankTreasurerPojo.setFlag(1);

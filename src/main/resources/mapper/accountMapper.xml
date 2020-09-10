@@ -30,5 +30,8 @@
     <select id="selectAccount" parameterType="java.util.Map" statementType="CALLABLE">
         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=accountMap})}
     </select>
+    <select id="selectAccountName" parameterType="string" resultType="com.yidu.businessParameter.pojo.AccountPojo">
+        select * from ACCOUNT a join (select * from FUND where FUND.FUNDID=#{fundId}) f on a.ACCOUNTID=f.ACCOUNTID
+    </select>
 
 </mapper>
