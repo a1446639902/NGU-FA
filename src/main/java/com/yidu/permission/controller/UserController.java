@@ -27,6 +27,7 @@ public class UserController {
     @RequestMapping("checkLogin")
     public Map<String,Object> checkLogin(String userName, String userPwd, String fundId, HttpServletRequest request){
         System.out.println("userName="+userName+",userPwd="+userPwd+",fundId="+fundId);
+
         //存放返回状态的map集合
         Map<String, Object> map = new HashMap<>();
         //存放用户账号密码的map集合
@@ -46,7 +47,7 @@ public class UserController {
             String accountId = accountPojo.getAccountId();
             //获取账户名称
             String accountName = accountPojo.getAccountName();
-          /*  System.out.println("accountId="+accountId);
+       /*     System.out.println("accountId="+accountId);
             System.out.println("accountName="+accountName);*/
             map.put("code",1);
             HttpSession session = request.getSession(false);
