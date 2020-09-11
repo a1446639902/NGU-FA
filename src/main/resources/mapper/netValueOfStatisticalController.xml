@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.dayDispose.mapper.NetValueOfStatisticalMapper">
-    <!--查询角色-->
-    <resultMap id="NetValueOfStatisticalMap" type="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
-        <result property="valueStatisticsDate" column="valueStatisticsDate" javaType="String"></result>
-        <result property="projectId" column="projectId" javaType="int"></result>
-        <result property="projectName" column="projectName" javaType="Integer"></result>
-        <result property="quantityint" column="quantityint" javaType="String"></result>
-        <result property="peice" column="peice" javaType="String"></result>
-        <result property="projectCode" column="projectCode" javaType="String"></result>
-        <result property="cost" column="cost" javaType="String"></result>
-        <result property="marketValue" column="marketValue" javaType="String"></result>
-        <result property="valuation" column="valuation" javaType="String"></result>
-        <result property="projectFatherId" column="projectFatherId" javaType="int"></result>
-    </resultMap>
-    <select id="selectNetValueOfStatistical" parameterType="java.util.Map" statementType="CALLABLE">
-        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=NetValueOfStatisticalMap})}
+    <!--查询净值统计表-->
+    <select id="selectNetValueOfStatistical" resultType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
+        select valueStatisticsDate,projectId,projectName,projectCode,quantityint,peice,cost,marketValue,valuation,projectFatherId from valueStatistics
     </select>
 </mapper>

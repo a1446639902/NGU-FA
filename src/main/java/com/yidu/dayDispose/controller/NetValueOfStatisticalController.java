@@ -1,11 +1,13 @@
 package com.yidu.dayDispose.controller;
 
+import com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo;
 import com.yidu.dayDispose.service.NetValueOfStatisticalService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,15 +26,13 @@ public class NetValueOfStatisticalController {
 
     @RequestMapping("/selectNetValueOfStatisticalController")
     public Map<String,Object> selectNetValueOfStatisticalController(){
-        HashMap hashMap = netValueOfStatisticalService.selectNetValueOfStatistical();
+        List<NetValueOfStatisticalPojo> NetValueOfStatisticalList = netValueOfStatisticalService.selectNetValueOfStatistical();
         Map<String,Object> map = new HashMap();
         //响应头
         map.put("msg","");
         map.put("code",0);
-        //查询出来的条数
-        map.put("count",hashMap.get("p_count"));
-        //需要传递的游标变量
-        map.put("date",hashMap.get("p_cursor"));
+        map.put("count",null);
+        map.put("date",NetValueOfStatisticalList);
         System.out.println(map);
         return map;
     }
