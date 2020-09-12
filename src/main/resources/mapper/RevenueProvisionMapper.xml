@@ -51,14 +51,15 @@
     </select>
     <resultMap id="TwoFeesMap" type="com.yidu.dayDispose.pojo.TwoFees">
         <result property="fundId" column="fundId"></result>
-<!--        <result property="fundName" column="fundName" javaType="String"></result>-->
+        <result property="fundName" column="fundName" javaType="String"></result>
         <result property="fundType" column="fundType"></result>
         <result property="managerId" column="managerId"></result>
         <result property="trusteeBlank" column="trusteeBlank"></result>
         <result property="managerRate" column="managerRate"></result>
         <result property="hostingRate" column="hostingRate"></result>
-<!--        <result property="valueStatisticsDate" column="valueStatisticsDate"></result>-->
+        <result property="valueStatisticsDate" column="valueStatisticsDate"></result>
         <result property="management" column="management"></result>
         <result property="custody" column="custody"></result>
+        <result property="accountId" column="accountId"></result>
     </resultMap>
 </mapper>

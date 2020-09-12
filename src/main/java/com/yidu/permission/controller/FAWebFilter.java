@@ -17,8 +17,8 @@ import java.io.IOException;
  * 过滤器
  */
 
-@Component
-@WebFilter("*")
+//@Component
+//@WebFilter("*")
 public class FAWebFilter implements Filter {
 
     @Override
