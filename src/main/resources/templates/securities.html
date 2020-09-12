@@ -310,6 +310,7 @@
     function myclose() {
         layer.closeAll();
     }
+
 </script>
 </div>
 </div>
@@ -397,8 +398,8 @@
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >延迟时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="addend" name="delayDate" lay-verify="required"
-                                   placeholder="请选择日期" class="layui-input">
+                            <input type="text" checked="t+1" name="delayDate" lay-verify="required"
+                                   autocomplete="off" placeholder="请输入日期" class="layui-input">
                         </div>
                     </div>
 
@@ -494,8 +495,10 @@
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >延迟时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="addend2" name="delayDate" lay-verify="required"
-                               placeholder="请选择日期" class="layui-input">
+                        <select  name="delayDate">
+                            <option value="">请选择</option>
+                            <option value="delayDate" selected="selected">T+1</option>
+                        </select>
                     </div>
                 </div>
 

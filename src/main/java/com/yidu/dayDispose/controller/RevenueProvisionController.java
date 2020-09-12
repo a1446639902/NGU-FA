@@ -13,7 +13,6 @@ import com.yidu.inventoryManage.service.CashClosedPaylnventoryService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.JsonUtil;
 import com.yidu.util.SysTableNameListUtil;
-import net.sf.json.JSONArray;
 import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
