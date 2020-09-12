@@ -1,6 +1,7 @@
 package com.yidu.businessData.mapper;
 
 import com.yidu.businessData.pojo.CashClosedPayPojo;
+import com.yidu.dayDispose.pojo.RevenueProvision;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Map;
@@ -25,4 +26,6 @@ public interface CashClosedPayMapper {
     int deleteCashClosedPay(String cashClosedPayId);
     int updateCashClosedPay(CashClosedPayPojo cashClosePay);
     void selectCashClosedPay(Map map);
+    //wufeiyun增加的删除接口
+    int deleteNew(CashClosedPayPojo cashClosedPay);
 }

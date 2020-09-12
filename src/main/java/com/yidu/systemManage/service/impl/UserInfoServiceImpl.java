@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * 用户的biz层的实现类
- * date:2020.9.1 11:23
+ * date:2020.9.11 11:23
  * @author xbf
  * @version 1.0
  */
@@ -43,21 +43,18 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
    @Override
-    public HashMap selectUser(int page, int limit,  Integer status, String userName) {
+    public HashMap selectUser(int page, int limit,  String status, String userName) {
        String sql="";
        if (status!=null && !status.equals("")){
-           sql=sql+" and status like '%"+status+"%'";
+           sql=sql+" and status =" + status;
        }
 
        if(userName !=null && !userName.equals("")){
            sql=sql+" and userName like '%"+userName+"%'";
        }
-       System.out.println("xxxxxxxxxxxx");
-       System.out.println(sql);
-
 
         HashMap userMap=new HashMap();
-        String tableName ="(select * from userInfo join role on userInfo.roleId=role.roleId)";
+        String tableName ="(select userId,userName,userPwd,r.roleId,r.roleName,u.status,userInfoDesc from userInfo u join role r on u.roleId=r.roleId)";
         userMap.put("p_tableName",tableName);
         userMap.put("p_condition",sql);
         userMap.put("p_pageSize",limit);

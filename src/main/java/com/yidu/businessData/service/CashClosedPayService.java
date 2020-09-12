@@ -1,6 +1,7 @@
 package com.yidu.businessData.service;
 
 import com.yidu.businessData.pojo.CashClosedPayPojo;
+import com.yidu.dayDispose.pojo.RevenueProvision;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,4 +22,7 @@ public interface CashClosedPayService {
     int deleteCashClosedPay(String cashClosedPayId);
     int updateCashClosedPay(CashClosedPayPojo cashClosePay);
     Map<String,Object> selectCashClosedPay(String pageSize, String page,String dateTime,String serviceType);
+
+    //wufeiyun
+    int deleteNew(CashClosedPayPojo cashClosedPay);
 }
