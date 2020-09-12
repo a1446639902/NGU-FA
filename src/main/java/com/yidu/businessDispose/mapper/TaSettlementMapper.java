@@ -16,24 +16,11 @@ import java.util.Map;
 public interface TaSettlementMapper {
     /**
      * 查询
-     * @param map
      */
     void selectTaSettlement(Map map);
-
-    /**
-     * 添加
-     * @param taSettlement
-     * @return
+    /*
+    修改
      */
-    int insertTaSettlement(TaSettlement taSettlement);
-
-    /**
-     * 删除
-     * @param dateTime
-     * @return
-     */
-    int deleteTaSettlement(List dateTime);
-
-    int updateTaSettlement(List taTransactionIdList);
-    int updateTaSettlementTwo(List taTransactionIdList);
+    public int updateTaSettlement(int Status,String taTransactionId);
+    public int updateTaSettlementTwo(int Status,String taTransactionId);
 }
