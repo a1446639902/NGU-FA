@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +19,6 @@ import java.util.Map;
 @Mapper
 public interface NetValueOfStatisticalMapper {
 
-    void selectNetValueOfStatistical(Map map);
+    List<NetValueOfStatisticalPojo> selectNetValueOfStatistical();
 
 }

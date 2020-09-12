@@ -45,21 +45,21 @@
         treetable.render({
             treeColIndex: 1,
             treeSpid: -1,
-            treeIdName: 'authorityId',
-            treePidName: 'parentId',
+            treeIdName: 'projectId',
+            treePidName: 'projectFatherId',
             elem: '#munu-table',
-            url: '../lib/layuimini/api/menus.json',
+            url: '../NetValueOfStatistical/selectNetValueOfStatisticalController',
             page: false,
             cols: [
                 [
                 {type: 'numbers'},
                 {field: 'authorityName', minWidth: 200, title: 'projectName'},
-                {field: 'authority', title: '项目代码/账户号'},
-                {field: 'orderNumber',  align: 'center', title: '成本'},
-                {field: 'orderNumber', align: 'center', title: '行情'},
-                {field: 'orderNumber',  align: 'center', title: '股数'},
-                {field: 'orderNumber',  align: 'center', title: '市值'},
-                {field: 'orderNumber',  align: 'center', title: '估值增值'},
+                {field: 'projectName', title: '项目代码/账户号'},
+                {field: 'cost',  align: 'center', title: '成本'},
+                {field: 'peice', align: 'center', title: '行情'},
+                {field: 'quantityint',  align: 'center', title: '股数'},
+                {field: 'marketValue',  align: 'center', title: '市值'},
+                {field: 'valuation',  align: 'center', title: '估值增值'},
                 {templet: '#auth-state',  align: 'center', title: '操作'}
             ]
             ],

@@ -70,5 +70,5 @@ public class RoleController {
         }
         System.out.println("现在要输出游标变量"+cursor);
         return map;
-    }
+}
 }

@@ -1,6 +1,8 @@
 package com.yidu.dayDispose.service;
 
-import java.util.HashMap;
+import com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo;
+
+import java.util.List;
 
 /**
  * 净值统计biz层
@@ -12,5 +14,5 @@ import java.util.HashMap;
  **/
 public interface NetValueOfStatisticalService {
 
-    HashMap selectNetValueOfStatistical();
+    List<NetValueOfStatisticalPojo> selectNetValueOfStatistical();
 }

@@ -6,16 +6,13 @@ import com.yidu.dayDispose.service.NetValueOfStatisticalService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * 净值统计biz的实现类
  *
  * @author kangshao
  * @version 1.0
- * @Type:
- * @time
  **/
 @Service
 public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalService {
@@ -23,17 +20,7 @@ public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalSe
     NetValueOfStatisticalMapper netValueOfStatisticalMapper;
 
     @Override
-    public HashMap selectNetValueOfStatistical() {
-        HashMap hashMap = new HashMap();
-        //查询的表名
-        hashMap.put("p_tableName","valueStatistics");
-        //查询的条件
-        hashMap.put("p_condition","");
-        //总条数
-        hashMap.put("p_count",0);
-        //游标标量
-        hashMap.put("p_cursor",null);
-        netValueOfStatisticalMapper.selectNetValueOfStatistical(hashMap);
-        return hashMap;
+    public List<NetValueOfStatisticalPojo> selectNetValueOfStatistical() {
+        return netValueOfStatisticalMapper.selectNetValueOfStatistical();
     }
 }
