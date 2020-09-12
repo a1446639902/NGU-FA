@@ -1,39 +1,53 @@
 package com.yidu.businessData.controller;
 
-import com.yidu.businessData.pojo.SecuritiesClosedPay;
+import com.yidu.businessData.pojo.SecuritiesClosedPayPojo;
 import com.yidu.businessData.service.SecuritiesClosedPayService;
+import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-/*
- * wufeiyun暂时修改 证券应收应付
- * */
-import javax.annotation.Resource;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * @author 黄志豪
+ * @version 1.0
+ * @Type
+ * @time 2020/9/12
+ **/
 @RestController
+@RequestMapping("/securitiesClosedPay")
 public class SecuritiesClosedPayController {
     @Resource
     SecuritiesClosedPayService securitiesClosedPayService;
-    @RequestMapping("insertSecuritiesClosedPay")
-    public int insertSecuritiesClosedPay(SecuritiesClosedPay securitiesClosedPay){
-        SecuritiesClosedPay securitiesClosedPay1 = new SecuritiesClosedPay();
-//        securitiesClosedPay1.setSecuritiesClosedPayId("1221");
-//        securitiesClosedPay1.setFundId("1231");
-//        securitiesClosedPay1.setAccountId("121211");
-//        securitiesClosedPay1.setServiceType(1);
-//        securitiesClosedPay1.setAmount(121212);
-//        securitiesClosedPay1.setDateTime("12121");
-//        securitiesClosedPay1.setFlag(1);
-//        securitiesClosedPay1.setSecuritiesId("10010120");
-        int i = securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPay);
-        return i;
+    @RequestMapping("/selectSecuritiesClosedPay")
+    public HashMap selectSecuritiesClosedPay(int page,int limit){
+        System.out.println("xinzeng========================");
+        HashMap securitiesClosedPayMap = securitiesClosedPayService.selectSecuritiesClosedPay(page, limit);
+        int count = (int) securitiesClosedPayMap.get("p_count");
+        ArrayList<SecuritiesClosedPayPojo> securitiesClosedPayList = (ArrayList<SecuritiesClosedPayPojo>) securitiesClosedPayMap.get("p_cursor");
+        HashMap hashMap = new HashMap<>();
+        hashMap.put("code",0);
+        hashMap.put("msg","");
+        hashMap.put("count",count);
+        hashMap.put("data",securitiesClosedPayList);
+        return hashMap;
     }
-    @RequestMapping("deleteSecuritiesClosedPay")
-    public int deleteSecuritiesClosedPay(SecuritiesClosedPay securitiesClosedPay){
-//        SecuritiesClosedPay securitiesClosedPay1 = new SecuritiesClosedPay();
-//        securitiesClosedPay1.setFundId("1231");
-//        securitiesClosedPay1.setSecuritiesId("10010120");
-//        securitiesClosedPay1.setDateTime("12121");
-        int i = securitiesClosedPayService.deleteSecuritiesClosedPay(securitiesClosedPay);
-        return i;
+    @RequestMapping("/insertSecuritiesClosedPay")
+    public int insertSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo, HttpServletRequest request){
+        String fundId = GetFundIdUtil.getFundId(request);
+        securitiesClosedPayPojo.setFundId(fundId);
+        return securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
+
+    }
+    @RequestMapping("/updateSecuritiesClosedPay")
+    public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo){
+        return securitiesClosedPayService.updateSecuritiesClosedPay(securitiesClosedPayPojo);
+    }
+    @RequestMapping("/deleteSecuritiesClosedPay")
+    public int deleteSecuritiesClosedPay(String securitiesClosedPayIds){
+        return securitiesClosedPayService.deleteSecuritiesClosedPay(securitiesClosedPayIds);
     }
 }

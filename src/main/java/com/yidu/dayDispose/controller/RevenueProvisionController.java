@@ -1,26 +1,20 @@
 package com.yidu.dayDispose.controller;
 
 import com.yidu.businessData.pojo.CashClosedPayPojo;
-import com.yidu.businessData.pojo.MarketData;
-import com.yidu.businessData.pojo.SecuritiesClosedPay;
-import com.yidu.businessData.service.CashClosedPayService;
+import com.yidu.businessData.pojo.SecuritiesClosedPayPojo;
 import com.yidu.businessData.service.SecuritiesClosedPayService;
 import com.yidu.dayDispose.pojo.BondInterest;
 import com.yidu.dayDispose.pojo.RevenueProvision;
 import com.yidu.dayDispose.pojo.TwoFees;
 import com.yidu.dayDispose.service.RevenueProvisionService;
-import com.yidu.inventoryManage.service.CashClosedPaylnventoryService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.JsonUtil;
 import com.yidu.util.SysTableNameListUtil;
-import org.springframework.scheduling.config.Task;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -132,12 +126,12 @@ public class RevenueProvisionController {
         List<BondInterest> bondInterestList = JsonUtil.jsonToArrayList(Securities, BondInterest.class);
         for (BondInterest bondInterest : bondInterestList) {
             System.out.println(bondInterest.getAccountId());
-            SecuritiesClosedPay securitiesClosedPay = new SecuritiesClosedPay();
+            SecuritiesClosedPayPojo securitiesClosedPay = new SecuritiesClosedPayPojo();
             securitiesClosedPay.setDateTime(bondInterest.getDateTime());
             securitiesClosedPay.setFundId(bondInterest.getFundId());
             securitiesClosedPay.setSecuritiesId(bondInterest.getSecuritiesId());
-            securitiesClosedPayService.deleteSecuritiesClosedPay(securitiesClosedPay);
-            SecuritiesClosedPay securitiesClosedPay1 = new SecuritiesClosedPay();
+            securitiesClosedPayService.deleteSecuritiesClosedPayByPojo(securitiesClosedPay);
+            SecuritiesClosedPayPojo securitiesClosedPay1 = new SecuritiesClosedPayPojo();
             String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
             System.out.println(cashClosedPayId);
             securitiesClosedPay1.setSecuritiesClosedPayId(cashClosedPayId);

@@ -1,13 +1,20 @@
 package com.yidu.businessData.service;
 
-import com.yidu.businessData.pojo.SecuritiesClosedPay;
+import com.yidu.businessData.pojo.SecuritiesClosedPayPojo;
 
 import java.util.HashMap;
-import java.util.Map;
-/*
- * wufeiyun暂时修改 证券应收应付
- * */
-public interface SecuritiesClosedPayService  {
-    public int insertSecuritiesClosedPay(SecuritiesClosedPay securitiesClosedPay);
-    public int deleteSecuritiesClosedPay(SecuritiesClosedPay securitiesClosedPay);
+import java.util.List;
+
+/**
+ * @author 黄志豪
+ * @version 1.0
+ * @Type
+ * @time 2020/9/12
+ **/
+public interface SecuritiesClosedPayService {
+    public HashMap selectSecuritiesClosedPay(int page,int limit);
+    public int insertSecuritiesClosedPay(SecuritiesClosedPayPojo SecuritiesClosedPayPojo);
+    public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo);
+    public int deleteSecuritiesClosedPay(String securitiesClosedPayIds);
+    public int deleteSecuritiesClosedPayByPojo(SecuritiesClosedPayPojo securitiesClosedPayPojo);
 }

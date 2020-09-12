@@ -4,6 +4,7 @@ import com.yidu.cashControl.pojo.TransferMoneyPojo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author 黄志豪
@@ -16,5 +17,6 @@ public interface TransferMoneyMapper {
     public void selectTransferMoney(HashMap hashMap);
     public int insertTransferMoney(TransferMoneyPojo transferMoneyPojo);
     public int updateTransferMoney(TransferMoneyPojo transferMoneyPojo);
-    public int deleteTransferMoney(String transferMoneyId);
+    public int deleteTransferMoney(List transferMoneyIdList);
+    public TransferMoneyPojo selectTransferMoneyByTransferMoneyId(String transferMoneyId);
 }

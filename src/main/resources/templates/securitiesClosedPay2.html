@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>存款业务页面</title>
+    <!--hzh-->
+    <title>证券应收应付</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="../lib/layui/css/layui.css"/>
@@ -19,27 +19,17 @@
     <script type="text/html" id="userToolBar">
         <div style="float:right">
             <button class="layui-btn layui-btn-normal layui-bg-green layui-btn-sm" lay-event="add"><i
-                    class="layui-icon">&#xe654;</i>添加存款
-            </button>
+                    class="layui-icon">&#xe654;</i>添加证券信息</button>
+            <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
+                    class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
         <br/>
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务类型</label>
-                <div class="layui-inline layui-show-xs-block" style="text-align: center">
-                    <select name="searchBusinessType" id="searchBusinessType">
-                        <option value="">请选择业务类型</option>
-                        <option value="1">三天存款</option>
-                        <option value="2">七天存款</option>
-                        <option value="3">活期存款</option>
-                    </select>
-                </div>
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">日期</label>
             </div>
-            <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">到期时间</label>
-            </div>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  placeholder="请选择日期" name="dateEnd" id="start">
+            <div class="layui-inline ">
+                <input  type="text" class="layui-input"  placeholder="请选择日期"  id="start">
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -230,48 +220,53 @@
 
         table.render({
             elem: '#userTable',
-            url: '../deposit/selectDeposit',
+            url: '../securitiesClosedPay/selectSecuritiesClosedPay',
             page: true,
             height: 498,
             toolbar: '#userToolBar',//显示在表头的工具条
             cellMinWidth: 60,
             minLength: 80,
             cols: [
-                [ //表头
-                    {field: 'businessDate', title: '业务时间', width: 165, align: 'center'},
-                    {field: 'fundId', title: '基金Id', width: 110, align: 'center', hide: true}
-                    , {field: 'outAccountId', title: '流出账户Id', width: 150, align: 'center', hide: true}
-                    , {field: 'outAccountName', title: '流出账户', width: 190, align: 'center'}
-                    , {field: 'inAccountId', title: '流入账户Id', width: 150, align: 'center', hide: true}
-                    , {field: 'inAccountName', title: '流入账户', width: 190, align: 'center'}
-                    , {field: 'depositId', title: '存款业务Id', width: 165, align: 'center', hide: true}
-                    , {field: 'money', title: '存款金额', width: 160, align: 'center'}
-                    , {
-                    field: 'businessType', title: '业务类型', width: 145, align: 'center',
-                    templet: function (item) {
-                        if (item.businessType == 1) {
-                            return '定期三天'
-                        } else if (item.businessType == 2) {
-                            return '定期七天'
-                        } else if (item.businessType == 3) {
-                            return '活期'
-                        }
-                    }
-                }
-                    , {field: 'endDate', title: '到期日期', width: 150, align: 'center'}
-                    , {
-                    field: 'flag', title: '是否处理', width: 145, align: 'center',
-                    templet: function (item) {
-                        if (item.flag == 0) {
-                            return '未办理'
-                        } else if (item.flag == 1) {
-                            return '已办理'
-                        }
-                    }
-                }
-                    , {field: 'right', title: '操作', width: 180, align: 'center', toolbar: '#barDemo'}
+                [ /*private String securitiesClosedPayId;//证券应收应付Id 主键      ---
+            private String fundId;               //FK 基金信息表Id           --
+            private String accountId;            //账户信息表ID      ---
+            private String blankCardCode;        //银行卡号-----
+            private String securitiesName;//证券名称----
+            private String securitiesId;         //证券信息表ID  securities表  ----
+            private int serviceType;             //业务类型 1=清算款 2=估值增值 3=债券利息
+            private double amount;               //金额
+            private String dateTime;             //日期               ----
+            private int flag;                    //流入1 流出-1*/
+                        {type: 'checkbox', fixed: 'left'}
+                    , {field : 'securitiesClosedPayId', align : 'center', width : 200, title : '证券应收应付编号', hide:true}
+                    , {field : 'fundId', align : 'center', title : '基金代码', hide:true}
+                    , {field : 'dateTime', align : 'center', title : '业务日期'}
+                    , {field : 'accountId', title : '银行账户编号 ', align : 'center',hide:true}
+                    , {field : 'blankCardCode', title : '银行账户 ', align : 'center'}
+                    , {field : 'securitiesId', title : '证券编号', align : 'center',hide:true}
+                    , {field : 'securitiesName', title : '证券名称', align : 'center'}
+                    , {field : 'serviceType', title : '业务类型  ', align : 'center',
+                             templet : function(item) {
+                                if (item.serviceType == 1) {
+                                    return '清算款';
+                                } else if (item.serviceType == 2) {
+                                    return '估值增值';
+                                 }
+                                 return '债券利息';
+                                }
+                            }
+                     , {field : 'flag', title : '资金流向 ', align : 'center',
+                            templet : function(item) {
+                                 if (item.flag == 1) {
+                                     return '流入';
+                                    }
+                                     return '流出';
+                                }
+                            }
+                    , {field : 'amount', title : '金额 ', align : 'center'}
+                    , {fixed : 'right', title : '操作', align : 'center', toolbar : '#barDemo', width : 180}
+                    ]
                 ]
-            ]
         });
         //给工具条的按钮添加事件
         table.on('toolbar(userTable)', function (obj) {

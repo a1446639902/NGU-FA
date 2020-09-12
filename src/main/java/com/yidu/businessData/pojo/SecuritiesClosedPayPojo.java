@@ -1,25 +1,29 @@
 package com.yidu.businessData.pojo;
 
 /**
- * @name 戴言露
+ * @name 戴言露 hzh
  * @data 2020/9/1 am
  * 证券应收应付表
  */
-public class SecuritiesClosedPay {
+public class SecuritiesClosedPayPojo {
     private String securitiesClosedPayId;//证券应收应付Id 主键
     private String fundId;               //FK 基金信息表Id
     private String accountId;            //账户信息表ID
+    private String blankCardCode;        //银行卡号
+    private String securitiesName;//证券名称
     private String securitiesId;         //证券信息表ID  securities表
     private int serviceType;             //业务类型 1=清算款 2=估值增值 3=债券利息
     private double amount;               //金额
     private String dateTime;             //日期
     private int flag;                    //流入1 流出-1
-    public SecuritiesClosedPay(){}
+    public SecuritiesClosedPayPojo(){}
 
-    public SecuritiesClosedPay(String securitiesClosedPayId, String fundId, String accountId, String securitiesId, int serviceType, double amount, String dateTime, int flag) {
+    public SecuritiesClosedPayPojo(String securitiesClosedPayId, String fundId, String accountId, String blankCardCode, String securitiesName, String securitiesId, int serviceType, double amount, String dateTime, int flag) {
         this.securitiesClosedPayId = securitiesClosedPayId;
         this.fundId = fundId;
         this.accountId = accountId;
+        this.blankCardCode = blankCardCode;
+        this.securitiesName = securitiesName;
         this.securitiesId = securitiesId;
         this.serviceType = serviceType;
         this.amount = amount;
@@ -49,6 +53,22 @@ public class SecuritiesClosedPay {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public String getBlankCardCode() {
+        return blankCardCode;
+    }
+
+    public void setBlankCardCode(String blankCardCode) {
+        this.blankCardCode = blankCardCode;
+    }
+
+    public String getSecuritiesName() {
+        return securitiesName;
+    }
+
+    public void setSecuritiesName(String securitiesName) {
+        this.securitiesName = securitiesName;
     }
 
     public String getSecuritiesId() {
@@ -93,10 +113,12 @@ public class SecuritiesClosedPay {
 
     @Override
     public String toString() {
-        return "SecuritiesClosedPay{" +
+        return "SecuritiesClosedPayPojo{" +
                 "securitiesClosedPayId='" + securitiesClosedPayId + '\'' +
                 ", fundId='" + fundId + '\'' +
                 ", accountId='" + accountId + '\'' +
+                ", blankCardCode='" + blankCardCode + '\'' +
+                ", securitiesName='" + securitiesName + '\'' +
                 ", securitiesId='" + securitiesId + '\'' +
                 ", serviceType=" + serviceType +
                 ", amount=" + amount +
