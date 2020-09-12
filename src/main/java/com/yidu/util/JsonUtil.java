@@ -3,7 +3,6 @@ package com.yidu.util;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.yidu.systemManage.pojo.RolePojo;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

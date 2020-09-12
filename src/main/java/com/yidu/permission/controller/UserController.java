@@ -55,6 +55,7 @@ public class UserController {
                 session=request.getSession();
             }
             session.setAttribute("userName",userName);
+            session.setAttribute("userPwd",userPwd);
             session.setAttribute("fundId",fundId);
             session.setAttribute("accountId",accountId);
             session.setAttribute("accountName",accountName);

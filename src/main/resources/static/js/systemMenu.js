@@ -29,7 +29,7 @@ layui.use(['form'],function(){
                         "            </li>";
                 }
             })
-            alert(str);
+            /*alert(str);*/
             $("#nav").append(str);
         }
     });
