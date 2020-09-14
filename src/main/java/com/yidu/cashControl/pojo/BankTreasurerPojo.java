@@ -17,7 +17,7 @@ public class BankTreasurerPojo {
     private String dbTime;                      //调拨日期
     private String dateTime;                    //业务日期
     private String businessId;                  //业务标号
-    private int allocatingType;                 //调拨类型 1代表存款利息 2代表申购赎回清算款 3代表买卖交易清算款 4代表债券利息
+    private int allocatingType;                 //调拨类型 1代表存款利息 2代表申购赎回清算款 3代表买卖交易清算款 4代表债券利息 5存款业务 6两费
     private String bankTreasurerDesc;           //备注
 
     public BankTreasurerPojo() {
