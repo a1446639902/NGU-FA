@@ -10,7 +10,7 @@ public class SecuritiesClosedPayInventory {
     private String nsrcsId;         //证券存库Id 主键
     private String datetime;        //业务日期
     private String fundId;          //基金信息表Id
-    private int securitiesId;       //证券信息表ID
+    private String securitiesId;       //证券信息表ID
     private int securitiesType;     //证券应收应付类型 1=估值款 2=证券清算款 3=债券利息
     private int flag;               //业务日期
     private double tootaIPrice;     //总金额
@@ -18,7 +18,7 @@ public class SecuritiesClosedPayInventory {
     private int securityPeriodFlag; //期初标志 是否从其他系统导入得期初数据 0：不是 1：是
     public SecuritiesClosedPayInventory(){}
 
-    public SecuritiesClosedPayInventory(String nsrcsId, String datetime, String fundId, int securitiesId, int securitiesType, int flag, double tootaIPrice, String desc, int securityPeriodFlag) {
+    public SecuritiesClosedPayInventory(String nsrcsId, String datetime, String fundId, String securitiesId, int securitiesType, int flag, double tootaIPrice, String desc, int securityPeriodFlag) {
         this.nsrcsId = nsrcsId;
         this.datetime = datetime;
         this.fundId = fundId;
@@ -54,11 +54,11 @@ public class SecuritiesClosedPayInventory {
         this.fundId = fundId;
     }
 
-    public int getSecuritiesId() {
+    public String getSecuritiesId() {
         return securitiesId;
     }
 
-    public void setSecuritiesId(int securitiesId) {
+    public void setSecuritiesId(String securitiesId) {
         this.securitiesId = securitiesId;
     }
 
