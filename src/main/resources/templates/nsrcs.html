@@ -2,7 +2,7 @@
 <html>
 <head>
     <!--hzh-->
-    <title>证券应收应付</title>
+    <title>证券应收应付库存</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
@@ -18,20 +18,33 @@
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
+
             <button class="layui-btn layui-btn-normal layui-bg-green layui-btn-sm" lay-event="add"><i
-                    class="layui-icon">&#xe654;</i>添加证券信息</button>
+                    class="layui-icon">&#xe654;</i>添加证券库存</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
         </div>
         <br/>
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">日期</label>
+                <label class="layui-form-label layui-bg-green" style="width: 100px;text-align: center">业务类型</label>
+                <div class="layui-inline layui-show-xs-block" style="text-align: center;width: 150px" >
+                    <select name="securitiesType" id="securitiesType">
+                        <option value="">请选择证券类型</option>
+                        <option value="1">估值款</option>
+                        <option value="2">证券清算款</option>
+                        <option value="3">债券利息</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
             </div>
             <div class="layui-inline">
                 <input  type="text" class="layui-input"  placeholder="请选择日期"  id="start">
             </div>
-            </div>
+
+
             <div class="layui-inline layui-show-xs-block">
                 <button class="layui-btn" lay-submit="" lay-filter="search" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索
                 </button>
@@ -61,65 +74,87 @@
     <form id="addform" lay-filter="addform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-        <div class="layui-row">
+        <div class="layui-row ">
             <div class="layui-col-xs6">
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">账户编号</label>
-                    <input type="hidden" name="accountId" id="insertAccountId">
-                    <div class="layui-input-inline">
-                        <input type="text" name="blankCardCode" id="insertBlankCardCode" lay-verify="required"
-                               autocomplete="off" placeholder="请选择银行账户" class="layui-input">
+                <div class="grid-demo grid-demo-bg1">
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">业务日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="addtime" name="dateTime"
+                                   lay-verify="required" autocomplete="off" placeholder="日期"
+                                   class="layui-input">
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">证券编号</label>
-                    <input type="hidden" name="securitiesId" id="insertSecuritiesId">
-                    <div class="layui-input-inline">
-                        <input type="text" id="insertSecuritiesName" name="securitiesName" lay-verify="required"
-                               autocomplete="off" placeholder="请选择证券编号" class="layui-input">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label layui-bg-green">账户名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="accountName" id="addAccountName"
+                                   placeholder="账户名称" autocomplete="off" class="layui-input">
+                            <input type="hidden" name="accountId" id="addAccountId" />
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">资金流向</label>
-                    <div class="layui-input-inline">
-                        <select name="flag">
-                            <option value="">请选择</option>
-                            <option value="1">流入</option>
-                            <option value="-1">流出</option>
-                        </select>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label layui-bg-green">业务类型</label>
+                        <div class="layui-input-inline">
+                            <select style="height: 32px;" name="securitiesType">
+                                <option value="1">估值增值</option>
+                                <option value="2">证券清算款</option>
+                                <option value="3">债券利息</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">总金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="totalPrice" lay-verify="required"
+                                   autocomplete="off" placeholder="总金额" class="layui-input" id="totalPrice">
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="layui-col-xs6">
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">业务日期</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="addtime" name="dateTime" lay-verify="required"
-                               autocomplete="off" placeholder="请选择日期" class="layui-input">
+                <div class="grid-demo">
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">证券名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="securitiesName" id="addSecuritiesName"
+                                   lay-verify="required" placeholder="证券名称" class="layui-input">
+                            <input type="hidden" name="securitiesId" id="addSecuritiesId" />
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">业务类型</label>
-                    <div class="layui-input-inline">
-                        <select name="serviceType">
-                            <option value="">请选择</option>
-                            <option value="1">清算款</option>
-                            <option value="2">估值增值</option>
-                            <option value="3">债券利息</option>
-                        </select>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">期初状态</label>
+                        <div class="layui-input-inline">
+                            <select name="securityPeriodFlag" id="flag" required>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green">业务状态</label>
+                         <div class="layui-input-inline">
+                             <select style="height: 32px;" name="flag">
+                                 <option value="1">流入</option>
+                                    <option value="-1">流出</option>
+                                </select>
+                            </div>
+                    </div>
 
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">金额</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="amount" lay-verify="required|number"
-                               autocomplete="off" placeholder="请输入金额" class="layui-input">
-                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item"
+                 style="text-align: center;">
+                <label class="layui-form-label layui-bg-green" style="height:100px;line-height: 100px;">备注</label>
+                <div class="layui-input-block">
+						<textarea rows="" placeholder="备注" name="securitiesClosedPayDesc"
+                                   cols="" class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
-        <div style="position: absolute; bottom: 0px; left: 39%;">
+        <div style="position: absolute; bottom: 20px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -136,62 +171,84 @@
     <form id="editform" lay-filter="editform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;" >
-        <div class="layui-row">
+        <div class="layui-row ">
             <div class="layui-col-xs6">
-                <input type="hidden" name="securitiesClosedPayId"/>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">账户编号</label>
-                    <input type="hidden" name="accountId" id="updateAccountId">
-                    <div class="layui-input-inline">
-                        <input type="text" name="blankCardCode" id="updateBlankCardCode" lay-verify="required"
-                               autocomplete="off" placeholder="请选择银行账户" class="layui-input">
+                <input type="hidden" name="securitiesClosedPayInventoryId"/>
+                <div class="grid-demo grid-demo-bg1">
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">业务日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="updatetime" name="dateTime"
+                                   lay-verify="required" autocomplete="off" placeholder="日期"
+                                   class="layui-input">
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">证券编号</label>
-                    <input type="hidden" name="securitiesId" id="updateSecuritiesId">
-                    <div class="layui-input-inline">
-                        <input type="text" id="updateSecuritiesName" name="securitiesName" lay-verify="required"
-                               autocomplete="off" placeholder="请选择证券编号" class="layui-input">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label layui-bg-green">账户名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="accountName" id="updateAccountName"
+                                   placeholder="账户名称" autocomplete="off" class="layui-input">
+                            <input type="hidden" name="accountId" id="updateAccountId" />
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">资金流向</label>
-                    <div class="layui-input-inline">
-                        <select name="flag">
-                            <option value="">请选择</option>
-                            <option value="1">流入</option>
-                            <option value="-1">流出</option>
-                        </select>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label layui-bg-green">业务类型</label>
+                        <div class="layui-input-inline">
+                            <select style="height: 32px;" name="securitiesType">
+                                <option value="1">估值增值</option>
+                                <option value="2">证券清算款</option>
+                                <option value="3">债券利息</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">总金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="totalPrice" lay-verify="required"
+                                   autocomplete="off" placeholder="总金额" class="layui-input" id="totalPrice2">
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="layui-col-xs6">
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">业务日期</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="updateTime" name="dateTime" lay-verify="required"
-                               autocomplete="off" placeholder="请选择日期" class="layui-input">
+                <div class="grid-demo">
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">证券名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="securitiesName" id="updateSecuritiesName"
+                                   lay-verify="required" placeholder="证券名称" class="layui-input">
+                            <input type="hidden" name="securitiesId" id="updateSecuritiesId" />
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">业务类型</label>
-                    <div class="layui-input-inline">
-                        <select name="serviceType">
-                            <option value="">请选择</option>
-                            <option value="1">清算款</option>
-                            <option value="2">估值增值</option>
-                            <option value="3">债券利息</option>
-                        </select>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">期初状态</label>
+                        <div class="layui-input-inline">
+                            <select name="securityPeriodFlag" id="securityPeriodFlag" required>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green">业务状态</label>
+                        <div class="layui-input-inline">
+                            <select style="height: 32px;" name="flag" id="flag2">
+                                <option value="1">流入</option>
+                                <option value="-1">流出</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <div class="layui-form-item" style="text-align: center;">
-                    <label class="layui-form-label layui-bg-green">金额</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="amount" lay-verify="required|number"
-                               autocomplete="off" placeholder="请输入金额" class="layui-input">
-                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item"
+                 style="text-align: center;">
+                <label class="layui-form-label layui-bg-green" style="height:100px;line-height: 100px;">备注</label>
+                <div class="layui-input-block">
+						<textarea rows="" placeholder="备注" name="securitiesClosedPayDesc"
+                                  cols="" class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -230,10 +287,11 @@
             elem: '#updateTime'//指定元素
 
         });
+
         //新增提交
         form.on('submit(addsubmit)', function (data) {
             var formData = $('#addform').serialize();
-            $.post("../securitiesClosedPay/insertSecuritiesClosedPay", formData, function (msg) {
+            $.post("../insertSecuritiesClosedPayInventory", formData, function (msg) {
                 if (msg > 0) {
                     table.reload('userTable');
                     layer.closeAll();
@@ -262,7 +320,7 @@
         //修改提交
         form.on('submit(editsubmit)',function () {
             var data = $('#editform').serialize();//获取表单区域所有值
-            $.post("../securitiesClosedPay/updateSecuritiesClosedPay",data,function(msg){
+            $.post("../updateSecuritiesClosedPayInventory",data,function(msg){
                 if(msg>0){
                     table.reload('userTable');
                     layer.closeAll();
@@ -290,7 +348,7 @@
 
         table.render({
             elem: '#userTable',
-            url: '../securitiesClosedPay/selectSecuritiesClosedPay',
+            url: '../selectSecuritiesClosedPayInventory',
             page: true,
             height: 498,
             toolbar: '#userToolBar',//显示在表头的工具条
@@ -298,25 +356,25 @@
             minLength: 80,
             cols: [
                 [
-                        {type: 'checkbox', fixed: 'left'}
-                    , {field : 'securitiesClosedPayId', align : 'center', width : 200, title : '证券应收应付编号', hide:true}
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field : 'securitiesClosedPayInventoryId', align : 'center', width : 200, title : '证券存库Id', hide:true}
                     , {field : 'fundId', align : 'center', title : '基金代码', hide:true}
                     , {field : 'dateTime', align : 'center', title : '业务日期'}
-                    , {field : 'accountId', title : '银行账户编号 ', align : 'center',hide:true}
-                    , {field : 'blankCardCode', title : '银行账户 ', align : 'center'}
-                    , {field : 'securitiesId', title : '证券编号', align : 'center',hide:true}
-                    , {field : 'securitiesName', title : '证券名称', align : 'center'}
-                    , {field : 'serviceType', title : '业务类型  ', align : 'center',
-                             templet : function(item) {
-                                if (item.serviceType == 1) {
-                                    return '清算款';
-                                } else if (item.serviceType == 2) {
-                                    return '估值增值';
-                                 }
-                                 return '债券利息';
-                                }
+                    , {field : 'securitiesId', title : '证券信息表ID ', align : 'center',hide:true}
+                    , {field : 'securitiesName', title : '证券名称 ', align : 'center'}
+                    , {field : 'securitiesType', title : '证券应收应付类型', align : 'center',
+                        templet:function (item) {
+                            if(item.securitiesType==1){
+                                return '估值款'
                             }
-                     , {field : 'flag', title : '资金流向 ', align : 'center',
+                            else if(item.securitiesType==2){
+                                return '证券清算款'
+                            }
+                            else if(item.securitiesType==3){
+                                return '债券利息'
+                            }
+                        }}
+                     , {field : 'flag', title : '业务状态 ', align : 'center',
                             templet : function(item) {
                                  if (item.flag == 1) {
                                      return '流入';
@@ -324,7 +382,17 @@
                                      return '流出';
                                 }
                             }
-                    , {field : 'amount', title : '金额 ', align : 'center'}
+                    , {field : 'totalPrice', title : '总金额', align : 'center'}
+                    , {field : 'securityPeriodFlag', title : '期初标志 ', align : 'center',
+                            templet : function(item) {
+                                if (item.securityPeriodFlag == 1) {
+                                    return '是';
+                                      }
+                                else if(item.securityPeriodFlag == 0) {
+                                    return '否'
+                                }
+                        }
+                    }
                     , {fixed : 'right', title : '操作', align : 'center', toolbar : '#barDemo', width : 180}
                     ]
                 ]
@@ -335,26 +403,25 @@
             var checkStatus = table.checkStatus(obj.config.id);//得到表格选中行的ID
             switch (obj.event) {
                 case 'add':
-                    var index = layer.open({
-                        type: 1,
-                        title: '添加证券信息',
-                        closeBtn: 1,
-                        move: false,
-                        content: $("#addContent"),
-                        area: ['893px', '550px'],
-                        btn: []
+                    layer.open({
+                            type: 1,
+                            title: '新增证券应收应付库存信息',
+                            area: ['893px', '550px'],
+                            content: $("#addContent")
                     });
                     form.render();
                     //全屏
                     /* layer.full(index);*/
                     break;
                 case 'search':
+                    var securitiesType = $("#securitiesType").val();
                     var dateTime = $("#start").val();
                     //表格的重新加载事件
                     table.reload('userTable', {
                         method: 'post'
                         , where: {
-                            'dateTime': dateTime
+                            'dateTime': dateTime,
+                            'securitiesType': securitiesType
                         }
                         , page: {
                             curr: 1
@@ -368,13 +435,13 @@
                     if (data.length == 0) {
                         layer.msg("请至少选择一条数据",)
                     } else {
-                        var securitiesClosedPayIds = [];
+                        var securitiesClosedPayInventoryIds = [];
                         for (var i = 0; i < data.length; i++) {
-                            securitiesClosedPayIds.push(data[i].securitiesClosedPayId);
+                            securitiesClosedPayInventoryIds.push(data[i].securitiesClosedPayInventoryId);
                         }
                         layer.confirm('真的删除行么', {icon: 2}, function (index) {
                             layer.close(index);
-                            $.post("../securitiesClosedPay/deleteSecuritiesClosedPay", {securitiesClosedPayIds: securitiesClosedPayIds.join(',')}, function (msg) {
+                            $.post("../deleteSecuritiesClosedPayInventory", {securitiesClosedPayInventoryIds: securitiesClosedPayInventoryIds.join(',')}, function (msg) {
                                 table.reload('userTable');
                                 layer.msg('删除' + checkStatus.data.length + '条记录', {
                                     title: '提示',
@@ -399,7 +466,7 @@
                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                     layer.close(index);
                     //向服务端发送删除指令
-                    $.post("../securitiesClosedPay/deleteSecuritiesClosedPay", "securitiesClosedPayIds="+data.securitiesClosedPayId,function(msg){
+                    $.post("../deleteSecuritiesClosedPayInventory", "securitiesClosedPayInventoryIds="+data.securitiesClosedPayInventoryId,function(msg){
                         if(msg>0){
                             table.reload('userTable');
                             layer.closeAll();
@@ -429,7 +496,7 @@
                 form.val("editform",data);//第二个参数可以是json字符串也可以是json对象
                 layer.open({
                     type: 1,
-                    title: '修改证券信息',
+                    title: '修改证券应收应付库存信息',
                     area: ['893px', '550px'],
                     content: $("#editContent")
                 });
@@ -437,9 +504,9 @@
             }
 
         });
-        //新增银行账号的下拉表格
+        //新增现金账号的下拉表格
         tableSelect.render({
-            elem: '#insertBlankCardCode',
+            elem: '#addAccountName',
             checkedKey: 'accountId',
             table: {
                 url: '../account/selectAccount',
@@ -458,8 +525,8 @@
                 var newJson = [];
                 //遍历选中的数据
                 $.each(data.data, function (index, item) {
-                    newJson.push(item.blankCardCode);
-                    $("#insertAccountId").val(item.accountId);//给隐藏域中的val赋值
+                    newJson.push(item.accountName);
+                    $("#addAccountId").val(item.accountId);//给隐藏域中的val赋值
                 });
                 elem.val(newJson.join(","));//给输入框里显示的值赋值
 
@@ -467,7 +534,7 @@
         })
         //新增证券编号的下拉表格
         tableSelect.render({
-            elem: '#insertSecuritiesName',
+            elem: '#addSecuritiesName',
             checkedKey: 'securitiesId',
             table: {
                 url: '../selectSecurities',
@@ -485,16 +552,16 @@
                 //遍历选中的数据
                 $.each(data.data, function (index, item) {
                     newJson.push(item.securitiesName);
-                    $("#insertSecuritiesId").val(item.securitiesId);//给隐藏域中的val赋值
+                    $("#addSecuritiesId").val(item.securitiesId);//给隐藏域中的val赋值
                 });
                 elem.val(newJson.join(","));//给输入框里显示的值赋值
 
             }
         })
 
-        //修改银行账号的下拉表格
+        //修改现金账号的下拉表格
         tableSelect.render({
-            elem: '#updateBlankCardCode',
+            elem: '#updateAccountName',
             checkedKey: 'accountId',
             table: {
                 url: '../account/selectAccount',
@@ -513,7 +580,7 @@
                 var newJson = [];
                 //遍历选中的数据
                 $.each(data.data, function (index, item) {
-                    newJson.push(item.blankCardCode);
+                    newJson.push(item.accountName);
                     $("#updateAccountId").val(item.accountId);//给隐藏域中的val赋值
                 });
                 elem.val(newJson.join(","));//给输入框里显示的值赋值
@@ -546,11 +613,13 @@
 
             }
         })
+
     });
 
     function myclose() {
         layer.closeAll();
     }
+
 </script>
 </body>
 </html>
