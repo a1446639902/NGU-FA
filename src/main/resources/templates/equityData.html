@@ -24,7 +24,7 @@
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm layui-bg-green" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加数据</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
@@ -261,7 +261,7 @@
                 elem: '#userTable',
                 url: '../selectEquityData',
                 page: true,
-                height: 500,
+                height: 'full-30',
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
                 cols: [
@@ -307,13 +307,14 @@
                             type: 1,
                             title: '添加数据信息',
                             closeBtn: 1,
+                            area: ['893px', '550px'],
                             move:false,
                             content:$("#addContent"),
                             btn:[]
                         });
                         form.render();
                         //全屏
-                        layer.full(index);
+
                         break;
                     case 'search':
                         alert("搜索");
@@ -378,16 +379,16 @@
                         title: '修改权益数据',
                         closeBtn: 1,
                         move:false,
-                        area: ['500px', '400px'],
+                        area: ['893px', '550px'],
                         content:$('#editContent')
                     });
                     form.render();
-                    layer.full(index);
+
                 };
             })
         });
         function myclose() {
-            parent.layer.closeAll();
+            layer.closeAll();
         }
 
 
@@ -504,7 +505,7 @@
         </div>
 
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 10px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -612,7 +613,7 @@
         </div>
 
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 10px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>编辑
             </button>

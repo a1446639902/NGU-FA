@@ -54,10 +54,10 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
 
 
         //多表查询
-        String p_tableName="(select ((SECURITIESNUM*qysj.PROPORTION)/100) as settlementAmount,SECURITIESID,qysj.EQUITYDATAID,qysj.EQUITIESTYPE,qysj.EQUITIESEXRIGHT,qysj.PROPORTION,qysj.DISPOSESTATUS,qysj.SECURITYID,zjkc.SECURITIESNUM " +
+        String p_tableName="(select ((SECURITIESNUM*qysj.PROPORTION)/100) as settlementAmount,SECURITIESID,qysj.EQUITYDATAID,qysj.SECURITIESNAME,qysj.EQUITIESTYPE,qysj.EQUITIESEXRIGHT,qysj.PROPORTION,qysj.DISPOSESTATUS,qysj.SECURITYID,zjkc.SECURITIESNUM " +
                 "from (select * from "+SysTableNameListUtil.SI+") zjkc " +
-                "full join (select PROPORTION,SECURITYID,EQUITYDATAID,EQUITIESTYPE,EQUITIESEXRIGHT,DISPOSESTATUS " +
-                "from "+SysTableNameListUtil.ED+") qysj " +
+                "full join (select PROPORTION,SECURITYID,EQUITYDATAID,EQUITIESTYPE,EQUITIESEXRIGHT,DISPOSESTATUS,s.SECURITIESNAME " +
+                "from "+SysTableNameListUtil.ED+" join (select * from "+SysTableNameListUtil.SE+") s on equityData.SECURITYID=s.SECURITIESID) qysj " +
                 "on qysj.SECURITYID=zjkc.SECURITIESID)";
 
         //创建一个Map，用于存储过程的调用传值
