@@ -80,6 +80,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        for (IncomePaymentPojo incomePayment : IncomePayments) {
+            incomePayment.setBusinessDate(businessDate);
+        }
         //接收返回总条数
         int count = (int) map.get("p_count");
         //将结果放入结果集Map
@@ -131,6 +134,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        for (IncomePaymentPojo incomePayment : IncomePayments) {
+            incomePayment.setBusinessDate(businessDate);
+        }
         //接收返回总条数
         int count = (int) map.get("p_count");
         //将结果放入结果集Map
@@ -182,6 +188,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        for (IncomePaymentPojo incomePayment : IncomePayments) {
+            incomePayment.setBusinessDate(businessDate);
+        }
         //接收返回总条数
         int count = (int) map.get("p_count");
         //将结果放入结果集Map

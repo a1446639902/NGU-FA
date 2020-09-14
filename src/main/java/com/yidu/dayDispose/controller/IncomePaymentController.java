@@ -170,7 +170,7 @@ public class IncomePaymentController {
             String  securitiesClosedPayId2= dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
             SecuritiesClosedPayPojo securitiesClosedPayPojo=new SecuritiesClosedPayPojo();
             securitiesClosedPayPojo.setSecuritiesClosedPayId(securitiesClosedPayId2);
-            securitiesClosedPayPojo.setFundId(GetFundIdUtil.getFundId(request));
+//            securitiesClosedPayPojo.setFundId(GetFundIdUtil.getFundId(request));
             securitiesClosedPayPojo.setAccountId(GetAccountUtil.getAccountId(request));
             securitiesClosedPayPojo.setSecuritiesId(income.getSecuritiesId());
             securitiesClosedPayPojo.setServiceType(income.getSecuritiesType());
@@ -179,9 +179,9 @@ public class IncomePaymentController {
             securitiesClosedPayPojo.setFlag(income.getBusinessStatus()*-1);
             securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
 //资金调拨的新增
-            String bankTreasurerId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT);
+//            String bankTreasurerId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT);
             BankTreasurerPojo bankTreasurerPojo=new BankTreasurerPojo();
-            bankTreasurerPojo.setBankTreasurerId(bankTreasurerId);
+//            bankTreasurerPojo.setBankTreasurerId(bankTreasurerId);
             bankTreasurerPojo.setFundId(GetFundIdUtil.getFundId(request));
             bankTreasurerPojo.setTotalPrice(income.getTotalMoney());
             bankTreasurerPojo.setAccountId(GetAccountUtil.getAccountId(request));
