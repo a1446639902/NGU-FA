@@ -2,6 +2,7 @@ package com.yidu.inventoryManage.service;
 
 import com.yidu.inventoryManage.pojo.CashInventoryEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public interface CashInventoryService {
     /**
      * 新增的service
      */
-    public void insertCashInventory(CashInventoryEntity cashInventoryEntity);
+    public void insertCashInventory(HttpServletRequest request, CashInventoryEntity cashInventoryEntity);
 
     /**
      * 批量删除的方法

@@ -2,10 +2,12 @@ package com.yidu.inventoryManage.controller;
 
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
 import com.yidu.inventoryManage.service.TaInventoryService;
+import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,10 +75,9 @@ public class TaInventoryController {
      * 新增aInventory（Ta库存）表的控制方法
      */
     @RequestMapping("/insertTaInventory")
-    public void insertTaInventory(TaInventoryEntity taInventoryEntity){
+    public void insertTaInventory(HttpServletRequest request,TaInventoryEntity taInventoryEntity){
 
-        System.out.println("我是新增方法"+taInventoryEntity);
-        taInventoryService.insertTaInventory(taInventoryEntity);
+        taInventoryService.insertTaInventory(request,taInventoryEntity);
     }
 
 
