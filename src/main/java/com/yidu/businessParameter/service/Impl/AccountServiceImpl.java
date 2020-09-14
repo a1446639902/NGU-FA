@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
     @Resource
     DbUtil dbUtil;
     @Override
-    public HashMap selectAccount(int page,int limit,String accountName,String blankName) {
+    public HashMap selectAccount(int page,int limit,String accountName,String blankName,String fundId) {
         String sql="";
         if(accountName!=null && !accountName.equals("")){
             sql=sql+" and accountName like '%"+accountName+"%'";
@@ -39,8 +39,8 @@ public class AccountServiceImpl implements AccountService {
             sql=sql+" and blankName='"+blankName+"'";
         }
         HashMap accountMap = new HashMap();
-        //select * from account where fundId='"+289289289+"'"
-        accountMap.put("p_tableName","(select * from account where fundId='289289289')");
+        //select * from account where fundId='"+289289289+"'"  根据基金Id查询现金账号
+        accountMap.put("p_tableName","(select * from account where fundId='"+fundId+"')");
         accountMap.put("p_condition",sql);
         accountMap.put("p_pageSize",limit);
         accountMap.put("p_page",page);
@@ -53,7 +53,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public int insertAccount(AccountPojo accountPojo) {
         accountPojo.setAccountId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.A));
-        accountPojo.setFundId("289289289");
         return accountMapper.insertAccount(accountPojo);
     }
 

@@ -5,11 +5,13 @@
         <result property="transferMoneyId" column="transferMoneyId" javaType="String"></result>
         <result property="inAccountId" column="inAccountId" javaType="String"></result>
         <result property="inBlankName" column="inBlankName" javaType="String"></result>
+        <result property="inBlankCardCode" column="inBlankCardCode" javaType="String"></result>
         <result property="crossSectionDate" column="crossSectionDate" javaType="String"></result>
         <result property="accountingDate" column="accountingDate" javaType="String"></result>
         <result property="money" column="money" javaType="double"></result>
         <result property="outAccount" column="outAccount" javaType="String"></result>
         <result property="outBlankName" column="outBlankName" javaType="String"></result>
+        <result property="outBlankCardCode" column="outBlankCardCode" javaType="String"></result>
         <result property="foundId" column="foundId" javaType="String"></result>
         <result property="purpose" column="purpose" javaType="String"></result>
 
@@ -23,6 +25,17 @@
         outBlankName,foundId,purpose) values (#{transferMoneyId},#{inAccountId},#{inBlankName},#{crossSectionDate},#{accountingDate},#{money}
         ,#{outAccount},#{outBlankName},#{foundId},#{purpose})
     </insert>
+    <delete id="deleteTransferMoney" parameterType="list">
+        delete from transferMoney where transferMoneyId in
+        <foreach collection="list" item="transferMoneyId" open="("
+                 separator="," close=")">
+            #{transferMoneyId}
+        </foreach>
+    </delete>
+    <select id="selectTransferMoneyByTransferMoneyId" parameterType="string" resultType="com.yidu.cashControl.pojo.TransferMoneyPojo">
+        select foundId,transferMoneyId,inAccountId,inBlankName,crossSectionDate,accountingDate,money,outAccount,
+        outBlankName,foundId,purpose from transferMoney where transferMoneyId=#{transferMoneyId}
+    </select>
 
 
 </mapper>

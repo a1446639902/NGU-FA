@@ -57,7 +57,6 @@ public class DepositServiceImpl implements DepositService {
     public int insertDeposit(DepositPojo depositPojo) {
         System.out.println("====================================");
         depositPojo.setDepositId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.DE));
-        depositPojo.setFundId("289289289");
         System.out.println(depositPojo);
 
 

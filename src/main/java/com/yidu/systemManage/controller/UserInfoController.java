@@ -46,8 +46,7 @@ public class UserInfoController {
     }
     //查询
     @RequestMapping("/selectUsers")
-    public HashMap selectUser(int page,int limit,Integer status,String userName){
-
+    public HashMap selectUser(int page,int limit,String status,String userName){
         HashMap hashMap=userInfoService.selectUser(page,limit,status,userName);
         int count=(int)hashMap.get("p_count");
         List<UserInfoPojo>userInfoPojoList=(List<UserInfoPojo>)hashMap.get("p_cursor");

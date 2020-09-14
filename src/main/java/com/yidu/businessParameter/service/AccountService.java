@@ -17,7 +17,7 @@ import java.util.HashMap;
  **/
 @Service
 public interface AccountService {
-    public HashMap selectAccount(int page,int limit,String accountName,String blankName);
+    public HashMap selectAccount(int page,int limit,String accountName,String blankName,String fundId);
     public int insertAccount(AccountPojo accountPojo);
     public int deleteAccount(String accountId);
     public int updateAccount(AccountPojo accountPojo);

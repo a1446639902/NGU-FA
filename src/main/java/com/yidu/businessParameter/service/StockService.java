@@ -4,19 +4,28 @@ import com.yidu.businessParameter.pojo.SecuritiesPojo;
 import com.yidu.businessParameter.pojo.StockPojo;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
- * 用户的dao方法
- * date:2020.9.8
+ * 股票板块
+ * @type stock的service类
  * @author xbf
+ * @date 2020-09-11
  * @version 1.0
  */
+
 @Service
 public interface StockService {
-    public int insertStock(StockPojo stockPojo);
+
+    public List<SecuritiesPojo> selectStock();
+
+    public int insertStock(StockPojo stockPojoo);
+
+    public List<StockPojo> selectSonStock();
+
     public int deleteStock(String stockId);
-    public int updateStock(StockPojo stockPojo);
-    public HashMap selectStock();
+
+    public int updateStock(StockPojo stockPojoo);
+
+    public List<StockPojo> selectParentStock();
 }

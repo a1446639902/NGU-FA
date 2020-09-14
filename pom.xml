@@ -105,11 +105,8 @@
         </dependency>
     </dependencies>
 
-
     <build>
-
         <resources>
-
             <!--注册Dao包目录下Mybatis映射文件资源目录-->
             <resource>
                 <directory>src/main/java</directory>

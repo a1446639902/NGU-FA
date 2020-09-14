@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 资金调拨表
@@ -77,4 +78,11 @@ public class BankTreasurerServiceImpl implements BankTreasurerService {
         return bankTreasurerMapper.deleteBankTreasurer(bankTreasurerList);
 
     }
+
+    @Override
+    public int deleteBankTreasurerByBusinessId(String businessId) {
+        return bankTreasurerMapper.deleteBankTreasurerByBusinessId(businessId);
+    }
+
+
 }

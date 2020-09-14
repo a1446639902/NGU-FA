@@ -2,7 +2,7 @@ package com.yidu.dayDispose.pojo;
 
 public class TwoFees {
     private String fundId;
-//    private String fundName; //基金名
+    private String fundName; //基金名
     private int fundType; //基金类型
     private String managerId; //管理人Id
     private String trusteeBlank; //托管人Id
@@ -11,7 +11,8 @@ public class TwoFees {
     private double management;  //管理费利息
     private double custody;  //托管费利息
     private double propertyNetWorth; //资产净值
-
+    private String valueStatisticsDate;
+    private String accountId;
     public String getFundId() {
         return fundId;
     }
@@ -20,6 +21,8 @@ public class TwoFees {
         this.fundId = fundId;
     }
 
+    public TwoFees() {
+    }
 
     public int getFundType() {
         return fundType;
@@ -85,8 +88,33 @@ public class TwoFees {
         this.propertyNetWorth = propertyNetWorth;
     }
 
-    public TwoFees(String fundId, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double propertyNetWorth) {
+    public String getFundName() {
+        return fundName;
+    }
+
+    public void setFundName(String fundName) {
+        this.fundName = fundName;
+    }
+
+    public String getValueStatisticsDate() {
+        return valueStatisticsDate;
+    }
+
+    public void setValueStatisticsDate(String valueStatisticsDate) {
+        this.valueStatisticsDate = valueStatisticsDate;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public TwoFees(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double propertyNetWorth, String valueStatisticsDate, String accountId) {
         this.fundId = fundId;
+        this.fundName = fundName;
         this.fundType = fundType;
         this.managerId = managerId;
         this.trusteeBlank = trusteeBlank;
@@ -95,12 +123,15 @@ public class TwoFees {
         this.management = management;
         this.custody = custody;
         this.propertyNetWorth = propertyNetWorth;
+        this.valueStatisticsDate = valueStatisticsDate;
+        this.accountId = accountId;
     }
 
     @Override
     public String toString() {
         return "TwoFees{" +
                 "fundId='" + fundId + '\'' +
+                ", fundName='" + fundName + '\'' +
                 ", fundType=" + fundType +
                 ", managerId='" + managerId + '\'' +
                 ", trusteeBlank='" + trusteeBlank + '\'' +
@@ -109,6 +140,8 @@ public class TwoFees {
                 ", management=" + management +
                 ", custody=" + custody +
                 ", propertyNetWorth=" + propertyNetWorth +
+                ", valueStatisticsDate='" + valueStatisticsDate + '\'' +
+                ", accountId='" + accountId + '\'' +
                 '}';
     }
 }
