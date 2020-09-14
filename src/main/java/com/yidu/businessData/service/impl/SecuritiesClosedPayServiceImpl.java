@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 黄志豪
@@ -58,5 +59,10 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
     @Override
     public int deleteSecuritiesClosedPayByPojo(SecuritiesClosedPayPojo securitiesClosedPayPojo) {
         return securitiesClosedPayMapper.deleteSecuritiesClosedPayByPojo(securitiesClosedPayPojo);
+    }
+
+    @Override
+    public String selectSecuritiesClosedPayId(Map map) {
+        return securitiesClosedPayMapper.selectSecuritiesClosedPayId(map);
     }
 }

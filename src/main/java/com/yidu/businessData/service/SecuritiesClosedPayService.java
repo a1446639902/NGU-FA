@@ -4,6 +4,7 @@ import com.yidu.businessData.pojo.SecuritiesClosedPayPojo;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 黄志豪
@@ -17,4 +18,5 @@ public interface SecuritiesClosedPayService {
     public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo);
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds);
     public int deleteSecuritiesClosedPayByPojo(SecuritiesClosedPayPojo securitiesClosedPayPojo);
+    public String selectSecuritiesClosedPayId(Map map);
 }

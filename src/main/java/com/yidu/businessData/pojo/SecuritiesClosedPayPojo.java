@@ -18,6 +18,17 @@ public class SecuritiesClosedPayPojo {
     private int flag;                    //流入1 流出-1
     public SecuritiesClosedPayPojo(){}
 
+    public SecuritiesClosedPayPojo(String securitiesClosedPayId, String fundId, String accountId, String securitiesId, int serviceType, double amount, String dateTime, int flag) {
+        this.securitiesClosedPayId = securitiesClosedPayId;
+        this.fundId = fundId;
+        this.accountId = accountId;
+        this.securitiesId = securitiesId;
+        this.serviceType = serviceType;
+        this.amount = amount;
+        this.dateTime = dateTime;
+        this.flag = flag;
+    }
+
     public SecuritiesClosedPayPojo(String securitiesClosedPayId, String fundId, String accountId, String blankCardCode, String securitiesName, String securitiesId, int serviceType, double amount, String dateTime, int flag) {
         this.securitiesClosedPayId = securitiesClosedPayId;
         this.fundId = fundId;

@@ -115,6 +115,11 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
         return resultMap;
     }
 
+    @Override
+    public String selectCashClosedPayId(Map map) {
+        return cashClosedPayMapper.selectCashClosedPayId(map);
+    }
+
     //wufeiyun
     @Override
     public int deleteNew(CashClosedPayPojo cashClosedPay) {
