@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * 证券应收应付库存
  * @author 黄志豪
  * @version 1.0
- * @Type
+ * @Type 服务层
  * @time 2020/9/13
  **/
 public interface SecuritiesClosedPayInventoryService {

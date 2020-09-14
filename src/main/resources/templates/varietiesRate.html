@@ -163,8 +163,9 @@
                 , url: '/selectVarietiesRate'
                 , page: true
                 , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-                , height: 'full-20'
-                , minLength: 60
+                , height: 750
+                , cellMinWidth:60
+                , minLength: 80
                 // , cellMinWidth: 60
                 , defaultToolbar: ['filter', 'exports', 'print']
                 , cols: [
@@ -314,7 +315,7 @@
         });
 
         function myclose() {
-            parent.layer.closeAll();
+            layer.closeAll();
         }
     </script>
 </head>

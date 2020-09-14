@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +26,10 @@ public class CashInventoryControry {
      * 新增CashInventory（现金库存）表的控制方法
      */
     @RequestMapping("/insertCashInventory")
-    public void insertCashInventory(CashInventoryEntity cashInventoryEntity){
+    public void insertCashInventory(HttpServletRequest request, CashInventoryEntity cashInventoryEntity){
 
         System.out.println("我是控制层的新增，我获得的数据为："+cashInventoryEntity);
-        cashInventoryService.insertCashInventory(cashInventoryEntity);
+        cashInventoryService.insertCashInventory(request,cashInventoryEntity);
     }
 
     /**

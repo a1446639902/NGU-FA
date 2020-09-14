@@ -3,6 +3,7 @@ package com.yidu.businessData.service.impl;
 import com.yidu.businessData.mapper.TransactionDataMapper;
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
+import com.yidu.cashControl.mapper.BankTreasurerMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

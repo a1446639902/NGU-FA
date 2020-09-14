@@ -19,7 +19,9 @@ import java.util.Map;
  **/
 @Service
 public interface CashClosedPayService {
+//    通过给实体类的一个实例赋值，再通过xml文件实现新增
     int insertCashClosedPay(CashClosedPayPojo cashClosePay);
+//    根据cashClosedPayId删除信息
     int deleteCashClosedPay(String cashClosedPayId);
     int updateCashClosedPay(CashClosedPayPojo cashClosePay);
     Map<String,Object> selectCashClosedPay(String pageSize, String page,String dateTime,String serviceType);

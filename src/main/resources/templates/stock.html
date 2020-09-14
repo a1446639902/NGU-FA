@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +14,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!--    <script src="../lib/layui/layui.js" charset="utf-8"></script>-->
+    <!--    <script src="../lib/layui/layui.js" charset="utf-8"></script>-->
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -62,7 +63,6 @@
 
             //新增父类提交
             form.on('submit(addsubmitparent)', function (data) {
-                alert("coming")
                 var formData = $('#addformparent').serialize();
                 $.post("../Stock/insertStock", formData, function (msg) {
                     if (msg > 0) {
@@ -182,7 +182,6 @@
                                 ]
                             ],
                             done: function () {
-                                // layer.closeAll('loading');
                             }
                         });
                         layer.closeAll();
@@ -227,7 +226,6 @@
                     ]
                 ],
                 done: function () {
-                    // layer.closeAll('loading');
                 }
             });
 
@@ -250,29 +248,25 @@
                         var index = layer.open({
                             type: 1,
                             title: '添加股票父模块',
-                            area:['500px','500px'],
+                            area:['600px','600px'],
                             closeBtn: 1,
                             move: false,
                             content: $("#addParentContent"),
                             btn: []
                         });
                         form.render();
-                        //全屏
-                        layer.full(index);
                         break;
                     case 'addChild':
                         var index = layer.open({
                             type: 1,
                             title: '添加股票子模块',
-                            area:['500px','500px'],
+                            area:['600px','600px'],
                             closeBtn: 1,
                             move: false,
                             content: $("#addSonContent"),
                             btn: []
                         });
                         form.render();
-                        //全屏
-                        layer.full(index);
                         break;
                 }
             });
@@ -280,7 +274,6 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(stock-table)', function (obj) {
                 var data = obj.data;//得到删除行整行的数据
-                alert(data.stockId);
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么', {icon: 2}, function (index) {
                         layer.close(index);
@@ -293,7 +286,7 @@
                                 elem: '#stock-table',
                                 toolbar: '#stockToolBar',//显示在表头的工具条
                                 url: '../Stock/selectStock',
-                                page: false,
+                                page: true,
                                 cols: [
                                     [
                                         {type: 'numbers'},
@@ -304,26 +297,24 @@
                                     ]
                                 ],
                                 done: function () {
-                                    // layer.closeAll('loading');
                                 }
                             });
                         });
 
                     });
                 } else if (obj.event === 'edit') {
-                    alert(JSON.stringify(data));
                     form.val('updateform', $.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
                         type: 1,
-                        title: '修改证券信息',
+                        title: '修改信息',
                         closeBtn: 1,
                         move: false,
-                        area: ['500px', '400px'],
+                        area: ['600px', '600px'],
                         content: $('#updatContent')
                     });
 
                     form.render();
-                    layer.full(index);
+
                 };
             })
         });
@@ -354,26 +345,27 @@
     <form id="addformparent" lay-filter="addformparent"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-        <div>
-            <div class="layui-inline layui-show-xs-block">
+        <div style="text-align: center">
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 5px">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">板块编号</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="例如：001" name="stockId">
+                    <input class="layui-input"  autocomplete="off" placeholder="例如：001" name="stockId" style="width: 200px">
                 </div>
             </div>
             <input name="stockParentId" type="hidden" value="000">
-            <div class="layui-inline layui-show-xs-block">
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 15px">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">板块名称</label>
                 <div class="layui-inline layui-show-xs-block">
                     <input class="layui-input"  autocomplete="off" placeholder="请输入板块名称"
-                           name="stockName">
+                           name="stockName" style="width: 200px">
                 </div>
             </div>
-        </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center; width: 130px; height: 100px; line-height: 81px">板块备注</label>
-            <div class="layui-inline layui-show-xs-block">
-                <textarea name="stockDesc" required lay-verify="required" placeholder="请输入板块备注" class="layui-textarea" style="width: 300px"></textarea>
+
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 15px;margin-left: -20px">
+                <label class="layui-form-label layui-bg-green" style="text-align: center; width: 110px; height: 100px; line-height: 81px;margin-left: 22px;">板块备注</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <textarea name="stockDesc" required lay-verify="required" placeholder="请输入备注" class="layui-textarea" style="width: 200px"></textarea>
+                </div>
             </div>
         </div>
         <br>
@@ -394,32 +386,33 @@
     <form id="editform2" lay-filter="editform2"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-        <div>
-            <div class="layui-inline layui-show-xs-block">
+        <div style="text-align: center;margin-top: 10px">
+            <div class="layui-inline layui-show-xs-block" style="text-align: center">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">板块编号</label>
-                <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="例如：001" name="stockId">
+                <div class="layui-inline layui-show-xs-block" style="text-align: center">
+                    <input class="layui-input"  autocomplete="off" placeholder="例如：001" name="stockId" style="width: 200px">
                 </div>
             </div>
-            <div class="layui-inline layui-show-xs-block">
+            <div class="layui-inline layui-show-xs-block" style="text-align: center;margin-top: 10px">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">板块名称</label>
-                <div class="layui-inline layui-show-xs-block">
+                <div class="layui-inline layui-show-xs-block" style="text-align: center">
                     <input class="layui-input"  autocomplete="off" placeholder="请输入板块名称"
-                           name="stockName">
+                           name="stockName" style="width: 200px">
                 </div>
             </div>
-        </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">父类板块编号</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  autocomplete="off" placeholder="请输入父类板块编号"
-                       name="stockParentId" id="addParentStock">
+
+        <div class="layui-inline layui-show-xs-block" style="text-align: center;margin-top: 10px">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">父模块编号</label>
+            <div class="layui-inline layui-show-xs-block" style="text-align: center">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入父模块编号"
+                       name="stockParentId" id="addParentStock" style="width: 200px">
             </div>
         </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center; width: 130px; height: 100px; line-height: 81px">板块备注</label>
-            <div class="layui-inline layui-show-xs-block">
-                <textarea name="stockDesc" required lay-verify="required" placeholder="请输入板块备注" class="layui-textarea" style="width: 300px"></textarea>
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 15px;margin-left: -20px">
+                <label class="layui-form-label layui-bg-green" style="text-align: center; width: 110px; height: 100px; line-height: 81px;margin-left: 22px;">板块备注</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <textarea name="stockDesc" required lay-verify="required" placeholder="请输入备注" class="layui-textarea" style="width: 200px"></textarea>
+                </div>
             </div>
         </div>
         <br>
@@ -440,35 +433,40 @@
     <form id="updateform" lay-filter="updateform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-        <div>
-            <div class="layui-inline layui-show-xs-block">
+        <div style="text-align: center">
+
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 15px">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">板块编号</label>
                 <div class="layui-inline layui-show-xs-block">
                     <input class="layui-input"  autocomplete="off" placeholder="例如：001" name="blankCardCode"
-                           readonly="readonly">
+                           readonly="readonly" style="width: 200px">
                     <input name="accountId" type="hidden">
                 </div>
             </div>
-            <div class="layui-inline layui-show-xs-block">
+
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 15px">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">板块名称</label>
                 <div class="layui-inline layui-show-xs-block">
                     <input class="layui-input"  autocomplete="off" placeholder="请输入板块名称"
-                           name="accountName">
+                           name="accountName" style="width: 200px">
                 </div>
             </div>
-        </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">父类板块编号</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  autocomplete="off" placeholder="请输入父类板块编号"
-                       name="accountName">
+
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 15px">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">父模块编号</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入父模块编号"
+                           name="accountName" style="width: 200px">
+                </div>
             </div>
-        </div>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center; width: 130px; height: 100px; line-height: 81px">板块备注</label>
-            <div class="layui-inline layui-show-xs-block">
-                <textarea name="accountDesc" required lay-verify="required" placeholder="请输入板块备注" class="layui-textarea" style="width: 300px"></textarea>
+
+            <div class="layui-inline layui-show-xs-block" style="margin-top: 15px;margin-left: -20px">
+                <label class="layui-form-label layui-bg-green" style="text-align: center; width: 110px; height: 100px; line-height: 81px;margin-left: 22px">板块备注</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <textarea name="accountDesc" required lay-verify="required" placeholder="请输入备注" class="layui-textarea" style="width: 200px"></textarea>
+                </div>
             </div>
+
         </div>
         <br>
         <div style="position: absolute; bottom: 0px; left: 37%;">
@@ -503,7 +501,6 @@
                 ]
             },
             done:function (elem,data) {
-                //elem:返回之前input对象；data:表格返回的选中的数据 []
                 var newJson=[];
                 //遍历选中的数据
                 $.each(data.data,function (index,item) {

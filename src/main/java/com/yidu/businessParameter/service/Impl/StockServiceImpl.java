@@ -10,7 +10,6 @@ import java.util.List;
 
 
 /**
- * 股票板块
  * @type stock的service的实现类
  * @author xbf
  * @date 2020-09-11
@@ -43,7 +42,7 @@ public class StockServiceImpl implements StockService {
         int i = stockMapper.deleteStock(stockId);
         return i;
     }
-    //改值
+    //修改
     @Override
     public int updateStock(StockPojo stockPojo) {
         int i = stockMapper.updateStock(stockPojo);

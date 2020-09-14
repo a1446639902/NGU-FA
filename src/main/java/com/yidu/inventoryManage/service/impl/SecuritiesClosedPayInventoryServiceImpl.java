@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 证券应收应付库存
  * @author 黄志豪
  * @version 1.0
- * @Type
+ * @Type 服务层的实现类
  * @time 2020/9/13
  **/
 @Service
@@ -62,11 +63,15 @@ public class SecuritiesClosedPayInventoryServiceImpl implements SecuritiesClosed
 
     @Override
     public int deleteSecuritiesClosedPayInventory(String securitiesClosedPayInventoryIds) {
-        String[] split = securitiesClosedPayInventoryIds.split(",");
-        ArrayList securitiesClosedPayInventoryIdList = new ArrayList<>();
-        for (String securitiesClosedPayInventoryId : split) {
-            securitiesClosedPayInventoryIdList.add(securitiesClosedPayInventoryId);
+        if (securitiesClosedPayInventoryIds != null && !securitiesClosedPayInventoryIds.equals("")) {
+            String[] split = securitiesClosedPayInventoryIds.split(",");
+            ArrayList securitiesClosedPayInventoryIdList = new ArrayList<>();
+            for (String securitiesClosedPayInventoryId : split) {
+                securitiesClosedPayInventoryIdList.add(securitiesClosedPayInventoryId);
+            }
+            return securitiesClosedPayInventoryMapper.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryIdList);
         }
-        return securitiesClosedPayInventoryMapper.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryIdList);
+        return 0;
     }
+
 }

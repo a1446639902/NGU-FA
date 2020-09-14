@@ -58,17 +58,20 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public int deleteAccount(String accountId) {
-        //定义一个数组接收编号，切割字符串
-        String[] split = accountId.split(",");
-        //定义一个整型集合
-        List<String> accountList = new ArrayList<String>();
-        //循环数组
-        for (String id : split) {
-            //将数组循环的值添加到集合中，强转为整型
+        if(accountId!=null && !accountId.equals("")){
+            //定义一个数组接收编号，切割字符串
+            String[] split = accountId.split(",");
+            //定义一个整型集合
+            List<String> accountList = new ArrayList<String>();
+            //循环数组
+            for (String id : split) {
+                    //将数组循环的值添加到集合中，强转为整型
             accountList.add(id);
         }
-
         return accountMapper.deleteAccount(accountList);
+        }
+        else return 0;
+
     }
 
     @Override
