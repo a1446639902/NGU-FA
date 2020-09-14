@@ -31,6 +31,7 @@ public class RevenueProvisionServiceImpl implements RevenueProvisionService {
 
     @Override
     public HashMap selectBondInterest(int page, int limit ,String statDate) {
+        System.out.println(statDate);
         HashMap BondInterestMap = new HashMap();
         BondInterestMap.put("p_tableName","(select round(se.securitiesNum* (b.bondRate/365),2) as interest,\n" +
                 "       b.securitiesId,se.dateTime,se.fundId,b.bondName,b.parRate,(case when b.payInterestNum=1 then '一年一次' when b.payInterestNum=2 then '一年两次' else '一年三次' end)as payInterest ,b.drawStartDate,b.payInterestNum,se.securitiesNum,b.bondRateAmount,se.accountId\n" +

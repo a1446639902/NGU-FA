@@ -1,11 +1,14 @@
 package com.yidu.dayDispose.controller;
 
-import com.yidu.dayDispose.pojo.Appraisement;
-import com.yidu.dayDispose.pojo.RevenueProvision;
-import com.yidu.dayDispose.pojo.StockSecuritiesJoinMarket;
-import com.yidu.dayDispose.pojo.ValuationProcessing;
+import com.yidu.businessData.pojo.TransactionData;
+import com.yidu.businessData.service.TransactionDataService;
+import com.yidu.dayDispose.pojo.*;
 import com.yidu.dayDispose.service.AppraisementService;
+import com.yidu.inventoryManage.pojo.CashClosedPayInventory;
 import com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventory;
+import com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventoryPojo;
+import com.yidu.inventoryManage.service.SecuritiesClosedPayInventoryService;
+import com.yidu.taManage.pojo.TaTransaction;
 import com.yidu.util.DbUtil;
 import com.yidu.util.JsonUtil;
 import com.yidu.util.SysTableNameListUtil;
@@ -21,6 +24,8 @@ import java.util.List;
 public class AppraisementController {
     @Resource
     AppraisementService appraisementService;
+    @Resource
+    SecuritiesClosedPayInventoryService securitiesClosedPayInventoryService;
     @Resource
     DbUtil dbUtil;
 
@@ -79,7 +84,32 @@ public class AppraisementController {
                         //修改状态表的状态
                     }
                 }else {
+                    System.out.println("清算款清算中");
+                    //查交易数据 按证券代码分组 插入证券应收应付库存
+                    HashMap hashMap = appraisementService.selectTransactionData();
+                    List<TransactionData> transactionDataList = (List<TransactionData>)hashMap.get("p_cursor");
+                    for (TransactionData transactionData : transactionDataList) {
+                        System.out.println("TransactionData================="+transactionData.getTotalSum());
+                        SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo = new SecuritiesClosedPayInventoryPojo();
+                        securitiesClosedPayInventoryPojo.setSecuritiesId(transactionData.getSecuritiesId());
+                        securitiesClosedPayInventoryPojo.setDateTime(transactionData.getDateTime());
+                        securitiesClosedPayInventoryPojo.setTotalPrice(transactionData.getTotalSum());
+                        appraisementService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventoryPojo);
+//                      securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                        System.out.println("查ta交易数据================================");
+                        HashMap taTransactionMap = appraisementService.selectTaTransaction();
+                        List<TaTransaction> taTransactionList = (List<TaTransaction>)taTransactionMap.get("p_cursor");
+                        for (TaTransaction taTransaction : taTransactionList) {
+                            System.out.println(taTransaction.getAccountId()+"ta==========================================");
+                            CashClosedPayInventory cashClosedPayInventory = new CashClosedPayInventory();
+                            cashClosedPayInventory.setCashClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCPI));
+                            cashClosedPayInventory.setBusinessDate(taTransaction.getDateTime());
+                            cashClosedPayInventory.setFundId(taTransaction.getFundId());
 
+
+                        }
+
+                    }
 
                 }
 
