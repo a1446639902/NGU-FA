@@ -20,7 +20,7 @@ import java.util.Map;
  * @time
  **/
 @RestController
-@RequestMapping("/NetValueOfStatistical")
+@RequestMapping("/netValueOfStatistical")
 public class NetValueOfStatisticalController {
     @Resource
     NetValueOfStatisticalService netValueOfStatisticalService;
@@ -37,7 +37,7 @@ public class NetValueOfStatisticalController {
         int guPiao = 0;
         //查询其他表格净值统计需要的数据
         //暂时写死，需要从页面接收
-        time = "2020-09-10";
+        System.out.println("从页面传递过来的时间是"+time);
         List<SelectAllMsgPojo> selectAllMsgList = netValueOfStatisticalService.selectAllMsg(time);
         System.out.println("查询其他表格净值统计需要的数据是" + selectAllMsgList);
 
