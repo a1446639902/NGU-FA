@@ -36,8 +36,9 @@ public class FundServiceImpl implements FundService {
         if(fundType!=null && !fundType.equals("")){
             sqlWhere.append(" AND fundType LIKE  '%"+fundType+"%'" );
         }
+        String fundtype=" (select * from fund f join manager m on f.managerId=m.managerId join trustee t on f.trusteeId=t.trusteeId) ";
         HashMap fundMap = new HashMap();
-        fundMap.put("p_tableName",SysTableNameListUtil.F);
+        fundMap.put("p_tableName",fundtype);
         fundMap.put("p_condition",sqlWhere.toString());
         fundMap.put("p_pageSize",limit);
         fundMap.put("p_page",page);

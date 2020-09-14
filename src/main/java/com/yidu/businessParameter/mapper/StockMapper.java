@@ -16,7 +16,9 @@ import java.util.List;
 @Mapper
 public interface StockMapper {
     public int insertStock(StockPojo stockPojo);
-    public int deleteStock(List StockIdList);
+    public int deleteStock(String stockId);
     public int updateStock(StockPojo stockPojo);
-    public void selectStock(HashMap hashMap);
+    public List<SecuritiesPojo>selectStock();
+    public List<StockPojo> selectParentStock();
+    public List<StockPojo> selectSonStock();
 }

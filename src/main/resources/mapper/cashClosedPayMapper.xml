@@ -35,4 +35,7 @@
         <result property="dateTime" column="dateTime" javaType="String"></result>
         <result property="flag" column="flag" javaType="Integer"></result>
     </resultMap>
+    <delete id="deleteNew" parameterType="com.yidu.businessData.pojo.CashClosedPayPojo">
+        delete  from cashClosedPay where dateTime =#{dateTime} and fundId=#{fundId} and accountId=#{accountId}
+    </delete>
 </mapper>

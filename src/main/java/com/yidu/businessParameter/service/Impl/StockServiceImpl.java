@@ -1,58 +1,57 @@
 package com.yidu.businessParameter.service.Impl;
 
 import com.yidu.businessParameter.mapper.StockMapper;
+import com.yidu.businessParameter.pojo.SecuritiesPojo;
 import com.yidu.businessParameter.pojo.StockPojo;
 import com.yidu.businessParameter.service.StockService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+
 /**
- * 用户的dao方法
- * date:2020.9.8
+ * 股票板块
+ * @type stock的service的实现类
  * @author xbf
+ * @date 2020-09-11
  * @version 1.0
  */
 @Service
-@Transactional
 public class StockServiceImpl implements StockService {
-@Resource
+
+    @Resource
     StockMapper stockMapper;
+
+    @Override
+    public List<SecuritiesPojo> selectStock() {
+        return stockMapper.selectStock();
+    }
+
+    @Override
+    public List<StockPojo> selectSonStock() {
+        return stockMapper.selectSonStock();
+    }
+
     @Override
     public int insertStock(StockPojo stockPojo) {
-        return stockMapper.insertStock(stockPojo);
+        int i = stockMapper.insertStock(stockPojo);
+        return i;
     }
-
+    //删除
     @Override
     public int deleteStock(String stockId) {
-        String[] split =stockId.split(",");
-        List<String>stockList=new ArrayList<String>();
-        for (String id:split) {
-            stockList.add(id);
-        }
-        return stockMapper.deleteStock(stockList);
+        int i = stockMapper.deleteStock(stockId);
+        return i;
     }
-
+    //改值
     @Override
     public int updateStock(StockPojo stockPojo) {
-        return stockMapper.updateStock(stockPojo);
+        int i = stockMapper.updateStock(stockPojo);
+        return i;
     }
 
     @Override
-    public HashMap selectStock() {
-        HashMap stockMap = new HashMap();
-        stockMap.put("p_tableName","stock");
-        stockMap.put("p_condition","");
-        stockMap.put("p_pageSize",10);
-        stockMap.put("p_page",1);
-        stockMap.put("p_count",0);
-        stockMap.put("p_cursor",null);
-        stockMapper.selectStock(stockMap);
-        return stockMap;
+    public List<StockPojo> selectParentStock() {
+        return stockMapper.selectParentStock();
     }
 }

@@ -15,8 +15,8 @@
             #{bankTreasurerId}
         </foreach>
     </delete>
-    <delete id="deleteBankTreasurerByBusinessId" parameterType="string">
-        delete from bankTreasurer where businessId=#{businessId}
+    <delete id="deleteBankTreasurerByBusinessId" parameterType="String">
+        delete from bankTreasurer where businessId=#{businessId,jdbcType=VARCHAR}
     </delete>
     <resultMap id="bankTreasurerMap" type="com.yidu.cashControl.pojo.BankTreasurerPojo">
         <result property="bankTreasurerId" column="bankTreasurerId" javaType="String"></result>

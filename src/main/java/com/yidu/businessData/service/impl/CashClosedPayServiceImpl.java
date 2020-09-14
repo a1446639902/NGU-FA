@@ -3,6 +3,7 @@ package com.yidu.businessData.service.impl;
 import com.yidu.businessData.mapper.CashClosedPayMapper;
 import com.yidu.businessData.pojo.CashClosedPayPojo;
 import com.yidu.businessData.service.CashClosedPayService;
+import com.yidu.dayDispose.pojo.RevenueProvision;
 import com.yidu.util.DbUtil;
 import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
@@ -113,4 +114,16 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
         resultMap.put("count",count);
         return resultMap;
     }
+
+    @Override
+    public String selectCashClosedPayId(Map map) {
+        return cashClosedPayMapper.selectCashClosedPayId(map);
+    }
+
+    //wufeiyun
+    @Override
+    public int deleteNew(CashClosedPayPojo cashClosedPay) {
+        return cashClosedPayMapper.deleteNew(cashClosedPay);
+    }
+
 }

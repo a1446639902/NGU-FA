@@ -15,33 +15,12 @@ import java.util.Map;
 public interface TaSettlementService {
     /**
      * 查询
-     * @param pageSize
-     * @param page
-     * @param dateTime
-     * @param transactionType
-     * @param status
-     * @return
      */
     Map<String,Object> selectTaSettlement(String pageSize, String page, String dateTime,String transactionType,String status);
 
-    /**
-     * 添加
-     * @param taSettlement
-     * @return
+    /*
+    修改
      */
-    int insertTaSettlement(TaSettlement taSettlement);
-
-    /**
-     * 删除
-     * @param dateTime
-     * @return
-     */
-    int deleteTaSettlement(String dateTime);
-
-    /**
-     * 修改
-     * @param taTransactionIds
-     * @return
-     */
-    int updateTaSettlement(String taTransactionIds,String status);
+    public int updateSettlement(String taSettlement);
+    public int updateSettlementTwo(String taSettlement);
 }

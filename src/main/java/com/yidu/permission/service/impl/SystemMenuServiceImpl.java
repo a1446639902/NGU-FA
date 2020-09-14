@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 菜单栏的服务层的实现类
@@ -19,8 +20,8 @@ public class SystemMenuServiceImpl implements SystemMenuService {
     SystemMenuMapper systemMenuMapper;
 
     @Override
-    public List<SystemMenu> selectSystemMenu() {
-        List<SystemMenu> systemMenuList = systemMenuMapper.selectSystemMenu();
+    public List<SystemMenu> selectSystemMenu(Map<String,String> map) {
+        List<SystemMenu> systemMenuList = systemMenuMapper.selectSystemMenu(map);
         return systemMenuList;
     }
 }

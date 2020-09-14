@@ -19,9 +19,6 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 
-
-
-
     <script src="../lib/layui/layui.js"></script>
 
     <script type="text/javascript">
@@ -122,30 +119,27 @@
                     ]
                 ]
             });
-            //给工具条的结算添加事件
             table.on('toolbar(userTable)', function (obj) {
+
                 switch (obj.event) {
                     case "search":
-                        alert("jinlail");
                         //获得选中的对象
                         var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                        var transactionDataIds = [];
+
                         var dataArr = checkStatus.data; //获取选中行的数据
-                        $.each(dataArr, function (i, n) {
-                            transactionDataIds.push(n.taTransactionId);
-                        });
+                        var settlement=JSON.stringify(dataArr);
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
                         }
                         else {
                             layer.confirm('真的要结算嘛', function () {
-                                layer.close();
-                                //向服务端发送删除指令
-                                $.post("../TaSettlement/updateTaSettlement?status=0","taTransactionIds="+transactionDataIds,function(msg){
+                                alert(settlement)
+                                //向服务端发送结算指令
+                                $.post("../TaSettlement/updateTaSettlement","settlement="+settlement,function(msg){
                                     if(msg>0){
                                         table.reload('userTable');
-                                        table.reload('userTable2');  /*渲染刷新*/
+                                        table.reload('userTable2');  /!*渲染刷新*!/
                                         layer.closeAll();
                                         layer.msg('结算成功',{
                                             title : '提示',
@@ -168,47 +162,60 @@
                             });
                         }
                         break;
-                }
-            });
-            //给工具条的反结算添加事件
-            table.on('toolbar(userTable2)', function (obj) {
-                switch (obj.event) {
-                    case "search2":
-                        //获得选中的对象
-                        var checkStatus = table.checkStatus("userTable2"); //idTest 即为基础参数 id 对应的值
-                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                        var transactionDataIds = [];
-                        var dataArr = checkStatus.data; //获取选中行的数据
-                        $.each(dataArr, function (i, n) {
-                            transactionDataIds.push(n.taTransactionId);
+                    case 'select':
+                        alert("搜索");
+                        var dateTime= $("#start").val();
+                        var transactionType= $("#cateId").val();
+                        //表格的重新加载事件
+                        table.reload('userTable', {
+                            method: 'post'
+                            , where: {
+                                'dateTime': dateTime,
+                                'transactionType': transactionType
+                            }
+                            , page: {
+                                curr: 1
+                            }
                         });
+                        break;
+                };
+            });
+            //给工具条的结算添加事件
+            table.on('toolbar(userTable)', function (obj) {
+
+                switch (obj.event) {
+                    case "search":
+                        //获得选中的对象
+                        var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
+                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+
+                        var dataArr = checkStatus.data; //获取选中行的数据
+                        var settlement=JSON.stringify(dataArr);
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
                         }
                         else {
-                            layer.confirm('真的要反结算嘛', function () {
-                                layer.close();
-                                //向服务端发送删除指令
-                                $.post("../TaSettlement/updateTaSettlement?status=1","taTransactionIds="+transactionDataIds,function(msg){
+                            layer.confirm('真的要结算嘛', function () {
+                                alert(settlement)
+                                //向服务端发送结算指令
+                                $.post("../TaSettlement/updateTaSettlement","settlement="+settlement,function(msg){
                                     if(msg>0){
-                                        table.reload('userTable2');
-                                        table.reload('userTable');  /*渲染刷新*/
+                                        table.reload('userTable');
+                                        table.reload('userTable2');  /!*渲染刷新*!/
                                         layer.closeAll();
-                                        layer.msg('反结算成功',{
+                                        layer.msg('结算成功',{
                                             title : '提示',
                                             area : [ '200px',
                                                 '140px' ],
-                                            time : 0,
                                             btn : [ '知道了' ]
                                         });
                                     }
                                     else{
                                         layer.closeAll();
-                                        layer.msg('反结算失败',{
+                                        layer.msg('结算失败',{
                                             title : '提示',
                                             area : [ '200px',
                                                 '140px' ],
-                                            time : 0,
                                             btn : [ '知道了' ]
                                         });
                                     }
@@ -217,9 +224,71 @@
                             });
                         }
                         break;
-                }
+                    case 'select':
+                        alert("搜索");
+                        var dateTime= $("#start").val();
+                        var transactionDataMode= $("#cateId").val();
+                        //表格的重新加载事件
+                        table.reload('userTable', {
+                            method: 'post'
+                            , where: {
+                                'dateTime': dateTime,
+                                'transactionType': transactionType
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        });
+                        break;
+                };
             });
-        });
+
+            //给工具条的反结算添加事件
+            table.on('toolbar(userTable2)', function (obj) {
+                switch (obj.event) {
+                    case "search2":
+                        //获得选中的对象
+                        var checkStatus = table.checkStatus("userTable2"); //idTest 即为基础参数 id 对应的值
+                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                        var dataArr = checkStatus.data; //获取选中行的数据
+                        var settlement = JSON.stringify(dataArr);
+                        if (dataArr.length == 0) {
+                            layer.msg("请先选中数据");
+                        } else {
+                            layer.confirm('真的要反结算嘛', function () {
+                                layer.close();
+                                //向服务端发送删除指令
+                                $.post("../TaSettlement/updateTaSettlementTwo", "settlement=" + settlement, function (msg) {
+                                    if (msg > 0) {
+                                        table.reload('userTable2');
+                                        table.reload('userTable');  /*渲染刷新*/
+                                        layer.closeAll();
+                                        layer.msg('反结算成功', {
+                                            title: '提示',
+                                            area: ['200px',
+                                                '140px'],
+                                            time: 0,
+                                            btn: ['知道了']
+                                        });
+                                    } else {
+                                        layer.closeAll();
+                                        layer.msg('反结算失败', {
+                                            title: '提示',
+                                            area: ['200px',
+                                                '140px'],
+                                            time: 0,
+                                            btn: ['知道了']
+                                        });
+                                    }
+                                });
+                                return false;
+                            });
+                        }
+                        break;
+                }
+
+            });
+        })
     </script>
 </head>
 
@@ -232,24 +301,23 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="businessDate" id="start">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易方式</label>
 
                 <div class="layui-inline layui-show-xs-block">
-                    <select name="cateid">
-                        <option>请选择</option>
+                    <select name="transactionType">
+                        <option value="">请选择</option>
+                        <option>认购</option>
                         <option>申购</option>
                         <option>赎回</option>
-                        <option>分红</option>
-                        <option>送股</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit=""  lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="search" lay-event="search" name="settlement" id="settlement" >结算</button>
@@ -269,18 +337,17 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="businessDate" id="start1">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start1">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易方式</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <select name="cateid">
+                    <select name="transactionType">
                         <option>请选择</option>
+                        <option>认购</option>
                         <option>申购</option>
                         <option>赎回</option>
-                        <option>分红</option>
-                        <option>送股</option>
                     </select>
                 </div>
             </div>

@@ -11,8 +11,8 @@ import java.util.HashMap;
  * @time 2020/9/10
  **/
 public interface TransferMoneyService {
-    public HashMap selectTransferMoney(int page,int limit);
+    public HashMap selectTransferMoney(int page,int limit,String crossSectionDate);
     public int insertTransferMoney(TransferMoneyPojo transferMoneyPojo);
     public int updateTransferMoney(TransferMoneyPojo transferMoneyPojo);
-    public int deleteTransferMoney(String transferMoneyId);
+    public int deleteTransferMoney(String transferMoneyIds);
 }
