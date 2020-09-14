@@ -87,8 +87,9 @@ public class RevenueProvisionController {
             cashClosedPayPojo.setCashClosedPayId(cashClosedPayId);
             cashClosedPayPojo.setFundId(revenueProvision.getFundId());
             cashClosedPayPojo.setAccountId(revenueProvision.getAccountId());
-            cashClosedPayPojo.setServiceType(1);
-            cashClosedPayPojo.setAmount(revenueProvision.getCashBlance());
+            cashClosedPayPojo.setServiceType(3);
+            cashClosedPayPojo.setAmount(revenueProvision.getInterest());
+            System.out.println(revenueProvision.getInterest()+"==================================");
             cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
             cashClosedPayPojo.setFlag(1);
             i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo);
@@ -137,8 +138,8 @@ public class RevenueProvisionController {
             securitiesClosedPay1.setSecuritiesClosedPayId(cashClosedPayId);
             securitiesClosedPay1.setFundId(bondInterest.getFundId());
             securitiesClosedPay1.setAccountId(bondInterest.getAccountId());
-            securitiesClosedPay1.setServiceType(1);
-            securitiesClosedPay1.setAmount(bondInterest.getSecuritiesNum()*bondInterest.getBondRateAmount());
+            securitiesClosedPay1.setServiceType(3);
+            securitiesClosedPay1.setAmount(bondInterest.getInterest());
             securitiesClosedPay1.setDateTime(bondInterest.getDateTime());
             securitiesClosedPay1.setFlag(1);
             securitiesClosedPay1.setSecuritiesId(bondInterest.getSecuritiesId());

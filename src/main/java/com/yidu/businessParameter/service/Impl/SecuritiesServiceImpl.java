@@ -43,6 +43,7 @@ public class SecuritiesServiceImpl implements SecuritiesService {
 
     @Override
     public int updateSecurities(SecuritiesPojo securitiesPojo) {
+        System.out.println("======================================"+securitiesPojo);
         return securitiesMapper.updateSecurities(securitiesPojo);
     }
 

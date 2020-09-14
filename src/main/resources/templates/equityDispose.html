@@ -161,9 +161,24 @@
                             });
                         }
                         break;
+                    case 'search':
+                        alert("搜索");
+                        var equitiesExright= $("#end").val();
+                        var equitiesType= $("#equitiesType").val()
+                        //表格的重新加载事件
+                        table.reload('userTable', {
+                            method: 'post'
+                            , where: {
+                                'equitiesExright': equitiesExright,
+                                'equitiesType': equitiesType
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        });
+
                 }
             });
-
             //给工具条的反结算添加事件
             table.on('toolbar(userTable2)', function (obj) {
                 switch (obj.event) {
@@ -207,10 +222,13 @@
                                 });
                                 return false;
                             });
+
                         }
                         break;
                 }
+
             });
+
         });
     </script>
 </head>
@@ -230,9 +248,9 @@
 
             <div class="layui-inline layui-show-xs-block">
                 <select name="equitiesType" id="equitiesType">
-                    <option>请选择</option>
-                    <option>分红</option>
-                    <option>送股</option>
+                    <option value="">请选择</option>
+                    <option value="2">分红</option>
+                    <option value="1">送股</option>
                 </select>
             </div>
         </div>
