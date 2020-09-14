@@ -1,21 +1,18 @@
 package com.yidu.dayDispose.service.impl;
 
 import com.yidu.dayDispose.mapper.NetValueOfStatisticalMapper;
-import com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo;
+import com.yidu.dayDispose.pojo.*;
 import com.yidu.dayDispose.service.NetValueOfStatisticalService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * 净值统计biz的实现类
  *
  * @author kangshao
  * @version 1.0
- * @Type:
- * @time
  **/
 @Service
 public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalService {
@@ -23,17 +20,63 @@ public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalSe
     NetValueOfStatisticalMapper netValueOfStatisticalMapper;
 
     @Override
-    public HashMap selectNetValueOfStatistical() {
-        HashMap hashMap = new HashMap();
-        //查询的表名
-        hashMap.put("p_tableName","valueStatistics");
-        //查询的条件
-        hashMap.put("p_condition","");
-        //总条数
-        hashMap.put("p_count",0);
-        //游标标量
-        hashMap.put("p_cursor",null);
-        netValueOfStatisticalMapper.selectNetValueOfStatistical(hashMap);
-        return hashMap;
+    public List<SelectAllMsgPojo> selectAllMsg(String time) {
+        return netValueOfStatisticalMapper.selectAllMsg(time);
+    }
+
+    @Override
+    public int insertTree(NetValueOfStatisticalPojo netValueOfStatisticalPojo) {
+        return netValueOfStatisticalMapper.insertTree(netValueOfStatisticalPojo);
+    }
+
+    @Override
+    public List<SelectAllMsgDemoOnePojo> selectAllMsgTwo() {
+        return netValueOfStatisticalMapper.selectAllMsgTwo();
+    }
+
+    @Override
+    public List<CashBlancePojo> selectCashBlance() {
+        return netValueOfStatisticalMapper.selectCashBlance();
+    }
+
+    @Override
+    public List<ServiceTypePojo> selectAmount(String amount) {
+        return netValueOfStatisticalMapper.selectAmount(amount);
+    }
+
+    @Override
+    public List<NetFinalPojo> selectNetBondInterest() {
+        return netValueOfStatisticalMapper.selectNetBondInterest();
+    }
+
+    @Override
+    public List<NetFinalPojo> selectTrusteeFee() {
+        return netValueOfStatisticalMapper.selectTrusteeFee();
+    }
+
+    @Override
+    public List<NetFinalPojo> selectAdministrativeFee() {
+        return netValueOfStatisticalMapper.selectAdministrativeFee();
+    }
+
+    @Override
+    public List<SecuritiesClearingAccountPojo> securitiesClearingAccount() {
+        return netValueOfStatisticalMapper.securitiesClearingAccount();
+    }
+
+    @Override
+    public Double selectTA(String time) {
+        return netValueOfStatisticalMapper.selectTA(time);
+    }
+
+
+    @Override
+    public int insertNetValueOfStatistical(NetValueOfStatisticalPojo netValueOfStatisticalPojo) {
+        return netValueOfStatisticalMapper.insertNetValueOfStatistical(netValueOfStatisticalPojo);
+    }
+
+    @Override
+    public List<NetValueOfStatisticalPojo> selectNetValueOfStatistical(String time) {
+        return netValueOfStatisticalMapper.selectNetValueOfStatistical(time);
     }
 }

@@ -20,4 +20,5 @@ public interface AccountMapper {
     public int deleteAccount(List accountIdList);
     public int updateAccount(AccountPojo accountPojo);
     public AccountPojo selectAccountName(String fundId);
+    public AccountPojo selectAccountByAccountId(String accountId);
 }

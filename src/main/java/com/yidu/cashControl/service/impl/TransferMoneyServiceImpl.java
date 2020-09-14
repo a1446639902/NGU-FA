@@ -8,6 +8,7 @@ import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -23,10 +24,15 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
     @Resource
     DbUtil dbUtil;
     @Override
-    public HashMap selectTransferMoney(int page, int limit) {
+    public HashMap selectTransferMoney(int page, int limit,String crossSectionDate) {
         HashMap<Object, Object> transferMoneyMap = new HashMap<>();
-        transferMoneyMap.put("p_tableName", SysTableNameListUtil.TM);
-        transferMoneyMap.put("p_condition","");
+        StringBuffer stringBuffer = new StringBuffer();
+        if(crossSectionDate!=null && !crossSectionDate.equals("")){
+            stringBuffer.append(" and crossSectionDate='"+crossSectionDate+"'");
+        }
+        String p_tableName=" (select transferMoney.*,account.blankCardCode outBlankCardCode, (select blankCardCode from account where accountId=transferMoney.inAccountId) inBlankCardCode from transferMoney join account on transferMoney.outAccount = account.accountId)";
+        transferMoneyMap.put("p_tableName",p_tableName);
+        transferMoneyMap.put("p_condition",stringBuffer.toString());
         transferMoneyMap.put("p_pageSize",limit);
         transferMoneyMap.put("p_page",page);
         transferMoneyMap.put("p_count",0);
@@ -40,7 +46,6 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
     @Override
     public int insertTransferMoney(TransferMoneyPojo transferMoneyPojo) {
         transferMoneyPojo.setTransferMoneyId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TM));
-        transferMoneyPojo.setFoundId("289289289");
         return transferMoneyMapper.insertTransferMoney(transferMoneyPojo);
     }
 
@@ -49,7 +54,12 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
         return transferMoneyMapper.updateTransferMoney(transferMoneyPojo);
     }
     @Override
-    public int deleteTransferMoney(String transferMoneyId) {
-        return transferMoneyMapper.deleteTransferMoney(transferMoneyId);
+    public int deleteTransferMoney(String transferMoneyIds) {
+        String[] split = transferMoneyIds.split(",");
+        ArrayList transferMoneyIdList = new ArrayList<>();
+        for (String transferMoneyId : split) {
+            transferMoneyIdList.add(transferMoneyId);
+        }
+        return transferMoneyMapper.deleteTransferMoney(transferMoneyIdList);
     }
 }

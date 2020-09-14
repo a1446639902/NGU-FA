@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,20 +56,20 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         //得到请求中的session中的fundId
         String fundId = GetFundIdUtil.getFundId(request);
         // and c.fundId='"+fundId+"'
-        System.out.println("现金传回来的日期:=" + businessDate);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        if (businessDate != null && !businessDate.equals("")) {
-            businessDate = sdf.format(businessDate);
-        } else {
-            Date date = new Date();
 
+
+        if (businessDate != null && !businessDate.equals("")) {
+            System.out.println("现金传回来的日期:=" + businessDate);
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            Date date = new Date();
             businessDate = sdf.format(date);
             System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
 
-        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where businessType=3 and businessDate = to_char(" +
+        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId="+fundId+" and businessType=3 and businessDate = to_char(" +
                 "(to_date(" + businessDate + ",'yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on a.accountId=cci.accountId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
@@ -111,41 +109,18 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
             v_page = Integer.parseInt(page);
         }
         //得到请求中的session中的fundId
-        //String fundId = GetFundIdUtil.getFundId(request);
-
-        System.out.println("证券传回来的日期:=" + businessDate);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date date = new Date();
+        String fundId = GetFundIdUtil.getFundId(request);
         if (businessDate != null && !businessDate.equals("")) {
-
-                /*java.util.Date parse=null;
-                try {
-                    parse = sdf.parse(businessDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }*/
-            //java.util.Date转换成long
-            //long time = parse.getTime();
-            //获取当前日期，java.util.Date
-            //Date date1 = new Date();
-            //sdf将java.util.Date转化成String
-            //String format = sdf.format(date);
-            //将long转换为java.sql.Date
-            //Date date2 = new Date(time);
-            String str = sdf.format(date.parse(businessDate));
-
-//          Date parseDate=sdf.parse(businessDate);
-            //businessDate=sdf.format(date2);
-            System.out.println("=======================" + str + "===============================");
-
+            System.out.println("证券传回来的日期:=" + businessDate);
         } else {
-
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            Date date = new Date();
             businessDate = sdf.format(date);
             System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-        map.put("p_tableName", "(select * from (select * from securitiesClosedPayInventory where securitiesType=3 and DATETIME=to_char(" +
+        map.put("p_tableName", "(select * from (select * from securitiesClosedPayInventory where fundId="+fundId+" and securitiesType=3 and DATETIME=to_char(" +
                 "(to_date(" + businessDate + ",'yyyy-MM-dd')-1),'yyyy-MM-dd'))sci join securities s on sci.securitiesId=s.securitiesId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
@@ -185,30 +160,18 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
             v_page = Integer.parseInt(page);
         }
         //得到请求中的session中的fundId
-        // String fundId = GetFundIdUtil.getFundId(request);
-        //and c.fundId='"+fundId+"'
-
-        System.out.println("两费传回来的日期:=" + businessDate);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+         String fundId = GetFundIdUtil.getFundId(request);
         if (businessDate != null && !businessDate.equals("")) {
-            businessDate = sdf.format(businessDate);
-            try {
-                Date parseDate = sdf.parse(businessDate);
-                businessDate = sdf.format(parseDate);
-                System.out.println("=======================" + businessDate + "===============================");
-            } catch (ParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            System.out.println("两费传回来的日期:=" + businessDate);
         } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             Date date = new Date();
             businessDate = sdf.format(date);
             System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-//DATETIME=to_char((to_date('2020-09-09','yyyy-MM-dd')-1),'yyyy-MM-dd');
-        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where businessType=1 or businessType=2 and businessDate " +
+        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId="+fundId+" and businessType=1 or businessType=2 and businessDate " +
                 "= to_char((to_date(" + businessDate + ",'yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on cci.accountId=a.accountId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
@@ -229,10 +192,4 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
     }
 }
 
-    /*revenueProvisionMap.put("p_tableName","(select round(ca.cashBlance* (a.cardRate/100/(case when a.procisionDays = 1 then 360\n" +
-                "    when a.procisionDays=2 then 365 else 366 end )  ),2) as interest,a.cardRate,\n" +
-                "    a.blankName,a.accountName,ca.cashBlance,a.deposit,(case when a.deposit = 1 then '活期'\n" +
-                "     else  '定期' end) as depositName,ca.dateTime,(case when a.procisionDays = 1 then 360\n" +
-                "    when a.procisionDays=2 then 365 else 366 end )as procisionDayName\n" +
-                "from (select * from cashInventory where dateTime='2020-09-08')\n" +
-                "    ca join account a on ca.accountId=a.accountId)");*/
+

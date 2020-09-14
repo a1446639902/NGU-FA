@@ -11,6 +11,6 @@
         <result property="userInfoDesc" column="userInfoDesc" javaType="String"></result>
     </resultMap>
     <select id="selectUser1" parameterType="java.util.Map" resultType="Integer">
-        select * from userInfo where userName=#{userName} and userPwd=#{userPwd}
+        select * from userInfo where userName=#{userName} and userPwd=#{userPwd} and status=1
     </select>
 </mapper>

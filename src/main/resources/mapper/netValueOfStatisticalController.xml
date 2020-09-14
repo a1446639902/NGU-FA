@@ -1,20 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.dayDispose.mapper.NetValueOfStatisticalMapper">
-    <!--查询角色-->
-    <resultMap id="NetValueOfStatisticalMap" type="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
-        <result property="valueStatisticsDate" column="valueStatisticsDate" javaType="String"></result>
-        <result property="projectId" column="projectId" javaType="int"></result>
-        <result property="projectName" column="projectName" javaType="Integer"></result>
-        <result property="quantityint" column="quantityint" javaType="String"></result>
-        <result property="peice" column="peice" javaType="String"></result>
-        <result property="projectCode" column="projectCode" javaType="String"></result>
-        <result property="cost" column="cost" javaType="String"></result>
-        <result property="marketValue" column="marketValue" javaType="String"></result>
-        <result property="valuation" column="valuation" javaType="String"></result>
-        <result property="projectFatherId" column="projectFatherId" javaType="int"></result>
-    </resultMap>
-    <select id="selectNetValueOfStatistical" parameterType="java.util.Map" statementType="CALLABLE">
-        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=NetValueOfStatisticalMap})}
+    <!-- 查询，根据日期查询出股票的买入卖出-->
+    <select id="selectAllMsg" resultType="com.yidu.dayDispose.pojo.SelectAllMsgPojo" parameterType="String">
+        select securitiesName,t1.SECURITIESId,SECURITIESNUM,TOTAL,SERVICETYPE,CLOSINGPRICE from
+SECURITIESINVENTORY t1 , SECURITIES t2 , SECURITIESCLOSEDPAY t3 ,MARKET t4
+where t1.SECURITIESID = t2.SECURITIESID and t3.SECURITIESID = t1.SECURITIESID and t4.SECURITIESID = t1.SECURITIESID
+and t1.DATETIME = t3.DATETIME and t1.DATETIME= t4.DATETIME and t1.DATETIME=#{time}
+group by securitiesName,t1.securitiesId,SECURITIESNUM,TOTAL,SERVICETYPE,CLOSINGPRICE
+    </select>
+
+    <!--创建树形结构-->
+    <insert id="insertTree" parameterType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
+        insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectFatherId) values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectFatherId})
+    </insert>
+    <!--查询现金表的余额-->
+    <select id="selectCashBlance" resultType="com.yidu.dayDispose.pojo.CashBlancePojo">
+        select ACCOUNTNAME,BLANKCARDCODE,CASHBLANCE from
+CASHINVENTORY t1 , ACCOUNT t2
+where t1.FUNDID = t2.FUNDID
+    </select>
+
+    <!--查询利息，通过银行账户id查询-->
+    <select id="selectAmount" resultType="com.yidu.dayDispose.pojo.ServiceTypePojo" parameterType="String">
+      select AMOUNT,ACCOUNTNAME,BLANKCARDCODE from CASHCLOSEDPAY t1 ,ACCOUNT t2
+where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
+    </select>
+
+    <!--查询证券中债券的数据-->
+    <select id="selectAllMsgTwo" resultType="com.yidu.dayDispose.pojo.SelectAllMsgDemoOnePojo">
+        select t1.securitiesId,bondName,securitiesNum,total,closingPrice from
+BOND t1, MARKET t2 ,SECURITIESINVENTORY t3
+where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID=t3.SECURITIESID
+    </select>
+
+    <!--查询债券利息-->
+    <select id="selectNetBondInterest" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
+        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 3
+    </select>
+
+    <!--查询托管费-->
+    <select id="selectTrusteeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
+        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 2
+    </select>
+
+    <!--查询管理费-->
+    <select id="selectAdministrativeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
+        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 1
+    </select>
+
+    <!--查询证券清算款-->
+    <select id="securitiesClearingAccount" resultType="com.yidu.dayDispose.pojo.SecuritiesClearingAccountPojo">
+        select TOTALPRICE from SECURITIESCLOSEDPAYINVENTORY where SECURITIESTYPE = 2
+    </select>
+
+    <!--查询ta库存计算单位净值-->
+    <select id="selectTA" resultType="Double" parameterType="String">
+        select TANUM from TAINVENTORY where DATETIME = #{DATETIME}
+    </select>
+
+    <!--拿到股票，债券，现金数据增加进净值统计表 公用方法-->
+    <insert id="insertNetValueOfStatistical" parameterType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
+       insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectCode,quantityint,peice,cost,marketValue,valuation,projectFatherId)
+        values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectCode},#{quantityint},#{peice},#{cost},#{marketValue},#{valuation},#{projectFatherId})
+    </insert>
+
+    <!--查询净值统计表-->
+    <select id="selectNetValueOfStatistical" resultType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo"
+            parameterType="String">
+        select
+        valueStatisticsDate,projectId,projectName,projectCode,quantityint,peice,cost,marketValue,valuation,projectFatherId
+        from valueStatistics where 1=1
+        <if test="time!=null">
+            and VALUESTATISTICSDATE=#{time}
+        </if>
     </select>
 </mapper>

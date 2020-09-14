@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/font.css">
     <link rel="stylesheet" href="../css/xadmin.css">
     <link rel="stylesheet" href="../css/theme9.css">
+    <script type="text/javascript" src="../lib/layui/layui.js"></script>
     <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
@@ -28,25 +29,14 @@
         <br/>
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">指令状态</label>
-                <div class="layui-inline layui-show-xs-block" style="text-align: center" >
-                    <select name="cateid">
-                        <option>请选择指令状态</option>
-                        <option>未生成</option>
-                        <option>已生成</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">划款日期</label>
-                <div class="layui-inline layui-show-xs-block">
-
-                    <input class="layui-input"  autocomplete="off" placeholder="请选择日期" lay-verify="date" name="end" id="start">
-                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input"   placeholder="请选择日期"  name="end" id="start">
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="search" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
     </script>
@@ -58,11 +48,9 @@
             var form = layui.form;
             var tableSelect = layui.tableSelect;
             var laydate = layui.laydate;
-
-
             //执行一个laydate实例
             laydate.render({
-                elem: '#startDate',//指定元素
+                elem: '#startDate'//指定元素
             });
             //执行一个laydate实例
             laydate.render({
@@ -79,7 +67,7 @@
                 page: true,
                 toolbar: '#userToolBar',//显示在表头的工具条
                 cellMinWidth:60,
-                height:'full-55',
+                height:'full-70',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
@@ -87,45 +75,60 @@
                         ,{field: 'foundId', title: '基金Id',align:'center',hide:true}
                         ,{field: 'outAccount', title: '划款账户Id',align:'center',hide:true}
                         ,{field: 'outBlankName', title: '划款账户的银行名称',align:'center',hide:true}
-                        ,{field: 'inAccountId', title: '划款到的账户Id',align:'center',hide:true}
-                        ,{field: 'inBlankName', title: '划款到的账户的银行名称',align:'center',hide:true}
-                        ,{field: 'outAccountName', title: '划款账户',align:'center'}
-                        ,{field: 'inAccountName', title: '接收账户',align:'center'}
+                        ,{field: 'inAccountId', title: '收款账户Id',align:'center',hide:true}
+                        ,{field: 'inBlankName', title: '收款账户的银行名称',align:'center',hide:true}
+                        ,{field: 'outBlankCardCode', title: '划款账户',align:'center',width: 180}
+                        ,{field: 'inBlankCardCode', title: '接收账户',align:'center',width: 180}
                         ,{field: 'money', title: '划款金额',align:'center'}
                         ,{field: 'crossSectionDate', title: '划款日期',align:'center'}
                         ,{field: 'accountingDate', title: '到账日期',align:'center'}
-                        ,{field: 'purpose', title: '划款的用途',align:'center'}
-                        ,{field: 'right', title: '操作',width: 187, align:'center', toolbar: '#barDemo',fixed: 'right'}
+                        ,{field: 'purpose', title: '划款的用途',align:'center',width: 120}
+                        ,{field: 'right', title: '操作',width: 187, align:'center', toolbar: '#barDemo'}
                     ]
                 ]
             });
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
-                $.post("../transferMoney/insertTransferMoney",formData,function(msg){
-                    if(msg>0){
-                        table.reload('userTable');
-                        layer.closeAll();
-                        layer.msg('添加成功',{
-                            title : '提示',
-                            area : [ '200px',
-                                '140px' ],
-                            time : 0,
-                            btn : [ '知道了' ]
-                        });
-                    }else{
-                        layer.closeAll();
-                        layer.msg('添加失败',{
-                            title : '提示',
-                            area : [ '200px',
-                                '140px' ],
-                            time : 0,
-                            btn : [ '知道了' ]
-                        });
-                    }
-                });
+                var startDate=new Date($('#startDate').val()).getTime();//获得划款日期
+                var endDate=new Date($('#endDate').val()).getTime();//获得到账日期
+                var inBlankCardCode=$('#inBlankCardCode').val();//获得收款账户名称
+                var outBlankCardCode=$('#outBlankCardCode').val();//获得划款账户名称
+                if(startDate>endDate){
+                    layer.msg("到账日期不能先于划款日期。请重新选择");
+
+                }
+                else if(inBlankCardCode==outBlankCardCode){
+                    layer.msg("收款账号不能与付款账号相同");
+                }
+                else {
+                    $.post("../transferMoney/insertTransferMoney",formData,function(msg){
+                        if(msg>0){
+                            table.reload('userTable');
+                            layer.closeAll();
+                            layer.msg('添加成功',{
+                                title : '提示',
+                                area : [ '200px',
+                                    '140px' ],
+                                time : 0,
+                                btn : [ '知道了' ]
+                            });
+                        }else{
+                            layer.closeAll();
+                            layer.msg('添加失败',{
+                                title : '提示',
+                                area : [ '200px',
+                                    '140px' ],
+                                time : 0,
+                                btn : [ '知道了' ]
+                            });
+                        }
+                    });
+                }
+                $("#addform")[0].reset();
                 return false;
             });
+
             //修改提交
             form.on('submit(editsubmit)', function(data){
                 var formData=$('#editform').serialize();
@@ -161,7 +164,7 @@
                     case 'add':
                         var index=layer.open({
                             type: 1,
-                            title: '添加资金调拨',
+                            title: '添加划款指令',
                             closeBtn: 1,
                             move:false,
                             content:$("#addContent"),
@@ -172,19 +175,17 @@
                         //layer.full(index);
                         break;
                     case 'search':
-                        alert("搜索");
-                        var userName= $("#userName").val();
+                        var start= $("#start").val();
                         //表格的重新加载事件
                         table.reload('userTable', {
                             method: 'post'
                             , where: {
-                                'userName': userName
+                                'crossSectionDate': start
                             }
                             , page: {
                                 curr: 1
                             }
                         });
-
                         break;
                     case 'deleteAll':
                         var data = checkStatus.data;
@@ -193,13 +194,13 @@
                             layer.msg("请至少选择一条数据",)
                         }else
                         {
-                            var ids=[];
+                            var transferMoneyIds=[];
                             for (var i = 0; i <data.length; i++) {
-                                ids.push(data[i].userId);
+                                transferMoneyIds.push(data[i].transferMoneyId);
                             }
                             layer.confirm('真的删除行么',{icon: 2}, function(index){
                                 layer.close(index);
-                                $.post("../user/deleteUser", {userId:ids.join(',')},function(msg){
+                                $.post("../transferMoney/deleteTransferMoney", {transferMoneyIds:transferMoneyIds.join(',')},function(msg){
                                     table.reload('userTable');
                                     layer.msg('删除'+checkStatus.data.length+'条记录', {
                                         title:'提示',
@@ -216,27 +217,49 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到删除行整行的数据
-                alert(data.userId);
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
                         layer.close(index);
-                        $.post("../user/deleteUser", {userId:data.userId+""},function(msg){
-                            table.reload('userTable');
+                        $.post("../transferMoney/deleteTransferMoney", {"transferMoneyIds":data.transferMoneyId},function(msg){
+                            if(msg>0){
+                                table.reload('userTable');
+                                layer.closeAll();
+                                layer.msg('删除成功',{
+                                    title : '提示',
+                                    area : [ '200px',
+                                        '140px' ],
+                                    time : 0,
+                                    btn : [ '知道了' ]
+                                });
+                            }else{
+                                layer.closeAll();
+                                layer.msg('删除失败',{
+                                    title : '提示',
+                                    area : [ '200px',
+                                        '140px' ],
+                                    time : 0,
+                                    btn : [ '知道了' ]
+                                });
+                            }
+
                         });
+                        return false;
+
 
                     });
                 } else if (obj.event === 'edit') {
-                    alert(JSON.stringify(data));
                     form.val('editform',$.parseJSON(JSON.stringify(data)));
+                    $('#BTitle').val('中国银行股份有限公司托管及投资则服务部:');
+                    $('#HTitle').val('敬请贵部根据以下提供的付/收款人名称、开户行、账号、到账日期、币种、和划款金额划款。');
                     var index = layer.open({
                         type: 1,
-                        title: '修改员工',
+                        title: '指令设置',
                         closeBtn: 1,
                         move:false,
+                        area:['700px','500px'],
                         content:$('#editContent')
                     });
                     form.render();
-                    layer.full(index);
                 };
             })
             //收款账户的下拉列表
@@ -251,7 +274,7 @@
                             {field:'accountName',title:'账户名称',width:100},
                             {field: 'blankCardCode',title:'银行卡号',width: 100},
                             {field: 'blankName',title: '银行名称'},
-                            {field: 'accountId',title: '账号Id',hidden:true}
+                            {field: 'accountId',title: '账号Id',hide:true}
                         ]
                     ]
                 },
@@ -280,7 +303,7 @@
                             {field:'accountName',title:'账户名称',width:100},
                             {field: 'blankCardCode',title:'银行卡号',width: 100},
                             {field: 'blankName',title: '银行名称'},
-                            {field: 'accountId',title: '账号Id',hidden:true}
+                            {field: 'accountId',title: '账号Id',hide:true}
                         ]
                     ]
                 },
@@ -298,6 +321,28 @@
                 }
             })
 
+            //生成指令excel
+            form.on('submit(editsubmit)', function(data){
+                //$('#outBlankName').val(data.outBlankName);
+                var transferMoney=$('#editform').serialize();
+                window.location.href="../transferOrderController/export?"+transferMoney;
+                $('#editform')[0].reset();  //清空原有数据
+                layer.closeAll();
+                removeDate();
+                return false;
+            });
+
+            form.on('select(title)', function(data){
+                if($('#orderCheque').val()==1){
+                    $("#BTitleDiv").css("display","block");
+                    $("#HTitleDiv").css("display","block");
+                }else{
+                    $("#BTitleDiv").css("display","none");
+                    $("#HTitleDiv").css("display","none");
+                }
+            });
+
+
 
 
 
@@ -305,6 +350,7 @@
         function myclose() {
             layer.closeAll();
         }
+
     </script>
 
 
@@ -317,14 +363,13 @@
     <!--工具条-->
     <div style="display: none;" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit"><i
-                class="layui-icon">&#xe642;</i>编辑</a>
+                class="layui-icon">&#xe642;</i>生成指令</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                 class="layui-icon">&#xe640;</i>删除</a>
 
     </div>
 </div>
 <!--增加的div内容-->
-
 <div id="addContent"
      style="display: none; height: 100%; height: 100%; text-align: center;">
     <form id="addform" lay-filter="addform"
@@ -403,6 +448,72 @@
     </form>
 </div>
 
+<!--生成指令的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <div>
+            <input type="hidden" name="transferMoneyId"/>
+            <input type="hidden" name="inAccountId"/>
+            <input type="hidden" name="inBlankName"/>
+            <input type="hidden" name="inBlankCardCode"/>
+            <input type="hidden" name="crossSectionDate"/>
+            <input type="hidden" name="accountingDate"/>
+            <input type="hidden" name="money"/>
+            <input type="hidden" name="outAccount"/>
+            <input type="hidden" name="outBlankName"/>
+            <input type="hidden" name="outBlankCardCode"/>
+            <input type="hidden" name="foundId"/>
+            <input type="hidden" name="purpose"/>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 120px;text-align: center">显示抬头项</label>
+                <div class="layui-inline layui-show-xs-block" style="width: 184px">
+                    <select name="orderCheque" id="orderCheque" class="layui-select" lay-filter="title">
+                        <option value="" placeholder="请选择"></option>
+                        <option value="1" >是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 120px;text-align: center">显示审核人员</label>
+                <div class="layui-inline layui-show-xs-block" style="width: 184px">
+                    <select name="auditor">
+                        <option value="" placeholder="请选择"></option>
+                        <option value="1" >是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <div class="layui-inline layui-show-xs-block" style="display: none" id="BTitleDiv">
+                <label class="layui-form-label layui-bg-green" style="width: 125px;text-align: center">抬头名称</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" name="btitle" autocomplete="off"   style="width:490px;" id="BTitle">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="layui-inline layui-show-xs-block" style="display: none" id="HTitleDiv">
+            <label class="layui-form-label layui-bg-green" style="text-align: center; width: 130px; height: 100px; line-height: 81px">抬头名称说明</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea name="htitle" required lay-verify="required"  class="layui-textarea" style="width: 485px" id="HTitle"></textarea>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 20px; margin-left: 220px">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>生成
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
 
 
 

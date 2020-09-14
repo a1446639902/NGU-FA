@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
     <link type="text/css" rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <script type="text/javascript" src="../lib/layui/layui.js"></script>
     <!--下列表格要导入的文件-->
     <link rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
     <link rel="stylesheet" href="../lib/layuimini/css/public.css" media="all">
@@ -26,9 +26,9 @@
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 100px;text-align: center">调拨日期</label>
-                <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input" style="width: 150px" autocomplete="off" placeholder="请选择日期" name="end" id="start" >
-                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input"   placeholder="请选择日期" name="end" id="start" >
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -73,8 +73,8 @@
             var laydate = layui.laydate;
             //执行一个laydate实例
             laydate.render({
-                elem: '#start',//指定元素
-                });
+                elem: '#start'//指定元素
+            });
             //执行一个laydate实例
             laydate.render({
                 elem: '#end'//指定元素
@@ -86,7 +86,6 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
-                alert(formData);
                 $.post("../bankTreasurer/insertBankTreasurer",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
@@ -109,12 +108,12 @@
                         });
                     }
                 });
+                $("#addform")[0].reset();
                 return false;
             });
             //修改提交
             form.on('submit(editsubmit)', function(data){
                 var formData=$('#editform').serialize();
-                alert(formData);
                 $.post("../bankTreasurer/updateBankTreasurer",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
@@ -155,28 +154,28 @@
                         ,{field: 'accountId', title: '现金账户Id', width:120,align:'center',hide:true}
                         ,{field: 'accountName', title: '现金账户名称', width:120,align:'center'}
                         ,{field: 'allocatingType', title: '调拨类型', width:150,align:'center'
-                            ,templet:function (item) {
-                                if(item.allocatingType==1){
-                                    return '存款利息';
-                                }
-                                else if(item.allocatingType==2){
-                                    return  '申购赎回清算款';
-                                }
-                                else if(item.allocatingType==3){
-                                    return '买卖交易清算款';
-                                }
-                                else if(item.allocatingType==4){
-                                    return '债券利息';
-                                }
-                                else if(item.allocatingType==5){
-                                    return '存款业务';
-                                }
-                                else if(item.allocatingType==6){
-                                    return '两费';
-                                }
+                        ,templet:function (item) {
+                            if(item.allocatingType==1){
+                                return '存款利息';
+                            }
+                            else if(item.allocatingType==2){
+                                return  '申购赎回清算款';
+                            }
+                            else if(item.allocatingType==3){
+                                return '买卖交易清算款';
+                            }
+                            else if(item.allocatingType==4){
+                                return '债券利息';
+                            }
+                            else if(item.allocatingType==5){
+                                return '存款业务';
+                            }
+                            else if(item.allocatingType==6){
+                                return '两费';
+                            }
                         }}
                         ,{field: 'flag', title: '调拨方向', width: 120,align:'center'
-                            ,templet:function (item) {
+                        ,templet:function (item) {
                             if(item.flag==1){
                                 return '流入';
                             }
@@ -211,7 +210,6 @@
                         });
                         break;
                     case 'search':
-                        alert("搜索");
                         var dbTime=$("#start").val();
                         var allocatingType= $("#allocatingType").val();
                         var flag=$("#flag").val();
@@ -260,7 +258,6 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到删除行整行的数据
-                alert(data.bankTreasurerIds);
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
                         layer.close(index);

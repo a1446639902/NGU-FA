@@ -93,7 +93,7 @@
                 //console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
                 //console.log(data.field.statDate);
                 console.log($("#statDate").val());
-                alert(  "layid=" + layid);
+                // alert(  "layid=" + layid);
                 if(layid==11){
                     table.reload('userTable', {
                             url:'/RevenueProvision/selectRevenueProvision',
@@ -132,65 +132,110 @@
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
 
             });
-            table.on('toolbar(userTable)', function (obj) {
-                switch (obj.event) {
-                    //统计选中行
-                    case "tongJi":
-                        //获得选中的对象
-                        alert('统计');
-                        var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
-                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                        var cash = [];
-                        var dataArr = checkStatus.data; //获取选中行的数据
-                        $.each(dataArr, function (i, n) {
-                            cash.push(n);
-                        });
-                        alert(cash);
-                        if (dataArr.length == 0) {
-                            layer.msg("请先选中数据");
-                        }
-                        else {
-                            layer.confirm('真的统计么', function () {
-                                layer.close();
-                                //向服务端发送删除指令
-                                // $.post("../MarketData/deleteMarKetDate", "marketIds="+marketIds,function(msg){
-                                //     if(msg>0){
-                                //         table.reload('myTable');
-                                //         layer.closeAll();
-                                //         layer.msg('删除成功',{
-                                //             title : '提示',
-                                //             area : [ '200px',
-                                //                 '140px' ],
-                                //             time : 0,
-                                //             btn : [ '知道了' ]
-                                //         });
-                                //     }
-                                //     else{
-                                //         layer.closeAll();
-                                //         layer.msg('删除失败',{
-                                //             title : '提示',
-                                //             area : [ '200px',
-                                //                 '140px' ],
-                                //             time : 0,
-                                //             btn : [ '知道了' ]
-                                //         });
-                                //     }
-                                // });
-                                return false;
-                            });
-                        }
-                        break;
-                    default:
-                        break;
+
+            table.on('toolbar(userTable)', function(obj){
+                var data = obj.data;
+                if(obj.event==='tongJi'){
+                    layer.msg('开始统计');
                 }
             });
 
-        });
+            form.on('submit(tongJi)', function (data) {
+                //console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+                //console.log(data.field.statDate);
+                alert(  "layid=" + layid);
+                if(layid==11){
+                    var checkStatus = table.checkStatus("userTable"); // 获得选中行所有数据
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var cashs = [];
+                    var dataArr = checkStatus.data; //获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        cashs.push(n);
+                    });
+                    // alert(cashs);
+                   var cash = JSON.stringify(cashs);
+                    alert(cash);
 
+                            // layer.close();
+                            //向服务端发送删除指令
+                            $.post("/RevenueProvision/CountingCash", "cash="+cash,function(msg){
+                                if(msg>0){
+                                    // table.reload('myTable');
+                                    // layer.closeAll();
+                                    // layer.msg('删除成功',{
+                                    //     title : '提示',
+                                    //     area : [ '200px',
+                                    //         '140px' ],
+                                    //     time : 0,
+                                    //     btn : [ '知道了' ]
+                                    // });
+                                }
+                            });
+
+
+                    }else if(layid==22){
+                    var checkStatus = table.checkStatus("userTable2"); //idTest 即为基础参数 id 对应的值
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var Securitie = [];
+                    var dataArr = checkStatus.data; //获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        Securitie.push(n);
+                    });
+                    // alert(cashs);
+                    var Securities = JSON.stringify(Securitie);
+                    alert(Securities);
+
+                    // layer.close();
+                    //向服务端发送删除指令
+                    $.post("/RevenueProvision/StatisticalSecurities", "Securities="+Securities,function(msg){
+                        if(msg>0){
+                            // table.reload('myTable');
+                            // layer.closeAll();
+                            // layer.msg('删除成功',{
+                            //     title : '提示',
+                            //     area : [ '200px',
+                            //         '140px' ],
+                            //     time : 0,
+                            //     btn : [ '知道了' ]
+                            // });
+                        }
+                    });
+                }else{
+                    var checkStatus = table.checkStatus("userTable3"); //idTest 即为基础参数 id 对应的值
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var TwoFee = [];
+                    var dataArr = checkStatus.data; //获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        TwoFee.push(n);
+                    });
+                    // alert(cashs);
+                    var TwoFees = JSON.stringify(TwoFee);
+                    alert(TwoFees);
+
+                    // layer.close();
+                    //向服务端发送删除指令
+                    $.post("/RevenueProvision/StatisticalTwoFees", "TwoFees="+TwoFees,function(msg){
+                        if(msg>0){
+                            // table.reload('myTable');
+                            // layer.closeAll();
+                            // layer.msg('删除成功',{
+                            //     title : '提示',
+                            //     area : [ '200px',
+                            //         '140px' ],
+                            //     time : 0,
+                            //     btn : [ '知道了' ]
+                            // });
+                        }
+                    });
+                }
+
+            });
+        });
 
     </script>
 </head>
 <body>
+
 
 <div style="margin-top: 20px;margin-left: 10px">
     <form id="searchDate" class="layui-form layui-col-space5">
@@ -206,7 +251,7 @@
             </button>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn" lay-submit="" lay-event="tongJi"><i class="layui-icon layui-icon-table"></i>统计
+            <button class="layui-btn" lay-submit="" lay-event="tongJi" lay-filter="tongJi"><i class="layui-icon layui-icon-table"></i>统计
             </button>
         </div>
     </form>
@@ -248,9 +293,10 @@
         });
         element.on('tab(test1)', function () {
             layid = this.getAttribute('lay-id');
-            alert(layid);
+            // alert(layid);
 
         });
+
     });
 </script>
 </body>

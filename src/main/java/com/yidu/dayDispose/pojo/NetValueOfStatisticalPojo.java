@@ -9,6 +9,7 @@ package com.yidu.dayDispose.pojo;
  * @time2020-9-8
  **/
 public class NetValueOfStatisticalPojo {
+
     private String valueStatisticsDate; //统计日期
     private int projectId;              //项目编号
     private String projectName;         //项目名称

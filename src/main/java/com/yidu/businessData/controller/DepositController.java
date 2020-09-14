@@ -2,10 +2,12 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.DepositPojo;
 import com.yidu.businessData.service.DepositService;
+import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,9 +39,11 @@ public class DepositController {
         return hashMap;
     }
     @RequestMapping("/insertDeposit")
-    public int insertDeposit(DepositPojo depositPojo){
+    public int insertDeposit(DepositPojo depositPojo, HttpServletRequest request){
         System.out.println("存款业务的新增===========");
-        System.out.println(depositPojo);
+        String fundId = GetFundIdUtil.getFundId(request);
+        System.out.println(fundId);
+        depositPojo.setFundId(fundId);
         return depositService.insertDeposit(depositPojo);
     }
     @RequestMapping("/updateDeposit")

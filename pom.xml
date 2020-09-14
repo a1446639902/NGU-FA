@@ -98,13 +98,15 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.10-FINAL</version>
+        </dependency>
     </dependencies>
 
-
     <build>
-
         <resources>
-
             <!--注册Dao包目录下Mybatis映射文件资源目录-->
             <resource>
                 <directory>src/main/java</directory>

@@ -3,6 +3,7 @@ package com.yidu.businessData.controller;
 import com.yidu.businessData.pojo.CashClosedPayPojo;
 import com.yidu.businessData.service.CashClosedPayService;
 import com.yidu.businessParameter.pojo.VarietiesRatePojo;
+import com.yidu.dayDispose.pojo.RevenueProvision;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,4 +64,10 @@ public class CashClosedPayController {
         //返回数据
         return json;
     };
+    @RequestMapping("deleteNew")
+   public int deleteNew(CashClosedPayPojo cashClosedPay){
+        int i = cashClosedPayService.deleteNew(cashClosedPay);
+        return i;
+    }
+
 }
