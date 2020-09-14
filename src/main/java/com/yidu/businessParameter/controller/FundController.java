@@ -38,8 +38,6 @@ public class FundController {
     @RequestMapping("/insertFund")
     public int insertFund(Fund fund){
         System.out.println(fund);
-        fund.setManagerId("111111");
-        fund.setTrusteeBlank("111111");
         return fundService.insertFund(fund);
 
     }

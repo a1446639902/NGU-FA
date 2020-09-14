@@ -2,6 +2,7 @@ package com.yidu.inventoryManage.service;
 
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -39,5 +40,5 @@ public interface TaInventoryService {
     /**
      * 新增taInventory（Ta库存表）
      */
-    public void insertTaInventory(TaInventoryEntity taInventoryEntity);
+    public void insertTaInventory(HttpServletRequest request, TaInventoryEntity taInventoryEntity);
 }

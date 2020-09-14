@@ -29,6 +29,13 @@ public interface TaInventoryMapper {
     public List<TaInventoryEntity> selectDateTaInventory(String date);
 
     /**
+     * 根据日期删除的方法
+     * @param date
+     */
+    @Delete("delete taInventory where DATETIME=#{date}")
+    public void deleteDateInventory(String date);
+
+    /**
      * 根据ID删除taInventory（Ta库存表）
      */
     @Delete("delete from taInventory where taInventoryId=#{deleteId}")

@@ -26,7 +26,7 @@ public class Fund {
     private String fundName;		//基金名称
     private int fundType;           //1代表开放式基金 2代表封闭式基金
     private String managerId;		//Fk  管理人id  来自管理人表
-    private String trusteeBlank;	//FK  托管人id  来自托管人表
+    private String trusteeId;	//FK  托管人id  来自托管人表
     private Double initNetWorth;	//初始净值
     private Double  sizeOfThe;		//基金规模
     private Double  managerRate;	//管理人费率 年利率  ?/100
@@ -35,17 +35,33 @@ public class Fund {
     private String setUpDate;       //基金成立时间
     private String fundDesc;	    //备注
     private String  accountId;      //FK 账户信息表
-
+    private String managerName;
+    private String trusteeName;
     public Fund() {
     }
 
+    public String getManagerName() {
+        return managerName;
+    }
 
-    public Fund(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, Double initNetWorth, Double sizeOfThe, Double managerRate, Double hostingRate, int provisionDays, String setUpDate, String fundDesc, String accountId) {
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
+    public String getTrusteeName() {
+        return trusteeName;
+    }
+
+    public void setTrusteeName(String trusteeName) {
+        this.trusteeName = trusteeName;
+    }
+
+    public Fund(String fundId, String fundName, int fundType, String managerId, String trusteeId, Double initNetWorth, Double sizeOfThe, Double managerRate, Double hostingRate, int provisionDays, String setUpDate, String fundDesc, String accountId, String managerName, String trusteeName) {
         this.fundId = fundId;
         this.fundName = fundName;
         this.fundType = fundType;
         this.managerId = managerId;
-        this.trusteeBlank = trusteeBlank;
+        this.trusteeId = trusteeId;
         this.initNetWorth = initNetWorth;
         this.sizeOfThe = sizeOfThe;
         this.managerRate = managerRate;
@@ -54,6 +70,8 @@ public class Fund {
         this.setUpDate = setUpDate;
         this.fundDesc = fundDesc;
         this.accountId = accountId;
+        this.managerName = managerName;
+        this.trusteeName = trusteeName;
     }
 
     public String getFundId() {
@@ -88,12 +106,12 @@ public class Fund {
         this.managerId = managerId;
     }
 
-    public String getTrusteeBlank() {
-        return trusteeBlank;
+    public String getTrusteeId() {
+        return trusteeId;
     }
 
-    public void setTrusteeBlank(String trusteeBlank) {
-        this.trusteeBlank = trusteeBlank;
+    public void setTrusteeId(String trusteeId) {
+        this.trusteeId = trusteeId;
     }
 
     public Double getInitNetWorth() {
@@ -167,7 +185,7 @@ public class Fund {
                 ", fundName='" + fundName + '\'' +
                 ", fundType=" + fundType +
                 ", managerId='" + managerId + '\'' +
-                ", trusteeBlank='" + trusteeBlank + '\'' +
+                ", trusteeId='" + trusteeId + '\'' +
                 ", initNetWorth=" + initNetWorth +
                 ", sizeOfThe=" + sizeOfThe +
                 ", managerRate=" + managerRate +
@@ -176,6 +194,8 @@ public class Fund {
                 ", setUpDate='" + setUpDate + '\'' +
                 ", fundDesc='" + fundDesc + '\'' +
                 ", accountId='" + accountId + '\'' +
+                ", managerName='" + managerName + '\'' +
+                ", trusteeName='" + trusteeName + '\'' +
                 '}';
     }
 }

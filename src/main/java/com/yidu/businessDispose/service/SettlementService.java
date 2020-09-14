@@ -14,6 +14,6 @@ public interface SettlementService {
     public HashMap selectSettlement(int page, int limit,String status,String dateTime,String transactionDataMode);
     public int insertSettlement(Settlement settlement);
     public int deleteSettlement(String transactionDataId);
-    public int updateSettlement(String transactionDataIds,String status);
-
+    public int updateSettlement(String settlement);
+    public int updateSettlementTwo(String settlement);
 }

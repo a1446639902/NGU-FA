@@ -23,9 +23,10 @@ public class SecuritiesClosedPayController {
     @Resource
     SecuritiesClosedPayService securitiesClosedPayService;
     @RequestMapping("/selectSecuritiesClosedPay")
-    public HashMap selectSecuritiesClosedPay(int page,int limit){
+    public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime){
         System.out.println("xinzeng========================");
-        HashMap securitiesClosedPayMap = securitiesClosedPayService.selectSecuritiesClosedPay(page, limit);
+        System.out.println(dateTime);
+        HashMap securitiesClosedPayMap = securitiesClosedPayService.selectSecuritiesClosedPay(page, limit,dateTime);
         int count = (int) securitiesClosedPayMap.get("p_count");
         ArrayList<SecuritiesClosedPayPojo> securitiesClosedPayList = (ArrayList<SecuritiesClosedPayPojo>) securitiesClosedPayMap.get("p_cursor");
         HashMap hashMap = new HashMap<>();
@@ -39,15 +40,19 @@ public class SecuritiesClosedPayController {
     public int insertSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo, HttpServletRequest request){
         String fundId = GetFundIdUtil.getFundId(request);
         securitiesClosedPayPojo.setFundId(fundId);
+        System.out.println(securitiesClosedPayPojo);
         return securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
 
     }
     @RequestMapping("/updateSecuritiesClosedPay")
     public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo){
+        System.out.println(securitiesClosedPayPojo);
         return securitiesClosedPayService.updateSecuritiesClosedPay(securitiesClosedPayPojo);
     }
     @RequestMapping("/deleteSecuritiesClosedPay")
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds){
+        System.out.println("==============");
+        System.out.println(securitiesClosedPayIds);
         return securitiesClosedPayService.deleteSecuritiesClosedPay(securitiesClosedPayIds);
     }
 }

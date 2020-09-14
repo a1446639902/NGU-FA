@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * @author cai
+ * 管理人
  */
 @RestController
 @RequestMapping("manager")
@@ -17,8 +19,13 @@ public class ManagerController {
     @Resource
     ManagerService managerService;
     @RequestMapping("selectManager")
-    public List<Manager> selectManager(){
+    public HashMap selectManager(){
         List<Manager> managerList = managerService.selectManager();
-        return managerList;
+        HashMap hashMap = new HashMap();
+        hashMap.put("count",0);
+        hashMap.put("code",0);
+        hashMap.put("msg","");
+        hashMap.put("data",managerList);
+        return hashMap;
     }
 }
