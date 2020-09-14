@@ -37,6 +37,7 @@ public class EquityDataServiceImpl implements EquityDataService {
             //将id存入集合
             equityIdList.add(id);
         }
+
         return equityDataMapper.deleteEquityData(equityIdList);
     }
 

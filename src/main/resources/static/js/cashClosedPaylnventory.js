@@ -177,6 +177,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 
             case 'deleteAll':
                 var data = checkStatus.data;
+
                 if(data.length==0){
                     layer.msg("请至少选择一条数据",)
                 }else
@@ -187,7 +188,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                     }
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
                         layer.close(index);
-                        $.post("../deleteCashClosedPayInventory", {cashClosedPayInventoryId:ids.join(',')},function(msg){
+                        //layer.alert(JSON.stringify(data));
+                        $.post("../deleteCashClosedPaylnventory", {cashClosedPayInventoryId:ids.join(',')},function(msg){
                             table.reload('userTable');
                             layer.msg('删除'+checkStatus.data.length+'条记录', {
                                 title:'提示',
@@ -199,7 +201,6 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                     });
                 }
                 break;
-
         }
     });
     //给表格编辑，删除按钮添加点击事件

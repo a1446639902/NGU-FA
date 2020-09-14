@@ -3,6 +3,8 @@ package com.yidu.businessDispose.service.impl;
 import com.yidu.businessDispose.mapper.EquityDisposeMapper;
 import com.yidu.businessDispose.pojo.EquityDispose;
 import com.yidu.businessDispose.service.EquityDisposeService;
+import com.yidu.util.JsonUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,10 +13,11 @@ import java.util.List;
 import java.util.Map;
 @Service
 public class EquityDisposeServiceImpl implements EquityDisposeService {
+
     @Resource
     EquityDisposeMapper equityDisposeMapper;
     @Override
-    public Map<String, Object> selectEquityDispose(String pageSize, String page, String equitiesType, String equitiesExright) {
+    public Map<String, Object> selectEquityDispose(String pageSize, String page, String equitiesType, String equitiesExright,String disposeStatus) {
         //创建一个结果集Map用于存放两个结果变量
         Map<String, Object> resultMap = new HashMap<>();
         //定义一个分页条数变量
@@ -43,17 +46,26 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
             v_equitiesType=Integer.parseInt(equitiesType);
             sqlWhere.append("AND equitiesType LIKE  '%"+v_equitiesType+"%'");
         }
+        int Status;
+        if (disposeStatus != null && !disposeStatus.equals("")){
+            Status = Integer.parseInt(disposeStatus);
+            sqlWhere.append("AND disposeStatus LIKE  '%"+Status+"%'");
+        }
 
 
-        String p_tableName="(select equityDataId,securitiesName,accountName,equitiesType,equitiesExright,securitiesNum,proportion from equityData,securities,account,securitiesInventory)";
-
+        //多表查询
+        String p_tableName="(select ((SECURITIESNUM*qysj.PROPORTION)/100) as settlementAmount,SECURITIESID,qysj.EQUITYDATAID,qysj.EQUITIESTYPE,qysj.EQUITIESEXRIGHT,qysj.PROPORTION,qysj.DISPOSESTATUS,qysj.SECURITYID,zjkc.SECURITIESNUM " +
+                "from (select * from "+SysTableNameListUtil.SI+") zjkc " +
+                "full join (select PROPORTION,SECURITYID,EQUITYDATAID,EQUITIESTYPE,EQUITIESEXRIGHT,DISPOSESTATUS " +
+                "from "+SysTableNameListUtil.ED+") qysj " +
+                "on qysj.SECURITYID=zjkc.SECURITIESID)";
 
         //创建一个Map，用于存储过程的调用传值
         Map<String,Object> map = new HashMap<>();
         //传入存储过程需要的查询的表名
         map.put("p_tableName",p_tableName);
         //传入查询条件
-        map.put("p_condition","");
+        map.put("p_condition",sqlWhere.toString());
         //传入分页显示条数
         map.put("p_pageSize",v_pageSize);
         //传入分页页码
@@ -76,4 +88,20 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
         return resultMap;
 
     }
-}
+
+    @Override
+    public int updateEquityDispose(String equityDisPose) {
+        List<EquityDispose> equityDisposeList = JsonUtil.jsonToArrayList(equityDisPose, EquityDispose.class);
+        for (EquityDispose equityDispose2 : equityDisposeList) {
+            int disposeStatus = equityDispose2.getDisposeStatus();
+            String equityDataId = equityDispose2.getEquityDataId();
+            if (disposeStatus==0){
+                equityDisposeMapper.updateEquityDispose(equityDataId,1);
+            }else if (disposeStatus==1){
+                equityDisposeMapper.updateEquityDispose(equityDataId,0);
+            }
+        }
+        return 1;
+    }
+    }
+
