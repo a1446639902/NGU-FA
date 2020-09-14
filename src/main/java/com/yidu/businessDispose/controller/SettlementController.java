@@ -35,14 +35,12 @@ public class SettlementController {
             List<Settlement> settlementList = (List<Settlement>) hashMap.get("p_cursor");
             System.out.println("总条数："+count);
             System.out.println("page="+page+",limit="+limit+",status="+status+",dateTime="+dateTime+",transactionDataMode="+transactionDataMode);
-
             HashMap settMap = new HashMap();
             settMap.put("count",count);
             settMap.put("code",0);
             settMap.put("msg","");
             settMap.put("data", settlementList);
-            System.out.println("shuju"+ settlementList);
-            System.out.println("交易："+ settlementList.size());
+            System.out.println("查询数据"+ settlementList);
             return settMap;
 
         }
@@ -60,7 +58,12 @@ public class SettlementController {
         }
 
         @RequestMapping("/updateSettlement")
-        public int updateTransactionData(String transactionDataIds,String status){
-            return settlementService.updateSettlement(transactionDataIds,status);
+        public int updateTransactionData(String settlement){
+            return settlementService.updateSettlement(settlement);
+        }
+
+        @RequestMapping("/updateTwoSettlement")
+        public int updateTwoTransactionData(String settlement){
+            return settlementService.updateSettlementTwo(settlement);
         }
     }

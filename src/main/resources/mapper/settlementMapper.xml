@@ -49,19 +49,11 @@
          delete from transactionData where transactionDataId=#{transactionDataId}
     </delete>
 
-    <update id="updateSettlement" parameterType="list">
-        update transactionData set status=1 where transactionDataId in
-        <foreach collection="list" item="transactionDataId" open="("
-                 separator="," close=")">
-        #{transactionDataId}
-        </foreach>
-    </update>
-    <update id="updateSettlementTwo" parameterType="list">
-        update transactionData set status=0 where transactionDataId in
-        <foreach collection="list" item="transactionDataId" open="("
-                 separator="," close=")">
-            #{transactionDataId}
-        </foreach>
+    <update id="updateSettlement">
+        update transactionData set status=#{param1} where transactionDataId=#{param2}
     </update>
 
+    <update id="updateSettlementTwo">
+        update transactionData set status=#{param1} where transactionDataId=#{param2}
+    </update>
 </mapper>

@@ -18,6 +18,6 @@ public interface SettlementMapper {
         public void selectSettlement(HashMap hashMap);
         public int insertSettlement(Settlement settlement);
         public int deleteSettlement(String transactionDataId);
-        public int updateSettlement(List transactionDataIdList);
-        public int updateSettlementTwo(List transactionDataIdList);
+        public int updateSettlement(int status,String transactionDataId);
+        public int updateSettlementTwo(int status,String transactionDataId);
     }
