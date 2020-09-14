@@ -28,10 +28,9 @@ public class InventoryController {
      */
     @RequestMapping("/selectInventory")
     public HashMap selectInventory(HttpServletRequest request,String dateTime3,String invId){
-        //获得基金id
-        String fundId = GetFundIdUtil.getFundId(request);
 
-        List<InventoryEntity> inventoryEntities = inventoryService.selectInventory(dateTime3,invId);
+
+        List<InventoryEntity> inventoryEntities = inventoryService.selectInventory(request,dateTime3,invId);
         HashMap userMap = new HashMap();
         userMap.put("count",10);
         userMap.put("code",0);

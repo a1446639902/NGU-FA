@@ -13,8 +13,12 @@
         update cashClosedPay set accountId=#{accountId},serviceType=#{serviceType},amount=#{amount},dateTime=#{dateTime},flag=#{flag} where cashClosedPayId=#{cashClosedPayId}
     </update>
 
-    <delete id="deleteCashClosedPay" parameterType="String">
-        delete from cashClosedPay where cashClosedPayId=#{cashClosedPayId}
+    <delete id="deleteCashClosedPay" parameterType="list">
+        delete from fund where fundId in
+        <foreach collection="list" item="cashClosedPayId" open="("
+                 separator="," close=")">
+            #{cashClosedPayId}
+        </foreach>
     </delete>
 
     <select id="selectCashClosedPay" parameterType="java.util.Map" statementType="CALLABLE">

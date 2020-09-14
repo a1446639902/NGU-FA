@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
     <link rel="stylesheet" href="../lib/layuimini/css/public.css" media="all">
     <link type="text/css" rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <!--    日期渲染-->
+    <script>
+        layui.use('laydate', function(){
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#test1' //指定元素
+            });
+        });
+    </script>
     <style>
         .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
             height: 34px;
@@ -18,6 +27,7 @@
     </style>
 </head>
 <body>
+<script type="text/html" id="userToolBar">
 <div class="layuimini-container">
     <div class="layuimini-main">
         <div>
@@ -25,46 +35,74 @@
                 <button class="layui-btn" id="btn-expand">全部展开</button>
                 <button class="layui-btn layui-btn-normal" id="btn-fold">全部折叠</button>
             </div>
-            <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">统计日期</label>
+
+            </div>
+            <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                <input type="text" class="layui-input" id="test1">
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
+                </button>
+            </div>
         </div>
     </div>
 </div>
-<!-- 操作列 -->
-<script type="text/html" id="auth-state">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<table id="myTable" class="layui-table" lay-filter="myTable"></table>
 <script>
-    layui.use(['table', 'treetable'], function () {
+    layui.use(['table', 'treetable','laydate'], function () {
         var $ = layui.jquery;
         var table = layui.table;
         var treetable = layui.treetable;
-
+        var laydate = layui.laydate;
         // 渲染表格
         layer.load(2);
         treetable.render({
+            toolbar: '#userToolBar',//开启头部工具栏，并为其绑定左侧模板
             treeColIndex: 1,
-            treeSpid: -1,
+            treeSpid: 0,
             treeIdName: 'projectId',
             treePidName: 'projectFatherId',
-            elem: '#munu-table',
+            elem: '#myTable',
             url: '../NetValueOfStatistical/selectNetValueOfStatisticalController',
             page: false,
             cols: [
                 [
                 {type: 'numbers'},
-                {field: 'authorityName', minWidth: 200, title: 'projectName'},
-                {field: 'projectName', title: '项目代码/账户号'},
+                {field: 'projectName', minWidth: 200, title: '项目名称'},
+                {field: 'projectCode', title: '项目代码/账户号'},
                 {field: 'cost',  align: 'center', title: '成本'},
                 {field: 'peice', align: 'center', title: '行情'},
                 {field: 'quantityint',  align: 'center', title: '股数'},
                 {field: 'marketValue',  align: 'center', title: '市值'},
-                {field: 'valuation',  align: 'center', title: '估值增值'},
-                {templet: '#auth-state',  align: 'center', title: '操作'}
+                {field: 'valuation',  align: 'center', title: '估值增值'}
             ]
             ],
             done: function () {
                 layer.closeAll('loading');
+            }
+        });
+
+        // 给按钮增加添加事件
+        table.on('toolbar(myTable)', function (obj) {
+            switch (obj.event) {
+                case 'search':
+                    alert("搜索");
+                    var test1= $("#test1").val();
+                    alert(test1);
+                    //表格的重新加载事件
+                    table.reload('myTable', {
+                        method: 'post'
+                        , where: {
+                            'test1': test1
+                        }
+                        , page: {
+                            curr: 1
+                        }
+                    });
+                    break;
             }
         });
 

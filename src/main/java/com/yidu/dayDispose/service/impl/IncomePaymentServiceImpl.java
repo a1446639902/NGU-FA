@@ -55,13 +55,12 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         }
         //得到请求中的session中的fundId
         String fundId = GetFundIdUtil.getFundId(request);
-        // and c.fundId='"+fundId+"'
-
-
+//        接收页面传来得日期
         if (businessDate != null && !businessDate.equals("")) {
+
             System.out.println("现金传回来的日期:=" + businessDate);
         } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             businessDate = sdf.format(date);
             System.out.println("转换之后的日期:=" + businessDate);
@@ -69,8 +68,8 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
 
-        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId="+fundId+" and businessType=3 and businessDate = to_char(" +
-                "(to_date(" + businessDate + ",'yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on a.accountId=cci.accountId)");
+        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='"+fundId+"' and businessType=3 and businessDate = to_char(" +
+                "(to_date('" + businessDate + "','yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on a.accountId=cci.accountId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
         map.put("p_page", v_page);
@@ -81,6 +80,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        for (IncomePaymentPojo incomePayment : IncomePayments) {
+            incomePayment.setBusinessDate(businessDate);
+        }
         //接收返回总条数
         int count = (int) map.get("p_count");
         //将结果放入结果集Map
@@ -113,15 +115,15 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         if (businessDate != null && !businessDate.equals("")) {
             System.out.println("证券传回来的日期:=" + businessDate);
         } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             businessDate = sdf.format(date);
             System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-        map.put("p_tableName", "(select * from (select * from securitiesClosedPayInventory where fundId="+fundId+" and securitiesType=3 and DATETIME=to_char(" +
-                "(to_date(" + businessDate + ",'yyyy-MM-dd')-1),'yyyy-MM-dd'))sci join securities s on sci.securitiesId=s.securitiesId)");
+        map.put("p_tableName", "(select * from (select * from securitiesClosedPayInventory where fundId='"+fundId+"' and securitiesType=3 and DATETIME=to_char(" +
+                "(to_date('" + businessDate + "','yyyy-MM-dd')-1),'yyyy-MM-dd'))sci join securities s on sci.securitiesId=s.securitiesId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
         map.put("p_page", v_page);
@@ -132,6 +134,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        for (IncomePaymentPojo incomePayment : IncomePayments) {
+            incomePayment.setBusinessDate(businessDate);
+        }
         //接收返回总条数
         int count = (int) map.get("p_count");
         //将结果放入结果集Map
@@ -164,15 +169,15 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         if (businessDate != null && !businessDate.equals("")) {
             System.out.println("两费传回来的日期:=" + businessDate);
         } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             businessDate = sdf.format(date);
             System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId="+fundId+" and businessType=1 or businessType=2 and businessDate " +
-                "= to_char((to_date(" + businessDate + ",'yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on cci.accountId=a.accountId)");
+        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='"+fundId+"' and businessType=1 or businessType=2 and businessDate " +
+                "= to_char((to_date('" + businessDate+"','yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on cci.accountId=a.accountId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
         map.put("p_page", v_page);
@@ -183,6 +188,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        for (IncomePaymentPojo incomePayment : IncomePayments) {
+            incomePayment.setBusinessDate(businessDate);
+        }
         //接收返回总条数
         int count = (int) map.get("p_count");
         //将结果放入结果集Map

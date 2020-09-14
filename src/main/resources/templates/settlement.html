@@ -77,7 +77,6 @@
                             }
                         }
                     }
-                        ,{field: 'operation', title: '操作' , width: 160, align:'center',toolbar:'#barDemo'}
                     ]
                 ]
             });
@@ -123,7 +122,6 @@
                             }
                         }
                     }
-                        ,{field: 'operation', title: '操作' , width: 160, align:'center',toolbar:'#barDemo'}
                     ]
                 ]
             });
@@ -135,32 +133,17 @@
                         //获得选中的对象
                         var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                        var transactionDataIds = [];
+
                         var dataArr = checkStatus.data; //获取选中行的数据
-                        $.each(dataArr, function (i, n) {
-                            transactionDataIds.push(n.transactionDataId);
-                        });
+                        var settlement=JSON.stringify(dataArr);
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
                         }
                         else {
-                           /* layer.confirm('真的要结算嘛',{icon: 2}, function(index){
-                                layer.close(index);
-                                $.post("../seateDelete", {seateId:ids.join(',')},function(msg){
-                                    table.reload('userTable');
-                                    layer.msg('删除'+checkStatus.data.length+'条记录', {
-                                        title:'提示',
-                                        area: ['200px', '140px'],
-                                        time: 0,
-                                        btn: ['知道了']
-                                    });
-                                });
-                            });*/
                             layer.confirm('真的要结算嘛', function () {
-                                alert("结算=========================");
-                              //  layer.close();
-                                //向服务端发送删除指令
-                                $.post("../Settlement/updateSettlement?status=0","transactionDataIds="+transactionDataIds,function(msg){
+                                alert(settlement)
+                                //向服务端发送结算指令
+                                $.post("../Settlement/updateSettlement","settlement="+settlement,function(msg){
                                     if(msg>0){
                                         table.reload('userTable');
                                         table.reload('userTable2');  /!*渲染刷新*!/
@@ -211,11 +194,8 @@
                         //获得选中的对象
                         var checkStatus = table.checkStatus("userTable2"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                        var transactionDataIds = [];
                         var dataArr = checkStatus.data; //获取选中行的数据
-                        $.each(dataArr, function (i, n) {
-                            transactionDataIds.push(n.transactionDataId);
-                        });
+                        var settlement=JSON.stringify(dataArr);
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
                         }
@@ -223,7 +203,7 @@
                             layer.confirm('真的要反结算嘛', function () {
                                 layer.close();
                                 //向服务端发送删除指令
-                                $.post("../Settlement/updateSettlement?status=1","transactionDataIds="+transactionDataIds,function(msg){
+                                $.post("../Settlement/updateTwoSettlement","settlement="+settlement,function(msg){
                                     if(msg>0){
                                         table.reload('userTable2');
                                         table.reload('userTable');  /*渲染刷新*/

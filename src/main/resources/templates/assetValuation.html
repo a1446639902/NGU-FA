@@ -29,49 +29,45 @@
             $('.cancel').click(function(){
                 layer.closeAll();
             });
+
+            // table.render({
+            //     elem: '#myTable' //实例化表格的ID名称
+            //     , url: '/Appraisement/selectValuationProcessing' //接收JSON数据的路径
+            //     , toolbar: '#userToolBar' //开启头部工具栏，并为其绑定左侧模板
+            //     , title: '用户数据表'//表格名称
+            //     , cellMinWidth: 100
+            //     , cols: [
+            //         [ //表头既列名  title列名名称
+            //             {type: 'checkbox', fixed: 'left'}
+            //             , {field: 'status', title: '业务类型', align: 'center'}
+            //             , {field: 'statusName', title: '状态', align: 'center'}
+            //
+            //         ]
+            //     ]
+            //     , page: true//开启分页
+            // });
             table.render({
                 elem : '#mytable',
-                url : 'appraisementController/selectAppraisementState',
-                //data:dataz,
+                url : '/Appraisement/selectValuationProcessing',
                 page : true,
                 limit : 8,
                 height : 498,
                 toolbar : '#toolbarDemo',
-                limits : [ 9, 18, 27, 36 ],
-                skin: 'row',
-                even: true,
-                /*done:function(res){
-                    $.each(res,function(index,item){
-                    console.log(item)
-                    var strSub= [];
-                    for(var i=0;i<item.length;i++){
-                        if(item[i].strAppraisement != null){
-                            strSub=item[i].strAppraisement.split(',');
-                            for(var j=0;j<strSub.length;j++){
-                                if(strSub[i] ==1){
-                                    item[i].checked = true;
-                                }
-                                if(strSub[i] ==2){
-                                    item[i].checked = true;
-                                }
-                            }
-                        }
-                        }
-                    })
-                },*/
-                cols : [ [
-                    {
-                        field:'appraisementId',
-                        checkbox:true
-                    }, {
-                        field : 'appraisemenType',
+                cols : [
+                    [
+
+                        {type: 'checkbox', fixed: 'left'}
+                    , {
+                        field : 'status',
                         align: 'center',
                         title : '业务类型'
                     }, {
-                        field : 'state',
+                        field : 'statusName',
                         align: 'center',
                         title : '状态'
-                    }] ]
+                    }
+                    ]
+                ]
             });
 
             laydate.render({
@@ -159,14 +155,31 @@
                             }else{
                                 var strJson = [];
                                 for (var i = 0; i < data.length; i++) {
-                                    strJson.push(data[i].appraisementId)
+                                    strJson.push(data[i])
                                 }
+                                alert(strJson);
+                               var arrJson = JSON.stringify(strJson);
+                               alert(arrJson);
                                 layer.confirm('是否确认估值？', {
                                     btn: ['确认','取消'] ,//按钮
                                     icon:1
                                 }, function(){
                                     layer.closeAll('dialog');
-                                    $.post('appraisementController/selectAllAppraisement',{toDay:toDay,strAppraisement:strJson.join(",")},function(res){
+                                    // $.post("/Appraisement/startValuation", "cash="+cash,function(msg){
+                                    //     if(msg>0){
+                                    //         // table.reload('myTable');
+                                    //         // layer.closeAll();
+                                    //         // layer.msg('删除成功',{
+                                    //         //     title : '提示',
+                                    //         //     area : [ '200px',
+                                    //         //         '140px' ],
+                                    //         //     time : 0,
+                                    //         //     btn : [ '知道了' ]
+                                    //         // });
+                                    //     }
+                                    // });
+
+                                    $.post('/Appraisement/startValuation',{toDay:toDay,arrJson:arrJson},function(res){
                                         if(res.appraisementsList == ''){
                                             //边缘弹出
                                             layer.open({
@@ -244,6 +257,8 @@
                         */
                             }
                         }
+                        break;
+                    default:
                         break;
                 }
             });

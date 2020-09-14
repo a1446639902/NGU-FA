@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>权益数据</title>
+    <title>layUi入门</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <!--<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" /-->>
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="../css/font.css">
     <link rel="stylesheet" href="../css/xadmin.css">
-    <link rel="stylesheet" href="../css/theme9.css">
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -18,13 +17,14 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 
     <link rel="stylesheet" href="../lib/layui/css/layui.css">
-
-
-    <script src="../lib/layui/layui.js"></script>
+    <link rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layuimini/css/public.css" media="all">
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm layui-bg-green" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加数据</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
@@ -59,12 +59,12 @@
 
     <script type="text/javascript">
 
-        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+        layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], function () {
             var layer = layui.layer;
             var $ = layui.$;
             var table = layui.table;
             var form = layui.form;
-            var formSelects = layui.formSelects;
+            var tableSelect = layui.tableSelect;
             var laydate = layui.laydate;
 
             //执行一个laydate实例
@@ -102,6 +102,106 @@
             laydate.render({
                 elem: '#receivedDate2'
             })
+//新增证券下拉选择器
+            tableSelect.render({
+                elem: '#securityName'
+                , checkedKey: 'securityId'
+                , table: {
+                    url: '../selectEquityData'
+                    , cols: [
+                        [
+                            {type: 'radio'},
+                            {field: 'securityId', title: '证券ID',width:250},
+                            {field: 'securitiesName', title: '证券名称',width: 250},
+                        ]
+                    ]
+                }
+                , done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.securitiesName)
+                        console.log(item.securityId)
+                        $("#securityId").val(item.securityId);
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+            //新增账户名称下拉选择器
+            tableSelect.render({
+                elem: '#accountName',
+                checkedKey: 'accountId',
+                table: {
+                    url: '../account/selectAccount',
+                    cols: [
+                        [
+                            {type: 'radio'},
+                            {field: 'accountId', title: '账户编号', width:250},
+                            {field: 'accountName', title: '账户名称', width:250}
+                        ]
+                    ]
+                },
+                done: function (elem, data) {
+                    var NEWJSON=[]
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.accountName)
+                        console.log(item.accountId)
+                        $("#accountId").val(item.accountId);
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+            //修改证券下拉选择器
+            tableSelect.render({
+                elem: '#securityName2'
+                , checkedKey: 'securityId'
+                , table: {
+                    url: '../selectEquityData'
+                    , cols: [
+                        [
+                            {type: 'radio'},
+                            {field: 'securityId', title: '证券ID',width:250},
+                            {field: 'securitiesName', title: '证券名称',width: 250},
+                        ]
+                    ]
+                }
+                , done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.securitiesName)
+                        console.log(item.securityId)
+                        $("#securityId2").val(item.securityId);
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+            //修改账户名称下拉选择器
+            tableSelect.render({
+                elem: '#accountName2',
+                checkedKey: 'accountId',
+                table: {
+                    url: '../account/selectAccount',
+                    cols: [
+                        [
+                            {type: 'radio'},
+                            {field: 'accountId', title: '账户编号', width:250},
+                            {field: 'accountName', title: '账户名称', width:250}
+                        ]
+                    ]
+                },
+                done: function (elem, data) {
+                    var NEWJSON=[]
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.accountName)
+                        console.log(item.accountId)
+                        $("#accountId2").val(item.accountId);
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
 
             //新增提交
             form.on('submit(addsubmit)', function(data){
@@ -161,7 +261,7 @@
                 elem: '#userTable',
                 url: '../selectEquityData',
                 page: true,
-                height: 500,
+                height: 'full-30',
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
                 cols: [
@@ -207,13 +307,14 @@
                             type: 1,
                             title: '添加数据信息',
                             closeBtn: 1,
+                            area: ['893px', '550px'],
                             move:false,
                             content:$("#addContent"),
                             btn:[]
                         });
                         form.render();
                         //全屏
-                        layer.full(index);
+
                         break;
                     case 'search':
                         alert("搜索");
@@ -278,17 +379,20 @@
                         title: '修改权益数据',
                         closeBtn: 1,
                         move:false,
-                        area: ['500px', '400px'],
+                        area: ['893px', '550px'],
                         content:$('#editContent')
                     });
                     form.render();
-                    layer.full(index);
+
                 };
             })
         });
         function myclose() {
-            parent.layer.closeAll();
+            layer.closeAll();
         }
+
+
+
     </script>
 </head>
 <body style="overflow: auto; background-color: white;"
@@ -335,7 +439,7 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入证券名称" name="securitiesName">
+                <input class="layui-input" placeholder="请输入证券名称" name="securityName" id="securityName">
             </div>
         </div>
         <br>
@@ -396,12 +500,12 @@
         <div class="layui-inline layui-show-xs-block" style="float: left">
             <label class="layui-form-label layui-bg-green" style="text-align: center">账户名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入账户名称" name="accountName">
+                <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName">
             </div>
         </div>
 
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 10px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -443,7 +547,7 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入证券名称" name="securitiesName">
+                <input class="layui-input" placeholder="请输入证券名称" name="securityName" id="securityName2">
             </div>
         </div>
         <br>
@@ -504,12 +608,12 @@
         <div class="layui-inline layui-show-xs-block" style="float: left">
             <label class="layui-form-label layui-bg-green" style="text-align: center">账户名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入账户名称" name="accountName">
+                <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName2">
             </div>
         </div>
 
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 10px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>编辑
             </button>

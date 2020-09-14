@@ -28,6 +28,13 @@ public interface CashInventoryMapper {
     public void deleteCashInventor(String userId);
 
     /**
+     * 根据日期删除的方法
+     * @param date
+     */
+    @Delete("delete CASHINVENTORY where DATETIME=#{date}")
+    public void deleteDateInventor(String date);
+
+    /**
      * 新增的mapper
      */
     @Insert("insert into cashInventory values (#{cashInventoryId},#{fundId},#{cashBlance},#{accountId},#{dateTime},#{securitiesNum},#{securityPeriodFlag},#{cashInventoryDesc})")

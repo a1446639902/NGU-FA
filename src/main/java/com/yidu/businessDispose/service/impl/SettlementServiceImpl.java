@@ -4,12 +4,18 @@ import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessDispose.mapper.SettlementMapper;
 import com.yidu.businessDispose.pojo.Settlement;
 import com.yidu.businessDispose.service.SettlementService;
+import com.yidu.cashControl.mapper.BankTreasurerMapper;
+import com.yidu.cashControl.pojo.BankTreasurerPojo;
+import com.yidu.util.DbUtil;
+import com.yidu.util.JsonUtil;
+import com.yidu.util.SysTableNameListUtil;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Tmac
@@ -21,6 +27,10 @@ public class SettlementServiceImpl implements SettlementService {
     @Resource
     SettlementMapper settlementMapper;
 
+    @Resource
+    BankTreasurerMapper bankTreasurerMapper;
+    @Resource
+    DbUtil dbUtil;
     @Override
     public HashMap selectSettlement(int page, int limit,String status,String dateTime,String transactionDataMode) {
         StringBuffer sqlWhere = new StringBuffer();
@@ -61,20 +71,48 @@ public class SettlementServiceImpl implements SettlementService {
     public int deleteSettlement(String transactionDataId) {
         return settlementMapper.deleteSettlement(transactionDataId);
     }
-
+    //结算修改状态添加资金调拨
     @Override
-    public int updateSettlement(String transactionDataIds,String status) {
-        ArrayList transactionDataIdList = new ArrayList<>();
-        String[] split = transactionDataIds.split(",");
-        for (String transactionDataId : split) {
-                transactionDataIdList.add(transactionDataId);
+    public int updateSettlement(String settlement) {
+        List<Settlement> settlementList = JsonUtil.jsonToArrayList(settlement, Settlement.class);
+        for (Settlement settlement1 : settlementList) {
+            BankTreasurerPojo bankTreasurerPojo = new BankTreasurerPojo();
+            bankTreasurerPojo.setBankTreasurerId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT));
+            bankTreasurerPojo.setFundId(settlement1.getFundId());
+            bankTreasurerPojo.setTotalPrice(settlement1.getTotalSum());
+            bankTreasurerPojo.setAccountId(settlement1.getAccountId());
+            bankTreasurerPojo.setAccountName(settlement1.getAccountName());
+            bankTreasurerPojo.setFlag(1);
+            bankTreasurerPojo.setDbTime(settlement1.getDateTime());
+            bankTreasurerPojo.setDateTime(settlement1.getSettlementDate());
+            bankTreasurerPojo.setBusinessId(settlement1.getTransactionDataId());
+            bankTreasurerPojo.setAllocatingType(4);
+            settlement1.setTransactionDataDesc("我爱你");
+            bankTreasurerPojo.setBankTreasurerDesc(settlement1.getTransactionDataDesc());
+            int status = settlement1.getStatus();
+            String transactionDataId = settlement1.getTransactionDataId();
+            if (status==0){
+                settlementMapper.updateSettlement(1,transactionDataId);
+                bankTreasurerMapper.insertBankTreasurer(bankTreasurerPojo);
+            }
+            System.out.println(bankTreasurerPojo);
         }
-        System.out.println(transactionDataIdList);
-        if(status.equals("0")) {
-            return settlementMapper.updateSettlement(transactionDataIdList);
-        }else {
-            return settlementMapper.updateSettlementTwo(transactionDataIdList);
+        return 1;
+    }
+    //反结算修改状态删除资金调拨
+    @Override
+    public int updateSettlementTwo(String settlement) {
+        List<Settlement> settlementList = JsonUtil.jsonToArrayList(settlement, Settlement.class);
+        for (Settlement settlement1 : settlementList) {
+            System.out.println(settlement1);
+            int status = settlement1.getStatus();
+            String transactionDataId = settlement1.getTransactionDataId();
+            System.out.println(status);
+            if (status==1){
+                settlementMapper.updateSettlementTwo(0,transactionDataId);
+                bankTreasurerMapper.deleteBankTreasurerByBusinessId(transactionDataId);
+            }
         }
-
+        return 1;
     }
 }

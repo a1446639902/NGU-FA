@@ -8,7 +8,7 @@
         <result property="fundName" column="fundName" javaType="String"></result>
         <result property="fundType" column="fundType" javaType="Integer"></result>
         <result property="managerId" column="managerId" javaType="String"></result>
-        <result property="trusteeBlank" column="trusteeBlank" javaType="String"></result>
+        <result property="trusteeId" column="trusteeId" javaType="String"></result>
         <result property="initNetWorth" column="initNetWorth" javaType="Double"></result>
         <result property="sizeOfThe" column="sizeOfThe" javaType="Double"></result>
         <result property="managerRate" column="managerRate" javaType="Double"></result>
@@ -17,13 +17,15 @@
         <result property="setUpDate" column="setUpDate" javaType="String"></result>
         <result property="fundDesc" column="fundDesc" javaType="String"></result>
         <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="managerName" column="managerName" javaType="String"></result>
+        <result property="trusteeName" column="trusteeName" javaType="String"></result>
     </resultMap>
     <select id="selectFund"  parameterType="map" statementType="CALLABLE">
           {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=fundMapper})}
     </select>
 
     <insert id="insertFund" parameterType="com.yidu.businessParameter.pojo.Fund">
-       insert into fund (fundId,fundName,fundType,managerId,trusteeBlank,initNetWorth,sizeOfThe,managerRate,hostingRate,provisionDays,setUpDate,fundDesc,accountId)values(#{fundId},#{fundName},#{fundType},#{managerId},#{trusteeBlank},#{initNetWorth},#{sizeOfThe},#{managerRate},#{hostingRate},#{provisionDays},#{setUpDate},#{fundDesc},#{accountId})
+       insert into fund (fundId,fundName,fundType,managerId,trusteeId,initNetWorth,sizeOfThe,managerRate,hostingRate,provisionDays,setUpDate,fundDesc,accountId)values(#{fundId},#{fundName},#{fundType},#{managerId},#{trusteeId},#{initNetWorth},#{sizeOfThe},#{managerRate},#{hostingRate},#{provisionDays},#{setUpDate},#{fundDesc},#{accountId})
     </insert>
 
     <delete id="deleteFund" parameterType="list">
@@ -36,7 +38,7 @@
 
     <update id="updateFund" parameterType="com.yidu.businessParameter.pojo.Fund">
         update fund set fundName=#{fundName},fundType=#{fundType},managerId=#{managerId},
-    trusteeBlank=#{trusteeBlank},initNetWorth=#{initNetWorth},sizeOfThe=#{sizeOfThe},
+    trusteeId=#{trusteeId},initNetWorth=#{initNetWorth},sizeOfThe=#{sizeOfThe},
     managerRate=#{managerRate},hostingRate=#{hostingRate},provisionDays=#{provisionDays},
     setUpDate=#{setUpDate},fundDesc=#{fundDesc},accountId=#{accountId}
     where fundId=#{fundId}

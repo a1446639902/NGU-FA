@@ -77,19 +77,19 @@
             });
 
 
-            //基金管理公司下拉表单
+            //添加基金管理公司下拉表单
             tableSelect.render({
                 elem:'#managerName'
                 ,checkedKey:'managerId'
                 ,table:{
-                    url:'../selectSecurities'
+                    url:'../manager/selectManager'
                     ,cellMinWidth: 60
                     ,cols:[
                         [
                             {type:'checkbox'},
-                            {field:'securitiesId',title:'管理人Id'},
-                            {field: 'securitiesName',title:'管理人名称'},
-                            {field: 'securitiesType',title: '管理费率'}
+                            {field:'managerId',title:'管理人Id'},
+                            {field: 'managerName',title:'管理人名称'},
+                            {field: 'managerFee',title: '管理费率'}
 
                         ]
                     ]
@@ -97,26 +97,26 @@
                 ,done:function (elem,data) {
                     var NEWJSON = [];
                     layui.each(data.data,function (index,item) {
-                        NEWJSON.push(item.accountName);
-                        $("#accountId").val(item.accountId);
+                        NEWJSON.push(item.managerName);
+                        $("#managerId").val(item.managerId);
                     })
                     elem.val(NEWJSON.join(","));
 
                 }
             })
-            //基金托管银行公司下拉表单
+            //添加基金托管银行公司下拉表单
             tableSelect.render({
                 elem:'#trusteeName'
                 ,checkedKey:'trusteeId'
                 ,table:{
-                    url:'../selectSecurities'
+                    url:'../trustee/selectTrustee'
                     ,cellMinWidth: 60
                     ,cols:[
                         [
                             {type:'checkbox'},
                             {field:'trusteeId',title:'托管人Id'},
                             {field: 'trusteeName',title:'托管人名称'},
-                            {field: 'trusteeType',title: '托管费率'}
+                            {field: 'trusteeFee',title: '托管费率'}
 
                         ]
                     ]
@@ -124,13 +124,73 @@
                 ,done:function (elem,data) {
                     var NEWJSON = [];
                     layui.each(data.data,function (index,item) {
-                        NEWJSON.push(item.accountName);
-                        $("#accountId").val(item.accountId);
+                        NEWJSON.push(item.trusteeName);
+                        $("#trusteeId").val(item.trusteeId);
                     })
                     elem.val(NEWJSON.join(","));
 
                 }
             })
+
+            //修改基金管理公司下拉表单
+            tableSelect.render({
+                elem:'#managerName2'
+                ,checkedKey:'managerId'
+                ,table:{
+                    url:'../manager/selectManager'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'checkbox'},
+                            {field:'managerId',title:'管理人Id'},
+                            {field: 'managerName',title:'管理人名称'},
+                            {field: 'managerFee',title: '管理费率'}
+
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    var NEWJSON = [];
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.managerName);
+                        $("#managerId2").val(item.managerId);
+                    })
+                    elem.val(NEWJSON.join(","));
+
+                }
+            })
+            //修改基金托管银行公司下拉表单
+            tableSelect.render({
+                elem:'#trusteeName2'
+                ,checkedKey:'trusteeId'
+                ,table:{
+                    url:'../trustee/selectTrustee'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'checkbox'},
+                            {field:'trusteeId',title:'托管人Id'},
+                            {field: 'trusteeName',title:'托管人名称'},
+                            {field: 'trusteeFee',title: '托管费率'}
+
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    var NEWJSON = [];
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.trusteeName);
+                        $("#trusteeId2").val(item.trusteeId);
+                    })
+                    elem.val(NEWJSON.join(","));
+
+                }
+            })
+
+
+
+
+
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
@@ -198,8 +258,8 @@
                     {type: 'checkbox', field: 'left'}
                     ,{field: 'fundId', title: '基金代码', width:240, align:'center'}
                     ,{field: 'fundName', title: '基金名称', width: 240, align:'center'}
-                    ,{field: 'managerId', title: '基金管理公司', width:240, align:'center'}
-                    ,{field: 'trusteeBlank', title: '基金托管银行', width: 240, align:'center'}
+                    ,{field: 'managerName', title: '基金管理公司', width:240, align:'center'}
+                    ,{field: 'trusteeName', title: '基金托管银行', width: 240, align:'center'}
                     ,{field: 'fundType', title: '基金类型', width:240, align:'center', templet: function(item){
                         if(item.fundType=='1') {
                             return '开放式';
@@ -334,10 +394,9 @@
           style="margin: 30px auto; display: inline-block;">
         <div class="layui-form-item" style="text-align: center;">
             <div>
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="accountId=" value="1176040487">
+                <input type="hidden" name="managerId" id="managerId">
+                <input type="hidden" name="trusteeId" id="trusteeId">
+                <input type="hidden" name="accountId" value="1176040487">
             </div>
             <label class="layui-form-label layui-bg-green" style="width: 140px;">基金代码</label>
             <div class="layui-input-inline">
@@ -370,13 +429,13 @@
             <label class="layui-form-label layui-bg-green" style="width: 140px;">  基金管理公司 </label>
             <div class="layui-input-inline">
                 <input type="text" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" id="managerName" >
-                <input type="text" style="display: none;" name="managerId" placeholder="基金管理公司" autocomplete="off" class="layui-input"  id="managerId">
+                <input type="text" style="display: none;" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input">
 
             </div>
             <label class="layui-form-label layui-bg-green" style="width: 140px;margin-left: 50px;">基金托管银行</label>
             <div class="layui-input-inline">
                 <input type="text" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" id="trusteeName">
-                <input type="text"  style="display: none;" name="trusteeBlank" placeholder="基金托管银行" autocomplete="off" class="layui-input"  id="trusteeBlank" >
+                <input type="text"  style="display: none;" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" >
 
             </div>
         </div>
@@ -445,6 +504,12 @@
           style="margin: 30px auto; display: inline-block;">
         <div class="layui-form-item" style="text-align: center;" >
             <label class="layui-form-label layui-bg-green" style="width: 140px;">基金代码</label>
+
+                <div>
+                    <input type="hidden" name="managerId" id="managerId2">
+                    <input type="hidden" name="trusteeId" id="trusteeId2">
+                    <input type="hidden" name="accountId" value="1176040487">
+                </div>
             <div class="layui-input-inline">
                 <input type="number"   lay-verify="required"
                        autocomplete="off" placeholder="基金代码" class="layui-input" name="fundId">
@@ -474,14 +539,14 @@
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 140px;">  基金管理公司 </label>
             <div class="layui-input-inline">
-                <input type="text" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" id="managerName1" >
-                <input type="text" style="display: none;" name="managerId" placeholder="基金管理公司" autocomplete="off" class="layui-input"  id="managerId1" value="110">
+                <input type="text" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" id="managerName2" >
+                <input type="text" style="display: none;" name="managerName" placeholder="基金管理公司" autocomplete="off" class="layui-input" value="110">
 
             </div>
             <label class="layui-form-label layui-bg-green" style="width: 140px;margin-left: 50px;">基金托管银行</label>
             <div class="layui-input-inline">
-                <input type="text" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" id="trusteeName1">
-                <input type="text"  style="display: none;" name="trusteeBlank" placeholder="基金托管银行" autocomplete="off" class="layui-input"  id="trusteeBlank1" value="110">
+                <input type="text" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" id="trusteeName2">
+                <input type="text"  style="display: none;" name="trusteeName" placeholder="基金托管银行" autocomplete="off" class="layui-input" value="110">
 
             </div>
         </div>

@@ -1,18 +1,22 @@
 package com.yidu.businessDispose.pojo;
 
 public class EquityDispose {
-    private  String equityDataId;               //权益数据编号
-    private String securitiesName;              //证券名称
-    private String accountName;                   //账户名称
-    private int equitiesType;                  //权益类型
-    private String equitiesExright;            //除权日期
-    private  int securitiesNum;                 //证券数量
-    private int proportion;                     //比例
+    private String equityDataId;//权益编号
+    private String securitiesName;//证券名称
+    private String accountName;//账户名称
+    private int equitiesType;//权益类型
+    private String equitiesExright;//除权日
+    private int securitiesNum;//证券数量
+    private int proportion;//比例
+    private String settlementAmount;//结算金额
+    private int disposeStatus;//处理状态   0.未处理   1.已处理
+
 
     public EquityDispose() {
     }
 
-    public EquityDispose(String equityDataId, String securitiesName, String accountName, int equitiesType, String equitiesExright, int securitiesNum, int proportion) {
+    public EquityDispose(String equityDataId, String securitiesName, String accountName, int equitiesType,
+                         String equitiesExright, int securitiesNum, int proportion, String settlementAmount, int disposeStatus) {
         this.equityDataId = equityDataId;
         this.securitiesName = securitiesName;
         this.accountName = accountName;
@@ -20,6 +24,8 @@ public class EquityDispose {
         this.equitiesExright = equitiesExright;
         this.securitiesNum = securitiesNum;
         this.proportion = proportion;
+        this.settlementAmount = settlementAmount;
+        this.disposeStatus = disposeStatus;
     }
 
     public String getEquityDataId() {
@@ -78,6 +84,22 @@ public class EquityDispose {
         this.proportion = proportion;
     }
 
+    public String getSettlementAmount() {
+        return settlementAmount;
+    }
+
+    public void setSettlementAmount(String settlementAmount) {
+        this.settlementAmount = settlementAmount;
+    }
+
+    public int getDisposeStatus() {
+        return disposeStatus;
+    }
+
+    public void setDisposeStatus(int disposeStatus) {
+        this.disposeStatus = disposeStatus;
+    }
+
     @Override
     public String toString() {
         return "EquityDispose{" +
@@ -88,6 +110,7 @@ public class EquityDispose {
                 ", equitiesExright='" + equitiesExright + '\'' +
                 ", securitiesNum=" + securitiesNum +
                 ", proportion=" + proportion +
+                ", disposeStatus=" + disposeStatus +
                 '}';
     }
 }
