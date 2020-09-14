@@ -17,17 +17,17 @@
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]-->
+    <script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 
     <link rel="stylesheet" href="../lib/layui/css/layui.css">
 
 
-    <script src="../lib/layui/layui.js"></script>
     <!--工具条-->
     <script type="text/html" id="userToolBar">
         <div style="float:right;">
-            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm layui-bg-green" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加数据</button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
                     class="layui-icon">&#xe640;</i>批量删除</button>
@@ -264,12 +264,12 @@
     layui.use([ 'tableSelect'], function () {
         var $=layui.jquery,
             tableSelect=layui.tableSelect;
-        /*//增加得下拉表格
+        //增加得下拉表格
         tableSelect.render({
             elem:'#insertAccountName',
             checkedKey:'accountName',
             table:{
-                url:'../selectAccount',
+                url:'../account/selectAccount',
                 cellMinWidth:60,
 
                 cols:[
@@ -290,7 +290,7 @@
                 elem.val(newJson.join(","));//给输入框里显示的值赋值
 
             }
-        })*/
+        })
 
     })
 
