@@ -52,16 +52,16 @@ public class TaSettlementServiceImpl implements TaSettlementService {
             v_page=Integer.parseInt(page);
         }
         if(dateTime!=null&&!dateTime.equals("")){
-            sqlWhere.append(" AND dateTime LIKE  '%"+dateTime+"%'" );
+            sqlWhere.append(" AND dateTime  ='"+dateTime+"'" );
         }
 
         if(transactionType!=null&&!transactionType.equals("")){
-            sqlWhere.append(" AND transactionType LIKE  '%"+transactionType+"%'" );
+            sqlWhere.append(" AND transactionType ='"+transactionType+"'" );
         }
         int v_status=0;
         if (status!=null&&!status.equals("")){
             v_status=Integer.parseInt(status);
-            sqlWhere.append(" AND transactionstatus =  "+v_status );
+            sqlWhere.append(" AND transactionstatus ="+v_status );
         }
 
         //创建一个Map，用于存储过程的调用传值
@@ -97,6 +97,7 @@ public class TaSettlementServiceImpl implements TaSettlementService {
     }
 
     @Override
+    @Transactional
     public int updateSettlement(String taSettlement) {
         List<TaSettlement> TaSettlementList = JsonUtil.jsonToArrayList(taSettlement, TaSettlement.class);
         for (TaSettlement taSettlement1:TaSettlementList){
@@ -106,13 +107,17 @@ public class TaSettlementServiceImpl implements TaSettlementService {
             bankTreasurerPojo.setTotalPrice(taSettlement1.getPrice());
             bankTreasurerPojo.setAccountId(taSettlement1.getAccountId());
             bankTreasurerPojo.setFlag(1);
-            bankTreasurerPojo.setDbTime(taSettlement1.getDateTime());
-            String date= DateTimeUtil.getSystemDateTime("yyyy-MM-dd");
-            bankTreasurerPojo.setDateTime(date);
+            //赋值交易日期为调拨日期
+            bankTreasurerPojo.setDbTime(taSettlement1.getBalanceDate());
+           // String date= DateTimeUtil.getSystemDateTime("yyyy-MM-dd");
+            //赋值结算日期 为业务日期
+            bankTreasurerPojo.setDateTime(taSettlement1.getDateTime());
             bankTreasurerPojo.setBusinessId(taSettlement1.getTaTransactionId());
-            bankTreasurerPojo.setAllocatingType(4);
+            //设置资金调拨的业务类型为申购赎回款
+            bankTreasurerPojo.setAllocatingType(2);
             bankTreasurerPojo.setBankTreasurerDesc("");
-            bankTreasurerMapper.insertBankTreasurer(bankTreasurerPojo);
+            System.out.println("------------------------------------------"+bankTreasurerPojo);
+          //  bankTreasurerMapper.insertBankTreasurer(bankTreasurerPojo);
             int status = taSettlement1.getTransactionStatus();
             String transactionDataId = taSettlement1.getTaTransactionId();
             if (status==0){
