@@ -3,6 +3,7 @@ package com.yidu.cashControl.service;
 import com.yidu.cashControl.pojo.BankTreasurerPojo;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 资金调拨表
@@ -16,4 +17,5 @@ public interface BankTreasurerService {
     public int insertBankTreasurer(BankTreasurerPojo bankTreasurerPojo);
     public int updateBankTreasurer(BankTreasurerPojo bankTreasurerPojo);
     public int deleteBankTreasurer(String bankTreasurerIds);
+    public int deleteBankTreasurerByBusinessId(String businessId);
 }

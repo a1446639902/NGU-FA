@@ -83,6 +83,7 @@
                 cols: [
                     [ //表头
                         {type: 'checkbox', field: 'securitiesClosedPayInventoryId', fixed: 'left'}
+                        , {field: 'accountName', title: '账户名称', align: 'center'}
                         , {field: 'securitiesName', title: '证券名称', align: 'center'}
                         , {
                         field: 'securitiesType', title: '业务类型', align: 'center'
@@ -161,11 +162,11 @@
                             }
                         }
                     );
-                }else if (layid==22){
+                } else if (layid == 22) {
                     table.reload('bondTable', {
-                            url:'/selectSecuritiesClosedPay',
+                            url: '/selectSecuritiesClosedPay',
                             where: {
-                                businessDate:$("#start").val(),
+                                businessDate: $("#start").val(),
                             }
                             , page: {
                                 curr: 1
@@ -184,9 +185,87 @@
                         }
                     );
                 }
-
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             });
+            //统计
+            table.on('checkbox(cashClosedPayInventoryId)', function (obj) {
+                //     console.log("data-----"+JSON.stringify(table.cache));
+                var data = obj.data;
+                if(obj.event==='tongJi'){
+                    layer.msg('开始统计');
+                }
+            });
+            form.on('submit(statistics)', function (data) {
+                //alert(data.field); 当前容器的全部表单字段，名值对形式：{name: value}Object object
+                alert("layid=" + layid);//直接进入点击，null
+                if (layid == 11) {
+                    var checkStatus = table.checkStatus('cashTable');//获得选中行所有数据
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var cashs = [];  //创建所有数据对象容器
+                    var dataArr = checkStatus.data;//获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        cashs.push(n)
+                    });
+                    alert(cashs)
+                    var cash = JSON.stringify(cashs);
+                    alert("转为json格式的现金数据:=" + cash);
+                    $.post("/testCash", "cash="+cash, function (msg) {
+                        if (msg > 0) {
+
+                        }
+                    });
+                }else if (layid==22){
+                    var checkStatus = table.checkStatus('bondTable');//得到表格中选中行的ID
+                    var bonds = [];  //创建所有数据对象容器
+                    var dataArr = checkStatus.data;
+                    $.each(dataArr, function (i, n) {
+                        bonds.push(n)
+                    });
+                    alert(bonds)
+                    var bond = JSON.stringify(bonds);
+                    alert("转为json格式的债券数据:=" + bond);
+                    $.post("/testBond", "bond="+bond, function (msg) {
+                        if (msg > 0) {
+
+                        }
+                    });
+                }else if (layid==33){
+                    var checkStatus = table.checkStatus('costTable');//得到表格中选中行的ID
+                    var cashs = [];  //创建所有数据对象容器
+                    var dataArr = checkStatus.data;
+                    $.each(dataArr, function (i, n) {
+                        cashs.push(n)
+                    });
+                    var cash = JSON.stringify(cashs);
+                    alert("转为json格式的两费数据:=" + cash);
+                    $.post("/testCash", "cash=" + cash, function (msg) {
+                        if (msg > 0) {
+
+                        }
+                    });
+                }
+
+              /*  if (datas.length === 0) {
+                    layer.msg("请至少选择一条数据",)
+                } else {
+                    var ids = [];
+                    for (var i = 0; i < data.length; i++) {
+                        ids.push(data[i].cashClosedPayInventoryId);
+                    }
+                    layer.confirm('真的删除行么', {icon: 2}, function (index) {
+                        layer.close(index);
+                        $.post("/deleteCashClosedPay", {cashClosedPayId: ids.join(',')}, function (msg) {
+                            table.reload('cashClosedPayTable');
+                            layer.msg('统计' + checkStatus.data.length + '条记录', {
+                                title: '提示',
+                                area: ['200px', '140px'],
+                                time: 0,
+                                btn: ['知道了']
+                            });
+                        });
+                    });
+                }*/
+            })
         });
     </script>
 </head>
@@ -194,12 +273,6 @@
 
 <div style="margin-top: 20px;margin-left: 10px">
     <form id="searchDate" class="layui-form layui-col-space5">
-        <!--<div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" autocomplete="off" placeholder="请输入统计日期" name="businessDate" id="start">
-            </div>
-        </div>-->
         <div class="layui-inline">
             <label class="layui-form-label layui-bg-green">业务日期</label>
             <div class="layui-input-inline">
@@ -208,7 +281,7 @@
             </div>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn" lay-submit="" lay-event="search" lay-filter="search"><i class="layui-icon">&#xe615;</i>搜索
+            <button class="layui-btn" lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i>搜索
             </button>
         </div>
         <div class="layui-inline layui-show-xs-block">
