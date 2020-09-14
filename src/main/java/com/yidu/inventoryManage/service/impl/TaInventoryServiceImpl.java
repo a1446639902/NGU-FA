@@ -4,11 +4,13 @@ import com.yidu.inventoryManage.mapper.TaInventoryMapper;
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
 import com.yidu.inventoryManage.service.TaInventoryService;
 import com.yidu.util.DbUtil;
+import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +86,11 @@ public class TaInventoryServiceImpl implements TaInventoryService {
      * 新增taInventory（Ta库存表）
      */
     @Override
-    public void insertTaInventory(TaInventoryEntity taInventoryEntity) {
+    public void insertTaInventory(HttpServletRequest request,TaInventoryEntity taInventoryEntity) {
+
+
+        //获得基金id
+        String fundId = GetFundIdUtil.getFundId(request);
 
         //设置TA库存"100001"Id
         taInventoryEntity.setTaInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TI));
@@ -94,7 +100,7 @@ public class TaInventoryServiceImpl implements TaInventoryService {
 
 
         //基金Id
-        taInventoryEntity.setFundId("289289289");
+        taInventoryEntity.setFundId(fundId);
 
 
         System.out.println("TA库存Id"+taInventoryEntity.getTaInventoryId());

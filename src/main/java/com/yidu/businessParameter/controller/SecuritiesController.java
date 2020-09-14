@@ -40,6 +40,7 @@ public class SecuritiesController {
     //修改
     @RequestMapping("/updateSecurities")
     public int updateUser(SecuritiesPojo securitiesPojo){
+
         return securitiesService.updateSecurities(securitiesPojo);
     }
 

@@ -4,6 +4,7 @@ import com.yidu.businessParameter.mapper.VarietiesRateMapper;
 import com.yidu.businessParameter.pojo.VarietiesRatePojo;
 import com.yidu.businessParameter.service.VarietiesRateService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @Version 1.0
  **/
 @Service
+@Transactional
 public class VarietiesRateServiceImpl implements VarietiesRateService {
     @Resource
     VarietiesRateMapper varietiesRateMapper;

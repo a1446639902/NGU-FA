@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 股票板块
- * @type stock的service类
+ * @type 股票板块的service类
  * @author xbf
  * @date 2020-09-11
  * @version 1.0

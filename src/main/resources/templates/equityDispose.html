@@ -34,76 +34,213 @@
 
             //执行一个laydate实例
             laydate.render({
-                elem: '#start' //指定元素
-
+                elem: '#equitiesExright' //指定元素
             });
+            laydate.render({
+                elem: '#equitiesExright2' //指定元素
+            });
+
+            //未结算表格
             table.render({
                 elem: '#userTable',
-                url: '../selectEquityDispose',
+                url: '../selectEquityDispose?disposeStatus=0',
                 page: true,
-                height: 498,
-                minLength:80,
+                height:'full-180',
+                cellMinWidth: 50,
+                toolbar:'#userToolBar',
                 cols: [
                     [ //表头
-                    {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'equityDataId', title: '权益编号', width:150, align:'center'}
-                    ,{field: 'securitiesName', title: '证券名称', width: 150, align:'center'}
-                    ,{field: 'accountName', title: '账户名称', width:150, align:'center'}
-                    ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center',
-                        templet: function (item) {
-                            if (item.equitiesType == 1) {
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'equityDataId', title: '权益编号', align:'center'}
+                        ,{field: 'securitiesName', title: '证券名称', align:'center'}
+                        ,{field: 'accountName', title: '账户名称', align:'center'}
+                        ,{field: 'equitiesType', title: '权益类型', align:'center',
+                        templet:function (item) {
+                            if (item.equitiesType==1){
                                 return '送股';
-                            } else if (item.equitiesType == '2') {
+                            }else if (item.equitiesType==2){
                                 return '分红';
+                            }
+                        }}
+                        ,{field: 'equitiesExright', title: '除权日期', align:'center'}
+                        ,{field: 'securitiesNum', title: '证券数量', align:'center'}
+                        ,{field: 'proportion', title: '比例', align:'center'}
+                        ,{field: 'settlementAmount', title: '结算金额', align:'center'}
+                        ,{field: 'disposeStatus', title: '处理状态', align:'center',
+                        templet:function (item) {
+                            if (item.disposeStatus==0){
+                                return '未处理';
+                            }else if (item.disposeStatus==1){
+                                return '已处理';
                             }
                         }
                     }
-                    ,{field: 'equitiesExright', title: '除权日期', width:150, align:'center'}
-                    ,{field: 'securitiesNum', title: '证券数量', width:150, align:'center'}
-                    ,{field: 'proportion', title: '比例', width:150, align:'center'}
-                    ,{field: 'settlementAmount', title: '结算金额', width:150, align:'center'}
-                ]
+                    ]
                 ]
             });
+
+            //已结算表格
             table.render({
                 elem: '#userTable2',
-                url: '../selectEquityDispose',
+                url: '../selectEquityDispose?disposeStatus=1',
                 page: true,
-                height: 498,
-                minLength:80,
+                height:'full-180',
+                cellMinWidth: 50,
+                toolbar:'#userToolBar2',
                 cols: [
                     [ //表头
-                    {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'equityDataId', title: '权益编号', width:150, align:'center'}
-                        ,{field: 'securitiesName', title: '证券名称', width: 150, align:'center'}
-                        ,{field: 'accountName', title: '账户名称', width:150, align:'center'}
-                        ,{field: 'equitiesType', title: '权益类型', width: 150, align:'center',
-                        templet: function (item) {
-                            if (item.equitiesType == 1) {
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'equityDataId', title: '权益编号', align:'center'}
+                        ,{field: 'securitiesName', title: '证券名称', align:'center'}
+                        ,{field: 'accountName', title: '账户名称', align:'center'}
+                        ,{field: 'equitiesType', title: '权益类型', align:'center',
+                        templet:function (item) {
+                            if (item.equitiesType==1){
                                 return '送股';
-                            } else if (item.equitiesType == '2') {
+                            }else if (item.equitiesType==2){
                                 return '分红';
                             }
                         }
                     }
-                        ,{field: 'equitiesExright', title: '除权日期', width:150, align:'center'}
-                        ,{field: 'securitiesNum', title: '证券数量', width:150, align:'center'}
-                        ,{field: 'proportion', title: '比例', width:150, align:'center'}
-                        ,{field: 'settlementAmount', title: '结算金额', width:150, align:'center'}
-                ]
+                        ,{field: 'equitiesExright', title: '除权日期', align:'center'}
+                        ,{field: 'securitiesNum', title: '证券数量', align:'center'}
+                        ,{field: 'proportion', title: '比例', align:'center'}
+                        ,{field: 'settlementAmount', title: '结算金额', align:'center'}
+                        ,{field: 'disposeStatus', title: '处理状态', align:'center',
+                        templet:function (item) {
+                            if (item.disposeStatus==0){
+                                return '未处理';
+                            }else if (item.disposeStatus==1){
+                                return '已处理';
+                            }
+                        }
+                    }
+                    ]
                 ]
             });
+            //给工具条的结算添加事件
+            table.on('toolbar(userTable)', function (obj) {
+                switch (obj.event) {
+                    case "settlement":
+                        //获得选中的对象
+                        var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
+                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                        var dataArr = checkStatus.data; //获取选中行的数据
+                        var equityDisPose = JSON.stringify(dataArr);
+
+                        if (dataArr.length == 0) {
+                            layer.msg("请先选中数据");
+                        }
+                        else {
+                            layer.confirm('真的要结算嘛', function () {
+                                layer.close();
+                                //向服务端发送删除指令
+                                $.post("../updateEquityDispose","equityDisPose="+equityDisPose,function(msg){
+                                    if(msg>0){
+                                        table.reload('userTable');
+                                        table.reload('userTable2');  /*渲染刷新*/
+                                        layer.closeAll();
+                                        layer.msg('结算成功',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                    else{
+                                        layer.closeAll();
+                                        layer.msg('结算失败',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                });
+                                return false;
+                            });
+                        }
+                        break;
+                    case 'search':
+                        alert("搜索");
+                        var equitiesExright= $("#end").val();
+                        var equitiesType= $("#equitiesType").val()
+                        //表格的重新加载事件
+                        table.reload('userTable', {
+                            method: 'post'
+                            , where: {
+                                'equitiesExright': equitiesExright,
+                                'equitiesType': equitiesType
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        });
+
+                }
+            });
+            //给工具条的反结算添加事件
+            table.on('toolbar(userTable2)', function (obj) {
+                switch (obj.event) {
+                    case "settlement2":
+                        //获得选中的对象
+                        var checkStatus = table.checkStatus("userTable2"); //idTest 即为基础参数 id 对应的值
+                        // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                        var dataArr = checkStatus.data; //获取选中行的数据
+                        var equityDisPose = JSON.stringify(dataArr);
+
+                        if (dataArr.length == 0) {
+                            layer.msg("请先选中数据");
+                        }
+                        else {
+                            layer.confirm('真的要反结算嘛', function () {
+                                layer.close();
+                                //向服务端发送删除指令
+                                $.post("../updateEquityDispose","equityDisPose="+equityDisPose,function(msg){
+                                    if(msg>0){
+                                        table.reload('userTable2');
+                                        table.reload('userTable');  /*渲染刷新*/
+                                        layer.closeAll();
+                                        layer.msg('反结算成功',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            time : 0,
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                    else{
+                                        layer.closeAll();
+                                        layer.msg('反结算失败',{
+                                            title : '提示',
+                                            area : [ '200px',
+                                                '140px' ],
+                                            time : 0,
+                                            btn : [ '知道了' ]
+                                        });
+                                    }
+                                });
+                                return false;
+                            });
+
+                        }
+                        break;
+                }
+
+            });
+
         });
     </script>
 </head>
 <body>
-
+<!--结算-->
+<script type="text/html" id="userToolBar">
 <div style="margin-top: 20px;margin-left: 10px">
     <form class="layui-form layui-col-space5">
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">除权日期</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="businessDate" id="start">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="end" id="equitiesExright">
             </div>
         </div>
         <div class="layui-inline layui-show-xs-block">
@@ -111,59 +248,85 @@
 
             <div class="layui-inline layui-show-xs-block">
                 <select name="equitiesType" id="equitiesType">
-                    <option>请选择</option>
-                    <option>分红</option>
-                    <option>送股</option>
+                    <option value="">请选择</option>
+                    <option value="2">分红</option>
+                    <option value="1">送股</option>
                 </select>
             </div>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button class="layui-btn" lay-event="search" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn"  lay-submit="settlement" lay-filter="settlement" id="settlement">结算</button>
+            <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="settlement"  lay-event="settlement" name="settlement" id="settlement">结算</button>
         </div>
     </form>
-
-
-</div>
-
-<div class="layui-tab" lay-filter="test">
     <ul class="layui-tab-title" style="border-bottom-color: #009688">
         <li class="layui-this" lay-id="1">未结算</li>
         <li lay-id="2">已结算</li>
     </ul>
+</div>
+<!--<div class="layui-tab" lay-filter="test">
+    <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <li class="layui-this" lay-id="1">未结算</li>
+        <li lay-id="2">已结算</li>
+    </ul>
+</div>-->
+</script>
+<!--反结算表头-->
+<script type="text/html" id="userToolBar2">
+    <div style="margin-top: 20px;margin-left: 10px">
+        <form class="layui-form layui-col-space5">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">除权日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="end" id="equitiesExright2">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">权益类型</label>
+
+                <div class="layui-inline layui-show-xs-block">
+                    <select name="equitiesType" id="equitiesType2">
+                        <option>请选择</option>
+                        <option>分红</option>
+                        <option>送股</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn" lay-event="search"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn"  type="button" onclick="return false"  lay-submit="settlement" lay-filter="settlement2"  lay-event="settlement2" name="settlement" id="settlement2">反结算</button>
+            </div>
+        </form>
+        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+            <li class="layui-this" lay-id="1">未结算</li>
+            <li lay-id="2">已结算</li>
+        </ul>
+    </div>
+<!--    <div class="layui-tab" lay-filter="test">
+        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+            <li class="layui-this" lay-id="1">未结算</li>
+            <li lay-id="2">已结算</li>
+        </ul>
+    </div>-->
+</script>
+
+
+
+<!--渲染表格层-->
+<div class="layui-tab" lay-filter="test">
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
             <!--表格-->
             <table id="userTable" lay-filter="userTable"></table>
         </div>
         <div class="layui-tab-item">
-            <table id="userTable2" lay-filter="userTable"></table>
+            <table id="userTable2" lay-filter="userTable2"></table>
         </div>
     </div>
 </div>
-
-<script>
-    layui.use('element', function(){
-        var $ = layui.jquery
-            ,element = layui.element;
-        //Hash地址的定位
-        var layid = location.hash.replace(/^#test=/, '');
-        element.tabChange('test', layid);
-
-        element.on('tab(test)', function(elem){
-            location.hash = 'test='+ $(this).attr('lay-id');
-            var submit = $(this).attr('lay-id')
-            if (submit == '2'){
-                $('#settlement').html("反结算")
-            }
-            if (submit == '1'){
-                $('#settlement').html("结算")
-            }
-        });
-
-    });
-</script>
 </body>
 </html>

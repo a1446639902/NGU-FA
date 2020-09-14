@@ -86,7 +86,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 		elem: '#userTable',
 		url: '../selectBond',
 		page: true,
-		height: 498,
+		height: 'full-30',
 		toolbar: '#userToolBar',//显示在表头的工具条
 		minLength:80,
 		cellMinWidth:60,
@@ -134,7 +134,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 					closeBtn: 1,
 					move:false,
 					content:$("#addContent"),
-					area:['800px','500px'],
+					area:['800px','590px'],
 				});
 
 				form.render();
@@ -207,7 +207,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 				title: '修改员工',
 				closeBtn: 1,
 				move:false,
-				area:['800px','500px'],
+				area:['800px','590px'],
 				content:$('#editContent')
 			});
 
