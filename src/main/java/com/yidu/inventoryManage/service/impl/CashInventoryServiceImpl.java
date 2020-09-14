@@ -4,11 +4,13 @@ import com.yidu.inventoryManage.mapper.CashInventoryMapper;
 import com.yidu.inventoryManage.pojo.CashInventoryEntity;
 import com.yidu.inventoryManage.service.CashInventoryService;
 import com.yidu.util.DbUtil;
+import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,18 +120,21 @@ public class CashInventoryServiceImpl implements CashInventoryService {
      * 新增的service
      */
     @Override
-    public void insertCashInventory(CashInventoryEntity cashInventoryEntity) {
+    public void insertCashInventory(HttpServletRequest request,CashInventoryEntity cashInventoryEntity) {
+
+                //获得基金id
+                String fundId = GetFundIdUtil.getFundId(request);
 
                 //现金库存id(从现金库存获得)
                  cashInventoryEntity.setCashInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CI));
                  System.out.println("现金库存Id为："+cashInventoryEntity.getCashInventoryId());
                 //基金id 来自（基金表）
-                    cashInventoryEntity.setFundId("289289289");
+                    cashInventoryEntity.setFundId(fundId);
                     System.out.println("基金id为："+cashInventoryEntity.getFundId());
                 //现金余额
                      System.out.println("现金余额为："+cashInventoryEntity.getCashBlance());
                 // 现金账户id  （来自现金账户）
-                    cashInventoryEntity.setAccountId("1176040487");
+                    cashInventoryEntity.setAccountId(cashInventoryEntity.getAccountId());
                      System.out.println("现金账户id为："+cashInventoryEntity.getAccountId());
                  //统计日期
                     System.out.println("统计时间："+cashInventoryEntity.getDateTime());

@@ -2,6 +2,7 @@ package com.yidu.dayDispose.service;
 
 import com.yidu.dayDispose.pojo.InventoryEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -15,6 +16,6 @@ public interface InventoryService {
      * 显示在网页的库存状态信息
      * @return
      */
-    public List<InventoryEntity> selectInventory(String dateTime3,String invId);
+    public List<InventoryEntity> selectInventory(HttpServletRequest request, String dateTime3, String invId);
 
 }

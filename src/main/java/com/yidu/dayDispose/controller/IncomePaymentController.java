@@ -105,7 +105,6 @@ public class IncomePaymentController {
 //现金计息与两费的先删后增
     @RequestMapping("testCash")
     public int testCash(String cash,HttpServletRequest request){
-        System.out.println("现金资金调拨：="+cash);
         int i=0;
         List<IncomePaymentPojo> cashList = JsonUtil.jsonToArrayList(cash, IncomePaymentPojo.class);
         for (IncomePaymentPojo income: cashList) {
@@ -133,6 +132,7 @@ public class IncomePaymentController {
             cashClosedPayPojo.setAmount(income.getTotalMoney());
             cashClosedPayPojo.setDateTime(income.getBusinessDate());
             cashClosedPayPojo.setFlag(-1*income.getBusinessStatus());
+            cashClosedPayService.insertCashClosedPay(cashClosedPayPojo);
 //资金调拨的新增
             String bankTreasurerId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT);
             BankTreasurerPojo bankTreasurerPojo=new BankTreasurerPojo();
@@ -153,7 +153,6 @@ public class IncomePaymentController {
 //    债券计息的先删后增
     @RequestMapping("testBond")
     public int testBond(String bond,HttpServletRequest request){
-        System.out.println("债券资金调拨：="+bond);
         int i=0;
         List<IncomePaymentPojo> bondList = JsonUtil.jsonToArrayList(bond, IncomePaymentPojo.class);
         for (IncomePaymentPojo income: bondList) {
@@ -178,6 +177,7 @@ public class IncomePaymentController {
             securitiesClosedPayPojo.setAmount(income.getTotalMoney());
             securitiesClosedPayPojo.setDateTime(income.getBusinessDate());
             securitiesClosedPayPojo.setFlag(income.getBusinessStatus()*-1);
+            securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
 //资金调拨的新增
             String bankTreasurerId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT);
             BankTreasurerPojo bankTreasurerPojo=new BankTreasurerPojo();

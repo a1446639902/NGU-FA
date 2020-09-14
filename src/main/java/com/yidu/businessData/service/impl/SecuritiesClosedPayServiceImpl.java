@@ -54,12 +54,15 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
 
     @Override
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds) {
-        String[] split = securitiesClosedPayIds.split(",");
-        ArrayList securitiesClosedPayIdList = new ArrayList<>();
-        for (String securitiesClosedPayId : split) {
-            securitiesClosedPayIdList.add(securitiesClosedPayId);
+        if(securitiesClosedPayIds !=null && !securitiesClosedPayIds.equals("")) {
+            String[] split = securitiesClosedPayIds.split(",");
+            ArrayList securitiesClosedPayIdList = new ArrayList<>();
+            for (String securitiesClosedPayId : split) {
+                securitiesClosedPayIdList.add(securitiesClosedPayId);
+            }
+            return securitiesClosedPayMapper.deleteSecuritiesClosedPay(securitiesClosedPayIdList);
         }
-        return securitiesClosedPayMapper.deleteSecuritiesClosedPay(securitiesClosedPayIdList);
+        return 0;
     }
 
     @Override
