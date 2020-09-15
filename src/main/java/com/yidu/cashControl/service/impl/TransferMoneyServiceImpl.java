@@ -55,11 +55,14 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
     }
     @Override
     public int deleteTransferMoney(String transferMoneyIds) {
-        String[] split = transferMoneyIds.split(",");
-        ArrayList transferMoneyIdList = new ArrayList<>();
-        for (String transferMoneyId : split) {
-            transferMoneyIdList.add(transferMoneyId);
+        if(transferMoneyIds!=null && !transferMoneyIds.equals("")) {
+            String[] split = transferMoneyIds.split(",");
+            ArrayList transferMoneyIdList = new ArrayList<>();
+            for (String transferMoneyId : split) {
+                transferMoneyIdList.add(transferMoneyId);
+            }
+            return transferMoneyMapper.deleteTransferMoney(transferMoneyIdList);
         }
-        return transferMoneyMapper.deleteTransferMoney(transferMoneyIdList);
+        return 0;
     }
 }

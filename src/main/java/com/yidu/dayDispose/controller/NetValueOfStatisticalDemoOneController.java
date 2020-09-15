@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * xx类
+ * 查询净值统计表的实体类
  *
  * @author kangshao
  * @version 1.0

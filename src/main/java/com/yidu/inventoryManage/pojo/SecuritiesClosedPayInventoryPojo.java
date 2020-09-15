@@ -4,7 +4,7 @@ package com.yidu.inventoryManage.pojo;
  * 证券应收应付库存
  * @author 黄志豪
  * @version 1.0
- * @Type
+ * @Type 实体类
  * @time 2020/9/13
  **/
 public class SecuritiesClosedPayInventoryPojo {
