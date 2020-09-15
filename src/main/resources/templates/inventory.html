@@ -76,7 +76,7 @@
                 count:0,
                 toolbar: '#userToolBar',//显示在表头的工具条
                 cellMinWidth: 80,
-                height: "full-70",
+                height: "full-30",
                 cols: [
                     [
                     {type:'checkbox'},
@@ -84,31 +84,33 @@
                         field: 'inventoryName',
                         align: 'center',
                         title: '库存名称',
+                        width: 267
                     }, {
                         field: 'inventoryId',
                         title: '基金编号',
                         align: 'center',
-                        sort: true
+                        width: 267
 
                     }, {
                         field: 'inventoryOperator',
                         title: '操作员',
                         align: 'center',
-
+                        width: 267
                     },{
                         field : 'inventoryDate',
                         title : '统计日期',
                         align: 'center',
-                        sort: true
+                        width: 267
                     },{
                         field: 'inventoryData',
                         title: '已统计数据',
                         align: 'center',
-                        sort: true
+                        width: 267
                     },{
                         field: 'inventoryStatis',
                         title: '统计状态',
-                        align: 'center'}
+                        align: 'center',
+                        width:267}
                     ]
                     ]
                     });

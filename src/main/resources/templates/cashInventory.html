@@ -146,19 +146,20 @@
                 url: '../selectCashInventory',
                 count:0,
                 page: true,
-                height: "full-70",
+                height: "full-30",
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
+
                 cols: [
                     [
                     {type: 'checkbox',}
-                    ,{field: 'cashInventoryId', title: '现金库存ID',align: 'center',sort: true}
-                    ,{field: 'blankCardCode', title: '账户卡号',align: 'center'}
-                    ,{field: 'accountName', title: '账户名称',align: 'center'}
-                    ,{field: 'cashBlance', title: '现金余额',sort: true,align: 'center'}
-                    ,{field: 'dateTime', title: '统计时间',sort: true,align: 'center'}
-                    ,{field: 'cashInventoryDesc', title: '备注',align: 'center'}
-                    ,{fixed: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
+                    ,{field: 'cashInventoryId', title: '现金库存ID',align: 'center',width: 250}
+                    ,{field: 'blankCardCode', title: '账户卡号',align: 'center',width:300}
+                    ,{field: 'accountName', title: '账户名称',align: 'center',width:185}
+                    ,{field: 'cashBlance', title: '现金余额',sort: true,align: 'center',width:185}
+                    ,{field: 'dateTime', title: '统计时间',sort: true,align: 'center',width: 200}
+                    ,{field: 'cashInventoryDesc', title: '备注',align: 'center',width: 260}
+                    ,{fixed: 'right', title: '操作', align:'center', toolbar: '#barDemo',width: 230}
                 ]
                 ]
             });
