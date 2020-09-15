@@ -191,6 +191,9 @@
                         $.post("../selectTaInventory",{datetime},function(msg){
                             table.reload('cashInventoryTable');
                         });
+                        laydate.render({
+                            elem: '#dateTime3',
+                        });
                         break;
                     case 'deleteAll':
                         var data = checkStatus.data;
