@@ -30,13 +30,13 @@ public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalSe
     }
 
     @Override
-    public List<SelectAllMsgDemoOnePojo> selectAllMsgTwo() {
-        return netValueOfStatisticalMapper.selectAllMsgTwo();
+    public List<SelectAllMsgDemoOnePojo> selectAllMsgTwo(String time) {
+        return netValueOfStatisticalMapper.selectAllMsgTwo(time);
     }
 
     @Override
-    public List<CashBlancePojo> selectCashBlance() {
-        return netValueOfStatisticalMapper.selectCashBlance();
+    public List<CashBlancePojo> selectCashBlance(String time) {
+        return netValueOfStatisticalMapper.selectCashBlance(time);
     }
 
     @Override
@@ -45,28 +45,33 @@ public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalSe
     }
 
     @Override
-    public List<NetFinalPojo> selectNetBondInterest() {
-        return netValueOfStatisticalMapper.selectNetBondInterest();
+    public List<NetFinalPojo> selectNetBondInterest(String time) {
+        return netValueOfStatisticalMapper.selectNetBondInterest(time);
     }
 
     @Override
-    public List<NetFinalPojo> selectTrusteeFee() {
-        return netValueOfStatisticalMapper.selectTrusteeFee();
+    public List<NetFinalPojo> selectTrusteeFee(String time) {
+        return netValueOfStatisticalMapper.selectTrusteeFee(time);
     }
 
     @Override
-    public List<NetFinalPojo> selectAdministrativeFee() {
-        return netValueOfStatisticalMapper.selectAdministrativeFee();
+    public List<NetFinalPojo> selectAdministrativeFee(String time) {
+        return netValueOfStatisticalMapper.selectAdministrativeFee(time);
     }
 
     @Override
-    public List<SecuritiesClearingAccountPojo> securitiesClearingAccount() {
-        return netValueOfStatisticalMapper.securitiesClearingAccount();
+    public List<SecuritiesClearingAccountPojo> securitiesClearingAccount(String time) {
+        return netValueOfStatisticalMapper.securitiesClearingAccount(time);
     }
 
     @Override
     public Double selectTA(String time) {
         return netValueOfStatisticalMapper.selectTA(time);
+    }
+
+    @Override
+    public int deleteNetValueOfStatistical(String time) {
+        return netValueOfStatisticalMapper.deleteNetValueOfStatistical(time);
     }
 
 

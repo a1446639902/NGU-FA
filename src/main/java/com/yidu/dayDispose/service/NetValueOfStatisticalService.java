@@ -21,28 +21,31 @@ public interface NetValueOfStatisticalService {
     int insertTree(NetValueOfStatisticalPojo netValueOfStatisticalPojo);
 
     //查询证券中债券的数据
-    List<SelectAllMsgDemoOnePojo> selectAllMsgTwo();
+    List<SelectAllMsgDemoOnePojo> selectAllMsgTwo(String time);
 
     //查询现金表中的现金余额
-    List<CashBlancePojo> selectCashBlance();
+    List<CashBlancePojo> selectCashBlance(String time);
 
     //查询利息，通过银行账户id查询
     List<ServiceTypePojo> selectAmount(String amount);
 
     //查询债券利息
-    List<NetFinalPojo> selectNetBondInterest();
+    List<NetFinalPojo> selectNetBondInterest(String time);
 
     //查询托管费
-    List<NetFinalPojo> selectTrusteeFee();
+    List<NetFinalPojo> selectTrusteeFee(String time);
 
     //查询管理费
-    List<NetFinalPojo> selectAdministrativeFee();
+    List<NetFinalPojo> selectAdministrativeFee(String time);
 
     //查询证券清算款
-    List<SecuritiesClearingAccountPojo> securitiesClearingAccount();
+    List<SecuritiesClearingAccountPojo> securitiesClearingAccount(String time);
 
     //查询ta库存计算单位净值
     Double selectTA(String time);
+
+    //删除净值统计表
+    int deleteNetValueOfStatistical(String time);
 
     //拿到数据增加进净值统计表
     int insertNetValueOfStatistical(NetValueOfStatisticalPojo netValueOfStatisticalPojo);

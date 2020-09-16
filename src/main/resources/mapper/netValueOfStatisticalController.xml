@@ -3,22 +3,22 @@
 <mapper namespace="com.yidu.dayDispose.mapper.NetValueOfStatisticalMapper">
     <!-- 查询，根据日期查询出股票的买入卖出-->
     <select id="selectAllMsg" resultType="com.yidu.dayDispose.pojo.SelectAllMsgPojo" parameterType="String">
-        select securitiesName,t1.SECURITIESId,SECURITIESNUM,TOTAL,SERVICETYPE,CLOSINGPRICE from
-SECURITIESINVENTORY t1 , SECURITIES t2 , SECURITIESCLOSEDPAY t3 ,MARKET t4
-where t1.SECURITIESID = t2.SECURITIESID and t3.SECURITIESID = t1.SECURITIESID and t4.SECURITIESID = t1.SECURITIESID
-and t1.DATETIME = t3.DATETIME and t1.DATETIME= t4.DATETIME and t1.DATETIME=#{time}
-group by securitiesName,t1.securitiesId,SECURITIESNUM,TOTAL,SERVICETYPE,CLOSINGPRICE
+select securitiesName ,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE
+from SECURITIESINVENTORY t1 , SECURITIES t2 ,MARKET t3
+where t1.SECURITIESID = t2.SECURITIESID and t1.DATETIME=#{time}
+group by securitiesName,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE
     </select>
 
     <!--创建树形结构-->
     <insert id="insertTree" parameterType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
-        insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectFatherId) values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectFatherId})
+        insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectFatherId,fundId)
+         values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectFatherId},#{fundId})
     </insert>
     <!--查询现金表的余额-->
     <select id="selectCashBlance" resultType="com.yidu.dayDispose.pojo.CashBlancePojo">
         select ACCOUNTNAME,BLANKCARDCODE,CASHBLANCE from
 CASHINVENTORY t1 , ACCOUNT t2
-where t1.FUNDID = t2.FUNDID
+where t1.FUNDID = t2.FUNDID and t1.DATETIME=#{DATETIME}
     </select>
 
     <!--查询利息，通过银行账户id查询-->
@@ -28,30 +28,30 @@ where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
     </select>
 
     <!--查询证券中债券的数据-->
-    <select id="selectAllMsgTwo" resultType="com.yidu.dayDispose.pojo.SelectAllMsgDemoOnePojo">
-        select t1.securitiesId,bondName,securitiesNum,total,closingPrice from
-BOND t1, MARKET t2 ,SECURITIESINVENTORY t3
-where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID=t3.SECURITIESID
+    <select id="selectAllMsgTwo" resultType="com.yidu.dayDispose.pojo.SelectAllMsgDemoOnePojo" parameterType="String">
+select t1.SECURITIESID,BONDNAME,SECURITIESNUM,TOTAL,CLOSINGPRICE from
+MARKET t1 ,SECURITIESINVENTORY t2 , BOND t3
+where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID and t1.DATETIME = #{time}
     </select>
 
     <!--查询债券利息-->
     <select id="selectNetBondInterest" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 3
+        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 3 and t1.DATETIME=#{DATETIME}
     </select>
 
     <!--查询托管费-->
     <select id="selectTrusteeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 2
+        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 2 and DATETIME=#{time}
     </select>
 
     <!--查询管理费-->
     <select id="selectAdministrativeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 1
+        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 1 and t1.DATETIME= #{time}
     </select>
 
     <!--查询证券清算款-->
     <select id="securitiesClearingAccount" resultType="com.yidu.dayDispose.pojo.SecuritiesClearingAccountPojo">
-        select TOTALPRICE from SECURITIESCLOSEDPAYINVENTORY where SECURITIESTYPE = 2
+        select TOTALPRICE from SECURITIESCLOSEDPAYINVENTORY where SECURITIESTYPE = 2 and DATETIME= #{time}
     </select>
 
     <!--查询ta库存计算单位净值-->
@@ -59,10 +59,15 @@ where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID=t3.SECURITIESID
         select TANUM from TAINVENTORY where DATETIME = #{DATETIME}
     </select>
 
+    <!--删除净值统计表-->
+    <delete id="deleteNetValueOfStatistical" parameterType="String">
+        delete from VALUESTATISTICS where VALUESTATISTICSDATE=#{time}
+    </delete>
+
     <!--拿到股票，债券，现金数据增加进净值统计表 公用方法-->
     <insert id="insertNetValueOfStatistical" parameterType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
-       insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectCode,quantityint,peice,cost,marketValue,valuation,projectFatherId)
-        values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectCode},#{quantityint},#{peice},#{cost},#{marketValue},#{valuation},#{projectFatherId})
+       insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectCode,quantityint,peice,cost,marketValue,valuation,projectFatherId,fundId)
+        values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectCode},#{quantityint},#{peice},#{cost},#{marketValue},#{valuation},#{projectFatherId},#{fundId})
     </insert>
 
     <!--查询净值统计表-->
