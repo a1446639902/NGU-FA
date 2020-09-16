@@ -28,9 +28,9 @@ public class CashClosedPayController {
     CashClosedPayService cashClosedPayService;
 
     @RequestMapping("insertCashClosedPay")
-    public int insertCashClosedPay(CashClosedPayPojo cashClosedPay){
+    public int insertCashClosedPay(CashClosedPayPojo cashClosedPay,HttpServletRequest request){
         System.out.println("进入了cashClosedPay新增Controller");
-        int i = cashClosedPayService.insertCashClosedPay(cashClosedPay);
+        int i = cashClosedPayService.insertCashClosedPay(cashClosedPay,request);
         return i;
     };
     @RequestMapping("deleteCashClosedPay")
