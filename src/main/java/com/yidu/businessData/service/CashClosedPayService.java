@@ -19,12 +19,45 @@ import java.util.Map;
  **/
 @Service
 public interface CashClosedPayService {
-//    通过给实体类的一个实例赋值，再通过xml文件实现新增
-    int insertCashClosedPay(CashClosedPayPojo cashClosePay);
-//    根据cashClosedPayId删除信息
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [cashClosePay, request]
+     * @return int
+     **/
+    int insertCashClosedPay(CashClosedPayPojo cashClosePay,HttpServletRequest request);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [cashClosedPayId]
+     * @return int
+     **/
     int deleteCashClosedPay(String cashClosedPayId);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [cashClosePay]
+     * @return int
+     **/
     int updateCashClosedPay(CashClosedPayPojo cashClosePay);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [pageSize, page, dateTime, serviceType]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     Map<String,Object> selectCashClosedPay(String pageSize, String page,String dateTime,String serviceType);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:54 2020/9/15
+     * @Parm [map]
+     * @return java.lang.String
+     **/
     public String selectCashClosedPayId(Map map);
     //wufeiyun
     int deleteNew(CashClosedPayPojo cashClosedPay);

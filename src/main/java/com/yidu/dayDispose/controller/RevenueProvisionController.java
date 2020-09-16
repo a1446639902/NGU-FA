@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class RevenueProvisionController {
         return twoFeesMap;
     }
     @RequestMapping("CountingCash")
-    public int CountingCash(String cash){
+    public int CountingCash(String cash, HttpServletRequest request){
         int i=0;
         System.out.println("进来了===============================================");
         System.out.println(cash);
@@ -92,7 +93,7 @@ public class RevenueProvisionController {
             System.out.println(revenueProvision.getInterest()+"==================================");
             cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
             cashClosedPayPojo.setFlag(1);
-            i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo);
+            i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
 
         }
 //        JSONArray jsonArray = JSONArray.fromObject(cash);
@@ -148,7 +149,7 @@ public class RevenueProvisionController {
         return i;
     }
     @RequestMapping("StatisticalTwoFees")
-    public int statisticalTwoFees(String TwoFees){
+    public int statisticalTwoFees(String TwoFees,HttpServletRequest request){
         int i=0;
         System.out.println("进来了===============================================");
         System.out.println(TwoFees);
@@ -168,7 +169,7 @@ public class RevenueProvisionController {
             cashClosedPayPojo.setAmount(twoFees.getPropertyNetWorth());
             cashClosedPayPojo.setDateTime(twoFees.getValueStatisticsDate());
             cashClosedPayPojo.setFlag(1);
-            i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo);
+            i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
 
         }
         return i;
