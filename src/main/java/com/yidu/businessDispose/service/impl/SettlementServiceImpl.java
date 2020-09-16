@@ -82,12 +82,19 @@ public class SettlementServiceImpl implements SettlementService {
             bankTreasurerPojo.setTotalPrice(settlement1.getTotalSum());
             bankTreasurerPojo.setAccountId(settlement1.getAccountId());
             bankTreasurerPojo.setAccountName(settlement1.getAccountName());
-            bankTreasurerPojo.setFlag(1);
-            bankTreasurerPojo.setDbTime(settlement1.getDateTime());
-            bankTreasurerPojo.setDateTime(settlement1.getSettlementDate());
+            int transactionDataMode = settlement1.getTransactionDataMode();
+
+            System.out.println("--------------------------------"+transactionDataMode);
+            if (transactionDataMode==1){
+                bankTreasurerPojo.setFlag(-1);
+            }else if (transactionDataMode==2){
+                bankTreasurerPojo.setFlag(1);
+            }
+            bankTreasurerPojo.setDbTime(settlement1.getSettlementDate());
+            bankTreasurerPojo.setDateTime(settlement1.getDateTime());
             bankTreasurerPojo.setBusinessId(settlement1.getTransactionDataId());
-            bankTreasurerPojo.setAllocatingType(4);
-            settlement1.setTransactionDataDesc("我爱你");
+            bankTreasurerPojo.setAllocatingType(3);
+            settlement1.setTransactionDataDesc("");
             bankTreasurerPojo.setBankTreasurerDesc(settlement1.getTransactionDataDesc());
             int status = settlement1.getStatus();
             String transactionDataId = settlement1.getTransactionDataId();

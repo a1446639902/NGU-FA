@@ -4,6 +4,7 @@ package com.yidu.businessData.pojo;
  * @name 戴言露 hzh
  * @data 2020/9/1 am
  * 证券应收应付表
+ * @Type: 实体类
  */
 public class SecuritiesClosedPayPojo {
     private String securitiesClosedPayId;//证券应收应付Id 主键

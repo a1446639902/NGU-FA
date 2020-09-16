@@ -31,6 +31,15 @@ public class DepositServiceImpl implements DepositService {
     BankTreasurerMapper bankTreasurerMapper;
     @Resource
     DbUtil dbUtil;
+
+    /**
+     *
+     * @param page  当前页码
+     * @param limit  每页显示的条数
+     * @param businessType   业务类型
+     * @param dateEnd       到期日期
+     * @return
+     */
     @Override
     public HashMap selectDeposit(int page,int limit,String businessType,String dateEnd) {
         HashMap depositMap = new HashMap<>();

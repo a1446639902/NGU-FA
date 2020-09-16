@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 证券应收应付表
  * @author 黄志豪
  * @version 1.0
- * @Type
+ * @Type 控制层
  * @time 2020/9/12
  **/
 @RestController

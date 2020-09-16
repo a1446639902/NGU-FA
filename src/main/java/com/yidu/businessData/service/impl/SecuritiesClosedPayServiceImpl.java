@@ -13,9 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 证券应收应付表
  * @author 黄志豪
  * @version 1.0
- * @Type
+ * @Type 服务层实现类
  * @time 2020/9/12
  **/
 @Service
@@ -54,7 +55,7 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
 
     @Override
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds) {
-        if(securitiesClosedPayIds !=null && !securitiesClosedPayIds.equals("")) {
+        if (securitiesClosedPayIds != null && !securitiesClosedPayIds.equals("")) {
             String[] split = securitiesClosedPayIds.split(",");
             ArrayList securitiesClosedPayIdList = new ArrayList<>();
             for (String securitiesClosedPayId : split) {

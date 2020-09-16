@@ -66,7 +66,7 @@
                 , toolbar: '#userToolBar' //开启头部工具栏，并为其绑定左侧模板
                 , title: '用户数据表'//表格名称
                 , cellMinWidth: 100
-                , height:'full-70'
+                , height:'full-30'
                 , cols: [
                     [ //表头既列名  title列名名称
                         {type: 'checkbox', fixed: 'left'}
@@ -225,30 +225,38 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var accounts=$('#addform').serialize();
-                $.post("../account/insertAccount",accounts,function(msg){
-                    if(msg>0){
-                        table.reload('myTable');
-                        layer.closeAll();
-                        layer.msg('添加成功',{
-                            title : '提示',
-                            area : [ '200px',
-                                '140px' ],
-                            time : 0,
-                            btn : [ '知道了' ]
-                        });
-                    }else{
-                        layer.closeAll();
-                        layer.msg('添加失败',{
-                            title : '提示',
-                            area : [ '200px',
-                                '140px' ],
-                            time : 0,
-                            btn : [ '知道了' ]
-                        });
-                    }
-                });
-                $("#addform")[0].reset();
-                return false;
+                var addopen=new Date($('#addopen').val()).getTime();//获得开户日期
+                var addend=new Date($('#addend').val()).getTime();//获得结束日期
+                if(addopen>addend){
+                    layer.msg("开户日期不能先于结束日期。请重新选择");
+                }
+                else {
+                    $.post("../account/insertAccount", accounts, function (msg) {
+                        if (msg > 0) {
+                            table.reload('myTable');
+                            layer.closeAll();
+                            layer.msg('添加成功', {
+                                title: '提示',
+                                area: ['200px',
+                                    '140px'],
+                                time: 0,
+                                btn: ['知道了']
+                            });
+                        } else {
+                            layer.closeAll();
+                            layer.msg('添加失败', {
+                                title: '提示',
+                                area: ['200px',
+                                    '140px'],
+                                time: 0,
+                                btn: ['知道了']
+                            });
+                        }
+                    });
+                }
+                    $("#addform")[0].reset();
+                    return false;
+
             });
 
 
@@ -329,7 +337,7 @@
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >开户时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="addopen" name="openTime" lay-verify="required"
+                        <input autocomplete="off" id="addopen" name="openTime" lay-verify="required"
                                placeholder="请选择日期" class="layui-input">
                     </div>
                 </div>
@@ -366,7 +374,7 @@
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >结束时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="addend" name="endTime" lay-verify="required"
+                        <input autocomplete="off" id="addend" name="endTime" lay-verify="required"
                                placeholder="请选择日期" class="layui-input">
                     </div>
                 </div>
