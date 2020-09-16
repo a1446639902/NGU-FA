@@ -32,7 +32,7 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">划款日期</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"   placeholder="请选择日期"  name="end" id="start">
+                <input class="layui-input" autocomplete="off"  placeholder="请选择日期"  name="end" id="start">
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -67,7 +67,7 @@
                 page: true,
                 toolbar: '#userToolBar',//显示在表头的工具条
                 cellMinWidth:60,
-                height:'full-70',
+                height:'full-30',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
@@ -185,6 +185,9 @@
                             , page: {
                                 curr: 1
                             }
+                        });
+                        laydate.render({
+                            elem: '#start'//指定元素
                         });
                         break;
                     case 'deleteAll':

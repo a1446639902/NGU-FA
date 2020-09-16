@@ -41,7 +41,7 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
             </div>
             <div class="layui-inline">
-                <input  type="text" class="layui-input"  placeholder="请选择日期"  id="start">
+                <input  autocomplete="off" class="layui-input"  placeholder="请选择日期"  id="start">
             </div>
 
 
@@ -350,7 +350,7 @@
             elem: '#userTable',
             url: '../selectSecuritiesClosedPayInventory',
             page: true,
-            height: 498,
+            height: 'full-30',
             toolbar: '#userToolBar',//显示在表头的工具条
             cellMinWidth: 60,
             minLength: 80,
@@ -426,6 +426,9 @@
                         , page: {
                             curr: 1
                         }
+                    });
+                    laydate.render({
+                        elem: '#start'
                     });
 
                     break;

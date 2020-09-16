@@ -139,19 +139,19 @@
                 elem: '#cashInventoryTable',
                 url: '../selectTaInventory',
                 page: true,
-                height: "full-70",
+                height: "full-30",
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
                 cols: [
                     [
                     {type: 'checkbox'}
-                    ,{field: 'taInventoryId', title: 'TA库存ID',align: 'center',sort: true}
-                    ,{field: 'fundName', title: '基金名称',align: 'center'}
-                    ,{field: 'tanum', title: 'TA数量',align: 'center',sort: true}
-                    ,{field: 'tatotal', title: 'TA金额',align: 'center',}
-                    ,{field: 'dateTime', title: '统计日期',align: 'center',sort: true}
-                    ,{field: 'taInventorydesc', title: '备注',align: 'center',}
-                    ,{fixed: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
+                    ,{field: 'taInventoryId', title: 'TA库存ID',align: 'center',width: 250}
+                    ,{field: 'fundName', title: '基金名称',align: 'center',width:300}
+                    ,{field: 'tanum', title: 'TA数量',align: 'center',width:185}
+                    ,{field: 'tatotal', title: 'TA金额',align: 'center',width:185}
+                    ,{field: 'dateTime', title: '统计日期',align: 'center',width: 200}
+                    ,{field: 'taInventorydesc', title: '备注',align: 'center',width: 260}
+                    ,{title: '操作', align:'center', toolbar: '#barDemo',width: 230}
                 ]
                 ]
             });
@@ -190,6 +190,9 @@
                         });
                         $.post("../selectTaInventory",{datetime},function(msg){
                             table.reload('cashInventoryTable');
+                        });
+                        laydate.render({
+                            elem: '#dateTime3',
                         });
                         break;
                     case 'deleteAll':

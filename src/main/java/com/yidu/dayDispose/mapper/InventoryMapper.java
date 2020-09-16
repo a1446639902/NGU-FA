@@ -27,19 +27,19 @@ public interface InventoryMapper {
             "\n" +
             "\n" +
             "    as unitPrice\n" +
-            "    from (select * from securitiesInventory where DATETIME=#{date} and FUNDID=#{funId}) si\n" +
-            "    full join(select sum(nvl(num,0)*flag) as newNum,sum(nvl(netReceipts,0)*flag) as newNetRectipts,securitiesId from transactionData where DATETIME=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd') and FUNDID=#{funId} group by securitiesId)  jy\n" +
+            "    from (select * from securitiesInventory where DATETIME=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd') and FUNDID=#{funId}) si\n" +
+            "    full join(select sum(nvl(num,0)*flag) as newNum,sum(nvl(netReceipts,0)*flag) as newNetRectipts,securitiesId from transactionData where DATETIME=#{date} and FUNDID=#{funId} group by securitiesId)  jy\n" +
             "        on si.SECURITIESID=jy.SECURITIESID\n" +
             "        group by si.securitiesId,jy.securitiesId")
     public List<InventorySecurityEntity> selectInvventory(String date,String funId);
 
     /**
-     * 证券库存的Mapper层  库存统计选择现金库存，点击统计后调用此方法
+     * Mapper层  库存统计选择现金库存，点击统计后调用此方法
      * date:统计的日期
      * funId:基金表ID
      * @return
      */
-    @Select("select (nvl(SECURITIESNUM,0) + zj.totalNum) as sumCa from\n" +
+    @Select("select (nvl(CASHBLANCE,0) + zj.totalNum) as sumCa from\n" +
             "(select * from CASHINVENTORY where DATETIME=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd')) xj full join\n" +
             "\n" +
             "(select accountid,sum(totalprice*flag) as totalNum from bankTreasurer where DBTIME=#{date}  group by accountid) zj\n" +
@@ -47,7 +47,7 @@ public interface InventoryMapper {
     public List<CaInventoryEntity> selectCaInventory(String date, String funId);
 
     /**
-     * 证券库存的Mapper层  库存统计选择TA库存，点击统计后调用此方法
+     * Mapper层  库存统计选择TA库存，点击统计后调用此方法
      * date:统计的日期
      * funId:基金表ID
      * @return
@@ -75,7 +75,7 @@ public interface InventoryMapper {
      * @param funId
      * @return
      */
-    @Select("    select nvl(xj.serviceType,kc.businessType) as serv,(NVL(totalMoney,0)+xj.tocal) as toca,xj.accountId\n" +
+    @Select("    select nvl(xj.serviceType,kc.businessType) as serv,(NVL(totalMoney,0)+NVL(xj.tocal,0)) as toca,NVL(xj.accountId,kc.ACCOUNTID) as accountId\n" +
             "    from\n" +
             "    (select * from cashClosedPayInventory where businessDate=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd')) kc\n" +
             "    full join\n" +
