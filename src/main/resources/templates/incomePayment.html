@@ -16,7 +16,7 @@
 
 
     <script type="text/javascript">
-        var layid = null;
+        var layid = 11;
         layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 
             var layer = layui.layer;
@@ -34,7 +34,7 @@
                 elem: '#cashTable',
                 url: '/selectCashClosedPays',
                 page: true,
-                height: 750,
+                height: 580,
                 minLength: 80,
                 cellMinWidth: 60,
                 cols: [
@@ -78,7 +78,7 @@
                 elem: '#bondTable',
                 url: '/selectSecuritiesClosedPay',
                 page: true,
-                height: 750,
+                height: 580,
                 minLength: 80,
                 cellMinWidth: 60,
                 cols: [
@@ -112,7 +112,7 @@
                 elem: '#costTable',
                 url: '/selectTwoCost',
                 page: true,
-                height: 750,
+                height: 580,
                 cellMinWidth: 60,
                 minLength: 80,
                 cols: [

@@ -19,7 +19,7 @@ import java.util.Map;
 @Mapper
 public interface CashClosedPayMapper {
     int insertCashClosedPay(CashClosedPayPojo cashClosePay);
-    int deleteCashClosedPay(String cashClosedPayId);
+    int deleteCashClosedPay(String cashClosedPayIds);
     int updateCashClosedPay(CashClosedPayPojo cashClosePay);
     void selectCashClosedPay(Map map);
     @Select("select cashClosedPayId from cashClosedPay where fundId=#{fundId} and serviceType=#{serviceType} and dateTime=#{dateTime} and flag=#{flag}")
