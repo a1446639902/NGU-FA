@@ -48,16 +48,16 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
     @Override
     public int deleteCashClosedPay(String cashClosedPayId) {
         System.out.println("删除的cashClosedPayId:="+cashClosedPayId);
-        if (cashClosedPayId!=null && cashClosedPayId.equals("")){
-        String[] cashClosedPayIds=cashClosedPayId.split(",");
-        int i=0;
-//      ArrayList<Object> cashClosedList=new ArrayList<>();
-        for (String cashId:cashClosedPayIds) {
-//           cashClosedList.add(cashId);
-            i = cashClosedPayMapper.deleteCashClosedPay(cashId);
-        }
-        return i;
-        }else{
+        if (cashClosedPayId!=null && !cashClosedPayId.equals("")){
+            String[] cashClosedPayIds=cashClosedPayId.split(",");
+            int i=0;
+//          ArrayList<Object> cashClosedList=new ArrayList<>();
+            for (String cashId:cashClosedPayIds) {
+//              cashClosedList.add(cashId);
+                i = cashClosedPayMapper.deleteCashClosedPay(cashId);
+            }
+            return i;
+        }else {
             return 0;
         }
     }

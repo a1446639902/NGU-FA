@@ -124,11 +124,7 @@ public class IncomePaymentController {
             cashClosedPayPojo.setCashClosedPayId(cashClosedPayId2);
             cashClosedPayPojo.setFundId(GetFundIdUtil.getFundId(request)) ;
             cashClosedPayPojo.setAccountId(income.getAccountId());
-            if (income.getBusinessType()==3){
-                cashClosedPayPojo.setServiceType(1);
-            }else if (income.getBusinessType()==1 || income.getBusinessType()==2){
-                cashClosedPayPojo.setServiceType(6);
-            }
+            cashClosedPayPojo.setServiceType(income.getBusinessType());
             cashClosedPayPojo.setAmount(income.getTotalMoney());
             cashClosedPayPojo.setDateTime(income.getBusinessDate());
             cashClosedPayPojo.setFlag(-1*income.getBusinessStatus());
@@ -144,7 +140,11 @@ public class IncomePaymentController {
             bankTreasurerPojo.setDbTime(income.getBusinessDate());
             bankTreasurerPojo.setDateTime(income.getBusinessDate());
             bankTreasurerPojo.setBusinessId(cashClosedPayId2);
-            bankTreasurerPojo.setAllocatingType(1);
+            if (income.getBusinessType()==3){
+                bankTreasurerPojo.setAllocatingType(1);
+            }else if (income.getBusinessType()==1 || income.getBusinessType()==2){
+                bankTreasurerPojo.setAllocatingType(6);
+            }
             bankTreasurerPojo.setBankTreasurerDesc("");
             i = bankTreasurerService.insertBankTreasurer(bankTreasurerPojo);
         }
