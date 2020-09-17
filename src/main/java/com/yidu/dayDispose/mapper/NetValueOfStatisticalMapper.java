@@ -15,6 +15,7 @@ import java.util.List;
  **/
 @Mapper
 public interface NetValueOfStatisticalMapper {
+
     //查询证券中股票的数据
     List<SelectAllMsgPojo> selectAllMsg(String time);
 
@@ -45,8 +46,11 @@ public interface NetValueOfStatisticalMapper {
     //查询ta库存计算单位净值
     Double selectTA(String time);
 
-    //删除净值统计表
+    //删除非当日的净值统计表
     int deleteNetValueOfStatistical(String time);
+
+    //删除当日的净值统计表
+    int deleteNetValueOfStatisticalToDay(String time);
 
     //拿到数据增加进净值统计表
     int insertNetValueOfStatistical(NetValueOfStatisticalPojo netValueOfStatisticalPojo);

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.dayDispose.mapper.NetValueOfStatisticalMapper">
+    <!--删除除开当日的净值统计表-->
+    <delete id="deleteNetValueOfStatistical" parameterType="String">
+        delete from VALUESTATISTICS where VALUESTATISTICSDATE != #{time}
+    </delete>
+
+    <!--删除当日的净值统计表-->
+    <delete id="deleteNetValueOfStatisticalToDay" parameterType="String">
+        delete from VALUESTATISTICS where VALUESTATISTICSDATE = #{time}
+    </delete>
+
+    <!--创建树形结构-->
+    <insert id="insertTree" parameterType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
+        insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectFatherId,fundId)
+         values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectFatherId},#{fundId})
+    </insert>
+
     <!-- 查询，根据日期查询出股票的买入卖出-->
     <select id="selectAllMsg" resultType="com.yidu.dayDispose.pojo.SelectAllMsgPojo" parameterType="String">
 select securitiesName ,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE
@@ -9,11 +25,13 @@ where t1.SECURITIESID = t2.SECURITIESID and t1.DATETIME=#{time}
 group by securitiesName,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE
     </select>
 
-    <!--创建树形结构-->
-    <insert id="insertTree" parameterType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
-        insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectFatherId,fundId)
-         values (#{valueStatisticsDate},#{projectId},#{projectName},#{projectFatherId},#{fundId})
-    </insert>
+    <!--查询证券中债券的数据-->
+    <select id="selectAllMsgTwo" resultType="com.yidu.dayDispose.pojo.SelectAllMsgDemoOnePojo" parameterType="String">
+select t1.SECURITIESID,BONDNAME,SECURITIESNUM,TOTAL,CLOSINGPRICE from
+MARKET t1 ,SECURITIESINVENTORY t2 , BOND t3
+where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID and t1.DATETIME = #{time}
+    </select>
+
     <!--查询现金表的余额-->
     <select id="selectCashBlance" resultType="com.yidu.dayDispose.pojo.CashBlancePojo">
         select ACCOUNTNAME,BLANKCARDCODE,CASHBLANCE from
@@ -25,13 +43,6 @@ where t1.FUNDID = t2.FUNDID and t1.DATETIME=#{DATETIME}
     <select id="selectAmount" resultType="com.yidu.dayDispose.pojo.ServiceTypePojo" parameterType="String">
       select AMOUNT,ACCOUNTNAME,BLANKCARDCODE from CASHCLOSEDPAY t1 ,ACCOUNT t2
 where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
-    </select>
-
-    <!--查询证券中债券的数据-->
-    <select id="selectAllMsgTwo" resultType="com.yidu.dayDispose.pojo.SelectAllMsgDemoOnePojo" parameterType="String">
-select t1.SECURITIESID,BONDNAME,SECURITIESNUM,TOTAL,CLOSINGPRICE from
-MARKET t1 ,SECURITIESINVENTORY t2 , BOND t3
-where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID and t1.DATETIME = #{time}
     </select>
 
     <!--查询债券利息-->
@@ -59,11 +70,6 @@ where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID an
         select TANUM from TAINVENTORY where DATETIME = #{DATETIME}
     </select>
 
-    <!--删除净值统计表-->
-    <delete id="deleteNetValueOfStatistical" parameterType="String">
-        delete from VALUESTATISTICS where VALUESTATISTICSDATE=#{time}
-    </delete>
-
     <!--拿到股票，债券，现金数据增加进净值统计表 公用方法-->
     <insert id="insertNetValueOfStatistical" parameterType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo">
        insert into valueStatistics (valueStatisticsDate,projectId,projectName,projectCode,quantityint,peice,cost,marketValue,valuation,projectFatherId,fundId)
@@ -75,9 +81,7 @@ where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID an
             parameterType="String">
         select
         valueStatisticsDate,projectId,projectName,projectCode,quantityint,peice,cost,marketValue,valuation,projectFatherId
-        from valueStatistics where 1=1
-        <if test="time!=null">
-            and VALUESTATISTICSDATE=#{time}
-        </if>
+        from valueStatistics where VALUESTATISTICSDATE=#{time} order by projectId
+
     </select>
 </mapper>

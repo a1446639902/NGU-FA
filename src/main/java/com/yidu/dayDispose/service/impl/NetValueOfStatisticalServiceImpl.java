@@ -19,6 +19,7 @@ public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalSe
     @Resource
     NetValueOfStatisticalMapper netValueOfStatisticalMapper;
 
+
     @Override
     public List<SelectAllMsgPojo> selectAllMsg(String time) {
         return netValueOfStatisticalMapper.selectAllMsg(time);
@@ -72,6 +73,11 @@ public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalSe
     @Override
     public int deleteNetValueOfStatistical(String time) {
         return netValueOfStatisticalMapper.deleteNetValueOfStatistical(time);
+    }
+
+    @Override
+    public int deleteNetValueOfStatisticalToDay(String time) {
+        return netValueOfStatisticalMapper.deleteNetValueOfStatisticalToDay(time);
     }
 
 
