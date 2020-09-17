@@ -75,6 +75,18 @@ public class SecuritiesController {
         return securitiesMap;
     }
 
+
+    @RequestMapping("/selectSecurities1")
+    public HashMap selectSecurities1(String securitiesType){
+        List<SecuritiesPojo> securitiesPojoList = securitiesService.selectSecurities1(securitiesType);
+        HashMap securitiesMap=new HashMap();
+        securitiesMap.put("count",null);
+        securitiesMap.put("code",0);
+        securitiesMap.put("msg","");
+        securitiesMap.put("data",securitiesPojoList);
+        return securitiesMap;
+    }
+
 /*@RequestMapping("/selectSecurities")
         public List<SecuritiesPojo>selectSecurities(){
         List<SecuritiesPojo>securitiesPojoList=securitiesService.selectSecurities();
