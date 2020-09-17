@@ -37,9 +37,9 @@ public class AppraisementServiceImpl implements AppraisementService {
     }
 
     @Override
-    public HashMap selectStockarket() {
+    public HashMap selectStockarket(String toDay) {
         HashMap stockarketMap = new HashMap();
-        stockarketMap.put("p_tableName","(select se.fundId,se.securitiesId,ROUND((SE.securitiesNum*M.closingPrice ),2)as tootaIPrice, SE.securityPeriodFlag from securitiesInventory se join market m on se.securitiesId=m.securitiesId)");
+        stockarketMap.put("p_tableName","(select se.fundId,se.securitiesId,ROUND((SE.securitiesNum*M.closingPrice ),2)as tootaIPrice, SE.securityPeriodFlag from securitiesInventory se join market m on se.securitiesId=m.securitiesId where m.DATETIME='"+toDay+"')");
         stockarketMap.put("p_condition","");
         stockarketMap.put("p_pageSize",10);
         stockarketMap.put("p_page",1);

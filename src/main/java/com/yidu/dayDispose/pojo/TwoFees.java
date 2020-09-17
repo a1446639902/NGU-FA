@@ -13,6 +13,9 @@ public class TwoFees {
     private double propertyNetWorth; //资产净值
     private String valueStatisticsDate;
     private String accountId;
+    private double managementMoney;
+    private double CustodyMoney;
+    private double marketValue;
     public String getFundId() {
         return fundId;
     }
@@ -112,7 +115,31 @@ public class TwoFees {
         this.accountId = accountId;
     }
 
-    public TwoFees(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double propertyNetWorth, String valueStatisticsDate, String accountId) {
+    public double getManagementMoney() {
+        return managementMoney;
+    }
+
+    public void setManagementMoney(double managementMoney) {
+        this.managementMoney = managementMoney;
+    }
+
+    public double getCustodyMoney() {
+        return CustodyMoney;
+    }
+
+    public void setCustodyMoney(double custodyMoney) {
+        CustodyMoney = custodyMoney;
+    }
+
+    public double getMarketValue() {
+        return marketValue;
+    }
+
+    public void setMarketValue(double marketValue) {
+        this.marketValue = marketValue;
+    }
+
+    public TwoFees(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double propertyNetWorth, String valueStatisticsDate, String accountId, double managementMoney, double custodyMoney, double marketValue) {
         this.fundId = fundId;
         this.fundName = fundName;
         this.fundType = fundType;
@@ -125,6 +152,9 @@ public class TwoFees {
         this.propertyNetWorth = propertyNetWorth;
         this.valueStatisticsDate = valueStatisticsDate;
         this.accountId = accountId;
+        this.managementMoney = managementMoney;
+        CustodyMoney = custodyMoney;
+        this.marketValue = marketValue;
     }
 
     @Override
@@ -142,6 +172,9 @@ public class TwoFees {
                 ", propertyNetWorth=" + propertyNetWorth +
                 ", valueStatisticsDate='" + valueStatisticsDate + '\'' +
                 ", accountId='" + accountId + '\'' +
+                ", managementMoney=" + managementMoney +
+                ", CustodyMoney=" + CustodyMoney +
+                ", marketValue=" + marketValue +
                 '}';
     }
 }

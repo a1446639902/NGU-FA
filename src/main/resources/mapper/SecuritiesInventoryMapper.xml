@@ -23,15 +23,9 @@
         <result property="securitiesNum" column="securitiesNum"></result>
         <result property="price" column="price"></result>
         <result property="total" column="total"></result>
+        <result property="flag" column="flag"></result>
+        <result column="securitiesName" property="securitiesName"></result>
+        <result property="fundName" column="fundName"></result>
         <result property="securitiesInventoryDesc" column="securitiesInventoryDesc"></result>
-        <association property="securitiesPojo" javaType="com.yidu.businessParameter.pojo.SecuritiesPojo">
-            <result column="securitiesName" property="securitiesName"></result>
-        </association>
-        <association property="fund" javaType="com.yidu.businessParameter.pojo.Fund">
-            <result property="fundName" column="fundName"></result>
-        </association>
-        <association property="accountPojo" javaType="com.yidu.businessParameter.pojo.AccountPojo">
-            <result property="accountName" column="accountName"></result>
-        </association>
     </resultMap>
 </mapper>

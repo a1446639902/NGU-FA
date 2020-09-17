@@ -49,7 +49,7 @@ public class AppraisementController {
 
                 if(valuationProcessing.getStatus().equals("证券估值增值")){
                     System.out.println("证券估值增值开始估值");
-                    HashMap stockarketMap = appraisementService.selectStockarket();
+                    HashMap stockarketMap = appraisementService.selectStockarket(toDay);
                     List<StockSecuritiesJoinMarket> stockSecuritiesJoinMarketList = (List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor");
                     for (StockSecuritiesJoinMarket stockSecuritiesJoinMarket : stockSecuritiesJoinMarketList) {
                         System.out.println( stockSecuritiesJoinMarket.getSecuritiesId()+"========================================");

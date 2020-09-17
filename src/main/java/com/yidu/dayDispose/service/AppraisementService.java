@@ -16,7 +16,7 @@ public interface AppraisementService {
     //查询应收应付状态
     public List<Appraisement> selectValuationProcessing();
     //证券库存join行情表查询
-    public HashMap selectStockarket();
+    public HashMap selectStockarket(String toDay);
     //删除证券应收应付库存
     public int deleteSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo);
 
