@@ -9,6 +9,8 @@ import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -51,6 +53,13 @@ public class ClosingDateStatementServiceImpl implements ClosingDateStatementServ
             }
         }
         double finalToalMoney=inTotalMoney-outTotalMoney;    //大于0
+        //double留2个小数点
+        BigDecimal bg = new BigDecimal(inTotalMoney);
+        inTotalMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        BigDecimal bg1 = new BigDecimal(outTotalMoney);
+        outTotalMoney = bg1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        BigDecimal bg2 = new BigDecimal(finalToalMoney);
+        finalToalMoney = bg2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         ClosingDateStatementPojo pojo1 = new ClosingDateStatementPojo();
         pojo1.setSecuritiesId("流入合计");
         pojo1.setTotalSum(inTotalMoney);
