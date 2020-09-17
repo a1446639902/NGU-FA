@@ -48,4 +48,10 @@
             #{securitiesId}
         </foreach>
     </delete>
+
+
+    <!--查询债券-->
+    <select id="selectSecurities1" parameterType="String" resultType="com.yidu.businessParameter.pojo.SecuritiesPojo">
+        select * from securities where securitiesType=#{securitiesType}
+    </select>
 </mapper>

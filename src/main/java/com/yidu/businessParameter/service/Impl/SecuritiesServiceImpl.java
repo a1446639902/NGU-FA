@@ -70,6 +70,14 @@ public class SecuritiesServiceImpl implements SecuritiesService {
         return securitiesMap;
     }
 
+    @Override
+    public List<SecuritiesPojo> selectSecurities1(String securitiesType) {
+
+        List<SecuritiesPojo> securitiesPojoList = securitiesMapper.selectSecurities1(securitiesType);
+        return securitiesPojoList;
+    }
+
+
    /* @Override
     public HashMap selectSecurities() {
         HashMap securitiesMap = new HashMap();

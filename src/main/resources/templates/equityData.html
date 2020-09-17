@@ -46,7 +46,7 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">权益除权日</label>
 
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="end" id="equitiesExright">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="equitiesExright" id="equitiesExright">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -108,13 +108,13 @@
 //新增证券下拉选择器
             tableSelect.render({
                 elem: '#securityName'
-                , checkedKey: 'securityId'
+                , checkedKey: 'securitiesId'
                 , table: {
-                    url: '../selectEquityData'
+                    url: '../selectSecurities1?securitiesType=2'
                     , cols: [
                         [
                             {type: 'radio'},
-                            {field: 'securityId', title: '证券ID',width:250},
+                            {field: 'securitiesId', title: '证券ID',width:250},
                             {field: 'securitiesName', title: '证券名称',width: 250},
                         ]
                     ]
@@ -123,8 +123,8 @@
                     var NEWJSON = []
                     layui.each(data.data, function (index, item) {
                         NEWJSON.push(item.securitiesName)
-                        console.log(item.securityId)
-                        $("#securityId").val(item.securityId);
+                        console.log(item.securitiesId)
+                        $("#securityId").val(item.securitiesId);
                     })
                     elem.val(NEWJSON.join(","))
                 }
@@ -158,13 +158,13 @@
             //修改证券下拉选择器
             tableSelect.render({
                 elem: '#securityName2'
-                , checkedKey: 'securityId'
+                , checkedKey: 'securitiesId'
                 , table: {
-                    url: '../selectEquityData'
+                    url: '../selectSecurities1?securitiesType=2'
                     , cols: [
                         [
                             {type: 'radio'},
-                            {field: 'securityId', title: '证券ID',width:250},
+                            {field: 'securitiesId', title: '证券ID',width:250},
                             {field: 'securitiesName', title: '证券名称',width: 250},
                         ]
                     ]
@@ -173,8 +173,8 @@
                     var NEWJSON = []
                     layui.each(data.data, function (index, item) {
                         NEWJSON.push(item.securitiesName)
-                        console.log(item.securityId)
-                        $("#securityId2").val(item.securityId);
+                        console.log(item.securitiesId)
+                        $("#securityId2").val(item.securitiesId);
                     })
                     elem.val(NEWJSON.join(","))
                 }
@@ -296,7 +296,7 @@
                             return '已处理';
                         }
                     }
-                        ,{title: 'operation', title: '操作' , toolbar:'#barDemo', align:'center',fixed: 'right'}
+                        ,{title: 'operation',  title: '操作' ,toolbar:'#barDemo', align:'center',fixed: 'right'}
                     ]
                 ]
             });
@@ -323,7 +323,7 @@
                         break;
                     case 'search':
                         alert("搜索");
-                        var equitiesExright= $("#end").val();
+                        var equitiesExright= $("#equitiesExright").val();
                         var equitiesType= $("#equitiesType").val()
                         //表格的重新加载事件
                         table.reload('userTable', {
@@ -368,29 +368,35 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到删除行整行的数据
-                if (obj.event === 'del') {
-                    layer.confirm('真的删除行么',{icon: 2}, function(index){
+                if(data.disposeStatus==1){
+                    layer.msg('已处理业务无法删除和修改');
+                }else if (data.disposeStatus==0) {
+                    if (obj.event === 'del') {
+                        layer.confirm('真的删除行么', {icon: 2}, function (index) {
 
-                        layer.close(index);
-                        $.post("../deleteEquityData", {equityDataId:data.equityDataId+""},function(msg){
-                            table.reload('userTable');
+                            layer.close(index);
+                            $.post("../deleteEquityData", {equityDataId: data.equityDataId + ""}, function (msg) {
+                                table.reload('userTable');
+                            });
+
                         });
+                    } else if (obj.event === 'edit') {
+                        form.val('editform', $.parseJSON(JSON.stringify(data)));
+                        var index = layer.open({
+                            type: 1,
+                            title: '修改权益数据',
+                            closeBtn: 1,
+                            move: false,
+                            area: ['893px', '550px'],
+                            content: $('#editContent')
+                        });
+                        form.render();
 
-                    });
-                } else if (obj.event === 'edit') {
-                    form.val('editform',$.parseJSON(JSON.stringify(data)));
-                    var index = layer.open({
-                        type: 1,
-                        title: '修改权益数据',
-                        closeBtn: 1,
-                        move:false,
-                        area: ['893px', '550px'],
-                        content:$('#editContent')
-                    });
-                    form.render();
-
-                };
+                    }
+                    ;
+                }
             })
+
         });
         function myclose() {
             layer.closeAll();
@@ -705,7 +711,7 @@
 
 
             <div style="position: absolute; bottom: 0px; margin-left: 200px">
-                <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="addsubmit">
+                <button class="layui-btn layui-bg-green" lay-submit="" lay-filter="addsubmit">
                     <i class="layui-icon">&#x1005;</i>添加
                 </button>
                 <button class="layui-btn layui-bg-red" type="button" onclick="myclose()" style="color: #ff0000">
@@ -796,7 +802,7 @@
 
 
         <div style="position: absolute; bottom: 30px; margin-left: 200px">
-            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="editsubmit">
+            <button class="layui-btn layui-bg-green" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>编辑
             </button>
             <button class="layui-btn layui-bg-red" type="button" onclick="myclose()" style="color: #ff0000">

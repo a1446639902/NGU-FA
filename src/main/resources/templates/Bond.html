@@ -82,7 +82,7 @@
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券编号</label>
             <div class="layui-input-inline">
                 <input class="layui-input"  autocomplete="off" placeholder="证券编号"
-                       name="securitiesId" id="insertAccountName">
+                       name="securitiesId" id="insertSecurities">
             </div>
 
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券名称</label>
@@ -266,34 +266,32 @@
             tableSelect=layui.tableSelect;
         //增加得下拉表格
         tableSelect.render({
-            elem:'#insertAccountName',
-            checkedKey:'accountName',
+            elem:'#insertSecurities',
+            checkedKey:'securitiesId',
+            where:{
+                securitiesType:1
+            },
             table:{
-                url:'../account/selectAccount',
+                url:'../selectSecurities1',
                 cellMinWidth:60,
 
                 cols:[
                     [   {type:'radio'},
-                        {field:'accountName',title:'账户名称',width:250},
-                        {field: 'accountId',title: '账号Id',width:250}
+                        {field:'securitiesId',title:'证券编号',width:250},
+                        {field: 'securitiesName',title: '证券名称',width:250}
                     ]
                 ]
             },
             done:function (elem,data) {
-                //elem:返回之前input对象；data:表格返回的选中的数据 []
-                var newJson=[];
-                //遍历选中的数据
-                $.each(data.data,function (index,item) {
-                    newJson.push(item.accountName);
-                    $("#insertAccountName").val(item.accountId);//给隐藏域中的val赋值
-                });
-                elem.val(newJson.join(","));//给输入框里显示的值赋值
-
+            var NEWJSON = [];
+            layui.each(data.data,function (index,item) {
+                NEWJSON.push(item.securitiesName);
+                $("#securitiesId").val(item.securitiesId);
+            })
+            elem.val(NEWJSON.join(","));
             }
         })
-
     })
-
 </script>
 </body>
 </html>

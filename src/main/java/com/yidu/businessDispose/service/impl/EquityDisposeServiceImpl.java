@@ -5,12 +5,11 @@ import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessDispose.mapper.EquityDisposeMapper;
 import com.yidu.businessDispose.pojo.EquityDispose;
 import com.yidu.businessDispose.service.EquityDisposeService;
-import com.yidu.util.DbUtil;
-import com.yidu.util.JsonUtil;
-import com.yidu.util.SysTableNameListUtil;
+import com.yidu.util.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +94,7 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
     }
 
     @Override
-    public int updateEquityDispose(String equityDisPose) {
+    public int updateEquityDispose(String equityDisPose, HttpServletRequest request) {
         List<EquityDispose> equityDisposeList = JsonUtil.jsonToArrayList(equityDisPose, EquityDispose.class);
         for (EquityDispose equityDispose2 : equityDisposeList) {
             //new 一个交易数据的实体类对象
@@ -112,14 +111,16 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
             transactionData.setAccountName(equityDispose2.getAccountName());//账户名称
             transactionData.setSecuritiesName(equityDispose2.getSecuritiesName());//证券名称
             transactionData.setBrokersName("长城证券");//券商名称
-            transactionData.setBrokersName("长城证券");
-            transactionData.setFundId("000899");//基金代码
+//            transactionData.setBrokersName("长城证券");
+            String fundId= GetFundIdUtil.getFundId(request);
+            transactionData.setFundId(fundId);//基金代码
             transactionData.setFundName("华宝高端制造股票型证券投资基金");//基金名称
             transactionData.setSecuritiesId("600031");//证券ID
             transactionData.setBrokersId("10050000");//券商ID
             transactionData.setSeateId("10050000001");//席位ID
             transactionData.setSeateName("长城上海");//席位名称
-            transactionData.setAccountId("000899001");//账户ID
+            String AccountId = GetAccountUtil.getAccountId(request);
+            transactionData.setAccountId(AccountId);//账户ID
             transactionData.setBlankName("中国建设银行");//银行名称
             transactionData.setFlag(1);//交易标识
             transactionData.setCommission(0.0);//佣金费用
@@ -131,7 +132,7 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
             transactionData.setTransactionDataDesc("");//备注
             transactionData.setTransactionDataMode(equityDispose2.getEquitiesType());//交易方式
             transactionData.setStatus(equityDispose2.getDisposeStatus());//处理状态
-
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+transactionData);
 
             int disposeStatus = equityDispose2.getDisposeStatus();
             String equityDataId = equityDispose2.getEquityDataId();

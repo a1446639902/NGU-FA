@@ -29,7 +29,7 @@ public class EquityDataController {
     @RequestMapping("insertEquityData")
     public int insertEquityData(EquityData equityData) {
         equityData.setEquityDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.ED));
-        equityData.setEquityDataId(DateTimeUtil.getSystemDateTime("yyyy-MM-dd"));
+        equityData.setDateTime(DateTimeUtil.getSystemDateTime("yyyy-MM-dd"));
         int i = equityDataService.insertEquityData(equityData);
         return i;
     }

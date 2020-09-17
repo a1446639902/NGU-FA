@@ -14,7 +14,7 @@ public class TwoFees {
     private String valueStatisticsDate;
     private String accountId;
     private double managementMoney;
-    private double CustodyMoney;
+    private double custodyMoney;
     private double marketValue;
     public String getFundId() {
         return fundId;
@@ -124,11 +124,11 @@ public class TwoFees {
     }
 
     public double getCustodyMoney() {
-        return CustodyMoney;
+        return custodyMoney;
     }
 
     public void setCustodyMoney(double custodyMoney) {
-        CustodyMoney = custodyMoney;
+        this.custodyMoney = custodyMoney;
     }
 
     public double getMarketValue() {
@@ -153,7 +153,7 @@ public class TwoFees {
         this.valueStatisticsDate = valueStatisticsDate;
         this.accountId = accountId;
         this.managementMoney = managementMoney;
-        CustodyMoney = custodyMoney;
+        this.custodyMoney = custodyMoney;
         this.marketValue = marketValue;
     }
 
@@ -173,7 +173,7 @@ public class TwoFees {
                 ", valueStatisticsDate='" + valueStatisticsDate + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", managementMoney=" + managementMoney +
-                ", CustodyMoney=" + CustodyMoney +
+                ", custodyMoney=" + custodyMoney +
                 ", marketValue=" + marketValue +
                 '}';
     }
