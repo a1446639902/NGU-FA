@@ -6,6 +6,7 @@ public class EquityDispose {
     private String accountName;//账户名称
     private int equitiesType;//权益类型
     private String equitiesExright;//除权日
+    private String receivedDate;//到账日期
     private int securitiesNum;//证券数量
     private int proportion;//比例
     private String settlementAmount;//结算金额
@@ -15,13 +16,13 @@ public class EquityDispose {
     public EquityDispose() {
     }
 
-    public EquityDispose(String equityDataId, String securitiesName, String accountName, int equitiesType,
-                         String equitiesExright, int securitiesNum, int proportion, String settlementAmount, int disposeStatus) {
+    public EquityDispose(String equityDataId, String securitiesName, String accountName, int equitiesType, String equitiesExright, String receivedDate, int securitiesNum, int proportion, String settlementAmount, int disposeStatus) {
         this.equityDataId = equityDataId;
         this.securitiesName = securitiesName;
         this.accountName = accountName;
         this.equitiesType = equitiesType;
         this.equitiesExright = equitiesExright;
+        this.receivedDate = receivedDate;
         this.securitiesNum = securitiesNum;
         this.proportion = proportion;
         this.settlementAmount = settlementAmount;
@@ -68,6 +69,14 @@ public class EquityDispose {
         this.equitiesExright = equitiesExright;
     }
 
+    public String getReceivedDate() {
+        return receivedDate;
+    }
+
+    public void setReceivedDate(String receivedDate) {
+        this.receivedDate = receivedDate;
+    }
+
     public int getSecuritiesNum() {
         return securitiesNum;
     }
@@ -108,8 +117,10 @@ public class EquityDispose {
                 ", accountName='" + accountName + '\'' +
                 ", equitiesType=" + equitiesType +
                 ", equitiesExright='" + equitiesExright + '\'' +
+                ", receivedDate='" + receivedDate + '\'' +
                 ", securitiesNum=" + securitiesNum +
                 ", proportion=" + proportion +
+                ", settlementAmount='" + settlementAmount + '\'' +
                 ", disposeStatus=" + disposeStatus +
                 '}';
     }

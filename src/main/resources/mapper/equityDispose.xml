@@ -23,4 +23,9 @@
     <update id="updateEquityDispose">
         update equityData set disposeStatus=#{disposeStatus} where equityDataId=#{equityDataId}
     </update>
+
+    <update id="updateEquityDisposeTwo">
+        update equityData set disposeStatus=#{disposeStatus} where equityDataId=#{equityDataId}
+    </update>
+
 </mapper>
