@@ -33,7 +33,7 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
     
     @Override
     public int insertCashClosedPay(CashClosedPayPojo cashClosedPay,HttpServletRequest request) {
-        System.out.println("新增的cashClosedPay:="+cashClosedPay);
+//        System.out.println("新增的cashClosedPay:="+cashClosedPay);
         //得到当天当前数据表中的最大Id
         String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
         //将获得的最大id赋值给实体类中，作为参数调用sql语句
@@ -41,13 +41,13 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
         //得到请求中的session中的fundId
         String fundId = GetFundIdUtil.getFundId(request);
         //将得到的fundId赋值到实体类中
-        cashClosedPay.setCashClosedPayId(fundId);
+        cashClosedPay.setFundId(fundId);
         return cashClosedPayMapper.insertCashClosedPay(cashClosedPay);
     }
 
     @Override
     public int deleteCashClosedPay(String cashClosedPayId) {
-        System.out.println("删除的cashClosedPayId:="+cashClosedPayId);
+//        System.out.println("删除的cashClosedPayId:="+cashClosedPayId);
         if (cashClosedPayId!=null && !cashClosedPayId.equals("")){
             String[] cashClosedPayIds=cashClosedPayId.split(",");
             int i=0;

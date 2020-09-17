@@ -198,7 +198,7 @@
             });
             form.on('submit(statistics)', function (data) {
                 //alert(data.field); 当前容器的全部表单字段，名值对形式：{name: value}Object object
-                alert("layid=" + layid);//直接进入点击，null
+               // alert("layid=" + layid);//直接进入点击
                 if (layid == 11) {
                     var checkStatus = table.checkStatus('cashTable');//获得选中行所有数据
                     // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
@@ -207,9 +207,9 @@
                     $.each(dataArr, function (i, n) {
                         cashs.push(n)
                     });
-                    alert(cashs)
+
                     var cash = JSON.stringify(cashs);
-                    alert("转为json格式的现金数据:=" + cash);
+
                     $.post("/testCash", "cash="+cash, function (msg) {
                         if (msg > 0) {
 
@@ -222,9 +222,9 @@
                     $.each(dataArr, function (i, n) {
                         bonds.push(n)
                     });
-                    alert(bonds)
+
                     var bond = JSON.stringify(bonds);
-                    alert("转为json格式的债券数据:=" + bond);
+
                     $.post("/testBond", "bond="+bond, function (msg) {
                         if (msg > 0) {
 
@@ -238,7 +238,7 @@
                         cashs.push(n)
                     });
                     var cash = JSON.stringify(cashs);
-                    alert("转为json格式的两费数据:=" + cash);
+
                     $.post("/testCash", "cash=" + cash, function (msg) {
                         if (msg > 0) {
 

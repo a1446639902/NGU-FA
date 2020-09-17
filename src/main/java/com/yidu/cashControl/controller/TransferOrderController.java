@@ -1,4 +1,3 @@
-/*
 package com.yidu.cashControl.controller;
 
 import com.yidu.businessParameter.mapper.AccountMapper;
@@ -21,13 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-*/
 /**
  * @author 黄志豪
  * @version 1.0
  * @Type
  * @time 2020/9/11
- **//*
+ **/
 
 @RestController
 @RequestMapping("/transferOrderController")
@@ -122,12 +120,11 @@ public class TransferOrderController {
         verticalStyle.setRotation((short) 255);//竖向
         verticalStyle.setLocked(true);
         verticalStyle.setWrapText(false);// 自动换行
-		*/
-/*verticalStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+verticalStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
 		verticalStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
 		verticalStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
 		verticalStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
-*//*
+
 
         //单元格样式，左右上下居中 无边框
         CellStyle commonStyleNoBorder = wb.createCellStyle();
@@ -426,4 +423,3 @@ public class TransferOrderController {
         out.close();
     }
 }
-*/
