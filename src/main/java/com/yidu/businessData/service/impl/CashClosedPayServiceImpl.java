@@ -34,17 +34,27 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
     @Override
     public int insertCashClosedPay(CashClosedPayPojo cashClosedPay,HttpServletRequest request) {
 //        System.out.println("新增的cashClosedPay:="+cashClosedPay);
-        //得到当天当前数据表中的最大Id
-        String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
-        //将获得的最大id赋值给实体类中，作为参数调用sql语句
-        cashClosedPay.setCashClosedPayId(cashClosedPayId);
-        //得到请求中的session中的fundId
-        String fundId = GetFundIdUtil.getFundId(request);
-        //将得到的fundId赋值到实体类中
-        cashClosedPay.setFundId(fundId);
+        if (cashClosedPay.getCashClosedPayId() ==null || cashClosedPay.getCashClosedPayId().equals("")) {
+            //得到当天当前数据表中的最大Id
+            String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
+            //将获得的最大id赋值给实体类中，作为参数调用sql语句
+            cashClosedPay.setCashClosedPayId(cashClosedPayId);
+        }
+        if (cashClosedPay.getFundId()==null || cashClosedPay.getFundId().equals("")) {
+            //得到请求中的session中的fundId
+            String fundId = GetFundIdUtil.getFundId(request);
+            //将得到的fundId赋值到实体类中
+            cashClosedPay.setFundId(fundId);
+        }
         return cashClosedPayMapper.insertCashClosedPay(cashClosedPay);
     }
-
+/*<delete id="deleteCashClosedPay__" parameterType="list">
+        delete from fund where fundId in
+            <foreach collection="list" item="cashClosedPayId" open="("
+        separator="," close=")">
+                #{cashClosedPayId}
+            </foreach>
+        </delete>*/
     @Override
     public int deleteCashClosedPay(String cashClosedPayId) {
 //        System.out.println("删除的cashClosedPayId:="+cashClosedPayId);
@@ -61,13 +71,7 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
             return 0;
         }
     }
-/*<delete id="deleteCashClosedPay__" parameterType="list">
-    delete from fund where fundId in
-        <foreach collection="list" item="cashClosedPayId" open="("
-    separator="," close=")">
-            #{cashClosedPayId}
-        </foreach>
-    </delete>*/
+
     @Override
     public int updateCashClosedPay(CashClosedPayPojo cashClosedPay) {
         System.out.println("修改的cashClosedPay:="+cashClosedPay);

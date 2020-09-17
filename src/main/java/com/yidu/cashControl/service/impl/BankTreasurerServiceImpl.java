@@ -74,7 +74,6 @@ public class BankTreasurerServiceImpl implements BankTreasurerService {
                 bankTreasurerList.add(bankTreasurerId);
                 System.out.println(bankTreasurerId);
             }
-
             return bankTreasurerMapper.deleteBankTreasurer(bankTreasurerList);
         }
         else return 0;

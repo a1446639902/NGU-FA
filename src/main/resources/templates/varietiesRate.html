@@ -112,7 +112,8 @@
                         });
                     }
                 });
-                layer.empty();
+
+                layer.reset();
                 return false;
             });
 
@@ -245,6 +246,8 @@
                                 curr: 1
                             }
                         });
+                        $("#condition1").val(exchangeName);
+                        $("#condition2").val(rateType);
                         break;
                     case 'deleteAll':
                         var checkStatus = table.checkStatus(obj.config.id);//得到表格中选中行的ID
