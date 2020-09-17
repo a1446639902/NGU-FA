@@ -112,7 +112,7 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
             transactionData.setAccountName(equityDispose2.getAccountName());//账户名称
             transactionData.setSecuritiesName(equityDispose2.getSecuritiesName());//证券名称
             transactionData.setBrokersName("长城证券");//券商名称
-            transactionData.setBrokersName("长城证券");
+//            transactionData.setBrokersName("长城证券");
             transactionData.setFundId("000899");//基金代码
             transactionData.setFundName("华宝高端制造股票型证券投资基金");//基金名称
             transactionData.setSecuritiesId("600031");//证券ID

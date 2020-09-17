@@ -268,8 +268,11 @@
         tableSelect.render({
             elem:'#insertSecurities',
             checkedKey:'securitiesId',
+            where:{
+                securitiesType:1
+            },
             table:{
-                url:'../selectSecurities',
+                url:'../selectSecurities1',
                 cellMinWidth:60,
 
                 cols:[
