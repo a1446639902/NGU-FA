@@ -21,6 +21,33 @@ public class NetValueOfStatisticalPojo {
     private String valuation;           //估值增值
     private int projectFatherId;        //父项目编号
     private String fundId;              //基金id
+    private int count;                  //计数
+
+    public int getCount() {
+        return count;
+    }
+
+    @Override
+    public String toString() {
+        return "NetValueOfStatisticalPojo{" +
+                "valueStatisticsDate='" + valueStatisticsDate + '\'' +
+                ", projectId=" + projectId +
+                ", projectName='" + projectName + '\'' +
+                ", projectCode='" + projectCode + '\'' +
+                ", quantityint='" + quantityint + '\'' +
+                ", peice='" + peice + '\'' +
+                ", cost='" + cost + '\'' +
+                ", marketValue='" + marketValue + '\'' +
+                ", valuation='" + valuation + '\'' +
+                ", projectFatherId=" + projectFatherId +
+                ", fundId='" + fundId + '\'' +
+                ", count=" + count +
+                '}';
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public NetValueOfStatisticalPojo() {
     }
@@ -45,23 +72,6 @@ public class NetValueOfStatisticalPojo {
         this.valuation = valuation;
         this.projectFatherId = projectFatherId;
         this.fundId = fundId;
-    }
-
-    @Override
-    public String toString() {
-        return "NetValueOfStatisticalPojo{" +
-                "valueStatisticsDate='" + valueStatisticsDate + '\'' +
-                ", projectId=" + projectId +
-                ", projectName='" + projectName + '\'' +
-                ", projectCode='" + projectCode + '\'' +
-                ", quantityint='" + quantityint + '\'' +
-                ", peice='" + peice + '\'' +
-                ", cost='" + cost + '\'' +
-                ", marketValue='" + marketValue + '\'' +
-                ", valuation='" + valuation + '\'' +
-                ", projectFatherId=" + projectFatherId +
-                ", fundId='" + fundId + '\'' +
-                '}';
     }
 
     public NetValueOfStatisticalPojo(String valueStatisticsDate, int projectId, String projectName, String projectCode, String quantityint, String peice, String cost, String marketValue, String valuation, int projectFatherId) {

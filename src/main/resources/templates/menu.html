@@ -37,6 +37,10 @@
                         class="layui-btn layui-btn-sm" id="statisticsButton2">
                     <i class="layui-icon">&#xe615;</i>查询
                 </button>
+                <button type="button" lay-event="search2"
+                        class="layui-btn layui-btn-sm" id="statisticsButton3">
+                    <i class="layui-icon">&#xe615;</i>清空表格
+                </button>
             </div>
         </div>
     </div>
@@ -151,6 +155,48 @@
                         treePidName: 'projectFatherId',
                         elem: '#myTable',
                         url: '../selectTable/selectTableByTime?time='+$('#test12').val(),
+                        page: false,
+                        cols: [
+                            [
+                                {type: 'numbers'},
+                                {field: 'projectName', minWidth: 270, title: '项目名称'},
+                                {field: 'projectCode',   minWidth: 180, title: '项目代码/账户号'},
+                                {field: 'cost',  align: 'center', title: '成本'},
+                                {field: 'peice', align: 'center', title: '行情'},
+                                {field: 'quantityint',  align: 'center', title: '股数'},
+                                {field: 'marketValue',  align: 'center', title: '市值'},
+                                {field: 'valuation',  align: 'center', title: '估值增值'}
+                            ]
+                        ],
+                        done: function () {
+                            layer.closeAll('loading');
+                        }
+                    });
+                    //表格的重新加载事件
+                    table.reload('myTable', {
+                        method: 'post'
+                        , where: {
+                            'test12': test12
+                        }
+                        , page: {
+                            curr: 1
+                        }
+                    });
+                    break;
+                case 'search2':
+                    alert("搜索");
+                    var test12= $("#test12").val();
+                    alert(test12);
+                    // 渲染表格
+                    layer.load(2);
+                    treetable.render({
+                        toolbar: '#userToolBar',//开启头部工具栏，并为其绑定左侧模板
+                        treeColIndex: 1,
+                        treeSpid: 0,
+                        treeIdName: 'projectId',
+                        treePidName: 'projectFatherId',
+                        elem: '#myTable',
+                        url: '../deleteNetValueOfStatistical/deleteNetValueOfStatisticalAll?time='+$('#test12').val(),
                         page: false,
                         cols: [
                             [

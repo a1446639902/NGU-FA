@@ -39,8 +39,8 @@ public class EquityDiposeController {
         return EquityDisposeMap;
     }
     @RequestMapping("updateEquityDispose")
-    public int updateEquityDispose(String equityDisPose){
-        return equityDisposeService.updateEquityDispose(equityDisPose);
+    public int updateEquityDispose(String equityDisPose ,HttpServletRequest request ){
+        return equityDisposeService.updateEquityDispose(equityDisPose,request);
     }
     @RequestMapping("updateEquityDisposeTow")
     public int updateEquityDisposeTwo(String equityDisPose){

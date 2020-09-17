@@ -131,7 +131,7 @@
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
                         } else {
-                            layer.confirm('真的要结算嘛', function () {
+                            layer.confirm('真的要处理嘛', function () {
                                 layer.close();
                                 //向服务端发送删除指令
                                 $.post("../updateEquityDispose", "equityDisPose=" + equityDisPose, function (msg) {
@@ -139,7 +139,7 @@
                                         table.reload('userTable');
                                         table.reload('userTable2');  /*渲染刷新*/
                                         layer.closeAll();
-                                        layer.msg('结算成功', {
+                                        layer.msg('处理成功', {
                                             title: '提示',
                                             area: ['200px',
                                                 '140px'],
@@ -147,7 +147,7 @@
                                         });
                                     } else {
                                         layer.closeAll();
-                                        layer.msg('结算失败', {
+                                        layer.msg('处理失败', {
                                             title: '提示',
                                             area: ['200px',
                                                 '140px'],
@@ -196,7 +196,7 @@
                             layer.msg("请先选中数据");
                         }
                         else {
-                            layer.confirm('真的要反结算嘛', function () {
+                            layer.confirm('真的要反处理嘛', function () {
                                 layer.close();
                                 //向服务端发送删除指令
                                 $.post("../updateEquityDisposeTow","equityDisPose="+equityDisPose,function(msg){
@@ -204,7 +204,7 @@
                                         table.reload('userTable2');
                                         table.reload('userTable');  /*渲染刷新*/
                                         layer.closeAll();
-                                        layer.msg('反结算成功',{
+                                        layer.msg('反处理成功',{
                                             title : '提示',
                                             area : [ '200px',
                                                 '140px' ],
@@ -214,7 +214,7 @@
                                     }
                                     else{
                                         layer.closeAll();
-                                        layer.msg('反结算失败',{
+                                        layer.msg('反处理失败',{
                                             title : '提示',
                                             area : [ '200px',
                                                 '140px' ],
@@ -278,12 +278,12 @@
             <button class="layui-btn" lay-event="search" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="settlement"  lay-event="settlement" name="settlement" id="settlement">结算</button>
+            <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="settlement"  lay-event="settlement" name="settlement" id="settlement">处理</button>
         </div>
     </form>
     <ul class="layui-tab-title" style="border-bottom-color: #009688">
-        <li class="layui-this" lay-id="1">未结算</li>
-        <li lay-id="2">已结算</li>
+        <li class="layui-this" lay-id="1">未处理</li>
+        <li lay-id="2">已处理</li>
     </ul>
 </div>
 <!--<div class="layui-tab" lay-filter="test">
@@ -318,12 +318,12 @@
                 <button class="layui-btn" lay-event="search2"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn"  type="button" onclick="return false"  lay-submit="settlement" lay-filter="settlement2"  lay-event="settlement2" name="settlement" id="settlement2">反结算</button>
+                <button class="layui-btn"  type="button" onclick="return false"  lay-submit="settlement" lay-filter="settlement2"  lay-event="settlement2" name="settlement" id="settlement2">反处理</button>
             </div>
         </form>
         <ul class="layui-tab-title" style="border-bottom-color: #009688">
-            <li class="layui-this" lay-id="1">未结算</li>
-            <li lay-id="2">已结算</li>
+            <li class="layui-this" lay-id="1">未处理</li>
+            <li lay-id="2">已处理</li>
         </ul>
     </div>
 <!--    <div class="layui-tab" lay-filter="test">

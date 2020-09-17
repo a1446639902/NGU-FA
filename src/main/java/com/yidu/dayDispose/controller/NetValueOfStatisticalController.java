@@ -2,7 +2,6 @@ package com.yidu.dayDispose.controller;
 
 import com.yidu.dayDispose.pojo.*;
 import com.yidu.dayDispose.service.NetValueOfStatisticalService;
-import com.yidu.util.DbUtil;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,15 +35,11 @@ public class NetValueOfStatisticalController {
         Double statisticalService = 0.00;
         Double AdministrativeFee = 0.00;
         Double trusteeFee = 0.00;
+        Double statisticalServices = 0.00;
         int zhaiQuan = 0;
         int guPiao = 0;
         //查询其他表格净值统计需要的数据
         System.out.println("从页面传递过来的时间是" + time);
-
-        //通过时间将之前统计过的数据删除，重新进行统计，达到重复统计的效果
-        int m = netValueOfStatisticalService.deleteNetValueOfStatistical(time);
-        System.out.println("删除的数据条数" + m);
-
 
         List<SelectAllMsgPojo> selectAllMsgList = netValueOfStatisticalService.selectAllMsg(time);
         System.out.println("查询其他表格净值统计需要的数据是" + selectAllMsgList);
@@ -56,17 +51,25 @@ public class NetValueOfStatisticalController {
         //创建树形结构一级结构
         int i = 0;
         int count = 0;
+        //统计日期
         netValueOfStatisticalPojo.setValueStatisticsDate(time);
+        //项目编号
         netValueOfStatisticalPojo.setProjectId(++count);
+        //项目名称
         netValueOfStatisticalPojo.setProjectName("证券");
+        //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(0);
         int j = netValueOfStatisticalService.insertTree(netValueOfStatisticalPojo);
         System.out.println("创建的树形一级结构数量为" + j);
 
         //创建树形结构二级结构-股票
+        //统计日期
         netValueOfStatisticalPojo.setValueStatisticsDate(time);
+        //项目编号
         netValueOfStatisticalPojo.setProjectId(++count);
+        //项目名称
         netValueOfStatisticalPojo.setProjectName("股票");
+        //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(1);
         int k = netValueOfStatisticalService.insertTree(netValueOfStatisticalPojo);
         System.out.println("创建的树形二级结构股票数量为" + k);
@@ -109,9 +112,13 @@ public class NetValueOfStatisticalController {
         System.out.println("拿到数据增加进净值统计表的条数为" + i);
 
         //创建树形结构二级结构-债券
+        //统计日期
         netValueOfStatisticalPojo.setValueStatisticsDate(time);
+        //项目编号
         netValueOfStatisticalPojo.setProjectId(++count);
+        //项目名称
         netValueOfStatisticalPojo.setProjectName("债券");
+        //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(1);
         int d = netValueOfStatisticalService.insertTree(netValueOfStatisticalPojo);
         System.out.println("创建的树形二级结构债券数量为" + d);
@@ -150,13 +157,17 @@ public class NetValueOfStatisticalController {
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(countDemoOne);
             System.out.println(netValueOfStatisticalPojo);
-            i = netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
+            netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         }
 
         //创建树形结构二级结构-现金
+        //统计日期
         netValueOfStatisticalPojo.setValueStatisticsDate(time);             //时间
+        //项目编号
         netValueOfStatisticalPojo.setProjectId(++count);                    //id
+        //项目名称
         netValueOfStatisticalPojo.setProjectName("现金");                   //名称
+        //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(0);                    //父id
         d = netValueOfStatisticalService.insertTree(netValueOfStatisticalPojo);
         System.out.println("创建的树形二级结构债券数量为" + d);
@@ -229,19 +240,22 @@ public class NetValueOfStatisticalController {
         List<NetFinalPojo> selectNetBondInterestList = netValueOfStatisticalService.selectNetBondInterest(time);
         int zhaiQuanLiXis = 0;
         for (NetFinalPojo value0 : selectNetBondInterestList) {
-            //项目名称
-            netValueOfStatisticalPojo.setProjectName("债券利息");
-            //项目编号
-            netValueOfStatisticalPojo.setProjectId(++count);
-            //父项目编号
-            netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
             //利息(估值增值)
             netValueOfStatisticalPojo.setMarketValue(value0.getAmount() + "");
             zhaiQuanLiXi = value0.getAmount();
             zhaiQuanLiXis += zhaiQuanLiXi;
-            netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         }
-
+        //项目名称
+        netValueOfStatisticalPojo.setProjectName("债券利息");
+        //项目编号
+        netValueOfStatisticalPojo.setProjectId(++count);
+        //父项目编号
+        netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
+        //项目代码/账户号
+        netValueOfStatisticalPojo.setProjectCode("");
+        //将债权利息整合成为一条数据
+        netValueOfStatisticalPojo.setMarketValue(zhaiQuanLiXis + "");
+        netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         //查询托管费
         List<NetFinalPojo> trusteeFeeList = netValueOfStatisticalService.selectTrusteeFee(time);
         for (NetFinalPojo value1 : trusteeFeeList) {
@@ -275,30 +289,37 @@ public class NetValueOfStatisticalController {
         //查询证券清算款
         List<SecuritiesClearingAccountPojo> securitiesClearingAccountList = netValueOfStatisticalService.securitiesClearingAccount(time);
         for (SecuritiesClearingAccountPojo value3 : securitiesClearingAccountList) {
-            //项目名称
-            netValueOfStatisticalPojo.setProjectName("证券清算款");
-            //项目编号
-            netValueOfStatisticalPojo.setProjectId(++count);
-            //父项目编号
-            netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
             //利息(估值增值)
             netValueOfStatisticalPojo.setMarketValue(value3.getTotalPrice() + "");
             statisticalService = value3.getTotalPrice();
-            netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
+            //计算出证券清算款的总和
+            statisticalServices += statisticalService;
             System.out.println("证券清算款" + value3.getTotalPrice() + "");
+            System.out.println("证券清算款总和" + statisticalServices);
         }
-
+        //项目名称
+        netValueOfStatisticalPojo.setProjectName("证券清算款");
+        //项目编号
+        netValueOfStatisticalPojo.setProjectId(++count);
+        //父项目编号
+        netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
+        //计算出证券清算款的总和传递给实体类增加进数据库
+        netValueOfStatisticalPojo.setMarketValue(statisticalServices + "");
+        netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         //创建树形结构二级结构-合计
         netValueOfStatisticalPojo.setValueStatisticsDate(time);             //时间
+        //项目编号
         netValueOfStatisticalPojo.setProjectId(++count);                    //id
+        //项目名称
         netValueOfStatisticalPojo.setProjectName("合计");                   //名称
+        //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(0);                    //父id
         d = netValueOfStatisticalService.insertTree(netValueOfStatisticalPojo);
         System.out.println("创建的树形二级结构债券合计为" + d);
 
         //估值增值
         int countDemoForm = count;
-        Double sum = (zhaiQuanLiXis + zhaiQuans + xianJinLiXis + guPiao);
+        Double sum = (zhaiQuans + guPiaos);
         //项目名称
         netValueOfStatisticalPojo.setProjectName("估值增值");
         //项目编号
@@ -307,8 +328,6 @@ public class NetValueOfStatisticalController {
         netValueOfStatisticalPojo.setProjectFatherId(countDemoForm);
         //利息(估值增值)
         netValueOfStatisticalPojo.setMarketValue(sum + "");
-        //项目代码/账户号
-        netValueOfStatisticalPojo.setProjectCode("");
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
 
 
@@ -325,7 +344,7 @@ public class NetValueOfStatisticalController {
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
 
         //资产净值
-        Double allSum = sum - sum1 + zhaiQuanShiZhis + guPiaoShiZhis + cashBlances;
+        Double allSum = sum - sum1 + zhaiQuanShiZhis + guPiaoShiZhis + cashBlances + zhaiQuanLiXis  + xianJinLiXis ;
         //项目名称
         netValueOfStatisticalPojo.setProjectName("资产净值");
         //项目编号
