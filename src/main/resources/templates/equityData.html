@@ -46,7 +46,7 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">权益除权日</label>
 
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="equitiesExright" id="end">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期" name="end" id="equitiesExright">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -69,7 +69,10 @@
 
             //执行一个laydate实例
             laydate.render({
-                elem: '#end' //指定元素
+                elem: '#equitiesExright3' //指定元素
+            });
+            laydate.render({
+                elem: '#start' //指定元素
             });
 
             laydate.render({
@@ -257,35 +260,35 @@
                 });
                 return false;
             });
+            //表格渲染
             table.render({
                 elem: '#userTable',
                 url: '../selectEquityData',
                 page: true,
-                height: 'full-30',
                 toolbar: '#userToolBar',//显示在表头的工具条
-                minLength:80,
+                cellMinWidth: 50,
+                height:'full-55',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'equityDataId', title: '权益编号', width:166, align:'center'}
-                        ,{field: 'dateTime', title: '业务日期', width: 166, align:'center'}
-                        ,{field: 'securityId', title: '证券ID', width:166, align:'center'}
-                        ,{field: 'securitiesName', title: '证券名称', width: 166, align:'center'}
-                        ,{field: 'equitiesRecord', title: '权益登记日', width:166, align:'center'}
-                        ,{field: 'equitiesExright', title: '权益除权日', width: 166, align:'center'}
-                        ,{field: 'receivedDate', title: '到账日期', width: 166, align:'center'}
-                        , {
-                        field: 'equitiesType', title: '权益类型', width: 166, align: 'center',
-                        templet: function (item) {
-                            if (item.equitiesType == 1) {
+                        ,{field: 'equityDataId', title: '权益编号', align:'center', hide: true}
+                        ,{field: 'dateTime', title: '业务日期', align:'center', hide: true}
+                        ,{field: 'securityId', title: '证券ID', align:'center'}
+                        ,{field: 'securitiesName', title: '证券名称', align:'center'}
+                        ,{field: 'equitiesRecord', title: '权益登记日', align:'center'}
+                        ,{field: 'equitiesExright', title: '权益除权日', align:'center'}
+                        ,{field: 'receivedDate', title: '到账日期', align:'center'}
+                        ,{field: 'equitiesType', title: '权益类型', align: 'center',
+                        templet:function (item) {
+                            if (item.equitiesType==1){
                                 return '送股';
-                            } else if (item.equitiesType == '2') {
+                            } else if(item.equitiesType=='2'){
                                 return '分红';
                             }
                         }
                     }
-                        ,{field: 'proportion', title: '比例', width: 166, align:'center'}
-                        ,{field: 'disposeStatus', title: '处理状态', width: 166, align:'center',
+                        ,{field: 'proportion', title: '比例(%)', align:'center'}
+                        ,{field: 'disposeStatus', title: '处理状态', align:'center',
                         templet:function (item) {
                             if (item.disposeStatus==0){
                                 return '未处理';
@@ -293,10 +296,12 @@
                             return '已处理';
                         }
                     }
-                        ,{title: 'operation', title: '操作' , toolbar:'#barDemo', width: 166, align:'center'}
+                        ,{title: 'operation', title: '操作' , toolbar:'#barDemo', align:'center',fixed: 'right'}
                     ]
                 ]
             });
+
+
             //给工具条的按钮添加事件
             table.on('toolbar(userTable)',function (obj) {
                 //获取选中复选框的对象，
@@ -333,9 +338,9 @@
                         });
 
                         break;
+                    //批量删除
                     case 'deleteAll':
                         var data = checkStatus.data;
-                        //    layer.alert(JSON.stringify(data));
                         if(data.length==0){
                             layer.msg("请至少选择一条数据",)
                         }else
@@ -411,141 +416,325 @@
 </div>
 
 
+<!--&lt;!&ndash;增加的div内容&ndash;&gt;-->
+<!--<div id="addContent" style="display: none; height: 100%; width:100%; text-align: center">-->
+<!--    <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">-->
+<!--        <input name="accountId" type="hidden" id="accountId">-->
+<!--        <input name="securityId" type="hidden" id="securityId">-->
+<!--&lt;!&ndash;        <div class="layui-inline layui-show-xs-block" style="text-align: center;">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label class="layui-form-label layui-bg-green" style="text-align: center">权益ID</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="layui-input" placeholder="权益ID" name="equityDataId">&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">业务日期</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入业务日期" name="dateTime" id="start">-->
+<!--            </div>-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <br>&ndash;&gt;-->
+<!--&lt;!&ndash;        <br>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label class="layui-form-label layui-bg-green" style="text-align: center">证券ID</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="layui-input" placeholder="请输入证券ID" name="securityId">&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">证券名称</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入证券名称" name="securityName" id="securityName">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">权益登记日</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入登记日" name="equitiesRecord" id="equitiesRecord">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">权益除权日</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入除权日" name="equitiesExright" id="equitiesExright">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">到账日</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入到账日" name="receivedDate" id="receivedDate">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">权益类型</label>-->
+<!--            <div class="layui-inline layui-show-xs-block" style="width: 182px">-->
+<!--                <select name="equitiesType">-->
+<!--                    <option>请选择</option>-->
+<!--                    <option value="1">送股</option>-->
+<!--                    <option value="2">分红</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block" style="float: left">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">比例(%)</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入比例,单位为%" name="proportion">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">处理状态</label>-->
+<!--            <div class="layui-inline layui-show-xs-block" style="width: 182px">-->
+<!--                <select name="disposeStatus">-->
+<!--                    <option>请选择</option>-->
+<!--                    <option value="0">未处理</option>-->
+<!--                    <option value="1">已处理</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block" style="float: left">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">账户名称</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName">-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+<!--        <div style="position: absolute; bottom: 10px; left: 39%;">-->
+<!--            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">-->
+<!--                <i class="layui-icon">&#x1005;</i>添加-->
+<!--            </button>-->
+<!--            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">-->
+<!--                <i class="layui-icon">&#x1006;</i>取消-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;修改的div内容&ndash;&gt;-->
+<!--<div id="editContent"-->
+<!--     style="display: none; height: 100%; height: 100%; text-align: center;">-->
+<!--    <form id="editform" lay-filter="editform"-->
+<!--          class="layui-form layui-form-pane"-->
+<!--          style="margin: 30px auto; display: inline-block;">-->
+<!--&lt;!&ndash;        <div class="layui-inline layui-show-xs-block" style="text-align: center;">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label class="layui-form-label layui-bg-green" style="text-align: center">权益ID</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="layui-input" placeholder="权益ID" name="equityDataId">&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--&lt;!&ndash;        <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label class="layui-form-label layui-bg-green" style="text-align: center">业务日期</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="layui-input" placeholder="请输入业务日期" name="dateTime" id="start2">&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <br>&ndash;&gt;-->
+<!--&lt;!&ndash;        <br>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label class="layui-form-label layui-bg-green" style="text-align: center">证券ID</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="layui-inline layui-show-xs-block">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="layui-input" placeholder="请输入证券ID" name="securityId">&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">证券名称</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入证券名称" name="securityName" id="securityName2">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">权益登记日</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入登记日" name="equitiesRecord" id="equitiesRecord2">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">权益除权日</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入除权日" name="equitiesExright" id="equitiesExright2">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">到账日</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入到账日" name="receivedDate" id="receivedDate2">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">权益类型</label>-->
+<!--            <div class="layui-inline layui-show-xs-block" style="width: 182px">-->
+<!--                <select name="equitiesType">-->
+<!--                    <option>请选择</option>-->
+<!--                    <option value="1">送股</option>-->
+<!--                    <option value="2">分红</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block" style="float: left">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">比例(%)</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入比例,单位为%" name="proportion">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--        <div class="layui-inline layui-show-xs-block">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">处理状态</label>-->
+<!--            <div class="layui-inline layui-show-xs-block" style="width: 182px">-->
+<!--                <select name="disposeStatus">-->
+<!--                    <option>请选择</option>-->
+<!--                    <option value="0">未处理</option>-->
+<!--                    <option value="1">已处理</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div class="layui-inline layui-show-xs-block" style="float: left">-->
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">账户名称</label>-->
+<!--            <div class="layui-inline layui-show-xs-block">-->
+<!--                <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName2">-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+<!--        <div style="position: absolute; bottom: 10px; left: 39%;">-->
+<!--            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">-->
+<!--                <i class="layui-icon">&#x1005;</i>编辑-->
+<!--            </button>-->
+<!--            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">-->
+<!--                <i class="layui-icon">&#x1006;</i>取消-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+
 <!--增加的div内容-->
 <div id="addContent" style="display: none; height: 100%; width:100%; text-align: center">
-    <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
-        <div class="layui-inline layui-show-xs-block" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益ID</label>
+    <div class="layuimini-main">
+        <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
+            <input name="accountId" type="hidden" id="accountId">
+            <input name="securityId" type="hidden" id="securityId">
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <label class="layui-form-label layui-bg-green" style="text-align: center">账户名称</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName">
+                </div>
+            </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="权益ID" name="equityDataId">
+                <label class="layui-form-label layui-bg-green" style="text-align: center;">证券名称</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input type="text" class="layui-input" placeholder="请输入证券名称" name="securityName" id="securityName">
+                </div>
             </div>
-        </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">业务日期</label>
+            <br>
+            <br>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入业务日期" name="dateTime" id="start">
+                <label class="layui-form-label layui-bg-green" style="text-align: center;">权益登记日</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" placeholder="请输入登记日" name="equitiesRecord" id="equitiesRecord">
+                </div>
             </div>
-        </div>
-        <br>
-        <br>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">证券ID</label>
+
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入证券ID" name="securityId">
+                <label class="layui-form-label layui-bg-green" style="text-align: center;">权益除权日</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" placeholder="请输入除权日" name="equitiesExright" id="equitiesExright2">
+                </div>
             </div>
-        </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">证券名称</label>
+            <br>
+            <br>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入证券名称" name="securityName" id="securityName">
+                <label class="layui-form-label layui-bg-green" style="text-align: center;">到账日</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" placeholder="请输入到账日" name="receivedDate" id="receivedDate">
+                </div>
             </div>
-        </div>
-        <br>
-        <br>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益登记日</label>
+
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入登记日" name="equitiesRecord" id="equitiesRecord">
+                <label class="layui-form-label layui-bg-green" style="text-align: center;">权益类型</label>
+                <div class="layui-inline layui-show-xs-block" style="width: 182px">
+                    <select name="equitiesType">
+                        <option>请选择</option>
+                        <option value="1">送股</option>
+                        <option value="2">分红</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益除权日</label>
+            <br>
+            <br>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <label class="layui-form-label layui-bg-green" style="text-align: center;">比例(%)</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" placeholder="请输入比例,单位为%" name="proportion">
+                </div>
+            </div>
+
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入除权日" name="equitiesExright" id="equitiesExright">
+                <label class="layui-form-label layui-bg-green" style="text-align: center;">处理状态</label>
+                <div class="layui-inline layui-show-xs-block" style="width: 182px">
+                    <select name="disposeStatus">
+                        <option>请选择</option>
+                        <option value="0">未处理</option>
+                        <option value="1">已处理</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <br>
-        <br>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">到账日</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入到账日" name="receivedDate" id="receivedDate">
-            </div>
-        </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益类型</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <select name="equitiesType">
-                    <option>请选择</option>
-                    <option value="1">送股</option>
-                    <option value="2">分红</option>
-                </select>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="layui-inline layui-show-xs-block" style="float: left">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">比例(%)</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入比例,单位为%" name="proportion">
-            </div>
-        </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">处理状态</label>
-            <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <select name="disposeStatus">
-                    <option>请选择</option>
-                    <option value="0">未处理</option>
-                    <option value="1">已处理</option>
-                </select>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="layui-inline layui-show-xs-block" style="float: left">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">账户名称</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName">
-            </div>
-        </div>
 
 
-        <div style="position: absolute; bottom: 10px; left: 39%;">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
-                <i class="layui-icon">&#x1005;</i>添加
-            </button>
-            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
-                <i class="layui-icon">&#x1006;</i>取消
-            </button>
-        </div>
-    </form>
+            <div style="position: absolute; bottom: 0px; margin-left: 200px">
+                <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="addsubmit">
+                    <i class="layui-icon">&#x1005;</i>添加
+                </button>
+                <button class="layui-btn layui-bg-red" type="button" onclick="myclose()" style="color: #ff0000">
+                    <i class="layui-icon">&#x1006;</i>取消
+                </button>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 <!--修改的div内容-->
-<div id="editContent"
-     style="display: none; height: 100%; height: 100%; text-align: center;">
-    <form id="editform" lay-filter="editform"
-          class="layui-form layui-form-pane"
-          style="margin: 30px auto; display: inline-block;">
-        <div class="layui-inline layui-show-xs-block" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益ID</label>
+<div id="editContent" style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
+        <div>
+            <input type="hidden" name="equityDataId">
+            <input type="hidden" name="dateTime">
+            <input type="hidden" name="securityId" id="securityId2">
+            <input name="accountId" type="hidden" id="accountId2">
+        </div>
+        <div class="layui-inline layui-show-xs-block" style="float: left">
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">账户名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="权益ID" name="equityDataId">
+                <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName2">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
+
         <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">业务日期</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入业务日期" name="dateTime" id="start2">
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">证券ID</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入证券ID" name="securityId">
-            </div>
-        </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">证券名称</label>
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">证券名称</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入证券名称" name="securityName" id="securityName2">
             </div>
@@ -553,29 +742,30 @@
         <br>
         <br>
         <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益登记日</label>
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">权益登记日</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入登记日" name="equitiesRecord" id="equitiesRecord2">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
+
         <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益除权日</label>
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">权益除权日</label>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入除权日" name="equitiesExright" id="equitiesExright2">
+                <input class="layui-input" placeholder="请输入除权日" name="equitiesExright" id="equitiesExright3">
             </div>
+<!--            <label class="layui-form-label layui-bg-green" style="text-align: center">权益除权日</label>-->
         </div>
         <br>
         <br>
         <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">到账日</label>
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">到账日</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入到账日" name="receivedDate" id="receivedDate2">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
+
         <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">权益类型</label>
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">权益类型</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
                 <select name="equitiesType">
                     <option>请选择</option>
@@ -587,14 +777,14 @@
         <br>
         <br>
         <div class="layui-inline layui-show-xs-block" style="float: left">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">比例(%)</label>
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">比例(%)</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入比例,单位为%" name="proportion">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
         <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">处理状态</label>
+            <label class="layui-form-label layui-bg-green" style="text-align: center;">处理状态</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
                 <select name="disposeStatus">
                     <option>请选择</option>
@@ -603,21 +793,13 @@
                 </select>
             </div>
         </div>
-        <br>
-        <br>
-        <div class="layui-inline layui-show-xs-block" style="float: left">
-            <label class="layui-form-label layui-bg-green" style="text-align: center">账户名称</label>
-            <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input" placeholder="请输入账户名称" name="accountName" id="accountName2">
-            </div>
-        </div>
 
 
-        <div style="position: absolute; bottom: 10px; left: 39%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+        <div style="position: absolute; bottom: 30px; margin-left: 200px">
+            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>编辑
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+            <button class="layui-btn layui-bg-red" type="button" onclick="myclose()" style="color: #ff0000">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>

@@ -50,8 +50,10 @@ public class SecuritiesInventoryController {
     }
     @RequestMapping("InsertSecuritiesInventory")
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory){
-        System.out.println(securitiesInventory);
+
         securitiesInventory.setSecuritiesInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SI));
+        securitiesInventory.setSecuritiesInventoryDesc("投资有风险");
+        System.out.println(securitiesInventory);
         int i = securitiesInventoryService.insertSecuritiesInventory(securitiesInventory);
         return i;
     }

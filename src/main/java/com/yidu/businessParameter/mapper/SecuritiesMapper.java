@@ -18,4 +18,5 @@ public interface SecuritiesMapper {
     public int deleteSecurities(List securitiesIdList);
     public int updateSecurities(SecuritiesPojo securitiesPojo);
     public void selectSecurities(HashMap hashMap);
+    public List<SecuritiesPojo> selectSecurities1(String securitiesType);
 }

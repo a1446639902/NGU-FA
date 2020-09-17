@@ -3,6 +3,7 @@ package com.yidu.cashControl.service.impl;
 import com.yidu.cashControl.mapper.BankTreasurerMapper;
 import com.yidu.cashControl.pojo.BankTreasurerPojo;
 import com.yidu.cashControl.service.BankTreasurerService;
+import com.yidu.util.DateTimeUtil;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
@@ -66,14 +67,17 @@ public class BankTreasurerServiceImpl implements BankTreasurerService {
 
     @Override
     public int deleteBankTreasurer(String bankTreasurerIds) {
-        ArrayList bankTreasurerList = new ArrayList<>();
-        String[] arrBankTreasurerId = bankTreasurerIds.split(",");
-        for (String bankTreasurerId : arrBankTreasurerId) {
-            bankTreasurerList.add(bankTreasurerId);
-            System.out.println(bankTreasurerId);
-        }
+        if(bankTreasurerIds!=null && !bankTreasurerIds.equals("")) {
+            ArrayList bankTreasurerList = new ArrayList<>();
+            String[] arrBankTreasurerId = bankTreasurerIds.split(",");
+            for (String bankTreasurerId : arrBankTreasurerId) {
+                bankTreasurerList.add(bankTreasurerId);
+                System.out.println(bankTreasurerId);
+            }
 
-        return bankTreasurerMapper.deleteBankTreasurer(bankTreasurerList);
+            return bankTreasurerMapper.deleteBankTreasurer(bankTreasurerList);
+        }
+        else return 0;
 
     }
 

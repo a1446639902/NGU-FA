@@ -9,15 +9,7 @@
     <link rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
     <link rel="stylesheet" href="../lib/layuimini/css/public.css" media="all">
     <link type="text/css" rel="stylesheet" href="../lib/layui/css/layui.css"/>
-    <!--    日期渲染-->
-    <script>
-        layui.use('laydate', function(){
-            var laydate = layui.laydate;
-            laydate.render({
-                elem: '#test1' //指定元素
-            });
-        });
-    </script>
+
     <style>
         .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
             height: 34px;
@@ -31,19 +23,19 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <div>
-            <div class="layui-btn-group">
-                <button class="layui-btn" id="btn-expand">全部展开</button>
-                <button class="layui-btn layui-btn-normal" id="btn-fold">全部折叠</button>
-            </div>
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">统计日期</label>
-
+                <label class="layui-btn layui-btn-sm" style="width: 110px;text-align: center">统计日期</label>
             </div>
             <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
-                <input type="text" class="layui-input" id="test1">
+                <input type="text" style="height: 32px;" class="layui-input" id="test12" name = "datetime">
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
+                <button class="layui-btn layui-btn-sm" lay-submit="" lay-event="search" lay-filter="sreach">
+                    <i class="layui-icon">&#xe615;</i>统计
+                </button>
+                <button type="button" lay-event="search1"
+                        class="layui-btn layui-btn-sm" id="statisticsButton2">
+                    <i class="layui-icon">&#xe615;</i>查询
                 </button>
             </div>
         </div>
@@ -51,12 +43,27 @@
 </div>
 </script>
 <table id="myTable" class="layui-table" lay-filter="myTable"></table>
+<!--    日期渲染-->
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test1' //指定元素
+        });
+    });
+</script>
 <script>
     layui.use(['table', 'treetable','laydate'], function () {
         var $ = layui.jquery;
         var table = layui.table;
         var treetable = layui.treetable;
         var laydate = layui.laydate;
+        var dates = layui.laydate;
+        dates.render({
+            elem: '#test12',
+            type: 'date' ,//默认，可不填
+            value: new Date()//获取当前时间
+        });
         // 渲染表格
         layer.load(2);
         treetable.render({
@@ -66,13 +73,13 @@
             treeIdName: 'projectId',
             treePidName: 'projectFatherId',
             elem: '#myTable',
-            url: '../NetValueOfStatistical/selectNetValueOfStatisticalController',
+            url: '../lib/layuimini/api/my.json',
             page: false,
             cols: [
                 [
                 {type: 'numbers'},
-                {field: 'projectName', minWidth: 200, title: '项目名称'},
-                {field: 'projectCode', title: '项目代码/账户号'},
+                {field: 'projectName', minWidth: 270, title: '项目名称'},
+                {field: 'projectCode',   minWidth: 180,title: '项目代码/账户号'},
                 {field: 'cost',  align: 'center', title: '成本'},
                 {field: 'peice', align: 'center', title: '行情'},
                 {field: 'quantityint',  align: 'center', title: '股数'},
@@ -89,14 +96,83 @@
         table.on('toolbar(myTable)', function (obj) {
             switch (obj.event) {
                 case 'search':
-                    alert("搜索");
-                    var test1= $("#test1").val();
-                    alert(test1);
+                    alert("统计");
+                    var test12= $("#test12").val();
+                    alert(test12);
+                    // 渲染表格
+                    layer.load(2);
+                    treetable.render({
+                        toolbar: '#userToolBar',//开启头部工具栏，并为其绑定左侧模板
+                        treeColIndex: 1,
+                        treeSpid: 0,
+                        treeIdName: 'projectId',
+                        treePidName: 'projectFatherId',
+                        elem: '#myTable',
+                        url: '../netValueOfStatistical/selectNetValueOfStatisticalController?time='+$('#test12').val(),
+                        page: false,
+                        cols: [
+                            [
+                                {type: 'numbers'},
+                                {field: 'projectName', minWidth: 270, title: '项目名称'},
+                                {field: 'projectCode',  minWidth: 180,title: '项目代码/账户号'},
+                                {field: 'cost',  align: 'center', title: '成本'},
+                                {field: 'peice', align: 'center', title: '行情'},
+                                {field: 'quantityint',  align: 'center', title: '股数'},
+                                {field: 'marketValue',  align: 'center', title: '市值'},
+                                {field: 'valuation',  align: 'center', title: '估值增值'}
+                            ]
+                        ],
+                        done: function () {
+                            layer.closeAll('loading');
+                        }
+                    });
                     //表格的重新加载事件
                     table.reload('myTable', {
                         method: 'post'
                         , where: {
-                            'test1': test1
+                            'test12': test12
+                        }
+                        , page: {
+                            curr: 1
+                        }
+                    });
+                    break;
+                case 'search1':
+                    alert("搜索");
+                    var test12= $("#test12").val();
+                    alert(test12);
+                    // 渲染表格
+                    layer.load(2);
+                    treetable.render({
+                        toolbar: '#userToolBar',//开启头部工具栏，并为其绑定左侧模板
+                        treeColIndex: 1,
+                        treeSpid: 0,
+                        treeIdName: 'projectId',
+                        treePidName: 'projectFatherId',
+                        elem: '#myTable',
+                        url: '../selectTable/selectTableByTime?time='+$('#test12').val(),
+                        page: false,
+                        cols: [
+                            [
+                                {type: 'numbers'},
+                                {field: 'projectName', minWidth: 270, title: '项目名称'},
+                                {field: 'projectCode',   minWidth: 180, title: '项目代码/账户号'},
+                                {field: 'cost',  align: 'center', title: '成本'},
+                                {field: 'peice', align: 'center', title: '行情'},
+                                {field: 'quantityint',  align: 'center', title: '股数'},
+                                {field: 'marketValue',  align: 'center', title: '市值'},
+                                {field: 'valuation',  align: 'center', title: '估值增值'}
+                            ]
+                        ],
+                        done: function () {
+                            layer.closeAll('loading');
+                        }
+                    });
+                    //表格的重新加载事件
+                    table.reload('myTable', {
+                        method: 'post'
+                        , where: {
+                            'test12': test12
                         }
                         , page: {
                             curr: 1

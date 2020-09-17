@@ -4,6 +4,7 @@ import com.yidu.businessParameter.pojo.SecuritiesPojo;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * author xbf
@@ -17,5 +18,6 @@ public interface SecuritiesService {
     public int deleteSecurities(String securitiesId);
     public int updateSecurities(SecuritiesPojo securitiesPojo);
     public HashMap selectSecurities(int page,int limit,String securitiesId,String securitiesName);
+    public List<SecuritiesPojo> selectSecurities1(String securitiesType);
     /*public List<SecuritiesPojo> selectSecurities();*/
 }

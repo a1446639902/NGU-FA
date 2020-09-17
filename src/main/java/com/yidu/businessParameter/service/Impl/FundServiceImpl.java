@@ -28,7 +28,7 @@ public class FundServiceImpl implements FundService {
 
     @Override
     public HashMap selectFund(int page,int limit,String fundId,String fundType) {
-
+        //使用StringBuffer进行sql语句条件拼接 "  '%"+条件+"%' "
         StringBuffer sqlWhere=new StringBuffer();
         if(fundId!=null && !fundId.equals("")){
             sqlWhere.append(" AND fundId LIKE  '%"+fundId+"%'" );
@@ -55,7 +55,7 @@ public class FundServiceImpl implements FundService {
 
     @Override
     public int deleteFund(String fundId) {
-        //定义一个数组接收编号，切割字符串
+        //定义一个数组接收编号，使用split切割字符串
         String[] split = fundId.split(",");
         //定义一个整型集合
         List<String> fundIdList = new ArrayList<String>();

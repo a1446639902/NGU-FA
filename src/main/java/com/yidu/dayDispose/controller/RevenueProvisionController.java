@@ -8,12 +8,17 @@ import com.yidu.dayDispose.pojo.RevenueProvision;
 import com.yidu.dayDispose.pojo.TwoFees;
 import com.yidu.dayDispose.service.RevenueProvisionService;
 import com.yidu.util.DbUtil;
+import com.yidu.util.GetAccountUtil;
 import com.yidu.util.JsonUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +33,7 @@ public class RevenueProvisionController {
     SecuritiesClosedPayService securitiesClosedPayService;
     @Resource
     DbUtil dbUtil;
-
+     double custodyMoney;
     @RequestMapping("selectRevenueProvision")
     public HashMap selectRevenueProvision(int page, int limit,String statDate){
         HashMap hashMap = revenueProvisionService.selectRevenueProvision(page, limit,statDate);
@@ -42,6 +47,7 @@ public class RevenueProvisionController {
         revenueProvisionMap.put("data",revenueProvisionList);
         return revenueProvisionMap;
     }
+    //查询债券利息
     @RequestMapping("selectBondInterest")
     public HashMap selectBondInterest(int page ,int limit,String statDate){
         System.out.println("第二个"+statDate);
@@ -58,6 +64,8 @@ public class RevenueProvisionController {
     }
     @RequestMapping("selectTwoFees")
     public HashMap selectTwoFees(int page, int limit ,String statDate){
+
+
         HashMap hashMap = revenueProvisionService.selectTwoFees(page, limit, statDate);
         System.out.println(statDate+"=============================");
         int count = (int)hashMap.get("p_count");
@@ -71,7 +79,7 @@ public class RevenueProvisionController {
         return twoFeesMap;
     }
     @RequestMapping("CountingCash")
-    public int CountingCash(String cash){
+    public int CountingCash(String cash,HttpServletRequest request){
         int i=0;
         System.out.println("进来了===============================================");
         System.out.println(cash);
@@ -81,18 +89,22 @@ public class RevenueProvisionController {
             cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
             cashClosedPayPojo.setFundId(revenueProvision.getFundId());
             cashClosedPayPojo.setAccountId(revenueProvision.getAccountId());
-            cashClosedPayService.deleteNew(cashClosedPayPojo);
+            System.out.println(cashClosedPayPojo+"===============================================");
+            i=cashClosedPayService.deleteNew(cashClosedPayPojo);
+            if(i>0){
+                String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
+                cashClosedPayPojo.setCashClosedPayId(cashClosedPayId);
+                cashClosedPayPojo.setFundId(revenueProvision.getFundId());
+                cashClosedPayPojo.setAccountId(revenueProvision.getAccountId());
+                cashClosedPayPojo.setServiceType(3);
+                cashClosedPayPojo.setAmount(revenueProvision.getInterest());
+                System.out.println(revenueProvision.getInterest());
+                cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
+                cashClosedPayPojo.setFlag(1);
+                i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
+            }
 
-            String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
-            cashClosedPayPojo.setCashClosedPayId(cashClosedPayId);
-            cashClosedPayPojo.setFundId(revenueProvision.getFundId());
-            cashClosedPayPojo.setAccountId(revenueProvision.getAccountId());
-            cashClosedPayPojo.setServiceType(3);
-            cashClosedPayPojo.setAmount(revenueProvision.getInterest());
-            System.out.println(revenueProvision.getInterest()+"==================================");
-            cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
-            cashClosedPayPojo.setFlag(1);
-            i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo);
+
 
         }
 //        JSONArray jsonArray = JSONArray.fromObject(cash);
@@ -120,35 +132,42 @@ public class RevenueProvisionController {
         return i;
     }
     @RequestMapping("StatisticalSecurities")
-    public int StatisticalSecurities(String Securities){
+    public int StatisticalSecurities(String Securities,HttpServletRequest request){
         int i=0;
-        System.out.println("进来了===============================================");
+
         System.out.println(Securities);
+        String accountId = GetAccountUtil.getAccountId(request);
+        System.out.println("进来了==============================================="+accountId);
         List<BondInterest> bondInterestList = JsonUtil.jsonToArrayList(Securities, BondInterest.class);
         for (BondInterest bondInterest : bondInterestList) {
-            System.out.println(bondInterest.getAccountId());
+            System.out.println(bondInterest.getAccountId()+"这是getAccountId======================================");
             SecuritiesClosedPayPojo securitiesClosedPay = new SecuritiesClosedPayPojo();
             securitiesClosedPay.setDateTime(bondInterest.getDateTime());
             securitiesClosedPay.setFundId(bondInterest.getFundId());
             securitiesClosedPay.setSecuritiesId(bondInterest.getSecuritiesId());
-            securitiesClosedPayService.deleteSecuritiesClosedPayByPojo(securitiesClosedPay);
-            SecuritiesClosedPayPojo securitiesClosedPay1 = new SecuritiesClosedPayPojo();
-            String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
-            System.out.println(cashClosedPayId);
-            securitiesClosedPay1.setSecuritiesClosedPayId(cashClosedPayId);
-            securitiesClosedPay1.setFundId(bondInterest.getFundId());
-            securitiesClosedPay1.setAccountId(bondInterest.getAccountId());
-            securitiesClosedPay1.setServiceType(3);
-            securitiesClosedPay1.setAmount(bondInterest.getInterest());
-            securitiesClosedPay1.setDateTime(bondInterest.getDateTime());
-            securitiesClosedPay1.setFlag(1);
-            securitiesClosedPay1.setSecuritiesId(bondInterest.getSecuritiesId());
-            i = securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPay1);
+            i = securitiesClosedPayService.deleteSecuritiesClosedPayByPojo(securitiesClosedPay);
+             if(i>0){
+                 System.out.println(i+"===================================这是一个删除证券应收应付的结果");
+                 SecuritiesClosedPayPojo securitiesClosedPay1 = new SecuritiesClosedPayPojo();
+                 String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
+                 System.out.println(cashClosedPayId);
+                 securitiesClosedPay1.setSecuritiesClosedPayId(cashClosedPayId);
+                 securitiesClosedPay1.setFundId(bondInterest.getFundId());
+                 securitiesClosedPay1.setAccountId(accountId);
+                 securitiesClosedPay1.setServiceType(3);
+                 securitiesClosedPay1.setAmount(bondInterest.getInterest());
+                 securitiesClosedPay1.setDateTime(bondInterest.getDateTime());
+                 securitiesClosedPay1.setFlag(1);
+                 securitiesClosedPay1.setSecuritiesId(bondInterest.getSecuritiesId());
+                 i = securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPay1);
+                 System.out.println(i+"插入证券应收应付的I===========================");
+             }
+
         }
         return i;
     }
     @RequestMapping("StatisticalTwoFees")
-    public int statisticalTwoFees(String TwoFees){
+    public int statisticalTwoFees(String TwoFees, HttpServletRequest request){
         int i=0;
         System.out.println("进来了===============================================");
         System.out.println(TwoFees);
@@ -158,17 +177,27 @@ public class RevenueProvisionController {
             cashClosedPayPojo.setDateTime(twoFees.getValueStatisticsDate());
             cashClosedPayPojo.setFundId(twoFees.getFundId());
             cashClosedPayPojo.setAccountId(twoFees.getAccountId());
-            cashClosedPayService.deleteNew(cashClosedPayPojo);
-
-            String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
-            cashClosedPayPojo.setCashClosedPayId(cashClosedPayId);
-            cashClosedPayPojo.setFundId(twoFees.getFundId());
-            cashClosedPayPojo.setAccountId(twoFees.getAccountId());
-            cashClosedPayPojo.setServiceType(1);
-            cashClosedPayPojo.setAmount(twoFees.getPropertyNetWorth());
-            cashClosedPayPojo.setDateTime(twoFees.getValueStatisticsDate());
-            cashClosedPayPojo.setFlag(1);
-            i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo);
+            System.out.println("两费========================="+cashClosedPayPojo);
+            i = cashClosedPayService.deleteNew(cashClosedPayPojo);
+            System.out.println(1+"删除两费的状态=========================");
+            if(i>0){
+                String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
+                cashClosedPayPojo.setCashClosedPayId(cashClosedPayId);
+                cashClosedPayPojo.setFundId(twoFees.getFundId());
+                cashClosedPayPojo.setAccountId(twoFees.getAccountId());
+                cashClosedPayPojo.setServiceType(1);
+                cashClosedPayPojo.setAmount(twoFees.getManagementMoney());
+                cashClosedPayPojo.setDateTime(twoFees.getValueStatisticsDate());
+                cashClosedPayPojo.setFlag(1);
+                custodyMoney = twoFees.getCustodyMoney();
+                i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
+                cashClosedPayPojo.setServiceType(2);
+                cashClosedPayPojo.setAmount(this.custodyMoney);
+                System.out.println(twoFees);
+                System.out.println(custodyMoney);
+                i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
+                System.out.println(i+"这是两费的i====================================");
+            }
 
         }
         return i;

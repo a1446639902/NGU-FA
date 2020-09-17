@@ -23,8 +23,11 @@ public class SecuritiesInventory {
     private double total;  //总金额
     private String securitiesInventoryDesc;   //备注
     private AccountPojo accountPojo;
-    private Fund fund;
     private SecuritiesPojo securitiesPojo;
+    private String flag;
+    private String fundName;
+    private String accountName;
+    private String securitiesName;
     public SecuritiesInventory() {
     }
 
@@ -124,38 +127,76 @@ public class SecuritiesInventory {
         this.accountPojo = accountPojo;
     }
 
-    public Fund getFund() {
-        return fund;
+    public String getFlag() {
+        return flag;
     }
 
-    public void setFund(Fund fund) {
-        this.fund = fund;
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
-    public SecuritiesInventory(String securitiesInventoryId, String dateTime, String securitiesId, String fundId, int securityPeriodFlag, int securitiesNum, double price, double total, String securitiesInventoryDesc) {
+    public String getFundName() {
+        return fundName;
+    }
+
+    public void setFundName(String fundName) {
+        this.fundName = fundName;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getSecuritiesName() {
+        return securitiesName;
+    }
+
+    public void setSecuritiesName(String securitiesName) {
+        this.securitiesName = securitiesName;
+    }
+
+    public SecuritiesInventory(String securitiesInventoryId, String dateTime, String securitiesId, String fundId, String accountId, int securityPeriodFlag, int securitiesNum, double price, double total, String securitiesInventoryDesc, AccountPojo accountPojo, SecuritiesPojo securitiesPojo, String flag, String fundName, String accountName, String securitiesName) {
         this.securitiesInventoryId = securitiesInventoryId;
         this.dateTime = dateTime;
         this.securitiesId = securitiesId;
         this.fundId = fundId;
+        this.accountId = accountId;
         this.securityPeriodFlag = securityPeriodFlag;
         this.securitiesNum = securitiesNum;
         this.price = price;
         this.total = total;
         this.securitiesInventoryDesc = securitiesInventoryDesc;
+        this.accountPojo = accountPojo;
+        this.securitiesPojo = securitiesPojo;
+        this.flag = flag;
+        this.fundName = fundName;
+        this.accountName = accountName;
+        this.securitiesName = securitiesName;
     }
 
     @Override
     public String toString() {
-        return "StockofSecurities{" +
+        return "SecuritiesInventory{" +
                 "securitiesInventoryId='" + securitiesInventoryId + '\'' +
                 ", dateTime='" + dateTime + '\'' +
                 ", securitiesId='" + securitiesId + '\'' +
                 ", fundId='" + fundId + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", securityPeriodFlag=" + securityPeriodFlag +
                 ", securitiesNum=" + securitiesNum +
                 ", price=" + price +
                 ", total=" + total +
                 ", securitiesInventoryDesc='" + securitiesInventoryDesc + '\'' +
+                ", accountPojo=" + accountPojo +
+                ", securitiesPojo=" + securitiesPojo +
+                ", flag='" + flag + '\'' +
+                ", fundName='" + fundName + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", securitiesName='" + securitiesName + '\'' +
                 '}';
     }
 }

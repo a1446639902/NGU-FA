@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.reportManage.mapper.ClosingDateStatementMapper">
+
+    <resultMap id="closingDateStatementMap" type="com.yidu.reportManage.pojo.ClosingDateStatementPojo">
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
+        <result property="num" column="num" javaType="Double"></result>
+        <result property="netReceipts" column="netReceipts" javaType="Double"></result>
+        <result property="totalSum" column="totalSum" javaType="Double"></result>
+        <result property="commission" column="commission" javaType="Double"></result>
+        <result property="brokerage" column="brokerage" javaType="Double"></result>
+        <result property="stamp" column="stamp" javaType="Double"></result>
+        <result property="transfer" column="transfer" javaType="Double"></result>
+        <result property="management" column="management" javaType="Double"></result>
+        <result property="flag" column="flag" javaType="int"></result>
+        <result property="security" column="security" javaType="Double"></result>
+        <result property="transactionDataMode" column="transactionDataMode" javaType="int"></result>
+        <result property="securitiesType" column="securitiesType" javaType="int"></result>
+    </resultMap>
+    <select id="selectClosingDateStatement" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=closingDateStatementMap})}
+    </select>
+
+
+</mapper>

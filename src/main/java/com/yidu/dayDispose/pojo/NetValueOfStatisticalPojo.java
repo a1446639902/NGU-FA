@@ -20,11 +20,20 @@ public class NetValueOfStatisticalPojo {
     private String marketValue;         //市值
     private String valuation;           //估值增值
     private int projectFatherId;        //父项目编号
+    private String fundId;              //基金id
 
     public NetValueOfStatisticalPojo() {
     }
 
-    public NetValueOfStatisticalPojo(String valueStatisticsDate, int projectId, String projectName, String projectCode, String quantityint, String peice, String cost, String marketValue, String valuation, int projectFatherId) {
+    public String getFundId() {
+        return fundId;
+    }
+
+    public void setFundId(String fundId) {
+        this.fundId = fundId;
+    }
+
+    public NetValueOfStatisticalPojo(String valueStatisticsDate, int projectId, String projectName, String projectCode, String quantityint, String peice, String cost, String marketValue, String valuation, int projectFatherId, String fundId) {
         this.valueStatisticsDate = valueStatisticsDate;
         this.projectId = projectId;
         this.projectName = projectName;
@@ -35,6 +44,7 @@ public class NetValueOfStatisticalPojo {
         this.marketValue = marketValue;
         this.valuation = valuation;
         this.projectFatherId = projectFatherId;
+        this.fundId = fundId;
     }
 
     @Override
@@ -50,7 +60,21 @@ public class NetValueOfStatisticalPojo {
                 ", marketValue='" + marketValue + '\'' +
                 ", valuation='" + valuation + '\'' +
                 ", projectFatherId=" + projectFatherId +
+                ", fundId='" + fundId + '\'' +
                 '}';
+    }
+
+    public NetValueOfStatisticalPojo(String valueStatisticsDate, int projectId, String projectName, String projectCode, String quantityint, String peice, String cost, String marketValue, String valuation, int projectFatherId) {
+        this.valueStatisticsDate = valueStatisticsDate;
+        this.projectId = projectId;
+        this.projectName = projectName;
+        this.projectCode = projectCode;
+        this.quantityint = quantityint;
+        this.peice = peice;
+        this.cost = cost;
+        this.marketValue = marketValue;
+        this.valuation = valuation;
+        this.projectFatherId = projectFatherId;
     }
 
     public String getValueStatisticsDate() {

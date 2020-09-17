@@ -90,7 +90,6 @@
                     , {field: 'issueDate', title: '发行日期', width: 140}
                     , {field: 'delayDate', title: '延迟日期', width: 140}
                     , {field: 'stockId', title: '模块ID', width: 140, sort: true,hide:true}
-                    , {field: 'stockName', title: '模块名称', width: 140, sort: true}
                     , {field: 'exchange', title: '交易所', width: 140, sort: true,templet: '#exchangedemo'}
                     , {field: 'securitiesDesc', title: '备注', width: 140}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
@@ -125,7 +124,7 @@
                         content: $("#addContent")
                     });
                     $.ajax({
-                        url:'../Stock/selectStock?page=1&limit=10000',
+                        url:'../Stock/selectSonStock?page=1&limit=10000',
                         dataType:'json',
                         type:'post',
                         success:function(obj){
@@ -234,7 +233,7 @@
                     content: $("#editContent")
                 });
                 $.ajax({
-                    url:'../Stock/selectStock?page=1&limit=10000',
+                    url:'../Stock/selectSonStock?page=1&limit=10000',
                     dataType:'json',
                     type:'post',
                     success:function(obj){
@@ -364,7 +363,7 @@
                             <input type="text" name="securitiesId" lay-verify="required"
                                    autocomplete="off" placeholder="请输入证券ID" class="layui-input">
                         </div>
-                    </div>
+                    </div> 
 
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >证券名称</label>

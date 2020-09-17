@@ -3,6 +3,7 @@ package com.yidu.businessDispose.controller;
 import com.yidu.businessDispose.pojo.EquityDispose;
 import com.yidu.businessDispose.service.EquityDisposeService;
 import com.yidu.util.GetAccountUtil;
+import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,5 +41,9 @@ public class EquityDiposeController {
     @RequestMapping("updateEquityDispose")
     public int updateEquityDispose(String equityDisPose){
         return equityDisposeService.updateEquityDispose(equityDisPose);
+    }
+    @RequestMapping("updateEquityDisposeTow")
+    public int updateEquityDisposeTwo(String equityDisPose){
+        return equityDisposeService.updateEquityDisposeTwo(equityDisPose);
     }
 }

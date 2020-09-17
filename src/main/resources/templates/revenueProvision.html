@@ -80,10 +80,10 @@
                     ,{field: 'fundId', title: '基金编号', align:'center'}
                     ,{field: 'managerRate', title: '管理人费率(%)',  align:'center'}
                     ,{field: 'hostingRate', title: '托管人费率(%)',  align:'center'}
-                    ,{field: 'propertyNetWorth', title: '资产净值',  align:'center'}
+                    ,{field: 'marketValue', title: '资产净值',  align:'center'}
                     // ,{field: 'valueStatisticsDate', title: '业务日期',  align:'center'}
-                    ,{field: 'management', title: '管理费利息(元)',  align:'center'}
-                    ,{field: 'custody', title: '托管费利息(元)',  align:'center'}
+                    ,{field: 'managementMoney', title: '管理费利息(元)',  align:'center'}
+                    ,{field: 'custodyMoney', title: '托管费利息(元)',  align:'center'}
                 ]
                 ]
             });
@@ -156,19 +156,19 @@
                    var cash = JSON.stringify(cashs);
                     alert(cash);
 
-                            // layer.close();
+                             layer.close();
                             //向服务端发送删除指令
                             $.post("/RevenueProvision/CountingCash", "cash="+cash,function(msg){
                                 if(msg>0){
-                                    // table.reload('myTable');
-                                    // layer.closeAll();
-                                    // layer.msg('删除成功',{
-                                    //     title : '提示',
-                                    //     area : [ '200px',
-                                    //         '140px' ],
-                                    //     time : 0,
-                                    //     btn : [ '知道了' ]
-                                    // });
+                                    table.reload('myTable');
+                                    layer.closeAll();
+                                    layer.msg('统计成功',{
+                                        title : '提示',
+                                        area : [ '200px',
+                                            '140px' ],
+                                        time : 0,
+                                        btn : [ '知道了' ]
+                                    });
                                 }
                             });
 
@@ -189,15 +189,15 @@
                     //向服务端发送删除指令
                     $.post("/RevenueProvision/StatisticalSecurities", "Securities="+Securities,function(msg){
                         if(msg>0){
-                            // table.reload('myTable');
-                            // layer.closeAll();
-                            // layer.msg('删除成功',{
-                            //     title : '提示',
-                            //     area : [ '200px',
-                            //         '140px' ],
-                            //     time : 0,
-                            //     btn : [ '知道了' ]
-                            // });
+                            table.reload('myTable');
+                            layer.closeAll();
+                            layer.msg('统计成功',{
+                                title : '提示',
+                                area : [ '200px',
+                                    '140px' ],
+                                time : 0,
+                                btn : [ '知道了' ]
+                            });
                         }
                     });
                 }else{
@@ -216,15 +216,15 @@
                     //向服务端发送删除指令
                     $.post("/RevenueProvision/StatisticalTwoFees", "TwoFees="+TwoFees,function(msg){
                         if(msg>0){
-                            // table.reload('myTable');
-                            // layer.closeAll();
-                            // layer.msg('删除成功',{
-                            //     title : '提示',
-                            //     area : [ '200px',
-                            //         '140px' ],
-                            //     time : 0,
-                            //     btn : [ '知道了' ]
-                            // });
+                            table.reload('myTable');
+                            layer.closeAll();
+                            layer.msg('统计成功',{
+                                title : '提示',
+                                area : [ '200px',
+                                    '140px' ],
+                                time : 0,
+                                btn : [ '知道了' ]
+                            });
                         }
                     });
                 }
@@ -251,7 +251,7 @@
             </button>
         </div>
         <div class="layui-inline layui-show-xs-block">
-            <button class="layui-btn" lay-submit="" lay-event="tongJi" lay-filter="tongJi"><i class="layui-icon layui-icon-table"></i>统计
+            <button class="layui-btn" type="button" lay-submit="" lay-event="tongJi" lay-filter="tongJi"><i class="layui-icon layui-icon-table"></i>统计
             </button>
         </div>
     </form>

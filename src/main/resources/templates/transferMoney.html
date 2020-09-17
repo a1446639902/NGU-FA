@@ -32,7 +32,7 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">划款日期</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"   placeholder="请选择日期"  name="end" id="start">
+                <input class="layui-input" autocomplete="off"  placeholder="请选择日期"  name="end" id="start">
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -67,7 +67,7 @@
                 page: true,
                 toolbar: '#userToolBar',//显示在表头的工具条
                 cellMinWidth:60,
-                height:'full-70',
+                height:'full-30',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
@@ -79,11 +79,11 @@
                         ,{field: 'inBlankName', title: '收款账户的银行名称',align:'center',hide:true}
                         ,{field: 'outBlankCardCode', title: '划款账户',align:'center',width: 180}
                         ,{field: 'inBlankCardCode', title: '接收账户',align:'center',width: 180}
-                        ,{field: 'money', title: '划款金额',align:'center'}
-                        ,{field: 'crossSectionDate', title: '划款日期',align:'center'}
-                        ,{field: 'accountingDate', title: '到账日期',align:'center'}
-                        ,{field: 'purpose', title: '划款的用途',align:'center',width: 120}
-                        ,{field: 'right', title: '操作',width: 187, align:'center', toolbar: '#barDemo'}
+                        ,{field: 'money', title: '划款金额',align:'center',width:160}
+                        ,{field: 'crossSectionDate', title: '划款日期',width:165,align:'center'}
+                        ,{field: 'accountingDate', title: '到账日期',width:165,align:'center'}
+                        ,{field: 'purpose', title: '划款的用途',align:'center',width: 120,hide:true}
+                        ,{field: 'right', title: '操作',width: 195, align:'center', toolbar: '#barDemo'}
                     ]
                 ]
             });
@@ -185,6 +185,9 @@
                             , page: {
                                 curr: 1
                             }
+                        });
+                        laydate.render({
+                            elem: '#start'//指定元素
                         });
                         break;
                     case 'deleteAll':
