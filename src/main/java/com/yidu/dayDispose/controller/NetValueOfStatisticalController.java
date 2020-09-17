@@ -157,7 +157,7 @@ public class NetValueOfStatisticalController {
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(countDemoOne);
             System.out.println(netValueOfStatisticalPojo);
-            i = netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
+            netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         }
 
         //创建树形结构二级结构-现金
@@ -319,7 +319,7 @@ public class NetValueOfStatisticalController {
 
         //估值增值
         int countDemoForm = count;
-        int sum = (zhaiQuans + guPiao);
+        Double sum = (zhaiQuans + guPiaos);
         //项目名称
         netValueOfStatisticalPojo.setProjectName("估值增值");
         //项目编号

@@ -19,10 +19,9 @@
 
     <!-- 查询，根据日期查询出股票的买入卖出-->
     <select id="selectAllMsg" resultType="com.yidu.dayDispose.pojo.SelectAllMsgPojo" parameterType="String">
-select securitiesName ,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE
-from SECURITIESINVENTORY t1 , SECURITIES t2 ,MARKET t3
-where t1.SECURITIESID = t2.SECURITIESID and t1.DATETIME=#{time}
-group by securitiesName,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE
+select securitiesName ,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE,t1.DATETIME
+from SECURITIESINVENTORY t1, SECURITIES t2 ,MARKET t3
+where t1.SECURITIESID=t2.SECURITIESID and t3.DATETIME=#{time}
     </select>
 
     <!--查询证券中债券的数据-->
@@ -34,9 +33,9 @@ where t1.SECURITIESID = t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID an
 
     <!--查询现金表的余额-->
     <select id="selectCashBlance" resultType="com.yidu.dayDispose.pojo.CashBlancePojo">
-        select ACCOUNTNAME,BLANKCARDCODE,CASHBLANCE from
+select ACCOUNTNAME,BLANKCARDCODE,CASHBLANCE from
 CASHINVENTORY t1 , ACCOUNT t2
-where t1.FUNDID = t2.FUNDID and t1.DATETIME=#{DATETIME}
+where t1.ACCOUNTID = t2.ACCOUNTID and t1.DATETIME=#{DATETIME}
     </select>
 
     <!--查询利息，通过银行账户id查询-->
