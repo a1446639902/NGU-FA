@@ -26,10 +26,15 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
     @Resource
     DbUtil dbUtil;
     @Override
-    public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime) {
+    public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime,String serviceType) {
         StringBuffer stringBuffer = new StringBuffer();
         if(dateTime!=null && !dateTime.equals("")){
             stringBuffer.append(" and dateTime='"+dateTime+"'");
+
+        }
+        if(serviceType!=null && !serviceType.equals("")){
+            int i = Integer.parseInt(serviceType);
+            stringBuffer.append(" and serviceType="+i);
         }
         HashMap securitiesClosedPayMap = new HashMap<>();
         securitiesClosedPayMap.put("p_tableName"," (select * from securitiesClosedPay scp join ACCOUNT a on scp.ACCOUNTID=a.ACCOUNTID join securities st on scp.securitiesId=st.securitiesId )");

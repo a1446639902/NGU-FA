@@ -24,10 +24,10 @@ public class SecuritiesClosedPayController {
     @Resource
     SecuritiesClosedPayService securitiesClosedPayService;
     @RequestMapping("/selectSecuritiesClosedPay")
-    public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime){
+    public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime,String serviceType){
         System.out.println("xinzeng========================");
         System.out.println(dateTime);
-        HashMap securitiesClosedPayMap = securitiesClosedPayService.selectSecuritiesClosedPay(page, limit,dateTime);
+        HashMap securitiesClosedPayMap = securitiesClosedPayService.selectSecuritiesClosedPay(page, limit,dateTime,serviceType);
         int count = (int) securitiesClosedPayMap.get("p_count");
         ArrayList<SecuritiesClosedPayPojo> securitiesClosedPayList = (ArrayList<SecuritiesClosedPayPojo>) securitiesClosedPayMap.get("p_cursor");
         HashMap hashMap = new HashMap<>();

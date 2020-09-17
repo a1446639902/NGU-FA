@@ -11,7 +11,7 @@ public class SecuritiesClosedPayPojo {
     private String fundId;               //FK 基金信息表Id
     private String accountId;            //账户信息表ID
     private String blankCardCode;        //银行卡号
-    private String securitiesName;//证券名称
+    private String securitiesName;       //证券名称
     private String securitiesId;         //证券信息表ID  securities表
     private int serviceType;             //业务类型 1=清算款 2=估值增值 3=债券利息
     private double amount;               //金额

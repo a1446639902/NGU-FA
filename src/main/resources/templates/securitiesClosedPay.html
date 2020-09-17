@@ -33,6 +33,17 @@
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务类型</label>
+                <div class="layui-inline">
+                    <select name="serviceType" id="serviceType">
+                        <option value="">请选择</option>
+                        <option value="1">清算款</option>
+                        <option value="2">估值增值</option>
+                        <option value="3">债券利息</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
                 <button class="layui-btn" lay-submit="" lay-filter="search" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索
                 </button>
             </div>
@@ -208,7 +219,6 @@
 
 
 <script type="text/javascript">
-
     layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tableSelect'], function () {
         var layer = layui.layer;
         var $ = layui.$;
@@ -302,8 +312,6 @@
                     , {field : 'securitiesClosedPayId', align : 'center', width : 200, title : '证券应收应付编号', hide:true}
                     , {field : 'fundId', align : 'center', title : '基金代码', hide:true}
                     , {field : 'dateTime', align : 'center', title : '业务日期'}
-                    , {field : 'accountId', title : '银行账户编号 ', align : 'center',hide:true}
-                    , {field : 'blankCardCode', title : '银行账户 ', align : 'center',width:200}
                     , {field : 'securitiesId', title : '证券编号', align : 'center',hide:true}
                     , {field : 'securitiesName', title : '证券名称', align : 'center'}
                     , {field : 'serviceType', title : '业务类型  ', align : 'center',
@@ -350,11 +358,14 @@
                     break;
                 case 'search':
                     var dateTime = $("#start").val();
+                    var serviceType = $("#serviceType").val();
+
                     //表格的重新加载事件
                     table.reload('userTable', {
                         method: 'post'
                         , where: {
-                            'dateTime': dateTime
+                            'dateTime': dateTime,
+                            'serviceType': serviceType
                         }
                         , page: {
                             curr: 1
