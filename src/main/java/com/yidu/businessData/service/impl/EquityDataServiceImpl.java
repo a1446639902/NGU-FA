@@ -73,8 +73,9 @@ public class EquityDataServiceImpl implements EquityDataService {
                 v_equitiesType = Integer.parseInt(equitiesType);
                 sqlWhere.append("AND equitiesType LIKE '%" + v_equitiesType + "%'");
             }
-                String p_tableName="(select equityDataId,dateTime,securityId,securitiesName,equitiesRecord,equitiesExright,receivedDate,equitiesType,proportion,disposeStatus from equityData,securities)";
-
+        String p_tableName = "(select * from " + SysTableNameListUtil.ED +" e " +
+                "join (select securitiesName,securitiesId from "+SysTableNameListUtil.SE+" ) s " +
+                "on e.SECURITYID=s.securitiesId)";
 
         //创建一个Map，用于存储过程的调用传值
         Map<String,Object> map = new HashMap<>();
