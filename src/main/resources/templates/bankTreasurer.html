@@ -82,6 +82,14 @@
             });
             //执行一个laydate实例
             laydate.render({
+                elem: '#end1'//指定元素
+            });
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#end2'//指定元素
+            });
+            //执行一个laydate实例
+            laydate.render({
                 elem: '#up'//指定元素
             });
             //新增提交
@@ -395,20 +403,19 @@
     <form id="addform" lay-filter="addform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-        <div>
             <div class="layui-row">
                 <div class="layui-col-xs6">
                     <div class="layui-form-item" style="text-align: center;">
                         <input type="hidden" name="accountId" id="insertAccountId"/>
-                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">现金账户</label>
-                        <div class="layui-inline layui-show-xs-block">
+                        <label class="layui-form-label layui-bg-green" style="text-align: center">现金账户</label>
+                        <div class="layui-input-inline ">
                             <input class="layui-input"  autocomplete="off" placeholder="请选择现金账户" name="accountName" id="insertAccountName">
                         </div>
                     </div>
-                    <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">调拨类型</label>
-                        <div class="layui-inline layui-show-xs-block" style="width: 185px;text-align: center">
-                            <select name="allocatingType">
+                    <div class="layui-form-item" >
+                        <label class="layui-form-label layui-bg-green" >调拨类型</label>
+                        <div class="layui-input-inline " >
+                            <select name="allocatingType" style="width: 110px">
                                 <option value="">请选择调拨类型</option>
                                 <option value="1">存款利息</option>
                                 <option value="2">申购赎回清算款</option>
@@ -420,31 +427,15 @@
                         </div>
                     </div>
                     <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">调拨日期</label>
-                        <div class="layui-inline layui-show-xs-block">
+                        <label class="layui-form-label layui-bg-green" style="text-align: center">调拨日期</label>
+                        <div class="layui-input-inline ">
                             <input class="layui-input"  autocomplete="off" placeholder="请选择调拨日期" name="dbTime" id="end">
                         </div>
                     </div>
-                </div>
-
-
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务编号</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="请输入对应业务编号" name="businessId">
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">调拨金额</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="请输入调拨金额" name="totalPrice">
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">调拨方向</label>
-                        <div class="layui-inline layui-show-xs-block" style="width: 185px;text-align: center">
-                            <select name="flag">
+                    <div class="layui-form-item" >
+                        <label class="layui-form-label layui-bg-green" >调拨方向</label>
+                        <div class="layui-input-inline " >
+                            <select name="flag" style="width: 50px">
                                 <option value="">请选择调拨方向</option>
                                 <option value="1">流入</option>
                                 <option value="-1">流出</option>
@@ -452,17 +443,35 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item" style="text-align: center;">
 
-                <div class="layui-input-inline">
-                    <textarea name="bankTreasurerDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
+
+                <div class="layui-col-xs6" >
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" style="text-align: center">业务编号</label>
+                        <div class="layui-input-inline ">
+                            <input class="layui-input"  autocomplete="off" placeholder="请输入对应业务编号" name="businessId">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" style="text-align: center">业务日期</label>
+                        <div class="layui-input-inline ">
+                            <input class="layui-input"  autocomplete="off" placeholder="请选择调拨日期" name="dateTime" id="end1">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" style="text-align: center">调拨金额</label>
+                        <div class="layui-input-inline ">
+                            <input class="layui-input"  autocomplete="off" placeholder="请输入调拨金额" name="totalPrice">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <div class="layui-input-inline">
+                        <textarea name="bankTreasurerDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
-
-
-        <div style="position: absolute;  left: 39%;">
+            <div style="position: absolute;  left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -505,11 +514,12 @@
                         </div>
                     </div>
                     <div class="layui-form-item" style="text-align: center;">
-                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">调拨日期</label>
+                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="请选择调拨日期" name="dbTime" id="up">
+                            <input class="layui-input"  autocomplete="off" placeholder="请选择调拨日期" name="dateTime" id="end2">
                         </div>
                     </div>
+
                 </div>
 
 
@@ -530,10 +540,18 @@
                             </select>
                         </div>
                     </div>
+                    <div class="layui-form-item" style="text-align: center;">
+                        <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">调拨日期</label>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input"  autocomplete="off" placeholder="请选择调拨日期" name="dbTime" id="up">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="layui-form-item" style="text-align: center;">
 
+
+
+            <div class="layui-form-item" style="text-align: center;">
                 <div class="layui-input-inline">
                     <textarea name="bankTreasurerDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
                 </div>
