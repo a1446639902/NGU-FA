@@ -46,17 +46,17 @@ where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
 
     <!--查询债券利息-->
     <select id="selectNetBondInterest" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 3 and t1.DATETIME=#{DATETIME}
+        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 3
     </select>
 
     <!--查询托管费-->
     <select id="selectTrusteeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 2 and DATETIME=#{time}
+        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 2
     </select>
 
     <!--查询管理费-->
     <select id="selectAdministrativeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 1 and t1.DATETIME= #{time}
+        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 1
     </select>
 
     <!--查询证券清算款-->
