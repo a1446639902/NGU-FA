@@ -35,7 +35,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 				table.reload('userTable');
 				layer.closeAll();
 				layer.msg('添加成功',{
-					title : '提示',
+					//title : '提示',
 					area : [ '200px',
 						'140px' ],
 					time : 0,
@@ -44,7 +44,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 			}else{
 				layer.closeAll();
 				layer.msg('添加失败',{
-					title : '提示',
+					//title : '提示',
 					area : [ '200px',
 						'140px' ],
 					time : 0,
@@ -63,7 +63,6 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 				table.reload('userTable');
 				layer.closeAll();
 				layer.msg('修改成功',{
-					title : '提示',
 					area : [ '200px',
 						'140px' ],
 					time : 0,
@@ -72,7 +71,6 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 			}else{
 				layer.closeAll();
 				layer.msg('修改失败',{
-					title : '提示',
 					area : [ '200px',
 						'140px' ],
 					time : 0,
@@ -86,28 +84,27 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 		elem: '#userTable',
 		url: '../selectBond',
 		page: true,
-		height: 'full-30',
+		height: 'full-20',
 		toolbar: '#userToolBar',//显示在表头的工具条
-		minLength:80,
 		cellMinWidth:60,
 		cols: [
 			[ //表头
 				{type: 'checkbox', fixed: 'left'}
-				,{field: 'securitiesId', title: '债券编号', width:130, align:'center'}
-				,{field: 'bondName', title: '债券名称', width:130, align:'center'}
-				,{field: 'drawStartDate', title: '计息起始日', width: 130, align:'center'}
-				,{field: 'drawEndDate', title: '计息结束日', width:130, align:'center'}
-				,{field: 'bondType', title: '债券类型', width: 130, align:'center',templet:function (item){
+				,{field: 'securitiesId', title: '债券编号',  align:'center'}
+				,{field: 'bondName', title: '债券名称',  align:'center'}
+				,{field: 'drawStartDate', title: '计息起始日',  align:'center'}
+				,{field: 'drawEndDate', title: '计息结束日',  align:'center'}
+				,{field: 'bondType', title: '债券类型',  align:'center',templet:function (item){
 					if (item.bondType=='1'){
 						return '银行间';
 					}else {
 						return '非银行间';
 					}
 				}}
-				,{field: 'parRate', title: '票面利率(%)', width:130, align:'center'}
-				,{field: 'bondRate', title: '债券利息(%)', width: 130, align:'center'}
-				,{field: 'bondRateAmount', title: '票面金额', width: 130, align:'center'}
-				,{field: 'payInterestNum', title: '付息次数', width: 130, align:'center',templet:function (item) {
+				,{field: 'parRate', title: '票面利率(%)',  align:'center'}
+				,{field: 'bondRate', title: '债券利息(%)',  align:'center'}
+				,{field: 'bondRateAmount', title: '票面金额',  align:'center'}
+				,{field: 'payInterestNum', title: '付息次数',  align:'center',templet:function (item) {
 					if (item.payInterestNum=='1'){
 						return '一年一次';
 					}else if (item.payInterestNum=='2'){
@@ -116,9 +113,9 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 						return '一年四次';
 					}
 				}}
-				,{field: 'bondDesc', title: '备用字段', width: 130, align:'center'}
+				,{field: 'bondDesc', title: '备用字段',  align:'center'}
 
-				,{field: 'right', title: '操作',width: 150, align:'center', toolbar: '#barDemo'}
+				,{fixed: 'right', title: '操作',width: 150, align:'center', toolbar: '#barDemo'}
 			]
 		]
 	});
@@ -130,16 +127,15 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 			case 'add':
 				var index=layer.open({
 					type: 1,
-					title: '添加用户信息',
+					title: '添加债券信息',
 					closeBtn: 1,
 					move:false,
 					content:$("#addContent"),
-					area:['800px','590px'],
+					btn:[],
+					area:['800px','600px']
 				});
 
 				form.render();
-				//全屏
-				//layer.full(index);
 				break;
 			case 'search':
 				alert("搜索");
@@ -174,7 +170,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 						$.post("../deleteBond", {securitiesId:ids.join(',')},function(msg){
 							table.reload('userTable');
 							layer.msg('删除'+checkStatus.data.length+'条记录', {
-								title:'提示',
+								//title:'提示',
 								area: ['200px', '140px'],
 								time: 0,
 								btn: ['知道了']
@@ -190,7 +186,6 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 		var data = obj.data;//得到删除行整行的数据
 		//  alert(data.taTransactionId);
 		if (obj.event === 'del') {
-
 			layer.confirm('真的删除行么',{icon: 2}, function(index){
 				layer.close(index);
 				$.post("../deleteBond", {securitiesId:data.securitiesId+""},function(msg){
@@ -200,23 +195,32 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 			});
 		} else if (obj.event === 'edit') {
 			//alert(JSON.stringify(data));
-
 			form.val('editform',$.parseJSON(JSON.stringify(data)));
 			var index = layer.open({
 				type: 1,
-				title: '修改员工',
+				title: '修改债券信息',
 				closeBtn: 1,
 				move:false,
-				area:['800px','590px'],
+				area: ['800px', '600px'],
 				content:$('#editContent')
 			});
 
 			form.render();
-			//layer.full(index);
 		};
 	})
 });
 
 function quxiao() {
 	layer.closeAll();
+}
+
+function autoEx() {
+	layui.use(['jquery'],function () {
+		var $=layui.jquery;
+		var taNum = $("#taNum").val();
+		var cost = $("#cost").val();
+		var price=$("#price").val();
+		$("#price").val(cost/taNum);
+		$("#sum").val(taNum*price);
+	})
 }

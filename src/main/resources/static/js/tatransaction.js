@@ -134,7 +134,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 			case 'add':
 				var index=layer.open({
 					type: 1,
-					title: '添加用户信息',
+					title: '添加交易数据',
 					closeBtn: 1,
 					move:false,
 					content:$("#addContent"),
@@ -214,7 +214,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 			form.val('editform',$.parseJSON(JSON.stringify(data)));
 			var index = layer.open({
 				type: 1,
-				title: '修改员工',
+				title: '修改交易信息',
 				closeBtn: 1,
 				move:false,
 				area:['800px','610px'],

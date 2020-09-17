@@ -202,7 +202,7 @@
                                 $.post("../TaSettlement/updateTaSettlement","settlement="+settlement,function(msg){
                                     if(msg>0){
                                         table.reload('userTable');
-                                        table.reload('userTable2');  /!*渲染刷新*!/
+                                        table.reload('userTable2'); /* /!*渲染刷新*!/*/
                                         layer.closeAll();
                                         layer.msg('结算成功',{
                                             title : '提示',
