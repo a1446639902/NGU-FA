@@ -66,11 +66,14 @@ public class AppraisementController {
                         securitiesClosedPayInventoryPojo.setTotalPrice(stockSecuritiesJoinMarket.getTootaIPrice());
                         securitiesClosedPayInventoryPojo.setSecuritiesClosedPayDesc("投资有风险");
                         System.out.println("=============================增加的实体类"+securitiesClosedPayInventoryPojo);
+                        int i = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                        System.out.println(i+"是否增加成功");
 //                        执行删除
-                        int i = appraisementService.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
-                        System.out.println("============================================="+i);
-                        //调用增加方法
-                         securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                        int i1 = appraisementService.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                        System.out.println("============================================="+i1);
+//                        //调用增加方法
+                        int i2 = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                        System.out.println(i2+"第二次插入的返回值");
 
                     }
                 }else {
@@ -89,8 +92,8 @@ public class AppraisementController {
                         securitiesClosedPayInventoryPojo.setTotalPrice(transactionData.getTotalSum());
                         securitiesClosedPayInventoryPojo.setFlag(transactionData.getFlag());
                         securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(2);
-                        appraisementService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventoryPojo);
-                        securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+//                        appraisementService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventoryPojo);
+//                        securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                         System.out.println("查ta交易数据================================");
                         HashMap taTransactionMap = appraisementService.selectTaTransaction();
                         List<TaTransaction> taTransactionList = (List<TaTransaction>)taTransactionMap.get("p_cursor");
