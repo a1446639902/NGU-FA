@@ -19,7 +19,7 @@
         <result property="securityPeriodFlag" column="securityPeriodFlag"></result>
     </resultMap>
 <!--    删除证券应收应付库存的条件-->
-    <delete id="deleteSecuritiesClosedPayInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventory">
+    <delete id="deleteSecuritiesClosedPayInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventoryPojo">
         delete from securitiesClosedPayInventory where fundId=#{fundId} and securitiesId=#{securitiesId} and securityPeriodFlag=#{securityPeriodFlag}
     </delete>
 

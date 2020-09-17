@@ -155,7 +155,7 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input" autocomplete="off" placeholder="请选择业务日期" name="businessDate" id="end">
+                    <input class="layui-input" autocomplete="off"  placeholder="请选择业务日期" name="businessDate" id="end">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -238,16 +238,16 @@
             minLength: 80,
             cols: [
                 [ //表头
-                    {field: 'businessDate', title: '业务时间', width: 165, align: 'center'},
+                    {field: 'businessDate', title: '业务时间', width: 110, align: 'center'},
                     {field: 'fundId', title: '基金Id', width: 110, align: 'center', hide: true}
                     , {field: 'outAccountId', title: '流出账户Id', width: 150, align: 'center', hide: true}
                     , {field: 'outAccountName', title: '流出账户', width: 190, align: 'center'}
                     , {field: 'inAccountId', title: '流入账户Id', width: 150, align: 'center', hide: true}
-                    , {field: 'inAccountName', title: '流入账户', width: 190, align: 'center'}
+                    , {field: 'inAccountName', title: '流入账户', width: 205, align: 'center'}
                     , {field: 'depositId', title: '存款业务Id', width: 165, align: 'center', hide: true}
-                    , {field: 'money', title: '存款金额', width: 160, align: 'center'}
+                    , {field: 'money', title: '存款金额', width: 110, align: 'center'}
                     , {
-                    field: 'businessType', title: '业务类型', width: 145, align: 'center',
+                    field: 'businessType', title: '业务类型', width: 95, align: 'center',
                     templet: function (item) {
                         if (item.businessType == 1) {
                             return '定期三天'
@@ -258,9 +258,9 @@
                         }
                     }
                 }
-                    , {field: 'endDate', title: '到期日期', width: 150, align: 'center'}
+                    , {field: 'endDate', title: '到期日期', width: 110, align: 'center'}
                     , {
-                    field: 'flag', title: '是否处理', width: 145, align: 'center',
+                    field: 'flag', title: '是否处理', width: 95, align: 'center',
                     templet: function (item) {
                         if (item.flag == 0) {
                             return '未办理'
@@ -494,6 +494,8 @@
 
     function myclose() {
         layer.closeAll();
+
+
     }
 </script>
 </body>
