@@ -7,4 +7,5 @@ import java.util.Map;
 public interface EquityDisposeService {
     public Map<String,Object> selectEquityDispose(String pageSize, String page, String equitiesType, String equitiesExright,String disposeStatus);
     public int updateEquityDispose(String equityDisPose);
+    public int updateEquityDisposeTwo(String equityDataId);
 }

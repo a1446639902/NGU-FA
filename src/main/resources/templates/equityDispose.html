@@ -106,7 +106,7 @@
                         ,{field: 'securitiesNum', title: '证券数量', align:'center'}
                         ,{field: 'proportion', title: '比例', align:'center'}
                         ,{field: 'settlementAmount', title: '结算金额', align:'center'}
-                        ,{field: 'disposeStatus', title: '处理状态', align:'center',
+                        ,{field: 'disposeStatus', title: '处理状态', align:'center',hide:true,
                         templet:function (item) {
                             if (item.disposeStatus==0){
                                 return '未处理';
@@ -130,30 +130,28 @@
 
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
-                        }
-                        else {
+                        } else {
                             layer.confirm('真的要结算嘛', function () {
                                 layer.close();
                                 //向服务端发送删除指令
-                                $.post("../updateEquityDispose","equityDisPose="+equityDisPose,function(msg){
-                                    if(msg>0){
+                                $.post("../updateEquityDispose", "equityDisPose=" + equityDisPose, function (msg) {
+                                    if (msg > 0) {
                                         table.reload('userTable');
                                         table.reload('userTable2');  /*渲染刷新*/
                                         layer.closeAll();
-                                        layer.msg('结算成功',{
-                                            title : '提示',
-                                            area : [ '200px',
-                                                '140px' ],
-                                            btn : [ '知道了' ]
+                                        layer.msg('结算成功', {
+                                            title: '提示',
+                                            area: ['200px',
+                                                '140px'],
+                                            btn: ['知道了']
                                         });
-                                    }
-                                    else{
+                                    } else {
                                         layer.closeAll();
-                                        layer.msg('结算失败',{
-                                            title : '提示',
-                                            area : [ '200px',
-                                                '140px' ],
-                                            btn : [ '知道了' ]
+                                        layer.msg('结算失败', {
+                                            title: '提示',
+                                            area: ['200px',
+                                                '140px'],
+                                            btn: ['知道了']
                                         });
                                     }
                                 });
@@ -161,10 +159,11 @@
                             });
                         }
                         break;
+                    //搜索按钮的条件查询
                     case 'search':
                         alert("搜索");
-                        var equitiesExright= $("#end").val();
-                        var equitiesType= $("#equitiesType").val()
+                        var equitiesExright = $("#equitiesExright").val();
+                        var equitiesType = $("#equitiesType").val()
                         //表格的重新加载事件
                         table.reload('userTable', {
                             method: 'post'
@@ -176,9 +175,13 @@
                                 curr: 1
                             }
                         });
-
+                        break;
                 }
-            });
+
+                        });
+
+
+
             //给工具条的反结算添加事件
             table.on('toolbar(userTable2)', function (obj) {
                 switch (obj.event) {
@@ -196,7 +199,7 @@
                             layer.confirm('真的要反结算嘛', function () {
                                 layer.close();
                                 //向服务端发送删除指令
-                                $.post("../updateEquityDispose","equityDisPose="+equityDisPose,function(msg){
+                                $.post("../updateEquityDisposeTow","equityDisPose="+equityDisPose,function(msg){
                                     if(msg>0){
                                         table.reload('userTable2');
                                         table.reload('userTable');  /*渲染刷新*/
@@ -224,6 +227,23 @@
                             });
 
                         }
+                        break;
+                    //搜索按钮的条件查询
+                    case 'search':
+                        alert("搜索");
+                        var equitiesExright= $("#equitiesExright2").val();
+                        var equitiesType= $("#equitiesType2").val()
+                        //表格的重新加载事件
+                        table.reload('userTable2', {
+                            method: 'post'
+                            , where: {
+                                'equitiesExright': equitiesExright,
+                                'equitiesType': equitiesType
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        });
                         break;
                 }
 
@@ -288,14 +308,14 @@
 
                 <div class="layui-inline layui-show-xs-block">
                     <select name="equitiesType" id="equitiesType2">
-                        <option>请选择</option>
-                        <option>分红</option>
-                        <option>送股</option>
+                        <option value="">请选择</option>
+                        <option value="2">分红</option>
+                        <option value="1">送股</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn" lay-event="search"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn" lay-event="search2"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
             <div class="layui-inline layui-show-xs-block">
                 <button class="layui-btn"  type="button" onclick="return false"  lay-submit="settlement" lay-filter="settlement2"  lay-event="settlement2" name="settlement" id="settlement2">反结算</button>

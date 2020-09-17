@@ -2,6 +2,9 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.EquityData;
 import com.yidu.businessData.service.EquityDataService;
+import com.yidu.util.DateTimeUtil;
+import com.yidu.util.DbUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +23,13 @@ import java.util.Map;
 public class EquityDataController {
     @Resource
     EquityDataService equityDataService;
+    @Resource
+    DbUtil dbUtil;
 
     @RequestMapping("insertEquityData")
     public int insertEquityData(EquityData equityData) {
+        equityData.setEquityDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.ED));
+        equityData.setEquityDataId(DateTimeUtil.getSystemDateTime("yyyy-MM-dd"));
         int i = equityDataService.insertEquityData(equityData);
         return i;
     }
