@@ -9,8 +9,6 @@ package com.yidu.dayDispose.pojo;
 * */
 public class ValuationProcessing {
     private String status;
-    private int statusNumber;
-    private String dateTime;
     private String statusName;
     public ValuationProcessing() {
     }
@@ -23,22 +21,6 @@ public class ValuationProcessing {
         this.status = status;
     }
 
-    public int getStatusNumber() {
-        return statusNumber;
-    }
-
-    public void setStatusNumber(int statusNumber) {
-        this.statusNumber = statusNumber;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
-
     public String getStatusName() {
         return statusName;
     }
@@ -47,20 +29,16 @@ public class ValuationProcessing {
         this.statusName = statusName;
     }
 
+    public ValuationProcessing(String status, String statusName) {
+        this.status = status;
+        this.statusName = statusName;
+    }
+
     @Override
     public String toString() {
         return "ValuationProcessing{" +
                 "status='" + status + '\'' +
-                ", statusNumber=" + statusNumber +
-                ", dateTime='" + dateTime + '\'' +
                 ", statusName='" + statusName + '\'' +
                 '}';
-    }
-
-    public ValuationProcessing(String status, int statusNumber, String dateTime, String statusName) {
-        this.status = status;
-        this.statusNumber = statusNumber;
-        this.dateTime = dateTime;
-        this.statusName = statusName;
     }
 }

@@ -42,21 +42,21 @@
                 elem: '#userTable',
                 url: '../Settlement/selectSettlement?status=0',
                 page: true,
-                height: 498,
+                height: 'full-30',
                 minLength:80,
                 toolbar:'#userToolBar',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
-                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
-                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
-                        ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
-                        ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
-                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
                         ,{field: 'accountName', title: ' 现金账户', width: 130, align:'center'}
                         ,{field: 'securitiesName', title: ' 证券名称', width: 130, align:'center'}
                         ,{field: 'brokersName', title: '券商名称', width: 130, align:'center'}
+                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
+                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
+                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
+                        ,{field: 'netReceipts', title: '交易金额', width:130, align:'center'}
+                        ,{field: 'totalSum', title: '结算金额', width: 130, align:'center'}
+                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
                         ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
                             if(item.transactionDataMode=='1') {
                                 return '买入';
@@ -87,21 +87,21 @@
                 elem: '#userTable2',
                 url: '../Settlement/selectSettlement?status=1',
                 page: true,
-                height: 498,
+                height: 'full-30',
                 minLength:80,
                 toolbar:'#userToolBar2',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
-                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
-                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
-                        ,{field: 'totalSum', title: '交易总金额', width: 130, align:'center'}
-                        ,{field: 'netReceipts', title: '实收金额', width:130, align:'center'}
-                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
                         ,{field: 'accountName', title: ' 现金账户', width: 130, align:'center'}
                         ,{field: 'securitiesName', title: ' 证券名称', width: 130, align:'center'}
                         ,{field: 'brokersName', title: '券商名称', width: 130, align:'center'}
+                        ,{field: 'dateTime', title: '交易日期', width:130, align:'center'}
+                        ,{field: 'num', title: '交易数量', width: 130, align:'center'}
+                        ,{field: 'price', title: '交易单价', width:130, align:'center'}
+                        ,{field: 'netReceipts', title: '交易金额', width:130, align:'center'}
+                        ,{field: 'totalSum', title: '结算金额', width: 130, align:'center'}
+                        ,{field: 'settlementDate', title: '结算日期', width: 130, align:'center'}
                         ,{field: 'transactionDataMode', title: '交易方式', width: 130, align:'center', templet: function(item){
                             if(item.transactionDataMode=='1') {
                                 return '买入';
@@ -170,7 +170,7 @@
                         }
                         break;
                     case 'select':
-                        alert("搜索");
+                        /*alert("搜索");*/
                         var dateTime= $("#start").val();
                         var transactionDataMode= $("#cateId").val();
                         //表格的重新加载事件
@@ -183,6 +183,9 @@
                             , page: {
                                 curr: 1
                             }
+                        });
+                        laydate.render({
+                            elem: '#start' //指定元素
                         });
                         break;
                 };
@@ -244,6 +247,9 @@
                             , page: {
                                 curr: 1
                             }
+                        });
+                        laydate.render({
+                            elem: '#start1' //指定元素
                         });
                         break;
                 }

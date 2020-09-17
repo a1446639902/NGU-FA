@@ -2,10 +2,12 @@ package com.yidu.cashControl.controller;
 
 import com.yidu.cashControl.pojo.BankTreasurerPojo;
 import com.yidu.cashControl.service.BankTreasurerService;
+import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,9 +42,11 @@ public class BankTreasurerController {
         return hashMap;
     }
     @RequestMapping("/insertBankTreasurer")
-    public int insertBankTreasurer(BankTreasurerPojo bankTreasurerPojo){
+    public int insertBankTreasurer(BankTreasurerPojo bankTreasurerPojo, HttpServletRequest request){
         System.out.println("新增");
         System.out.println(bankTreasurerPojo);
+        String fundId = GetFundIdUtil.getFundId(request);
+        bankTreasurerPojo.setFundId(fundId);
         return bankTreasurerService.insertBankTreasurer(bankTreasurerPojo);
     }
     @RequestMapping("/updateBankTreasurer")

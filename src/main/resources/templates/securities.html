@@ -77,22 +77,22 @@
         //查询
         table.render({
             elem: '#test'
-            , height: 512
+            , height: 'full-30'
             , toolbar: '#userToolBar'
             , url: '../selectSecurities' //数据接口
             , page: true //开启分页
             , cols: [
                 [ //表头
                     {type: 'checkbox', fixed: 'left'}
-                    , {field: 'securitiesId', title: '证券ID', width: 120, sort: true}
-                    , {field: 'securitiesName', title: '证券名称', width: 120}
-                    , {field: 'securitiesType', title: '证券类型', width: 120, sort: true,templet:'#securitiesTypedemo'}
-                    , {field: 'issueDate', title: '发行日期', width: 120}
-                    , {field: 'delayDate', title: '延迟日期', width: 120}
-                    , {field: 'stockId', title: '模块ID', width: 120, sort: true,hide:true}
-                    , {field: 'stockName', title: '模块名称', width: 120, sort: true}
-                    , {field: 'exchange', title: '交易所', width: 120, sort: true,templet: '#exchangedemo'}
-                    , {field: 'securitiesDesc', title: '备注', width: 120}
+                    , {field: 'securitiesId', title: '证券ID', width: 140, sort: true}
+                    , {field: 'securitiesName', title: '证券名称', width: 140}
+                    , {field: 'securitiesType', title: '证券类型', width: 140, sort: true,templet:'#securitiesTypedemo'}
+                    , {field: 'issueDate', title: '发行日期', width: 140}
+                    , {field: 'delayDate', title: '延迟日期', width: 140}
+                    , {field: 'stockId', title: '模块ID', width: 140, sort: true,hide:true}
+                    , {field: 'stockName', title: '模块名称', width: 140, sort: true}
+                    , {field: 'exchange', title: '交易所', width: 140, sort: true,templet: '#exchangedemo'}
+                    , {field: 'securitiesDesc', title: '备注', width: 140}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
                 ]
             ]
@@ -125,12 +125,13 @@
                         content: $("#addContent")
                     });
                     $.ajax({
-                        url:'../selectStock?page=1&limit=10000',
+                        url:'../Stock/selectSonStock?page=1&limit=10000',
                         dataType:'json',
                         type:'post',
                         success:function(obj){
                             $('#stockId').empty();
                             $.each(obj.data,function(index,item){
+
                                 $('#stockId').append(new Option(item.stockName,item.stockId));//往下拉菜单里添加元素
                             })
 
@@ -233,7 +234,7 @@
                     content: $("#editContent")
                 });
                 $.ajax({
-                    url:'../selectStock?page=1&limit=10000',
+                    url:'../Stock/selectSonStock?page=1&limit=10000',
                     dataType:'json',
                     type:'post',
                     success:function(obj){
@@ -356,7 +357,7 @@
         <div>
             <div class="layui-row">
                 <div class="layui-col-xs6">
-
+                        <input type="hidden" name="stockId"/>
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >证券ID</label>
                         <div class="layui-input-inline">
@@ -406,7 +407,7 @@
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >板块ID</label>
                         <div class="layui-input-inline">
-                            <select id="stockId_2" name="stockId" xm-select="add" xm-select-radio=""
+                            <select id="stockId_2" name="stockId_2" xm-select="add" xm-select-radio=""
                                     xm-select-search="" lay-verify="required"
                                     xm-select-direction="down" xm-select-search-type="dl">
                             </select>
@@ -454,6 +455,7 @@
           style="margin: 30px auto; display: inline-block;">
         <div class="layui-row">
             <div class="layui-col-xs6">
+
                 <div class="layui-form-item" style="text-align: center;">
                     <label class="layui-form-label layui-bg-green" >证券ID</label>
                     <div class="layui-input-inline">
@@ -497,7 +499,7 @@
                     <div class="layui-input-inline">
                         <select  name="delayDate">
                             <option value="">请选择</option>
-                            <option value="delayDate" selected="selected">T+1</option>
+                            <option value="T+1" selected="selected">T+1</option>
                         </select>
                     </div>
                 </div>

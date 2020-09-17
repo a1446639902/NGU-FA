@@ -39,7 +39,7 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">到期时间</label>
             </div>
             <div class="layui-inline layui-show-xs-block">
-                <input class="layui-input"  placeholder="请选择日期" name="dateEnd" id="start">
+                <input class="layui-input" autocomplete="off"  placeholder="请选择日期" name="dateEnd" id="start">
             </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -141,7 +141,7 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务类型</label>
                 <div class="layui-inline layui-show-xs-block" style="text-align: center;width: 187px">
-                    <select name="businessType">
+                    <select name="businessType" lay-filter="type" id="businessType2">
                         <option value="">请选择业务类型</option>
                         <option value="1">三天存款</option>
                         <option value="2">七天存款</option>
@@ -155,7 +155,7 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">业务日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input" autocomplete="off" placeholder="请选择业务日期" name="businessDate" id="end">
+                    <input class="layui-input" autocomplete="off"  placeholder="请选择业务日期" name="businessDate" id="end">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -232,22 +232,22 @@
             elem: '#userTable',
             url: '../deposit/selectDeposit',
             page: true,
-            height: 498,
+            height: 'full-30',
             toolbar: '#userToolBar',//显示在表头的工具条
             cellMinWidth: 60,
             minLength: 80,
             cols: [
                 [ //表头
-                    {field: 'businessDate', title: '业务时间', width: 165, align: 'center'},
+                    {field: 'businessDate', title: '业务时间', width: 110, align: 'center'},
                     {field: 'fundId', title: '基金Id', width: 110, align: 'center', hide: true}
                     , {field: 'outAccountId', title: '流出账户Id', width: 150, align: 'center', hide: true}
                     , {field: 'outAccountName', title: '流出账户', width: 190, align: 'center'}
                     , {field: 'inAccountId', title: '流入账户Id', width: 150, align: 'center', hide: true}
-                    , {field: 'inAccountName', title: '流入账户', width: 190, align: 'center'}
+                    , {field: 'inAccountName', title: '流入账户', width: 205, align: 'center'}
                     , {field: 'depositId', title: '存款业务Id', width: 165, align: 'center', hide: true}
-                    , {field: 'money', title: '存款金额', width: 160, align: 'center'}
+                    , {field: 'money', title: '存款金额', width: 110, align: 'center'}
                     , {
-                    field: 'businessType', title: '业务类型', width: 145, align: 'center',
+                    field: 'businessType', title: '业务类型', width: 95, align: 'center',
                     templet: function (item) {
                         if (item.businessType == 1) {
                             return '定期三天'
@@ -258,9 +258,9 @@
                         }
                     }
                 }
-                    , {field: 'endDate', title: '到期日期', width: 150, align: 'center'}
+                    , {field: 'endDate', title: '到期日期', width: 110, align: 'center'}
                     , {
-                    field: 'flag', title: '是否处理', width: 145, align: 'center',
+                    field: 'flag', title: '是否处理', width: 95, align: 'center',
                     templet: function (item) {
                         if (item.flag == 0) {
                             return '未办理'
@@ -306,6 +306,9 @@
                         , page: {
                             curr: 1
                         }
+                    });
+                    laydate.render({
+                        elem: '#start'
                     });
 
                     break;
@@ -445,10 +448,54 @@
             }
         })
 
+
+        //定期存款日期
+        form.on('select(type)', function(data){
+            $('#up').val("");
+            var today = new Date();
+            // 获取当前年
+            var year=today.getFullYear();
+            // 获取当前月
+            var month=today.getMonth()+1;
+            // 获取当前日
+            var date=today.getDate();
+            var day = null;
+            if($('#businessType2').val()==1){
+                day = 3;
+            }else if($('#businessType2').val()==2){
+                day = 7;
+            }
+            // 输出为yyyy-MM-hh格式的字符串
+            var datetime = year+'-'+buling(month)+"-"+buling(date);
+            $('#end').val(datetime);
+            /*setTimeout(function () {*/
+                var date2 = new Date($('#end').val()).getTime();
+                var date3 = date2+1000*60*60*24*day;
+                var endDate = new Date(date3);
+                var endYear = endDate.getFullYear();
+                var endMonth = endDate.getMonth()+1;
+                var endday = endDate.getDate();
+                var endTime = endYear+"-"+buling(endMonth)+"-"+buling(endday);
+                $('#up').val(endTime);
+           /* }, 300);*/
+
+        });
+
+
+        function buling(data) {
+            if(data<10){
+                return data = "0"+data;
+            }else{
+                return data;
+            }
+        }
+
     });
 
     function myclose() {
         layer.closeAll();
+
+
     }
 </script>
 </body>

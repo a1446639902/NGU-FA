@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 股票板块
- * @type 控制层
+ * @type 股票控制层
  * @author xbf
  * @date 2020-09-11
  * @version 1.0
@@ -81,7 +80,7 @@ public class StockController {
         json.put("msg","");
         json.put("count",null);
         json.put("data",stockList);
-        //返回数据
+        System.out.println("=========================="+stockList);
         return json;
 
     }

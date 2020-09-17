@@ -3,10 +3,7 @@ package com.yidu.dayDispose.service.impl;
 import com.yidu.dayDispose.mapper.InventoryMapper;
 import com.yidu.dayDispose.pojo.*;
 import com.yidu.dayDispose.service.InventoryService;
-import com.yidu.inventoryManage.mapper.CashClosedPaylnventoryMapper;
-import com.yidu.inventoryManage.mapper.CashInventoryMapper;
-import com.yidu.inventoryManage.mapper.SeInventoryPayMapper;
-import com.yidu.inventoryManage.mapper.TaInventoryMapper;
+import com.yidu.inventoryManage.mapper.*;
 import com.yidu.inventoryManage.pojo.*;
 import com.yidu.inventoryManage.service.SecuritiesInventoryService;
 import com.yidu.util.DbUtil;
@@ -50,7 +47,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Resource
     //得到证券应收应付库存的Mapper方法
-    private SeInventoryPayMapper seInventoryPayMapper;
+    private SecuritiesClosedPayInventoryMapper securitiesClosedPayInventoryMapper;
 
     //得到工具类
     @Resource
@@ -214,6 +211,7 @@ public class InventoryServiceImpl implements InventoryService {
                     //Ta数量
                     taInventoryEntity1.setTanum(taInventoryEntity.getNuml());
                     //现金余额
+                    System.out.println("我是TA库存统计，我得到的余额为："+taInventoryEntity.getTotal());
                     taInventoryEntity1.setTatotal(taInventoryEntity.getTotal());
                     //统计日期
                     taInventoryEntity1.setDateTime(dateTime3);
@@ -245,38 +243,41 @@ public class InventoryServiceImpl implements InventoryService {
 
                     //调用删除的方法,删除库存统计之前的数据
 
-                    seInventoryPayMapper.delectDateTaInventoryPayMapper(dateTime3);
+                    securitiesClosedPayInventoryMapper.delectDateTaInventoryPayMapper(dateTime3);
                     System.out.println("我在删除之后"+dateTime3);
-                    SeInventoryPayEntity seInventoryPayEntity = new SeInventoryPayEntity();
+
+
+//                    得到证券应收应付的实体类
+                    SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo = new SecuritiesClosedPayInventoryPojo();
 
                     //证券存库Id 主键
-                    seInventoryPayEntity.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
+                    securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
                     //业务日期
-                    seInventoryPayEntity.setDateTime(dateTime3);
+                    securitiesClosedPayInventoryPojo.setDateTime(dateTime3);
                     //FK 基金信息表Id      fund表
-                    seInventoryPayEntity.setFundId(fundId);
+                    securitiesClosedPayInventoryPojo.setFundId(fundId);
 
                     //FK 证券信息表ID  securities表
-                    seInventoryPayEntity.setSecuritiesId(seYSYFInventoryEntity.getSecuritiesId());
+                    securitiesClosedPayInventoryPojo.setSecuritiesId(seYSYFInventoryEntity.getSecuritiesId());
 
                     //证券应收应付类型 1=估值款 2=证券清算款 3=债券利息
-                    seInventoryPayEntity.setSecuritiesType(3);
+                    securitiesClosedPayInventoryPojo.setSecuritiesType(3);
 
                     //业务状态 1流入，-1流出
-                    seInventoryPayEntity.setFlag(seYSYFInventoryEntity.getFlag());
+                    securitiesClosedPayInventoryPojo.setFlag(seYSYFInventoryEntity.getFlag());
 
                     //总金额
-                    seInventoryPayEntity.setTotalPrice(seYSYFInventoryEntity.getTocal());
+                    securitiesClosedPayInventoryPojo.setTotalPrice(seYSYFInventoryEntity.getTocal());
                     //备注
-                    seInventoryPayEntity.setSecuritiesClosedPayDesc("库存统计统计的数据");
+                    securitiesClosedPayInventoryPojo.setSecuritiesClosedPayDesc("库存统计统计的数据");
 
                     //期初标志 是否从其他系统导入得期初数据 0：不是 1：是
-                    seInventoryPayEntity.setSecurityPeriodFlag(seYSYFInventoryEntity.getSecurityPeriodFlag());
+                    securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(seYSYFInventoryEntity.getSecurityPeriodFlag());
 
-                    System.out.println("我是证券应收应付库存统计，我要统计的数据为："+seInventoryPayEntity);
+                    System.out.println("我是证券应收应付库存统计，我要统计的数据为："+securitiesClosedPayInventoryPojo);
 
                     //插入库存统计之后的新数据
-                    seInventoryPayMapper.insertTaInventoryPayMapper(seInventoryPayEntity);
+                    securitiesClosedPayInventoryMapper.insertTaInventoryPayMapper(securitiesClosedPayInventoryPojo);
 
 
                 }
@@ -293,7 +294,7 @@ public class InventoryServiceImpl implements InventoryService {
 
                 for (CaYSYFInventoryEntity caYSYFInventoryMapper : caYSYFInventoryMappers) {
                     System.out.println("我是库存统计的现金库存界面，我获得的数据为"+caYSYFInventoryMapper);
-
+                    System.out.println("我现金应收应付库存之前");
                     //调用删除方法，删除库存统计之前的数据
                     cashClosedPaylnventoryMapper.delectDateInventory(dateTime3);
 

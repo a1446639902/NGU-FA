@@ -19,10 +19,45 @@ import java.util.Map;
  **/
 @Service
 public interface CashClosedPayService {
-    int insertCashClosedPay(CashClosedPayPojo cashClosePay);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [cashClosePay, request]
+     * @return int
+     **/
+    int insertCashClosedPay(CashClosedPayPojo cashClosePay,HttpServletRequest request);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [cashClosedPayId]
+     * @return int
+     **/
     int deleteCashClosedPay(String cashClosedPayId);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [cashClosePay]
+     * @return int
+     **/
     int updateCashClosedPay(CashClosedPayPojo cashClosePay);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:53 2020/9/15
+     * @Parm [pageSize, page, dateTime, serviceType]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     Map<String,Object> selectCashClosedPay(String pageSize, String page,String dateTime,String serviceType);
+    /**
+     * @author 硠君
+     * @Description
+     * @Date 11:54 2020/9/15
+     * @Parm [map]
+     * @return java.lang.String
+     **/
     public String selectCashClosedPayId(Map map);
     //wufeiyun
     int deleteNew(CashClosedPayPojo cashClosedPay);

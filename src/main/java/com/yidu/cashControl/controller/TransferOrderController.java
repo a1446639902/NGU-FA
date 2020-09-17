@@ -26,6 +26,7 @@ import java.util.Map;
  * @Type
  * @time 2020/9/11
  **/
+
 @RestController
 @RequestMapping("/transferOrderController")
 public class TransferOrderController {
@@ -119,11 +120,12 @@ public class TransferOrderController {
         verticalStyle.setRotation((short) 255);//竖向
         verticalStyle.setLocked(true);
         verticalStyle.setWrapText(false);// 自动换行
-		/*verticalStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+verticalStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
 		verticalStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
 		verticalStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
 		verticalStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
-*/
+
+
         //单元格样式，左右上下居中 无边框
         CellStyle commonStyleNoBorder = wb.createCellStyle();
         commonStyleNoBorder.setFont(contextFont);

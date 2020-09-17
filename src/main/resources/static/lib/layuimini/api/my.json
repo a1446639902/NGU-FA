@@ -1,0 +1,39 @@
+{
+  "msg": "",
+  "code": 0,
+  "data": [{
+    "valueStatisticsDate": "2020-09-10",
+    "projectId": 1,
+    "projectName": "证券",
+    "projectCode": null,
+    "quantityint": null,
+    "peice": null,
+    "cost": null,
+    "marketValue": null,
+    "valuation": null,
+    "projectFatherId": 0
+  }, {
+    "valueStatisticsDate": "2020-09-10",
+    "projectId": 6,
+    "projectName": "现金",
+    "projectCode": null,
+    "quantityint": null,
+    "peice": null,
+    "cost": null,
+    "marketValue": null,
+    "valuation": null,
+    "projectFatherId": 0
+  }, {
+    "valueStatisticsDate": "2020-09-10",
+    "projectId": 14,
+    "projectName": "合计",
+    "projectCode": null,
+    "quantityint": null,
+    "peice": null,
+    "cost": null,
+    "marketValue": null,
+    "valuation": null,
+    "projectFatherId": 0
+  }],
+  "count": 10
+}

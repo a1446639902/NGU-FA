@@ -16,8 +16,9 @@
 
 
     <script type="text/javascript">
-        var layid = null;
+        var layid = 11;
         layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+
             var layer = layui.layer;
             var $ = layui.$;
             var table = layui.table;
@@ -25,21 +26,16 @@
             var formSelects = layui.formSelects;
             var laydate = layui.laydate;
 
-            var time= $("#start").val();
-            alert("time:="+time);
             //执行一个laydate实例
             laydate.render({
                 elem: '#start', //指定元素
             });
-
-
             table.render({
                 elem: '#cashTable',
                 url: '/selectCashClosedPays',
                 page: true,
-                height: 'full-20',
+                height: 580,
                 minLength: 80,
-                skin:'row',
                 cellMinWidth: 60,
                 cols: [
                     [ //表头
@@ -74,7 +70,7 @@
                             }
                         }
                     }
-                        , {field: time, title: '业务时间', align: 'center'}
+                        , {field: 'businessDate', title: '业务时间', align: 'center'}
                     ]
                 ]
             });
@@ -82,9 +78,9 @@
                 elem: '#bondTable',
                 url: '/selectSecuritiesClosedPay',
                 page: true,
-                height: 750,
-                skin:'row',
+                height: 580,
                 minLength: 80,
+                cellMinWidth: 60,
                 cols: [
                     [ //表头
                         {type: 'checkbox', field: 'securitiesClosedPayInventoryId', fixed: 'left'}
@@ -107,7 +103,7 @@
                             }
                         }
                     }
-                        , {field: time, title: '业务时间', align: 'center'}
+                        , {field: 'businessDate', title: '业务时间', align: 'center'}
                         , {field: 'totalMoney', title: '总金额', align: 'center'}
                     ]
                 ]
@@ -116,8 +112,8 @@
                 elem: '#costTable',
                 url: '/selectTwoCost',
                 page: true,
-                skin:'row',
-                height: 'full-20',
+                height: 580,
+                cellMinWidth: 60,
                 minLength: 80,
                 cols: [
                     [ //表头
@@ -144,13 +140,15 @@
                             }
                         }
                     }
-                        , {field: time, title: '业务时间', align: 'center'}
+                        , {field: 'businessDate', title: '业务时间', align: 'center'}
                     ]
                 ]
             });
 
             // 渲染第一个表格
             form.on('submit(search)', function (data) {
+                //console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+                //console.log(data.field.statDate);
                 alert($("#start").val())
                 // console.log($("#start").val());
                 // alert("layid=" + layid);
@@ -200,7 +198,7 @@
             });
             form.on('submit(statistics)', function (data) {
                 //alert(data.field); 当前容器的全部表单字段，名值对形式：{name: value}Object object
-                alert("layid=" + layid);//直接进入点击，null
+               // alert("layid=" + layid);//直接进入点击
                 if (layid == 11) {
                     var checkStatus = table.checkStatus('cashTable');//获得选中行所有数据
                     // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
@@ -209,9 +207,9 @@
                     $.each(dataArr, function (i, n) {
                         cashs.push(n)
                     });
-                    alert(cashs)
+
                     var cash = JSON.stringify(cashs);
-                    alert("转为json格式的现金数据:=" + cash);
+
                     $.post("/testCash", "cash="+cash, function (msg) {
                         if (msg > 0) {
 
@@ -224,9 +222,9 @@
                     $.each(dataArr, function (i, n) {
                         bonds.push(n)
                     });
-                    alert(bonds)
+
                     var bond = JSON.stringify(bonds);
-                    alert("转为json格式的债券数据:=" + bond);
+
                     $.post("/testBond", "bond="+bond, function (msg) {
                         if (msg > 0) {
 
@@ -240,7 +238,7 @@
                         cashs.push(n)
                     });
                     var cash = JSON.stringify(cashs);
-                    alert("转为json格式的两费数据:=" + cash);
+
                     $.post("/testCash", "cash=" + cash, function (msg) {
                         if (msg > 0) {
 
@@ -304,13 +302,13 @@
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
             <!--表格-->
-            <table id="cashTable" lay-filter="cashTable"></table>
+            <table id="cashTable" lay-filter="cashTable" class="layui-table"></table>
         </div>
         <div class="layui-tab-item">
-            <table id="bondTable" lay-filter="bondTable"></table>
+            <table id="bondTable" lay-filter="bondTable" class="layui-table"></table>
         </div>
         <div class="layui-tab-item">
-            <table id="costTable" lay-filter="costTable"></table>
+            <table id="costTable" lay-filter="costTable" ></table>
         </div>
     </div>
 </div>

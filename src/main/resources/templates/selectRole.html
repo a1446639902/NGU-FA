@@ -7,13 +7,10 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <!--<link rel="stylesheet" href="./css/font.css">-->
-    <!-- <link rel="stylesheet" href="./css/xadmin.css">-->
-    <!--<link rel="stylesheet" href="./css/theme3395.min.css">-->
-    <link rel="stylesheet" href="../lib/layui/css/layui.css">
-    <!--<link rel="stylesheet" href="./css/theme4.css">-->
-    <script src="../lib/layui/layui.js" charset="utf-8"></script>
-    <!--<script type="text/javascript" src="./js/xadmin.js"></script>-->
+    <link type="text/css" rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <link rel="stylesheet" href="../lib/layuimini/css/public.css" media="all">
+    <script type="text/javascript" src="../lib/layui/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 </head>
 <body>
 
@@ -274,11 +271,11 @@
                        autocomplete="off" placeholder="备注" class="layui-input">
             </div>
         </div>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+        <div style="position: absolute; bottom: 0px; left: 35%;">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit" style="align-content: center">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" style="align-content: center">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>
@@ -322,7 +319,7 @@
                        autocomplete="off" placeholder="备注" class="layui-input">
             </div>
         </div>
-    <!--    <div class="layui-form-item" style="text-align: center;">
+     <!--   <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label">请选择角色</label>
             <div class="layui-input-inline">
                 <select id="roleId_2" name="roleId" xm-select="add" xm-select-radio=""
@@ -331,7 +328,7 @@
                 </select>
             </div>
         </div>-->
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 25px; left: 35%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>修改
             </button>
