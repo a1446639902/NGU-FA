@@ -109,11 +109,8 @@
             tableSelect.render({
                 elem: '#securityName'
                 , checkedKey: 'securitiesId'
-                ,where: {
-                    securitiesType:2
-                }
                 , table: {
-                    url: '../selectSecurities1'
+                    url: '../selectSecurities1?securitiesType=2'
                     , cols: [
                         [
                             {type: 'radio'},
@@ -162,11 +159,8 @@
             tableSelect.render({
                 elem: '#securityName2'
                 , checkedKey: 'securitiesId'
-                ,where: {
-                    securitiesType:2
-                }
                 , table: {
-                    url: '../selectSecurities1'
+                    url: '../selectSecurities1?securitiesType=2'
                     , cols: [
                         [
                             {type: 'radio'},
@@ -374,29 +368,35 @@
             //给表格编辑，删除按钮添加点击事件
             table.on('tool(userTable)', function(obj) {
                 var data = obj.data;//得到删除行整行的数据
-                if (obj.event === 'del') {
-                    layer.confirm('真的删除行么',{icon: 2}, function(index){
+                if(data.disposeStatus==1){
+                    layer.msg('已处理业务无法删除和修改');
+                }else if (data.disposeStatus==0) {
+                    if (obj.event === 'del') {
+                        layer.confirm('真的删除行么', {icon: 2}, function (index) {
 
-                        layer.close(index);
-                        $.post("../deleteEquityData", {equityDataId:data.equityDataId+""},function(msg){
-                            table.reload('userTable');
+                            layer.close(index);
+                            $.post("../deleteEquityData", {equityDataId: data.equityDataId + ""}, function (msg) {
+                                table.reload('userTable');
+                            });
+
                         });
+                    } else if (obj.event === 'edit') {
+                        form.val('editform', $.parseJSON(JSON.stringify(data)));
+                        var index = layer.open({
+                            type: 1,
+                            title: '修改权益数据',
+                            closeBtn: 1,
+                            move: false,
+                            area: ['893px', '550px'],
+                            content: $('#editContent')
+                        });
+                        form.render();
 
-                    });
-                } else if (obj.event === 'edit') {
-                    form.val('editform',$.parseJSON(JSON.stringify(data)));
-                    var index = layer.open({
-                        type: 1,
-                        title: '修改权益数据',
-                        closeBtn: 1,
-                        move:false,
-                        area: ['893px', '550px'],
-                        content:$('#editContent')
-                    });
-                    form.render();
-
-                };
+                    }
+                    ;
+                }
             })
+
         });
         function myclose() {
             layer.closeAll();
