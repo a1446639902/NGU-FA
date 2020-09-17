@@ -34,7 +34,7 @@ public class RevenueProvisionServiceImpl implements RevenueProvisionService {
         System.out.println(statDate);
         HashMap BondInterestMap = new HashMap();
         BondInterestMap.put("p_tableName","(select round(se.securitiesNum* (b.bondRate/365),2) as interest,\n" +
-                "       b.securitiesId,se.dateTime,se.fundId,b.bondName,b.parRate,(case when b.payInterestNum=1 then '一年一次' when b.payInterestNum=2 then '一年两次' else '一年三次' end)as payInterest ,b.drawStartDate,b.payInterestNum,se.securitiesNum,b.bondRateAmount,se.accountId\n" +
+                "       b.securitiesId,se.dateTime,se.fundId,b.bondName,b.parRate,(case when b.payInterestNum=1 then '一年一次' when b.payInterestNum=2 then '一年两次' else '一年三次' end)as payInterest ,b.drawStartDate,b.payInterestNum,se.securitiesNum,b.bondRateAmount\n" +
                 "from (select * from securitiesInventory where dateTime='"+statDate+"')\n" +
                 "    se join bond b on se.securitiesId = b.securitiesId)");
         BondInterestMap.put("p_condition","");
@@ -50,10 +50,18 @@ public class RevenueProvisionServiceImpl implements RevenueProvisionService {
     public HashMap selectTwoFees(int page, int limit ,String statDate) {
         HashMap twoFeesMap = new HashMap();
         System.out.println("jjjjjjjjj"+statDate);
-        twoFeesMap.put("p_tableName","(select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.propertyNetWorth,\n" +
-                "       ROUND((va.propertyNetWorth*f.managerRate/100/365 ),2)as management,\n" +
-                "       ROUND((va.propertyNetWorth*f.hostingRate/100/365 ),2)as Custody from  fund f\n" +
-                "    join (select * from valueStatistics where valueStatisticsDate=to_char(to_date('"+statDate+"','yyyy-MM-dd')-1,'yyyy-MM-dd')) va on f.fundId=va.fundId)");
+        if(statDate!="" && statDate!=null ){
+            twoFeesMap.put("p_tableName","(select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.MARKETVALUE,\n" +
+                    "       ROUND((va.MARKETVALUE*f.managerRate/100/365 ),2)as management,\n" +
+                    "       ROUND((va.MARKETVALUE*f.hostingRate/100/365 ),2)as Custody from  fund f\n" +
+                    "    join (select * from valueStatistics where valueStatisticsDate=to_char(to_date('"+statDate+"','yyyy-MM-dd')-1,'yyyy-MM-dd')) va on f.fundId=va.fundId)");
+        }else {
+            twoFeesMap.put("p_tableName","(select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.MARKETVALUE,\n" +
+                    "       ROUND((va.MARKETVALUE*f.managerRate/100/365 ),2)as management,\n" +
+                    "       ROUND((va.MARKETVALUE*f.hostingRate/100/365 ),2)as Custody from  fund f\n" +
+                    "    join (select * from valueStatistics where valueStatisticsDate='2020-08-01') va on f.fundId=va.fundId)");
+        }
+
         twoFeesMap.put("p_condition","");
         twoFeesMap.put("p_pageSize",limit);
         twoFeesMap.put("p_page",page);

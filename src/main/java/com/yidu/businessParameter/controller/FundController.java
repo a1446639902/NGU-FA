@@ -23,9 +23,12 @@ public class FundController {
     FundService fundService;
     @RequestMapping("/selectFund")
     public HashMap selectFund(int page,int limit,String fundId,String fundType){
+        //new 一个Hashmap存储状态
         HashMap fundMap = new HashMap();
         HashMap hashMap = fundService.selectFund(page,limit,fundId,fundType);
+        //获取总条数
         int count = (int) hashMap.get("p_count");
+        //存储过程获取游标p_cursor，返回集合
         List<Fund> fundList = (List<Fund>) hashMap.get("p_cursor");
         System.out.println("总条数："+count);
         System.out.println("page="+page+",limit="+limit+",fundId="+fundId+",fundType="+fundType);

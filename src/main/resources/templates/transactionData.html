@@ -574,7 +574,8 @@
                 var netReceipts1=document.getElementById("netReceipts").value;
                 var commission=Number(seateRate1)*Number(netReceipts1);
                 $("#commission").val(commission);
-
+                //securitiesId
+                var securitiesId =document.getElementById("securitiesId").value;
                 var securitiesType1=document.getElementById("securitiesType1").value;
                 var exchange1=document.getElementById("exchange1").value;
 
@@ -584,23 +585,38 @@
                         $('#transferFee1').val(item.transferFee);
                         $('#collectionRate1').val(item.collectionRate);
                         $('#brokerage1').val(item.brokerage);
-                        var lixi=0;
-                        //股票没有利息
+                        //证券利息：股票和债券都属于证券
+                        //股票没有利息，债券利息就是债券
+                        var parRate=0;
+                        var bondRateAmount=0;
+                        var lixiday=0;
+                        $.post("../selectBond", {securitiesId: securitiesId,drawStartDate: '',page:1,limit:1},function(obj2) {
+                            $.each(obj.data,function (index2,item2){
+                                //  票面利率/365*票面金额*数量*1
+                                //票面利率
+                                parRate = item2.parRate;
+                                //票面金额
+                                 bondRateAmount = item2.bondRateAmount;
+                            })
+                        })
+                        //当天应收债券利息
+                        lixiday = parRate/365*bondRateAmount*num*1;
+                        alert(lixiday)
+                            //股票没有利息
                         if (item.rateType==2){
-                            lixi=0;
-                            $('#security1').val(lixi);
+                            bondRate=0;
+                            $('#security1').val(bondRate);
                         }else{
-                            lixi=3;
-                            $('#security1').val(lixi);
+                            $('#security1').val(bondRate);
                         }
                         //买入
                         if ($('#transactionDataMode').val()==1){
                             $('#totalSum').val(netReceipts+commission+item.stampDuty
-                            +item.transferFee+item.collectionRate+item.brokerage+lixi);
+                            +item.transferFee+item.collectionRate+item.brokerage+bondRate);
                             //卖出
                         }else if($('#transactionDataMode').val()==2){
                             $('#totalSum').val(netReceipts-(commission+item.stampDuty
-                                +item.transferFee+item.collectionRate+item.brokerage)+lixi);
+                                +item.transferFee+item.collectionRate+item.brokerage)+bondRate);
                         }
                     })
 
@@ -682,7 +698,7 @@
             <div class="layui-form-item" >
                 <label class="layui-form-label layui-bg-green" style="text-align: center">交易方式</label>
                 <div class="layui-input-inline">
-                    <select name="transactionDataMode" lay-verify="required" id="transactionDataMode">
+                    <select name="transactionDataMode" lay-verify="required" id="transactionDataMode" onblur="myNum()">
                         <option value="1">买入</option>
                         <option value="2">卖出</option>
                         <option value="3">分红</option>
