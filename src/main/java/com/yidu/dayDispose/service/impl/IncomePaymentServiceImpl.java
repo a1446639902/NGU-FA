@@ -176,7 +176,7 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='"+fundId+"' and businessType=1 or businessType=2 and businessDate " +
+        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='"+fundId+"' and businessType in (1,2) and businessDate " +
                 "= to_char((to_date('" + businessDate+"','yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on cci.accountId=a.accountId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
