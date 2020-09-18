@@ -21,12 +21,12 @@ public interface AppraisementService {
     public int deleteSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo);
 
     //查交易数据 按证券代码分组 插入证券应收应付库存
-    public HashMap selectTransactionData();
+    public HashMap selectTransactionData(String toDay);
     //查交易数据后 按条件删除 证券应收应付表的内容
     public int deleteSecuritiesClosedPayInventoryTwo(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo);
 
     //查询ta交易数据
-    public HashMap selectTaTransaction();
+    public HashMap selectTaTransaction(String toDay);
 
     //删除现金应收应付
     public int deleteCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory);

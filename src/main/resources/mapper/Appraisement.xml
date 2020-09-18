@@ -20,7 +20,7 @@
     </resultMap>
 <!--    删除证券应收应付库存的条件-->
     <delete id="deleteSecuritiesClosedPayInventory" parameterType="com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventoryPojo">
-        delete from securitiesClosedPayInventory where fundId=#{fundId} and securitiesId=#{securitiesId} and securityPeriodFlag=#{securityPeriodFlag}
+        delete from securitiesClosedPayInventory where fundId=#{fundId} and securitiesId=#{securitiesId} and dateTime=#{dateTime}
     </delete>
 
 <!--    查交易数据 按证券代码分组 插入证券应收应付库存-->
@@ -34,7 +34,7 @@
     </resultMap>
 
     <delete id="deleteSecuritiesClosedPayInventoryTwo" parameterType="com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventoryPojo">
-        delete from securitiesClosedPayInventory where dateTime=#{dateTime} and securitiesId=#{securitiesId}
+        delete from securitiesClosedPayInventory where dateTime=#{dateTime} and securitiesId=#{securitiesId} and fundId=#{fundId}
     </delete>
 
 
@@ -50,6 +50,6 @@
     </resultMap>
 
     <delete id="deleteCashClosedPaylnventory" parameterType="com.yidu.inventoryManage.pojo.CashClosedPayInventory">
-        delete from securitiesClosedPayInventory where dateTime=#{dateTime}  and dateTime=#{dateTime} and fundId=#{fundId}
+        delete from securitiesClosedPayInventory where businessDate=#{businessDate} and fundId=#{fundId} and accountId=#{accountId}
     </delete>
 </mapper>
