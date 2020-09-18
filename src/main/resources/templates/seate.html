@@ -110,8 +110,12 @@
                     <br>
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" style="text-align: center">席位类型</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="请输入席位类型" name="seateType">
+                        <div class="layui-inline layui-show-xs-block" style="width: 185px">
+                            <select name="seateType" lay-search="" lay-verify="required" style="width: 130px">
+                                <option value="">--请选择--</option>
+                                <option value="1">贵宾</option>
+                                <option value="2">普通</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -139,8 +143,12 @@
                     <br>
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" style="text-align: center">席位地址</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="请输入席位地址" name="seateAddress">
+                        <div class="layui-inline layui-show-xs-block" style="width: 185px">
+                            <select name="seateAddress"  lay-search="" lay-verify="required" style="width: 50px">
+                                <option value="">--请选择--</option>
+                                <option value="1">上海</option>
+                                <option value="2">深圳</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -261,8 +269,12 @@
                     <br>
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" style="text-align: center">席位类型</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="请输入席位类型" name="seateType">
+                        <div class="layui-inline layui-show-xs-block" style="width: 185px">
+                            <select name="seateType" lay-search="" lay-verify="required" style="width: 130px">
+                                <option value="">--请选择--</option>
+                                <option value="1">贵宾</option>
+                                <option value="2">普通</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -290,8 +302,12 @@
                     <br>
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" style="text-align: center">席位地址</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="请输入席位地址" name="seateAddress">
+                        <div class="layui-inline layui-show-xs-block" style="width: 185px">
+                            <select name="seateAddress" lay-search="" lay-verify="required" style="width: 130px">
+                                <option value="">--请选择--</option>
+                                <option value="1">上海</option>
+                                <option value="2">深圳</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -474,18 +490,18 @@
                         }else if(item.seateType==2){}
                         return '普通'
                     }}
-                    ,{field: 'seateRate', title: '佣金利率(%)', width:128 ,align:'center'}
+                    ,{field: 'seateRate', title: '佣金利率(%)', width:100 ,align:'center'}
                     ,{field: 'brokersId', title: '劵商编号', width:128 , align:'center'}
                     ,{field: 'brokersName', title: '劵商名称', width:128 , align:'center'}
-                    ,{field: 'seateAddress', title: '席位地址', width:128 , align:'center',
+                    ,{field: 'seateAddress', title: '席位地址', width:110 , align:'center',
                     templet:function (item) {
                         if(item.seateAddress==1){
                             return '上海'
                         }else if(item.seateAddress==2){}
                         return '深圳'
                     }}
-                    ,{field: 'seateDesc', title: '备注',  width:128 ,align:'center'}
-                    ,{fixed: 'right', title: '操作' ,toolbar:'#barDemo', align:'center'}
+                    ,{field: 'seateDesc', title: '备注',  width:150 ,align:'center'}
+                    ,{fixed: 'right', title: '操作' ,toolbar:'#barDemo', align:'center',width: 200}
                 ]
             ]
         });

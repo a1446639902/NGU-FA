@@ -165,8 +165,8 @@
                                 return false;
                             });
                         }
-                        $("#start").val(dateTime);
-                        $("#cateId").val(transactionType);
+                        dateTime= $("#start").val(dateTime);
+                        transactionType= $("#cateId").val(transactionType);
                         break;
                     case 'select':
                         alert("搜索");
@@ -249,6 +249,8 @@
                                 curr: 1
                             }
                         });
+                        $("#start").val(dateTime);
+                        $("#cateId").val(transactionDataMode);
                         break;
                 };
             });
@@ -309,9 +311,9 @@
     <div style="margin-top: 0px;margin-left: 0px" >
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入交易日期" name="dateTime" id="start">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -333,7 +335,7 @@
                 <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="search" lay-event="search" name="settlement" id="settlement" >结算</button>
             </div>
         </form>
-        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <ul class="layui-tab-title" style="border-bottom-color: #009688;color: #009688">
             <li class="layui-this" lay-id="1">未结算</li>
             <li lay-id="2">已结算</li>
         </ul>
@@ -368,7 +370,7 @@
                 <button class="layui-btn" type="button" onclick="return false"  lay-submit="settlement" lay-filter="search2" lay-event="search2" name="settlement" id="settlement1" >反结算</button>
             </div>
         </form>
-        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <ul class="layui-tab-title" style="border-bottom-color: #009688;color: #009688">
             <li class="layui-this" lay-id="1">未结算</li>
             <li lay-id="2">已结算</li>
         </ul>
