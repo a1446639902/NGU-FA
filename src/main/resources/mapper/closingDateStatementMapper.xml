@@ -5,7 +5,7 @@
     <select id="selectClosingDateStatement" parameterType="string" resultType="com.yidu.reportManage.pojo.ClosingDateStatementPojo">
         select td.*,s.securitiesName,s.securitiesType from((select sum(num) num,sum(netReceipts) netReceipts,sum(totalSum) totalSum,sum(commission) commission,max(securitiesId)  securitiesId
     ,sum(brokerage) brokerage,sum(stamp) stamp,sum(transfer) transfer,sum(management) management,max(flag) flag,sum(security) security,max(transactionDataMode) transactionDataMode from
-        transactionData where DATETIME=#{dateTime} group by SECURITIESID,flag)) td join securities s on td.securitiesId=s.SECURITIESID
+        transactionData where DATETIME=#{dateTime} group by SECURITIESID,transactionDataMode)) td join securities s on td.securitiesId=s.SECURITIESID
 
     </select>
 
