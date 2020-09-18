@@ -122,7 +122,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 						return '未结算';
 					}
 				}}
-				,{fixed: 'right',title: '操作',width: 150, align:'center', toolbar: '#barDemo'}
+				,{field: 'right', title: '操作',width: 150, align:'center', toolbar: '#barDemo'}
 			]
 		]
 	});
@@ -166,7 +166,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 						curr: 1
 					}
 				});
-				dateTime= $("#start").val(dateTime);
+				$("#start").val(dateTime);
 				$("#transactionStatus").val(transactionStatus);
 				$("#transactionType").val(transactionType);
 				break;

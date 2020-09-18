@@ -27,10 +27,10 @@ layui.use(['table', 'form', 'layer','laydate'], function () {
 			, cols: [
 				[ //表头既列名  title列名名称
 					{type: 'checkbox', fixed: 'left'}
-					,{field: 'blankCardCode', title: '银行卡号',width:200, align:'center'}
-					,{field: 'accountName', title: '账户名称',width:200, align:'center'}
-					,{field: 'blankName', title: '银行名称', width:150,align:'center',hide:true}
-					,{field: 'deposit', title: '存款类型', width:130,align:'center',
+					,{field: 'blankCardCode', title: '银行卡号',width:220, align:'center'}
+					,{field: 'accountName', title: '账户名称',width:220, align:'center'}
+					,{field: 'blankName', title: '银行名称', width:170,align:'center',hide:true}
+					,{field: 'deposit', title: '存款类型', width:170,align:'center',
 					templet:function (item) {
 						if(item.deposit==1){
 							return '活期';
@@ -38,8 +38,8 @@ layui.use(['table', 'form', 'layer','laydate'], function () {
 						return '定期';
 					}
 				}
-					,{field: 'cardRate', title: '卡号利率%',width:130, align:'center'}
-					,{field: 'procisionDays', title: '计息期间',width:130, align:'center',
+					,{field: 'cardRate', title: '卡号利率%',width:160, align:'center'}
+					,{field: 'procisionDays', title: '计息期间',width:160, align:'center',
 					templet:function (item) {
 						if(item.procisionDays==1){
 							return '360天';
@@ -49,10 +49,10 @@ layui.use(['table', 'form', 'layer','laydate'], function () {
 							return '366天';
 						}
 					}}
-					,{field: 'openTime', title: '开户时间',width:145, align:'center'}
+					,{field: 'openTime', title: '开户时间',width:160, align:'center'}
 					,{field: 'endTime', title: '结束时间',width:150, align:'center',hide:true}
 					,{field: 'accountDesc', title: '备注', width:150,align:'center',hide:true}
-					,{field: 'right', title: '操作', align:'center',width:150, toolbar: '#barDemo'}
+					,{fixed: 'right', title: '操作', align:'center',width:170, toolbar: '#barDemo'}
 				]
 			]
 			, page: true//开启分页
