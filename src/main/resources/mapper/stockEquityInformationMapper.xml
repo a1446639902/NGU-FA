@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.reportManage.mapper.StockEquityInformationMapper">
+
+    <resultMap id="StockEquityInformationMap" type="com.yidu.reportManage.pojo.StockEquityInformationPojo">
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
+        <result property="issueDate" column="issueDate" javaType="String"></result>
+        <result property="quantityint" column="quantityint" javaType="String"></result>
+        <result property="marketValue" column="marketValue" javaType="String"></result>
+    </resultMap>
+    <select id="selectStockEquityInfortmation" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=StockEquityInformationMap})}
+    </select>
+
+
+</mapper>
