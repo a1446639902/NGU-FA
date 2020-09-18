@@ -34,13 +34,13 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], functi
 					,{field: 'outBlankName', title: '划款账户的银行名称',align:'center',hide:true}
 					,{field: 'inAccountId', title: '收款账户Id',align:'center',hide:true}
 					,{field: 'inBlankName', title: '收款账户的银行名称',align:'center',hide:true}
-					,{field: 'outBlankCardCode', title: '划款账户',align:'center',width: 180}
-					,{field: 'inBlankCardCode', title: '接收账户',align:'center',width: 180}
-					,{field: 'money', title: '划款金额',align:'center',width:160}
-					,{field: 'crossSectionDate', title: '划款日期',width:165,align:'center'}
-					,{field: 'accountingDate', title: '到账日期',width:165,align:'center'}
-					,{field: 'purpose', title: '划款的用途',align:'center',width: 120,hide:true}
-					,{field: 'right', title: '操作',width: 195, align:'center', toolbar: '#barDemo'}
+					,{field: 'outBlankCardCode', title: '划款账户',align:'center',width: 210}
+					,{field: 'inBlankCardCode', title: '接收账户',align:'center',width: 210}
+					,{field: 'money', title: '划款金额',align:'center',width:190}
+					,{field: 'crossSectionDate', title: '划款日期',width:200,align:'center'}
+					,{field: 'accountingDate', title: '到账日期',width:200,align:'center'}
+					,{field: 'purpose', title: '划款的用途',align:'center',width: 150,hide:true}
+					,{fixed: 'right', title: '操作',width: 215, align:'center', toolbar: '#barDemo'}
 				]
 			]
 		});

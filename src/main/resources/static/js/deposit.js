@@ -58,16 +58,16 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tableSelect'], funct
 			minLength: 80,
 			cols: [
 				[ //表头
-					{field: 'businessDate', title: '业务时间', width: 110, align: 'center'},
+					{field: 'businessDate', title: '业务时间', width: 130, align: 'center'},
 					{field: 'fundId', title: '基金Id', width: 110, align: 'center', hide: true}
 					, {field: 'outAccountId', title: '流出账户Id', width: 150, align: 'center', hide: true}
-					, {field: 'outAccountName', title: '流出账户', width: 190, align: 'center'}
+					, {field: 'outAccountName', title: '流出账户', width: 220, align: 'center'}
 					, {field: 'inAccountId', title: '流入账户Id', width: 150, align: 'center', hide: true}
-					, {field: 'inAccountName', title: '流入账户', width: 205, align: 'center'}
+					, {field: 'inAccountName', title: '流入账户', width: 220, align: 'center'}
 					, {field: 'depositId', title: '存款业务Id', width: 165, align: 'center', hide: true}
-					, {field: 'money', title: '存款金额', width: 110, align: 'center'}
+					, {field: 'money', title: '存款金额', width: 130, align: 'center'}
 					, {
-					field: 'businessType', title: '业务类型', width: 95, align: 'center',
+					field: 'businessType', title: '业务类型', width: 120, align: 'center',
 					templet: function (item) {
 						if (item.businessType == 1) {
 							return '定期三天'
@@ -78,9 +78,9 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tableSelect'], funct
 						}
 					}
 				}
-					, {field: 'endDate', title: '到期日期', width: 110, align: 'center'}
+					, {field: 'endDate', title: '到期日期', width: 130, align: 'center'}
 					, {
-					field: 'flag', title: '是否处理', width: 95, align: 'center',
+					field: 'flag', title: '是否处理', width: 120, align: 'center',
 					templet: function (item) {
 						if (item.flag == 0) {
 							return '未办理'
@@ -89,7 +89,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tableSelect'], funct
 						}
 					}
 				}
-					, {field: 'right', title: '操作', width: 180, align: 'center', toolbar: '#barDemo'}
+					, {fixed: 'right', title: '操作', width: 200, align: 'center', toolbar: '#barDemo'}
 				]
 			]
 		});

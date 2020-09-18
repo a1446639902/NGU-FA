@@ -44,7 +44,7 @@
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券代码</label>
                 <div class="layui-input-inline">
                     <input type="text" name="parRate" lay-verify="required"
-                           autocomplete="off" placeholder="请输入债券代码" class="layui-input">
+                           autocomplete="off" placeholder="请输入债券代码" class="layui-input" id="bondName">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block" >
@@ -88,7 +88,7 @@
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券名称</label>
             <div class="layui-input-inline">
                 <input class="layui-input"  autocomplete="off" placeholder="债券名称"
-                       name="bondName" >
+                       name="bondName" id="addBondName">
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center;">
@@ -165,100 +165,6 @@
     </form>
 </div>
 <!--修改的div内容-->
-<div id="editContent"
-     style="display: none; height: 100%; height: 100%; text-align: center;">
-    <form id="editform" lay-filter="editform"
-          class="layui-form layui-form-pane"
-          style="margin: 30px auto; display: inline-block;">
-        <input type="hidden" name="taTransactionId"/>
-        <input type="hidden" name="fundId" />
-
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">证券编号</label>
-            <div class="layui-input-inline">
-                <input class="layui-input"  autocomplete="off" placeholder="证券编号"
-                       name="securitiesId" >
-            </div>
-
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券名称</label>
-            <div class="layui-input-inline">
-                <input class="layui-input"  autocomplete="off" placeholder="债券名称"
-                       name="bondName" >
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">计息起始日</label>
-            <div class="layui-input-inline">
-                <input type="text" name="drawStartDate" lay-verify="required"
-                       autocomplete="off" placeholder="计息起始日" class="layui-input" id="start1">
-            </div>
-
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">计息结束日</label>
-            <div class="layui-input-inline">
-                <input type="text" name="drawEndDate" lay-verify="required"
-                       autocomplete="off" placeholder="计息结束日" class="layui-input" id="start2">
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券类型</label>
-            <div class="layui-input-inline">
-                <select name="bondType">
-                    <option placeholder="请选择"></option>
-                    <option value="1">银行间</option>
-                    <option value="2">非银行间</option>
-                </select>
-            </div>
-
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">票面金额</label>
-            <div class="layui-input-inline">
-                <input type="text" name="bondRateAmount" lay-verify="required"
-                       autocomplete="off" placeholder="票面金额" class="layui-input">
-            </div>
-
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">债券利息</label>
-            <div class="layui-input-inline">
-                <input type="text" name="bondRate" lay-verify="required"
-                       autocomplete="off" placeholder="债券利息" class="layui-input">
-            </div>
-
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">票面利率</label>
-            <div class="layui-input-inline">
-                <input type="text" name="parRate" lay-verify="required"
-                       autocomplete="off" placeholder="票面利率" class="layui-input">
-            </div>
-
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">付息次数</label>
-            <div class="layui-input-inline">
-                <select name="payInterestNum">
-                    <option placeholder="请选择"></option>
-                    <option value="1">1年一次</option>
-                    <option value="2">1年俩次</option>
-                    <option value="">1年四次</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="layui-inline layui-show-xs-block">
-            <label class="layui-form-label layui-bg-green" style="float: left; width: 130px; height: 100px; line-height: 81px";>备注</label>
-            <div class="layui-inline layui-show-xs-block">
-                <textarea name="bondDesc" required lay-verify="required" placeholder="备注" class="layui-textarea" style="width: 467px"></textarea>
-            </div>
-        </div>
-        <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
-                <i class="layui-icon">&#x1005;</i>修改
-            </button>
-            <button class="layui-btn layui-bg-red cancel" type="button" onclick="quxiao()">
-                <i class="layui-icon">&#x1006;</i>取消
-            </button>
-        </div>
-
-    </form>
-</div>
 <script src="../js/bond.js"></script>
 <script type="text/javascript">
     layui.use([ 'tableSelect'], function () {
@@ -274,7 +180,6 @@
             table:{
                 url:'../selectSecurities',
                 cellMinWidth:60,
-
                 cols:[
                     [   {type:'radio'},
                         {field:'securitiesId',title:'证券编号',width:250},
@@ -283,12 +188,14 @@
                 ]
             },
             done:function (elem,data) {
-            var NEWJSON = [];
-            layui.each(data.data,function (index,item) {
-                NEWJSON.push(item.securitiesName);
-                $("#securitiesId").val(item.securitiesId);
-            })
-            elem.val(NEWJSON.join(","));
+                //elem:返回之前input对象；data:表格返回的选中的数据 []
+                var newJson=[];
+                //遍历选中的数据
+                $.each(data.data,function (index,item) {
+                    newJson.push(item.securitiesId);
+                    $("#addBondName").val(item.securitiesName);
+                });
+                elem.val(newJson.join(","));//给输入框里显示的值赋值
             }
         })
     })

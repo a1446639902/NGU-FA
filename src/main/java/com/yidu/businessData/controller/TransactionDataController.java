@@ -49,6 +49,11 @@ public class TransactionDataController {
         transactionData.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));
         transactionData.setFundId(GetFundIdUtil.getFundId(request));
         System.out.println(transactionData);
+        if (transactionData.getTransactionDataMode()==1){
+            transactionData.setFlag(-1);
+        }else if (transactionData.getTransactionDataMode()==2 || transactionData.getTransactionDataMode()==3 || transactionData.getTransactionDataMode()==4){
+            transactionData.setFlag(1);
+        }
        return transactionDataService.insertTransactionData(transactionData);
     }
 

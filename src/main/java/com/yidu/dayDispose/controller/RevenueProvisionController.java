@@ -218,7 +218,7 @@ public class RevenueProvisionController {
                 cashClosedPayPojo.setServiceType(1);
                 cashClosedPayPojo.setAmount(twoFees.getManagementMoney());
                 cashClosedPayPojo.setDateTime(twoFees.getValueStatisticsDate());
-                cashClosedPayPojo.setFlag(1);
+                cashClosedPayPojo.setFlag(-1);
                 i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
                 cashClosedPayPojo.setServiceType(2);
                 System.out.println(this.custodyMoney+"================================这是成员变量");

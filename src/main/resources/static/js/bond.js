@@ -84,7 +84,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 		elem: '#userTable',
 		url: '../selectBond',
 		page: true,
-		height: 'full-20',
+		height: 600,
 		toolbar: '#userToolBar',//显示在表头的工具条
 		cellMinWidth:60,
 		cols: [
@@ -145,13 +145,15 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 				table.reload('userTable', {
 					method: 'post'
 					, where: {
-						'bondName': bondName,
-						'drawStartDate': drawStartDate,
+						'securitiesId': bondName,
+						'drawStartDate': drawStartDate
 					}
 					, page: {
 						curr: 1
 					}
 				});
+				$("#bondName").val(bondName);
+				$("#start").val(drawStartDate);
 
 				break;
 			case 'deleteAll':

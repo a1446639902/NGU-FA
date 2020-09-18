@@ -40,7 +40,7 @@
                 elem: '#userTable',
                 url: '../TaSettlement/selectTaSettlement?status=0',
                 page: true,
-                height: 498,
+                height: 'full-30',
                 minLength:80,
                 toolbar:'#userToolBar',
                 cols: [
@@ -49,10 +49,10 @@
                         , {field: 'fundId', title: '基金', width: 176, align: 'center'}
                         , {field: 'taTransactionId', title: 'TA交易编号', width: 176, align: 'center',hidden:true}
                         , {field: 'accountId', title: '现金账户', width: 176, align: 'center'}
+                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {field: 'price', title: '单价', width: 176, align: 'center'}
                         , {field: 'fundNum', title: '数量', width: 176, align: 'center'}
                         , {field: 'totalMoney', title: '总金额', width: 176, align: 'center'}
-                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {
                         field: 'transactionType', title: '类型', width: 176, align: 'center', templet: function (item) {
                             if (item.transactionType == '1') {
@@ -93,10 +93,10 @@
                         , {field: 'fundId', title: '基金', width: 176, align: 'center'}
                         , {field: 'taTransactionId', title: 'TA交易编号', width: 176, align: 'center',hidden:true}
                         , {field: 'accountId', title: '现金账户', width: 176, align: 'center'}
+                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {field: 'price', title: '单价', width: 176, align: 'center'}
                         , {field: 'fundNum', title: '数量', width: 176, align: 'center'}
                         , {field: 'totalMoney', title: '总金额', width: 176, align: 'center'}
-                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {
                         field: 'transactionType', title: '类型', width: 176, align: 'center', templet: function (item) {
                             if (item.transactionType == '1') {
@@ -124,6 +124,9 @@
 
                 switch (obj.event) {
                     case "search":
+                        alert("搜索");
+                        var dateTime= $("#start").val();
+                        var transactionType= $("#cateId").val();
                         //获得选中的对象
                         var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
@@ -162,6 +165,8 @@
                                 return false;
                             });
                         }
+                        dateTime= $("#start").val(dateTime);
+                        transactionType= $("#cateId").val(transactionType);
                         break;
                     case 'select':
                         alert("搜索");
@@ -178,6 +183,8 @@
                                 curr: 1
                             }
                         });
+                        $("#start").val(dateTime);
+                        $("#cateId").val(transactionType);
                         break;
                 };
             });
@@ -224,6 +231,8 @@
                                 return false;
                             });
                         }
+                        $("#start").val(dateTime);
+                        $("#cateId").val(transactionType);
                         break;
                     case 'select':
                         alert("搜索");
@@ -240,6 +249,8 @@
                                 curr: 1
                             }
                         });
+                        $("#start").val(dateTime);
+                        $("#cateId").val(transactionDataMode);
                         break;
                 };
             });
@@ -300,9 +311,9 @@
     <div style="margin-top: 0px;margin-left: 0px" >
         <form class="layui-form layui-col-space5">
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">成交日期</label>
+                <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入交易日期" name="dateTime" id="start">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -324,7 +335,7 @@
                 <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="search" lay-event="search" name="settlement" id="settlement" >结算</button>
             </div>
         </form>
-        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <ul class="layui-tab-title" style="border-bottom-color: #009688;color: #009688">
             <li class="layui-this" lay-id="1">未结算</li>
             <li lay-id="2">已结算</li>
         </ul>
@@ -359,7 +370,7 @@
                 <button class="layui-btn" type="button" onclick="return false"  lay-submit="settlement" lay-filter="search2" lay-event="search2" name="settlement" id="settlement1" >反结算</button>
             </div>
         </form>
-        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <ul class="layui-tab-title" style="border-bottom-color: #009688;color: #009688">
             <li class="layui-this" lay-id="1">未结算</li>
             <li lay-id="2">已结算</li>
         </ul>

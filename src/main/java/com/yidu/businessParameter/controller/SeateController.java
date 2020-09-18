@@ -4,6 +4,7 @@ import com.yidu.businessParameter.pojo.Brokers;
 import com.yidu.businessParameter.pojo.Seate;
 import com.yidu.businessParameter.service.BrokersService;
 import com.yidu.businessParameter.service.SeateService;
+import com.yidu.systemManage.pojo.RolePojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
