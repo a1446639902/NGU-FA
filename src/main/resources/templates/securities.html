@@ -11,7 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <link rel="stylesheet" href="../css/font.css">
-    <link rel="stylesheet" href="../css/xadmin.css">
+<!--    <link rel="stylesheet" href="../css/xadmin.css">-->
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <!--[if lt IE 9]>
@@ -83,13 +84,13 @@
             , page: true //开启分页
             , initSort:{
                 field:'securitiesId',
-                type:'desc'
+                type:'asc'
             }
             , cols: [
                 [ //表头
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'securitiesId', title: '证券ID', width: 140, sort: true}
-                    , {field: 'securitiesName', title: '证券名称', width: 140}
+                    , {field: 'securitiesName', title: '证券名称', width: 170}
                     , {field: 'securitiesType', title: '证券类型', width: 140, sort: true,templet:'#securitiesTypedemo'}
                     , {field: 'issueDate', title: '发行日期', width: 140}
                     , {field: 'delayDate', title: '延迟日期', width: 140}
@@ -119,6 +120,8 @@
                             'securitiesName':securitiesName
                         }
                     });
+                    document.getElementById("securitiesId").value=securitiesId;
+                    document.getElementById("securitiesName").value=securitiesName;
                     break;
 
                 case "add":
@@ -359,7 +362,6 @@
     <form id="editform" lay-filter="editform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;" >
-
 
         <div>
             <div class="layui-row">
