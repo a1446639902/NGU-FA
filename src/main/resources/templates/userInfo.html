@@ -8,7 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <link rel="stylesheet" href="../../css/font.css">
-    <link rel="stylesheet" href="../../css/xadmin.css">
+<!--    <link rel="stylesheet" href="../../css/xadmin.css">-->
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
     <script src="../../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/xadmin.js"></script>
     <!--[if lt IE 9]>
@@ -166,12 +167,14 @@
                                 'status':status
                             }
                         });
+                        document.getElementById("userName").value=userName;
+                        document.getElementById("status").value=status;
                         break;
 
                     case "add":
                         layer.open({
                             type: 1,
-                            title: '新增信息',
+                            title: '新增用户信息',
                             area: ['693px', '550px'],
                             content: $("#addContent")
                         });
@@ -295,18 +298,7 @@
                             form.render();//菜单渲染 把内容加载进去
                         }
                     })
-                    /*   $("#editRoleId").empty();
-                       $.post("./RoleServlet?method=addOpt", function (datas) {
-                           $.each(datas, function (i, n) {
-                               var opt = new Option(n.roleName, n.roleId);
 
-                               $("#editRoleId").append(opt);
-                           });
-                           //给下列列表赋默认值  属性选择器
-                           $("#editRoleId option[value='" + data.roleId + "']").attr("selected", "selected");
-                           //刷新下拉列表
-                           form.render();
-                       }, "json");*/
                 }
             });
 
