@@ -34,6 +34,12 @@
     <script type="text/html" id="userToolBar">
         <div style="float:right">
             <button class="layui-btn  layui-btn-sm" lay-event="add"><i
+                    class="layui-icon">&#xe654;</i>导入上海行情
+            </button>
+            <button class="layui-btn  layui-btn-sm" lay-event="add"><i
+                    class="layui-icon">&#xe654;</i>导入深圳行情
+            </button>
+            <button class="layui-btn  layui-btn-sm" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加行情信息
             </button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
@@ -87,7 +93,7 @@
                         , {field: 'openPrice', title: '开盘价格', align: 'center'}
                         , {field: 'closingPrice', title: '收盘价格', align: 'center'}
                         , {field: 'marketDesc', title: '描述', align: 'center'}
-                        , {field: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
+                        , {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
                     ]
                 ]
                 , page: true//开启分页
@@ -215,6 +221,8 @@
                                 curr: 1
                             }
                         });
+                        document.getElementById("searchMarketId").value=searchMarketId;
+                        document.getElementById("searchTime").value=searchTime;
                         break;
                     default:
                         break;
@@ -387,7 +395,7 @@
                        autocomplete="off" placeholder="请输入对证券的描述" class="layui-input">
             </div>
         </div>
-        <div style="position: absolute; bottom: 25px;left: 38%;">
+        <div style="position: absolute; bottom: 80px;left: 38%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>增加
             </button>
@@ -438,7 +446,7 @@
                        autocomplete="off" placeholder="请输入对证券的描述" class="layui-input">
             </div>
         </div>
-        <div style="position: absolute; bottom: 50px;left: 38%;">
+        <div style="position: absolute; bottom: 80px;left: 38%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>修改
             </button>
