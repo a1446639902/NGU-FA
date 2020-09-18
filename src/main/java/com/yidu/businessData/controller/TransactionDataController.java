@@ -49,6 +49,11 @@ public class TransactionDataController {
         transactionData.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));
         transactionData.setFundId(GetFundIdUtil.getFundId(request));
         System.out.println(transactionData);
+        if (transactionData.getTransactionDataMode()==1){
+            transactionData.setFlag(-1);
+        }else if (transactionData.getTransactionDataMode()==2 || transactionData.getTransactionDataMode()==3 || transactionData.getTransactionDataMode()==4){
+            transactionData.setFlag(1);
+        }
        return transactionDataService.insertTransactionData(transactionData);
     }
 
@@ -56,8 +61,12 @@ public class TransactionDataController {
     public int deleteTransactionData(String transactionDataId){
         return transactionDataService.deleteTransactionData(transactionDataId);
     }
+    @RequestMapping("/deleteTransactionDataTwo")
+    public int deleteTransactionDataTwo(String transactionDataId) {
+        return transactionDataService.deleteTransactionDataTwo(transactionDataId);
+    }
 
-    @RequestMapping("/updateTransactionData")
+        @RequestMapping("/updateTransactionData")
     public int updateTransactionData(TransactionData transactionData){
         return transactionDataService.updateTransactionData(transactionData);
     }
