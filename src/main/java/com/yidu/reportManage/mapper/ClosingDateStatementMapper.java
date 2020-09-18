@@ -3,6 +3,7 @@ package com.yidu.reportManage.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**成交结算日报表
  * @author 黄志豪
@@ -12,5 +13,5 @@ import java.util.HashMap;
  **/
 @Mapper
 public interface ClosingDateStatementMapper {
-    public void selectClosingDateStatement(HashMap hashMap);
+    public List selectClosingDateStatement(String  dateTime);
 }

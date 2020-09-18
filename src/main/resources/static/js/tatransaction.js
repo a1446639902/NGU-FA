@@ -166,7 +166,9 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 						curr: 1
 					}
 				});
-
+				$("#start").val(dateTime);
+				$("#transactionStatus").val(transactionStatus);
+				$("#transactionType").val(transactionType);
 				break;
 			case 'deleteAll':
 				var data = checkStatus.data;

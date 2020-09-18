@@ -94,8 +94,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], functi
 					,{field: 'bankTreasurerId', title: '资金调拨Id', width:150,align:'center',hide:true}
 					,{field: 'fundId', title: '基金Id', width:150,align:'center',hide:true}
 					,{field: 'accountId', title: '现金账户Id', width:120,align:'center',hide:true}
-					,{field: 'accountName', title: '现金账户名称', width:200,align:'center'}
-					,{field: 'allocatingType', title: '调拨类型', width:150,align:'center'
+					,{field: 'accountName', title: '现金账户名称', width:240,align:'center'}
+					,{field: 'allocatingType', title: '调拨类型', width:180,align:'center'
 					,templet:function (item) {
 						if(item.allocatingType==1){
 							return '存款利息';
@@ -116,7 +116,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], functi
 							return '两费';
 						}
 					}}
-					,{field: 'flag', title: '调拨方向', width: 120,align:'center'
+					,{field: 'flag', title: '调拨方向', width: 130,align:'center'
 					,templet:function (item) {
 						if(item.flag==1){
 							return '流入';
@@ -126,12 +126,12 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], functi
 						}
 
 					}}
-					,{field: 'totalPrice', title: '调拨总数额', width: 150,align:'center'}
-					,{field: 'dateTime', title: '业务日期', width:120,align:'center'}
-					,{field: 'dbTime', title: '调拨日期', width:120,align:'center'}
-					,{field: 'businessId', title: '业务标号', width:120,align:'center',hide:true}
-					,{field: 'bankTreasurerDesc', title: '备注', width:120,align:'center',hide:true}
-					,{field: 'right', title: '操作',width: 187, align:'center', toolbar: '#barDemo'}
+					,{field: 'totalPrice', title: '调拨总数额', width: 160,align:'center'}
+					,{field: 'dateTime', title: '业务日期', width:150,align:'center'}
+					,{field: 'dbTime', title: '调拨日期', width:150,align:'center'}
+					,{field: 'businessId', title: '业务标号', width:140,align:'center',hide:true}
+					,{field: 'bankTreasurerDesc', title: '备注', width:150,align:'center',hide:true}
+					,{fixed: 'right', title: '操作',width: 210, align:'center', toolbar: '#barDemo'}
 				]
 			]
 		});
