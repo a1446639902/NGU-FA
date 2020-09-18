@@ -40,7 +40,7 @@
                 elem: '#userTable',
                 url: '../TaSettlement/selectTaSettlement?status=0',
                 page: true,
-                height: 498,
+                height: 'full-30',
                 minLength:80,
                 toolbar:'#userToolBar',
                 cols: [
@@ -49,10 +49,10 @@
                         , {field: 'fundId', title: '基金', width: 176, align: 'center'}
                         , {field: 'taTransactionId', title: 'TA交易编号', width: 176, align: 'center',hidden:true}
                         , {field: 'accountId', title: '现金账户', width: 176, align: 'center'}
+                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {field: 'price', title: '单价', width: 176, align: 'center'}
                         , {field: 'fundNum', title: '数量', width: 176, align: 'center'}
                         , {field: 'totalMoney', title: '总金额', width: 176, align: 'center'}
-                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {
                         field: 'transactionType', title: '类型', width: 176, align: 'center', templet: function (item) {
                             if (item.transactionType == '1') {
@@ -93,10 +93,10 @@
                         , {field: 'fundId', title: '基金', width: 176, align: 'center'}
                         , {field: 'taTransactionId', title: 'TA交易编号', width: 176, align: 'center',hidden:true}
                         , {field: 'accountId', title: '现金账户', width: 176, align: 'center'}
+                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {field: 'price', title: '单价', width: 176, align: 'center'}
                         , {field: 'fundNum', title: '数量', width: 176, align: 'center'}
                         , {field: 'totalMoney', title: '总金额', width: 176, align: 'center'}
-                        , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {
                         field: 'transactionType', title: '类型', width: 176, align: 'center', templet: function (item) {
                             if (item.transactionType == '1') {
@@ -124,6 +124,9 @@
 
                 switch (obj.event) {
                     case "search":
+                        alert("搜索");
+                        var dateTime= $("#start").val();
+                        var transactionType= $("#cateId").val();
                         //获得选中的对象
                         var checkStatus = table.checkStatus("userTable"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
@@ -162,6 +165,8 @@
                                 return false;
                             });
                         }
+                        $("#start").val(dateTime);
+                        $("#cateId").val(transactionType);
                         break;
                     case 'select':
                         alert("搜索");
@@ -178,6 +183,8 @@
                                 curr: 1
                             }
                         });
+                        $("#start").val(dateTime);
+                        $("#cateId").val(transactionType);
                         break;
                 };
             });
@@ -224,6 +231,8 @@
                                 return false;
                             });
                         }
+                        $("#start").val(dateTime);
+                        $("#cateId").val(transactionType);
                         break;
                     case 'select':
                         alert("搜索");
