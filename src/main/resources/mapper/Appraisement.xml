@@ -50,6 +50,6 @@
     </resultMap>
 
     <delete id="deleteCashClosedPaylnventory" parameterType="com.yidu.inventoryManage.pojo.CashClosedPayInventory">
-        delete from securitiesClosedPayInventory where businessDate=#{businessDate} and fundId=#{fundId} and accountId=#{accountId}
+        delete from CASHCLOSEDPAYINVENTORY where businessDate=#{businessDate} and fundId=#{fundId} and accountId=#{accountId}
     </delete>
 </mapper>

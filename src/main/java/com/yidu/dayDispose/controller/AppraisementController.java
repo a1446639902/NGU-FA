@@ -61,28 +61,24 @@ public class AppraisementController {
                         securitiesClosedPayInventoryPojo.setFundId(stockSecuritiesJoinMarket.getFundId());
                         securitiesClosedPayInventoryPojo.setSecuritiesId(stockSecuritiesJoinMarket.getSecuritiesId());
                         securitiesClosedPayInventoryPojo.setDateTime(stockSecuritiesJoinMarket.getDateTime());
-//                        System.out.println(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI)+"=============================== 这是scpi的Id");
-//                        securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
-//                        securitiesClosedPayInventoryPojo.setDateTime(toDay);
-//                        securitiesClosedPayInventoryPojo.setSecuritiesType(1);
-//                        securitiesClosedPayInventoryPojo.setFlag(1);
-//                        securitiesClosedPayInventoryPojo.setTotalPrice(stockSecuritiesJoinMarket.getTootaIPrice());
+
                         securitiesClosedPayInventoryPojo.setSecuritiesClosedPayDesc("投资有风险");
-//                        System.out.println("=============================增加的实体类"+securitiesClosedPayInventoryPojo);
-//                        i = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                         System.out.println(securitiesClosedPayInventoryPojo+"这是第二个的删除实体类");
 //                        执行删除
                         int i1 = appraisementService.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
-                        System.out.println("============================================="+i1);
-                        System.out.println(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI)+"=============================== 这是scpi的Id");
-                        securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
-                        securitiesClosedPayInventoryPojo.setSecuritiesType(1);
-                        securitiesClosedPayInventoryPojo.setFlag(1);
-                        securitiesClosedPayInventoryPojo.setTotalPrice(stockSecuritiesJoinMarket.getTootaIPrice());
-                        securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(stockSecuritiesJoinMarket.getSecurityPeriodFlag());
+                        if(i1>0){
+                            System.out.println("============================================="+i1);
+                            System.out.println(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI)+"=============================== 这是scpi的Id");
+                            securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
+                            securitiesClosedPayInventoryPojo.setSecuritiesType(1);
+                            securitiesClosedPayInventoryPojo.setFlag(1);
+                            securitiesClosedPayInventoryPojo.setTotalPrice(stockSecuritiesJoinMarket.getTootaIPrice());
+                            securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(stockSecuritiesJoinMarket.getSecurityPeriodFlag());
 //                        //调用增加方法
-                        int i2 = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
-                        System.out.println(i2+"第二次插入的返回值");
+                            int i2 = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                            System.out.println(i2+"第二次插入的返回值");
+                        }
+
 
                     }
                 }else {
@@ -99,14 +95,15 @@ public class AppraisementController {
                         securitiesClosedPayInventoryPojo.setDateTime(toDay);
 
                         System.out.println("删除证券应收应付的实体类"+securitiesClosedPayInventoryPojo);
-                        appraisementService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventoryPojo);
-                        securitiesClosedPayInventoryPojo.setDateTime(toDay);
-                        securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(1);
-                        securitiesClosedPayInventoryPojo.setSecuritiesType(2);
-                        securitiesClosedPayInventoryPojo.setFlag(1);
-                        securitiesClosedPayInventoryPojo.setTotalPrice(transactionData.getTotalSum());
-
-                        securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                        int i2 = appraisementService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventoryPojo);
+                        if(i2>0){
+                            securitiesClosedPayInventoryPojo.setDateTime(toDay);
+                            securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(1);
+                            securitiesClosedPayInventoryPojo.setSecuritiesType(2);
+                            securitiesClosedPayInventoryPojo.setFlag(1);
+                            securitiesClosedPayInventoryPojo.setTotalPrice(transactionData.getTotalSum());
+                            securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
+                        }
                         System.out.println("查ta交易数据================================");
                         HashMap taTransactionMap = appraisementService.selectTaTransaction(toDay);
                         List<TaTransaction> taTransactionList = (List<TaTransaction>)taTransactionMap.get("p_cursor");
@@ -120,13 +117,16 @@ public class AppraisementController {
                             cashClosedPayInventory.setAccountId(taTransaction.getAccountId());
                             System.out.println(cashClosedPayInventory+"删除前的实体类=======================");
                             //删除accountId无效
-//                            appraisementService.deleteCashClosedPaylnventory(cashClosedPayInventory);
-                            cashClosedPayInventory.setBusinessType(4);
-                            cashClosedPayInventory.setBusinessStatus(-1);
-                            cashClosedPayInventory.setInitialSigns(1);
-                            cashClosedPayInventory.setTotalMoney((int)taTransaction.getTotalMoney());
-                            System.out.println(cashClosedPayInventory);
-                            i = cashClosedPaylnventoryService.insertCashClosedPaylnventory(cashClosedPayInventory);
+                            int i1 = appraisementService.deleteCashClosedPaylnventory(cashClosedPayInventory);
+                            System.out.println(i1+"删除现金应收应付库存的返回值=============================");
+                            if(i1>0){
+                                cashClosedPayInventory.setBusinessType(4);
+                                cashClosedPayInventory.setBusinessStatus(-1);
+                                cashClosedPayInventory.setInitialSigns(1);
+                                cashClosedPayInventory.setTotalMoney((int)taTransaction.getTotalMoney());
+                                System.out.println(cashClosedPayInventory);
+                                i = cashClosedPaylnventoryService.insertCashClosedPaylnventory(cashClosedPayInventory);
+                            }
 
                         }
 
