@@ -1,4 +1,11 @@
+function logoutJS() {
+    var date = new Date();
+    date.setTime(date.getTime() - 10000);
+    document.cookie = "cookiename" + "=v; expire=" + date.toGMTString()
+        + "; path=/";
+}
 layui.use(['form'],function(){
+    logoutJS();
     var $ = layui.jquery;
     $.ajax({
         type: 'post',

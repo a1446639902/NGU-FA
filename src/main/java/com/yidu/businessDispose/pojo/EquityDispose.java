@@ -12,7 +12,6 @@ public class EquityDispose {
     private String settlementAmount;//结算金额
     private int disposeStatus;//处理状态   0.未处理   1.已处理
 
-
     public EquityDispose() {
     }
 

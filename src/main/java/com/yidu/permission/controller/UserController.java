@@ -3,6 +3,7 @@ package com.yidu.permission.controller;
 
 import com.yidu.businessParameter.mapper.AccountMapper;
 import com.yidu.businessParameter.pojo.AccountPojo;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.permission.pojo.UserInfo;
 import com.yidu.permission.service.UserService;
 import com.yidu.util.GetFundIdUtil;
@@ -24,6 +25,7 @@ public class UserController {
     @Resource
     AccountMapper accountMapper;
     //验证登录
+    @NGULog(message = "验证登录")
     @RequestMapping("checkLogin")
     public Map<String,Object> checkLogin(String userName, String userPwd, String fundId, HttpServletRequest request){
         System.out.println("userName="+userName+",userPwd="+userPwd+",fundId="+fundId);

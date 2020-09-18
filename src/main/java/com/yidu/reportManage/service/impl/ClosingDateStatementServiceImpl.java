@@ -2,11 +2,14 @@ package com.yidu.reportManage.service.impl;
 
 
 import com.yidu.reportManage.mapper.ClosingDateStatementMapper;
+import com.yidu.reportManage.pojo.ClosingDateStatementPojo;
 import com.yidu.reportManage.service.ClosingDateStatementService;
 import com.yidu.util.DateTimeUtil;
+import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,17 +31,49 @@ public class ClosingDateStatementServiceImpl implements ClosingDateStatementServ
              dateTime = DateTimeUtil.getSystemDateTime("yyyy-MM-dd");
         }
         String  sqlWhere=" AND dateTime='"+dateTime+"'";
-        HashMap tranMap = new HashMap();
-        String transactionData=" (select * from transactionData tr left join securities se on tr.securitiesId=se.securitiesId left join account ac on tr.accountId=ac.accountId left join seate se on tr.seateId=se.seateId left join brokers br on tr.brokersId=br.brokersId left join fund f on tr.fundId = f.fundId) ";
-        tranMap.put("p_tableName", transactionData);
-        tranMap.put("p_condition",sqlWhere);
-        tranMap.put("p_pageSize",limit);
-        tranMap.put("p_page",page);
-        tranMap.put("p_count",0);
-        tranMap.put("p_cursor",null);
-        closingDateStatementMapper.selectClosingDateStatement(tranMap);
-        //添加流出合计，流入合计，清算合计
-        /*double outMoney*/
-        return tranMap;
+        HashMap cdsMap = new HashMap();
+        String transactionData=" (select * from transactionData tr  join securities se on tr.securitiesId=se.securitiesId) ";
+        cdsMap.put("p_tableName", transactionData);
+        cdsMap.put("p_condition",sqlWhere);
+        cdsMap.put("p_pageSize",limit);
+        cdsMap.put("p_page",page);
+        cdsMap.put("p_count",0);
+        cdsMap.put("p_cursor",null);
+        closingDateStatementMapper.selectClosingDateStatement(cdsMap);
+        //添加流出合计，流入合计，清算合计实体类
+        double inTotalMoney=0;
+        double outTotalMoney=0;
+        ArrayList<ClosingDateStatementPojo> cdsList = (ArrayList<ClosingDateStatementPojo>) cdsMap.get("p_cursor");
+        for (ClosingDateStatementPojo closingDateStatementPojo : cdsList) {
+            if (closingDateStatementPojo.getFlag()==1){
+                inTotalMoney=inTotalMoney+closingDateStatementPojo.getTotalSum();
+            }
+            else {
+                outTotalMoney=outTotalMoney+closingDateStatementPojo.getTotalSum();
+            }
+        }
+        double finalToalMoney=inTotalMoney-outTotalMoney;    //大于0
+        //double留2个小数点
+        BigDecimal bg = new BigDecimal(inTotalMoney);
+        inTotalMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        BigDecimal bg1 = new BigDecimal(outTotalMoney);
+        outTotalMoney = bg1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        BigDecimal bg2 = new BigDecimal(finalToalMoney);
+        finalToalMoney = bg2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        ClosingDateStatementPojo pojo1 = new ClosingDateStatementPojo();
+        pojo1.setSecuritiesId("流入合计");
+        pojo1.setTotalSum(inTotalMoney);
+        ClosingDateStatementPojo pojo2 = new ClosingDateStatementPojo();
+        pojo2.setSecuritiesId("流出合计");
+        pojo2.setTotalSum(outTotalMoney);
+        ClosingDateStatementPojo pojo3 =new ClosingDateStatementPojo();
+        pojo3.setSecuritiesId("清算合计");
+        pojo3.setTotalSum(finalToalMoney);
+        cdsList.add(pojo1);
+        cdsList.add(pojo2);
+        cdsList.add(pojo3);
+        System.out.println(cdsList);
+        cdsMap.put("list",cdsList);
+        return cdsMap;
     }
 }
