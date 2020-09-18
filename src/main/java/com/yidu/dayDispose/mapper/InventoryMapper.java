@@ -39,7 +39,7 @@ public interface InventoryMapper {
      * funId:基金表ID
      * @return
      */
-    @Select("select (nvl(CASHBLANCE,0) + zj.totalNum) as sumCa from\n" +
+    @Select("select (nvl(CASHBLANCE,0) + NVL(zj.totalNum,0)) as sumCa from\n" +
             "(select * from CASHINVENTORY where DATETIME=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd')) xj full join\n" +
             "\n" +
             "(select accountid,sum(totalprice*flag) as totalNum from bankTreasurer where DBTIME=#{date}  group by accountid) zj\n" +
@@ -75,12 +75,19 @@ public interface InventoryMapper {
      * @param funId
      * @return
      */
-    @Select("    select nvl(xj.serviceType,kc.businessType) as serv,(NVL(totalMoney,0)+NVL(xj.tocal,0)) as toca,NVL(xj.accountId,kc.ACCOUNTID) as accountId\n" +
+    @Select("select nvl(tr.accountId,ca.accountId) as accountId,\n" +
+            "    nvl(tr.serviceType,ca.businessType) as serv,\n" +
+            "    nvl(ca.totalPrice,0)+nvl(tr.amount,0) as toca\n" +
             "    from\n" +
-            "    (select * from cashClosedPayInventory where businessDate=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd')) kc\n" +
+            "    (select sum(nvl(TOTALMONEY*BUSINESSSTATUS,0)) AS totalPrice,accountId,businesstype,BUSINESSSTATUS from CASHCLOSEDPAYINVENTORY\n" +
+            "    where fundid=#{funId} and BUSINESSDATE=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd') and businessType in(1,2,3)\n" +
+            "    GROUP BY accountId,businesstype,BUSINESSSTATUS) ca\n" +
             "    full join\n" +
-            "    (select serviceType,dateTime,ACCOUNTID,sum(nvl(amount,0)*nvl(FLAG,0)) as tocal\n" +
-            "    from (select * from cashClosedPay where DATETIME=#{date}) group by serviceType,DATETIME,ACCOUNTID) xj on xj.ACCOUNTID=kc.ACCOUNTID")
+            "        (select sum(nvl(amount*flag,0)) as amount,accountId,serviceType,flag\n" +
+            "        from cashClosedPay where\n" +
+            "    fundid=#{funId} and dateTime=#{date} and serviceType in(1,2,3)\n" +
+            "    group by accountId,serviceType,flag) tr\n" +
+            "    on ca.accountId=tr.accountId AND tr.serviceType=ca.businesstype AND ca.BUSINESSSTATUS=tr.flag\n")
     public List<CaYSYFInventoryEntity> selectCaYSYFInventory(String date, String funId);
 
 
