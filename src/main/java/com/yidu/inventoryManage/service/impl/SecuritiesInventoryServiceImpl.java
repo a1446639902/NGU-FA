@@ -26,7 +26,7 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
     @Override
     public HashMap selectSecuritiesInventory(int page,int limit,String sreachTime,String sreachId) {
         HashMap securitiesInventoryMap = new HashMap();
-        securitiesInventoryMap.put("p_tableName","(select se.SECURITIESINVENTORYID,se.DATETIME,s.SECURITIESNAME,f.FUNDNAME,f.FUNDID,se.SECURITIESNUM,se.PRICE,se.TOTAL,se.SECURITYPERIODFLAG,se.SECURITIESINVENTORYDESC,(case when se.SECURITYPERIODFLAG = 0 then '是' when se.SECURITYPERIODFLAG=2 then '否' end)flag from securitiesInventory se join fund f on se.fundId=f.fundId\n" +
+        securitiesInventoryMap.put("p_tableName","(select se.SECURITIESINVENTORYID,se.DATETIME,s.securitiesId,s.SECURITIESNAME,f.FUNDNAME,f.FUNDID,se.SECURITIESNUM,se.PRICE,se.TOTAL,se.SECURITYPERIODFLAG,se.SECURITIESINVENTORYDESC,(case when se.SECURITYPERIODFLAG = 0 then '是' when se.SECURITYPERIODFLAG=2 then '否' end)flag from securitiesInventory se join fund f on se.fundId=f.fundId\n" +
                 "              join securities s on se.SECURITIESID=s.SECURITIESID)");
         if(sreachTime!=null&&sreachTime!=""){
             securitiesInventoryMap.put("p_condition"," and dateTime like '%"+sreachTime+"%'");
