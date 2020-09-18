@@ -165,8 +165,8 @@
                                 return false;
                             });
                         }
-                        $("#start").val(dateTime);
-                        $("#cateId").val(transactionType);
+                        dateTime= $("#start").val(dateTime);
+                        transactionType= $("#cateId").val(transactionType);
                         break;
                     case 'select':
                         alert("搜索");
@@ -335,7 +335,7 @@
                 <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="search" lay-event="search" name="settlement" id="settlement" >结算</button>
             </div>
         </form>
-        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <ul class="layui-tab-title" style="border-bottom-color: #009688;color: #009688">
             <li class="layui-this" lay-id="1">未结算</li>
             <li lay-id="2">已结算</li>
         </ul>
@@ -370,7 +370,7 @@
                 <button class="layui-btn" type="button" onclick="return false"  lay-submit="settlement" lay-filter="search2" lay-event="search2" name="settlement" id="settlement1" >反结算</button>
             </div>
         </form>
-        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <ul class="layui-tab-title" style="border-bottom-color: #009688;color: #009688">
             <li class="layui-this" lay-id="1">未结算</li>
             <li lay-id="2">已结算</li>
         </ul>

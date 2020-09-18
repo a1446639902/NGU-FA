@@ -42,7 +42,7 @@ public class BondServiceImpl implements BondService {
         }
         StringBuffer sqlWhere=new StringBuffer();
         if (securitiesId!=null && !securitiesId.equals("")){
-            sqlWhere.append(" AND securitiesId LIKE  '%"+securitiesId+"%'" );
+            sqlWhere.append(" AND securitiesId LIKE'%"+securitiesId+"%'" );
         }
         if (drawStartDate!=null&&!drawStartDate.equals("")){
             sqlWhere.append(" AND drawStartDate  ='"+drawStartDate+"'" );
