@@ -43,14 +43,37 @@
                 , page: true
                 , cols:[
                     [
-                        ,{field : 'securitiesName', align: 'center', title : '科目名称', width:'50%'}
-                        ,{field : 'totalSum', title:'头寸金额',  align: 'center',width: '50%'},
+                        ,{field : 'accountName', align: 'center', title : '科目名称', width:'50%'}
+                        ,{field : 'cashBlance', title:'头寸金额',  align: 'center',width: '50%',
+
+                        templet:function (data) {
+
+                            if (data.cashBlance<0){
+                               return "<span style='color:red;'>"+data.cashBlance+"</span>";
+                            }else {
+                                return "<span>"+data.cashBlance+"</span>";
+                            }
+                        }
+
+                    },
                     ]
                 ]
 
             });
             //刷新表格
             table.reload('myTable');
+            //
+            // //自定义状态列 如果金额为负则修改字体颜色为红色
+            // function cashBlanceTwo(data){
+            //     var casBlan =data.cashBlance;
+            //     if (casBlan<0){
+            //         result = fontcolor("red");
+            //      return result;
+            //     }
+            // }
+
+
+
             //给工具条的按钮添加事件
             table.on('toolbar(myTable)', function (obj) {
                 switch (obj.event) {
