@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 成交结算日报表
@@ -26,24 +27,16 @@ public class ClosingDateStatementServiceImpl implements ClosingDateStatementServ
     ClosingDateStatementMapper closingDateStatementMapper;
 
     @Override
-    public HashMap selectClosingDateStatement(int page, int limit, String dateTime) {
+    public HashMap selectClosingDateStatement(String dateTime) {
         if (dateTime==null){
              dateTime = DateTimeUtil.getSystemDateTime("yyyy-MM-dd");
         }
-        String  sqlWhere=" AND dateTime='"+dateTime+"'";
-        HashMap cdsMap = new HashMap();
-        String transactionData=" (select * from transactionData tr  join securities se on tr.securitiesId=se.securitiesId) ";
-        cdsMap.put("p_tableName", transactionData);
-        cdsMap.put("p_condition",sqlWhere);
-        cdsMap.put("p_pageSize",limit);
-        cdsMap.put("p_page",page);
-        cdsMap.put("p_count",0);
-        cdsMap.put("p_cursor",null);
-        closingDateStatementMapper.selectClosingDateStatement(cdsMap);
+
+        ArrayList<ClosingDateStatementPojo> cdsList = (ArrayList<ClosingDateStatementPojo>) closingDateStatementMapper.selectClosingDateStatement(dateTime);
+        int count = cdsList.size();
         //添加流出合计，流入合计，清算合计实体类
         double inTotalMoney=0;
         double outTotalMoney=0;
-        ArrayList<ClosingDateStatementPojo> cdsList = (ArrayList<ClosingDateStatementPojo>) cdsMap.get("p_cursor");
         for (ClosingDateStatementPojo closingDateStatementPojo : cdsList) {
             if (closingDateStatementPojo.getFlag()==1){
                 inTotalMoney=inTotalMoney+closingDateStatementPojo.getTotalSum();
@@ -73,7 +66,9 @@ public class ClosingDateStatementServiceImpl implements ClosingDateStatementServ
         cdsList.add(pojo2);
         cdsList.add(pojo3);
         System.out.println(cdsList);
-        cdsMap.put("list",cdsList);
-        return cdsMap;
+        HashMap<Object, Object> hashMap = new HashMap<>();
+        hashMap.put("list",cdsList);
+        hashMap.put("count",count);
+        return hashMap;
     }
 }
