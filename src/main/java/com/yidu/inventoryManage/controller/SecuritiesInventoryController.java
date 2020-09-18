@@ -44,16 +44,24 @@ public class SecuritiesInventoryController {
         return i;
     }
     @RequestMapping("deleteSecuritiesInventory")
-    public int deleteSecuritiesInventory(String securitiesInventoryId){
-        int i = securitiesInventoryService.deleteSecuritiesInventory(securitiesInventoryId);
+    public int deleteSecuritiesInventory(String securitiesInventorys){
+        int i=0;
+        System.out.println("进来了");
+        System.out.println(securitiesInventorys);
+        String[] split = securitiesInventorys.split(",");
+        for (String s : split) {
+            System.out.println(s);
+            i = securitiesInventoryService.deleteSecuritiesInventory(s);
+        }
+//
         return i;
     }
     @RequestMapping("InsertSecuritiesInventory")
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory){
 
         securitiesInventory.setSecuritiesInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SI));
-        securitiesInventory.setSecuritiesInventoryDesc("投资有风险");
-        System.out.println(securitiesInventory);
+        System.out.println(securitiesInventory.getSecuritiesInventoryId());
+        System.out.println(securitiesInventory+"这是插入证券库存的id===================");
         int i = securitiesInventoryService.insertSecuritiesInventory(securitiesInventory);
         return i;
     }

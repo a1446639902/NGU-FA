@@ -14,7 +14,7 @@ import java.util.Map;
  * @time 2020/9/12
  **/
 public interface SecuritiesClosedPayService {
-    public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime);
+    public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime,String serviceType);
     public int insertSecuritiesClosedPay(SecuritiesClosedPayPojo SecuritiesClosedPayPojo);
     public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo);
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds);

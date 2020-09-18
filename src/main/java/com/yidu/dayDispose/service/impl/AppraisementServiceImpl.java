@@ -39,7 +39,9 @@ public class AppraisementServiceImpl implements AppraisementService {
     @Override
     public HashMap selectStockarket(String toDay) {
         HashMap stockarketMap = new HashMap();
-        stockarketMap.put("p_tableName","(select se.fundId,se.securitiesId,ROUND((SE.securitiesNum*M.closingPrice ),2)as tootaIPrice, SE.securityPeriodFlag from securitiesInventory se join market m on se.securitiesId=m.securitiesId where m.DATETIME='"+toDay+"')");
+        System.out.println(toDay);
+        stockarketMap.put("p_tableName","(select se.fundId,se.securitiesId,m.DATETIME,ROUND((SE.securitiesNum*M.closingPrice-se.SECURITIESNUM*m.OPENPRICE),2)as tootaIPrice\n" +
+                " , SE.securityPeriodFlag from securitiesInventory se join market m on se.securitiesId=m.securitiesId where m.DATETIME='"+toDay+"')");
         stockarketMap.put("p_condition","");
         stockarketMap.put("p_pageSize",10);
         stockarketMap.put("p_page",1);
@@ -56,11 +58,11 @@ public class AppraisementServiceImpl implements AppraisementService {
 
     //查交易数据 按证券代码分组 插入证券应收应付库存
     @Override
-    public HashMap selectTransactionData() {
+    public HashMap selectTransactionData(String toDay) {
         HashMap ransactionDataMap = new HashMap();
         ransactionDataMap.put("p_tableName","(select securitiesId,dateTime,FUNDID,FLAG,SUM((totalSum*flag)) totalSum from transactionData\n" +
-                "where to_date(dateTime,'yyyy-MM-dd') <= to_date('2020-09-02','yyyy-MM-dd') and transactionDataMode in (1,2,3,4)\n" +
-                "  and to_date('2020-09-14','yyyy-MM-dd') < to_date(settlementDate,'yyyy-MM-dd') GROUP BY securitiesId,dateTime,FUNDID,FLAG)");
+                "where to_date(dateTime,'yyyy-MM-dd') <= to_date('"+toDay+"','yyyy-MM-dd') and transactionDataMode in (1,2,3,4)\n" +
+                "  and to_date('"+toDay+"','yyyy-MM-dd') < to_date(settlementDate,'yyyy-MM-dd') GROUP BY securitiesId,dateTime,FUNDID,FLAG)");
         ransactionDataMap.put("p_condition","");
         ransactionDataMap.put("p_pageSize",5);
         ransactionDataMap.put("p_page",1);
@@ -76,10 +78,10 @@ public class AppraisementServiceImpl implements AppraisementService {
     }
 
     @Override
-    public HashMap selectTaTransaction() {
+    public HashMap selectTaTransaction(String toDay) {
         HashMap taTransactionMap = new HashMap();
-        taTransactionMap.put("p_tableName","(select sum(totalMoney) totalMoney,transactionType,accountId,dateTime ,fundId from taTransaction where to_date(dateTime,'yyyy-MM-dd')<= to_date('2020-09-13','yyyy-MM-dd')\n" +
-                "and to_date('2020-09-13','yyyy-MM-dd')<to_date(balanceDate,'yyyy-MM-dd') group by transactionType, accountId,fundId,dateTime)");
+        taTransactionMap.put("p_tableName","(select sum(totalMoney) totalMoney,transactionType,accountId,dateTime ,fundId from taTransaction where to_date(dateTime,'yyyy-MM-dd')<= to_date('"+toDay+"','yyyy-MM-dd')\n" +
+                "and to_date('"+toDay+"','yyyy-MM-dd')<to_date(balanceDate,'yyyy-MM-dd') group by transactionType, accountId,fundId,dateTime)");
         taTransactionMap.put("p_condition","");
         taTransactionMap.put("p_pageSize",5);
         taTransactionMap.put("p_page",1);

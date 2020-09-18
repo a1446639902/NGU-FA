@@ -39,9 +39,10 @@ public class SecuritiesController {
 
     //修改
     @RequestMapping("/updateSecurities")
-    public int updateUser(SecuritiesPojo securitiesPojo){
-
-        return securitiesService.updateSecurities(securitiesPojo);
+    public int updateSecurities(SecuritiesPojo securitiesPojo){
+        System.out.println("stockId="+securitiesPojo.getStockId());
+        int i=securitiesService.updateSecurities(securitiesPojo);
+        return i;
     }
 
   /*  @RequestMapping("/updateSecurities")

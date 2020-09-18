@@ -27,7 +27,9 @@ public class ClosingDateStatementController {
         System.out.println("--------------------");
         HashMap cdsMap = closingDateStatementService.selectClosingDateStatement(page, limit, dateTime);
         int count = (int) cdsMap.get("p_count");
-        ArrayList<ClosingDateStatementPojo> closingDateList = (ArrayList<ClosingDateStatementPojo>) cdsMap.get("p_cursor");
+        ArrayList<ClosingDateStatementPojo> closingDateList = (ArrayList<ClosingDateStatementPojo>) cdsMap.get("list");
+        System.out.println("closing---------------------------"+closingDateList);
+        System.out.println(count);
         HashMap hashMap = new HashMap<>();
         hashMap.put("msg","");
         hashMap.put("code",0);

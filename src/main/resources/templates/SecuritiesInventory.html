@@ -58,26 +58,30 @@
             laydate.render({
                 elem:'#test3'
             });
+            laydate.render({
+                elem:'#test4'
+            });
             table.render({
                 elem: '#myTable' //实例化表格的ID名称
                 , url: '../SecuritiesInventory/selectSecuritiesInventory' //接收JSON数据的路径
                 , toolbar: '#userToolBar' //开启头部工具栏，并为其绑定左侧模板
-                , title: '用户数据表'//表格名称
+                , title: '证券库存数据表'//表格名称
                 , cellMinWidth: 100
                 , height: 'full-30'
                 , cols: [
                     [ //表头既列名  title列名名称
                     {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'securitiesInventoryId', title: '证券库存Id',width:150 ,align:'center'}
+                    ,{field: 'securitiesInventoryId', title: '证券库存Id',width:150 ,align:'center',hide:true}
+                    ,{field: 'securitiesId', title: '证券编号', align:'center'}
                     ,{field: 'dateTime', title: '证券日期', align:'center'}
                      ,{field: 'securitiesName', title: '证券名称', align:'center'}
-                        ,{field: 'fundName', title: '基金名称', align:'center'}
-                    ,{field: 'securitiesNum', title: '证券数量',width:70, align:'center'}
-                    ,{field: 'price', title: '单位成本',width:70, align:'center'}
-                    ,{field: 'total', title: '总金额',width:70, align:'center'}
-                    ,{field: 'flag', title: '是否导入数据', align:'center'}
+                     ,{field: 'fundName', title: '基金名称', align:'center'}
+                    ,{field: 'securitiesNum', title: '证券数量', align:'center'}
+                    ,{field: 'price', title: '单位成本', align:'center'}
+                    ,{field: 'total', title: '总金额', align:'center'}
+                    ,{field: 'securityPeriodFlag', title: '是否导入数据', align:'center'}
                     ,{field: 'securitiesInventoryDesc', title: '备注', align:'center'}
-                    ,{field: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
+                    ,{fixed: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
                 ]
                 ]
                 , page: true//开启分页
@@ -85,6 +89,29 @@
 
             tableSelect.render({
                 elem:'#demo'
+                ,checkedKey:'id'
+                ,searchPlaceholder: '关键词搜索'
+                ,table:{
+                    url:'/selectSecurities'
+                    ,cellMinWidth: 60
+                    ,cols:[
+                        [
+                            {type:'radio'},
+                            {field:'securitiesId',title:'securitiesId'},
+                            {field: 'securitiesName',title:'证券名称'}
+                        ]
+                    ]
+                }
+                ,done:function (elem,data) {
+                    var NEWJSON = []
+                    layui.each(data.data,function (index,item) {
+                        NEWJSON.push(item.securitiesId)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+            tableSelect.render({
+                elem:'#demo1'
                 ,checkedKey:'id'
                 ,searchPlaceholder: '关键词搜索'
                 ,table:{
@@ -179,11 +206,13 @@
                                 }
                             }
                         )
+                        document.getElementById("sreachTime").value=sreachTime;
+                        document.getElementById("sreachId").value=sreachId;
                         break;
                     case "add":
                         layer.open({
                             type: 1,
-                            title: '新增用户信息',
+                            title: '新增证券库存信息',
                             area: ['893px', '600px'],
                             content: $("#addContent")
                         });
@@ -191,15 +220,16 @@
                         break;
                     //删除多行
                     case "deleteAll":
+                        alert('批量删除中');
                         //获得选中的对象
-                        var securitiesInventoryId = table.checkStatus("myTable"); //idTest 即为基础参数 id 对应的值
+                        var checkStatus = table.checkStatus("myTable"); //idTest 即为基础参数 id 对应的值
                         // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
-                        var marketIds = [];
+                        var securitiesInventorys = [];
                         var dataArr = checkStatus.data; //获取选中行的数据
                         $.each(dataArr, function (i, n) {
-                            securitiesInventoryId.push(n.securitiesInventoryId);
+                            securitiesInventorys.push(n.securitiesInventoryId);
                         });
-                        alert(securitiesInventoryId);
+                        alert(securitiesInventorys);
                         if (dataArr.length == 0) {
                             layer.msg("请先选中数据");
                         }
@@ -207,7 +237,7 @@
                             layer.confirm('真的删除行么', function () {
                                 layer.close();
                                 //向服务端发送删除指令
-                                $.post("../SecuritiesInventory/deleteSecuritiesInventory", "securitiesInventoryId="+securitiesInventoryId,function(msg){
+                                $.post("/SecuritiesInventory/deleteSecuritiesInventory","securitiesInventorys="+securitiesInventorys,function(msg){
                                     if(msg>0){
                                         table.reload('myTable');
                                         layer.closeAll();
@@ -249,7 +279,7 @@
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
-                        $.post("/SecuritiesInventory/deleteSecuritiesInventory", "securitiesInventoryId="+data.securitiesInventoryId,function(msg){
+                        $.post("/SecuritiesInventory/deleteSecuritiesInventory", "securitiesInventorys="+data.securitiesInventoryId,function(msg){
                             if(msg>0){
                                 table.reload('myTable');
                                 layer.closeAll();
@@ -279,7 +309,7 @@
                     form.val("editform",data);//第二个参数可以是json字符串也可以是json对象
                     layer.open({
                         type: 1,
-                        title: '修改用户信息',
+                        title: '修改证券库存信息',
                         area: ['893px', '600px'],
                         content: $("#editContent")
                     });
@@ -365,72 +395,70 @@
           style="margin: 30px auto; display: inline-block;">
         <div class="layui-row">
         <div class="layui-col-xs6">
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">日期</label>
-            <div class="layui-inline">
-                <input type="text" class="layui-input" name="dateTime" id="test3" autocomplete="off" placeholder="请选择日期">
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green">证券代码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="securitiesId" placeholder="请输入" autocomplete="off" class="layui-input" id="demo">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">证券代码</label>
-            <div class="layui-input-inline">
-                <input type="text" name="securitiesId" placeholder="请输入" autocomplete="off" class="layui-input" id="demo">
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green">证券数量</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="securitiesNum" lay-verify="number"
+                           autocomplete="off" placeholder="请输入证券数量" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">基金名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="fundId" placeholder="请输入" autocomplete="off" class="layui-input" id="fund">
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green" >总金额</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="total" lay-verify="required"
+                           autocomplete="off" placeholder="请输入总金额" class="layui-input" id="total">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">账户Id</label>
-            <div class="layui-input-inline">
-                <input type="text" name="accountId" placeholder="请输入" autocomplete="off" class="layui-input" id="account">
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green">日期</label>
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" name="dateTime" id="test3" autocomplete="off" placeholder="请选择日期">
+                </div>
             </div>
-        </div>
         </div>
 
+
         <div class="layui-col-xs6">
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green">基金名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="fundId" placeholder="请输入" autocomplete="off" class="layui-input" id="fund">
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green">单位成本</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="price" lay-verify="number"
+                           autocomplete="off" placeholder="请输入单位成本" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-green">是否导入</label>
+                <div class="layui-input-inline">
+                    <select name="securityPeriodFlag" id="addSecurityPeriodFlag">
+                        <option value="">请选择</option>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </div>
+            </div>
         <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">是否导入</label>
+            <label class="layui-form-label layui-bg-green" >备注</label>
             <div class="layui-input-inline">
-                <select name="securityPeriodFlag" id="editSecurityPeriodFlag1">
-                    <option value="">请选择</option>
-                    <option value="0">否</option>
-                    <option value="1">是</option>
-                </select>
+                <input type="text" name="securitiesInventoryDesc"
+                       autocomplete="off" placeholder="请输入备注" class="layui-input" id="beizhu">
             </div>
         </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">证券数量</label>
-            <div class="layui-input-inline">
-                <input type="text" name="securitiesNum" lay-verify="number"
-                       autocomplete="off" placeholder="请输入证券数量" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">单位成本</label>
-            <div class="layui-input-inline">
-                <input type="text" name="price" lay-verify="number"
-                       autocomplete="off" placeholder="请输入单位成本" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" >总金额</label>
-            <div class="layui-input-inline">
-                <input type="text" name="total" lay-verify="required"
-                       autocomplete="off" placeholder="请输入总金额" class="layui-input" id="total">
-            </div>
-        </div>
-        </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <div class="layui-input-inline">
-                <textarea name="accountDesc" style="width: 590px;height: 100px;padding: 10px;" rows="" cols="" placeholder="备注"></textarea>
-            </div>
-        </div>
-        <div style="position: absolute; bottom: 15px; left: 39%;">
+      </div>
+   </div>
+
+        <div style="position: absolute; bottom: 160px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -447,48 +475,72 @@
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
         <input type="hidden" name="securitiesInventoryId"/>
-        <input type="hidden" name="dateTime"/>
-        <input type="hidden" name="securitiesId"/>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green" >是否导入</label>
-            <div class="layui-input-inline">
-                <select name="securityPeriodFlag" id="editSecurityPeriodFlag">
-                    <option value="">请选择</option>
-                    <option value="0">否</option>
-                    <option value="1">是</option>
-                </select>
+        <div class="layui-row">
+            <div class="layui-col-xs6">
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green">证券代码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="securitiesId" placeholder="请输入" autocomplete="off" class="layui-input" id="demo1">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green">证券数量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="securitiesNum" lay-verify="number"
+                               autocomplete="off" placeholder="请输入证券数量" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >总金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="total" lay-verify="required"
+                               autocomplete="off" placeholder="请输入总金额" class="layui-input" id="total1">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green">日期</label>
+                    <div class="layui-inline">
+                        <input type="text" class="layui-input" name="dateTime" id="test4" autocomplete="off" placeholder="请选择日期">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">证券数量</label>
-            <div class="layui-input-inline">
-                <input type="text" name="securitiesNum" lay-verify="required"
-                       autocomplete="off" placeholder="请输入证券数量" class="layui-input">
+
+
+            <div class="layui-col-xs6">
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green">基金名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="fundId" placeholder="请输入" autocomplete="off" class="layui-input" id="fund1">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green">单位成本</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="price" lay-verify="number"
+                               autocomplete="off" placeholder="请输入单位成本" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green">是否导入</label>
+                    <div class="layui-input-inline">
+                        <select name="securityPeriodFlag" id="addSecurityPeriodFlag1">
+                            <option value="">请选择</option>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label layui-bg-green" >备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="securitiesInventoryDesc"
+                               autocomplete="off" placeholder="请输入备注" class="layui-input" id="beizhu1">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">单位成本</label>
-            <div class="layui-input-inline">
-                <input type="text" name="price" lay-verify="required"
-                       autocomplete="off" placeholder="请输入单位成本" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">总金额</label>
-            <div class="layui-input-inline">
-                <input type="text" name="total" lay-verify="required"
-                       autocomplete="off" placeholder="请输入总金额" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item" style="text-align: center;">
-            <label class="layui-form-label layui-bg-green">备注</label>
-            <div class="layui-input-inline">
-                <input type="text" name="securitiesInventoryDesc"
-                       autocomplete="off" placeholder="请输入备注" class="layui-input">
-            </div>
-        </div>
-        <div style="position: absolute; left: 37%;">
+        <div style="position: absolute; bottom: 160px; left: 39%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>修改
             </button>

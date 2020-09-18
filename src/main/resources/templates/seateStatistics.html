@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--戴言露-->
+<html>
+<head>
+    <title>席位交易量统计表</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!--<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" /-->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <link rel="stylesheet" href="../css/theme9.css">
+    <script src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]-->
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+
+
+    <script src="../lib/layui/layui.js"></script>
+    <!--工具条-->
+
+
+
+    <script type="text/javascript">
+
+        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var $ = layui.$;
+            var table = layui.table;
+            var form = layui.form;
+            var formSelects = layui.formSelects;
+            var laydate = layui.laydate;
+
+            table.render({
+                elem: '#userTable',
+                url: '../brokersSelect',
+                page: true,
+                height: 500,
+                toolbar: '#userToolBar',//显示在表头的工具条
+                minLength:80,
+                cols: [
+                    [ //表头
+                        {field: 'brokersId', title: '名称',  align:'center'}
+                        ,{field: 'brokersName', title: '买入股票',  align:'center'}
+                        ,{field: 'brokersInstructions', title: '卖出股票',  align:'center'}
+                        ,{field: 'brokersDesc', title: '买入证券',  align:'center'}
+                        ,{title: 'operation', title: '卖出证券' , toolbar:'#barDemo', align:'center'}
+                        ,{field: 'brokersName', title: '交易总额',  align:'center'}
+                        ,{field: 'brokersInstructions', title: '佣金费用',  align:'center'}
+                        ,{field: 'brokersDesc', title: '过户费',  align:'center'}
+                        ,{title: 'operation', title: '经手费' , toolbar:'#barDemo', align:'center'}
+                        ,{field: 'brokersName', title: '征管费',  align:'center'}
+                        ,{field: 'brokersInstructions', title: '印花税',  align:'center'}
+                        ,{field: 'brokersDesc', title: '实际支付金额',  align:'center'}
+                        ,{title: 'operation', title: '比例' , toolbar:'#barDemo', align:'center'}
+                    ]
+                ]
+            });
+            });
+    </script>
+</head>
+<body style="overflow: auto; background-color: white;"
+      class="layui-view-body layui-content">
+<div>
+    <!--表格-->
+    <table id="userTable" lay-filter="userTable"></table>
+</div>
+
+</body>
+</html>

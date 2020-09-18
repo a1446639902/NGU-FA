@@ -44,8 +44,17 @@
     </insert>
 
 
-    <delete id="deleteTransactionData" parameterType="String">
-         delete from transactionData where transactionDataId=#{transactionDataId}
+    <delete id="deleteTransactionData" parameterType="string">
+        delete from transactionData where transactionDataId=#{transactionDataId}
+    </delete>
+
+    <delete id="deleteTransactionDataTwo" parameterType="list">
+
+        delete from transactionData where transactionDataId in
+        <foreach collection="list" item="transactionDataId" open="("
+                 separator="," close=")">
+            #{transactionDataId}
+        </foreach>
     </delete>
 
     <update id="updateTransactionData" parameterType="com.yidu.businessData.pojo.TransactionData">

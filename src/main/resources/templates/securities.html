@@ -11,7 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <link rel="stylesheet" href="../css/font.css">
-    <link rel="stylesheet" href="../css/xadmin.css">
+<!--    <link rel="stylesheet" href="../css/xadmin.css">-->
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <!--[if lt IE 9]>
@@ -81,18 +82,23 @@
             , toolbar: '#userToolBar'
             , url: '../selectSecurities' //数据接口
             , page: true //开启分页
+            , initSort:{
+                field:'securitiesId',
+                type:'asc'
+            }
             , cols: [
                 [ //表头
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'securitiesId', title: '证券ID', width: 140, sort: true}
-                    , {field: 'securitiesName', title: '证券名称', width: 140}
+                    , {field: 'securitiesName', title: '证券名称', width: 170}
                     , {field: 'securitiesType', title: '证券类型', width: 140, sort: true,templet:'#securitiesTypedemo'}
                     , {field: 'issueDate', title: '发行日期', width: 140}
                     , {field: 'delayDate', title: '延迟日期', width: 140}
                     , {field: 'stockId', title: '模块ID', width: 140, sort: true,hide:true}
+                    ,{field: 'stockName', title: '模块名称', width: 140, sort: true,hide:true}
                     , {field: 'exchange', title: '交易所', width: 140, sort: true,templet: '#exchangedemo'}
                     , {field: 'securitiesDesc', title: '备注', width: 140}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 210}
                 ]
             ]
         });
@@ -114,9 +120,12 @@
                             'securitiesName':securitiesName
                         }
                     });
+                    document.getElementById("securitiesId").value=securitiesId;
+                    document.getElementById("securitiesName").value=securitiesName;
                     break;
 
                 case "add":
+                    document.getElementById('addform').reset();
                     layer.open({
                         type: 1,
                         title: '新增证券信息',
@@ -129,8 +138,8 @@
                         type:'post',
                         success:function(obj){
                             $('#stockId').empty();
+                            $('#stockId').append(new Option("无","0"));
                             $.each(obj.data,function(index,item){
-
                                 $('#stockId').append(new Option(item.stockName,item.stockId));//往下拉菜单里添加元素
                             })
 
@@ -238,6 +247,7 @@
                     type:'post',
                     success:function(obj){
                         $('#stockId_2').empty();
+                        $('#stockId_2').append(new Option("无","0"));
                         $.each(obj.data,function(index,item){
                             $('#stockId_2').append(new Option(item.stockName,item.stockId));//往下拉菜单里添加元素
                         })
@@ -282,6 +292,7 @@
         //修改提交
         form.on('submit(editsubmit)',function () {
             var data = $('#editform').serialize();//获取表单区域所有值
+
             $.post("../updateSecurities",data,function(msg){
                 if(msg>0){
                     table.reload('test');
@@ -352,18 +363,17 @@
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;" >
 
-
         <div>
             <div class="layui-row">
                 <div class="layui-col-xs6">
-                        <input type="hidden" name="stockId"/>
+                        <!--<input type="hidden" name="stockId"/>-->
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >证券ID</label>
                         <div class="layui-input-inline">
                             <input type="text" name="securitiesId" lay-verify="required"
                                    autocomplete="off" placeholder="请输入证券ID" class="layui-input">
                         </div>
-                    </div> 
+                    </div>
 
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >证券名称</label>
@@ -376,11 +386,10 @@
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >证券类型</label>
                         <div class="layui-input-inline">
-                            <select  name="securitiesType">
+                            <select  name="securitiesType" id="securitiesType">
                                 <option value="">请选择</option>
                                 <option value="1">债券</option>
                                 <option value="2">股票</option>
-
                             </select>
                         </div>
                     </div>
@@ -406,7 +415,7 @@
                     <div class="layui-form-item" style="text-align: center;">
                         <label class="layui-form-label layui-bg-green" >板块ID</label>
                         <div class="layui-input-inline">
-                            <select id="stockId_2" name="stockId_2" xm-select="add" xm-select-radio=""
+                            <select id="stockId_2" name="stockId" xm-select="add" xm-select-radio=""
                                     xm-select-search="" lay-verify="required"
                                     xm-select-direction="down" xm-select-search-type="dl">
                             </select>

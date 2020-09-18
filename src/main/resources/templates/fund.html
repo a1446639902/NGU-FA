@@ -256,11 +256,11 @@
                 cols: [
                     [ //表头
                     {type: 'checkbox', field: 'left'}
-                    ,{field: 'fundId', title: '基金代码', width:240, align:'center'}
+                    ,{field: 'fundId', title: '基金代码', width:200, align:'center'}
                     ,{field: 'fundName', title: '基金名称', width: 240, align:'center'}
-                    ,{field: 'managerName', title: '基金管理公司', width:240, align:'center'}
-                    ,{field: 'trusteeName', title: '基金托管银行', width: 240, align:'center'}
-                    ,{field: 'fundType', title: '基金类型', width:240, align:'center', templet: function(item){
+                    ,{field: 'managerName', title: '基金管理公司', width:200, align:'center'}
+                    ,{field: 'trusteeName', title: '基金托管银行', width: 200, align:'center'}
+                    ,{field: 'fundType', title: '基金类型', width:200, align:'center', templet: function(item){
                         if(item.fundType=='1') {
                             return '开放式';
                          } else if(item.fundType=='2'){
@@ -268,7 +268,7 @@
                         }
                      }
                     }
-                    ,{field: 'right', title: '操作' , width: 240, align:'center',toolbar:'#barDemo'}
+                    ,{fixed: 'right', title: '操作' , width: 240, align:'center',toolbar:'#barDemo'}
                 ]
                 ]
             });
@@ -306,7 +306,6 @@
                                 curr: 1
                             }
                         });
-
                         break;
                     case 'deleteAll':
                         var data = checkStatus.data;
