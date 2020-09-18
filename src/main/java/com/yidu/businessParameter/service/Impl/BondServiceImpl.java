@@ -45,8 +45,7 @@ public class BondServiceImpl implements BondService {
             sqlWhere.append(" AND securitiesId LIKE  '%"+securitiesId+"%'" );
         }
         if (drawStartDate!=null&&!drawStartDate.equals("")){
-            sqlWhere.append(" AND drawStartDate LIKE  '%"+drawStartDate+"%'" );
-
+            sqlWhere.append(" AND drawStartDate  ='"+drawStartDate+"'" );
         }
         //创建一个Map，用于存储过程的调用传值
         Map<String,Object> map=new HashMap<>();

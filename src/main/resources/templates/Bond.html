@@ -228,7 +228,6 @@
                 <input type="text" name="parRate" lay-verify="required"
                        autocomplete="off" placeholder="票面利率" class="layui-input">
             </div>
-
         </div>
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">付息次数</label>
@@ -268,11 +267,8 @@
         tableSelect.render({
             elem:'#insertSecurities',
             checkedKey:'securitiesId',
-            where:{
-                securitiesType:1
-            },
             table:{
-                url:'../selectSecurities1',
+                url:'../selectSecurities1?securitiesType=1',
                 cellMinWidth:60,
 
                 cols:[

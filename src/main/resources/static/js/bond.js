@@ -84,7 +84,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 		elem: '#userTable',
 		url: '../selectBond',
 		page: true,
-		height: 'full-20',
+		height: 'full-30',
 		toolbar: '#userToolBar',//显示在表头的工具条
 		cellMinWidth:60,
 		cols: [
@@ -152,6 +152,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 						curr: 1
 					}
 				});
+				$("#bondName").val(bondName);
+				$("#start").val(drawStartDate);
 
 				break;
 			case 'deleteAll':
