@@ -43,7 +43,7 @@
                 <button class="layui-btn"  lay-submit="" lay-filter="sreach" lay-event="search" ><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
-        <br><div class="">
+        <br>
         <div class="layui-btn-container layui-upload"
              style="position: absolute; right: 120px; top: 10px;">
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll">
@@ -53,27 +53,13 @@
                     lay-event="add">
                 <i class="layui-icon">&#xe654;</i>添加交易数据
             </button>
-
-
-
-
-
             <button class="layui-btn layui-btn-sm layui-btn" id="uploadData"
                     lay-event="shangHai">
                 <i class="layui-icon">&#xe67c;</i>上海过户库数据导入
             </button>
-            <button class="layui-btn layui-btn-sm layui-btn"
-                    lay-event="shenZen">
-                <i class="layui-icon">&#xe67c;</i>深圳回报库数据导入
-            </button>
         </div>
-        </div>
-    </script>
 
-    <body>
-<button type="button" class="layui-btn" id="test3">
-    <i class="layui-icon"></i>上传文件</button>
-</body>
+    </script>
 
     <script type="text/javascript">
 
@@ -109,16 +95,7 @@
                 elem: '#settlementDate1'
             })
 
-            //指定允许上传的文件类型
-            upload.render({
-                elem: '#test3'
-                ,url: '../api/upload' //改成您自己的上传接口
-                ,accept: 'file' //普通文件
-                ,done: function(res){
-                    layer.msg('上传成功');
-                    console.log(res);
-                }
-            });
+
 
 
 
@@ -499,7 +476,7 @@
                             }
                         }
                     }
-                    ,{field: 'operation', title: '操作' , width: 160, align:'center',toolbar:'#barDemo'}
+                    ,{fixed: 'right', title: '操作' , width: 160, align:'center',toolbar:'#barDemo'}
                 ]
                 ]
             });
@@ -568,6 +545,17 @@
                                 });
                             });
                         }
+                        break;
+                    case 'shangHai':
+                        //指定允许上传的文件类型
+                        upload.render({
+                            elem: '#uploadData'
+                            ,url: '../api/upload' //改成您自己的上传接口
+                            ,accept: 'file' //普通文件
+                            ,done: function(res){
+                                layer.msg('上传成功');
+                            }
+                        });
                         break;
                 }
             });
@@ -650,7 +638,7 @@
                         })
                         //当天应收债券利息
                         lixiday = parRate/365*bondRateAmount*num*1;
-                        alert(lixiday)
+                       /* alert(lixiday)*/
                             //股票没有利息
                         if (item.rateType==2){
                             bondRate=0;
@@ -716,7 +704,7 @@
                         })
                         //当天应收债券利息
                         lixiday = parRate2/365*bondRateAmount2*num2*1;
-                        alert(lixiday)
+                       /* alert(lixiday)*/
                         //股票没有利息
                         if (item.rateType==2){
                             $('#security2').val(lixiday);

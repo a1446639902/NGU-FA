@@ -9,5 +9,5 @@ import java.util.HashMap;
  * @time 2020/9/16
  **/
 public interface ClosingDateStatementService {
-    public HashMap selectClosingDateStatement(int page,int limit,String dateTime);
+    public HashMap selectClosingDateStatement(String dateTime);
 }

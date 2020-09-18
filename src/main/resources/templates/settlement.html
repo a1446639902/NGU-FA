@@ -141,7 +141,7 @@
                         }
                         else {
                             layer.confirm('真的要结算嘛', function () {
-                                alert(settlement)
+                                /*alert(settlement)*/
                                 //向服务端发送结算指令
                                 $.post("../Settlement/updateSettlement","settlement="+settlement,function(msg){
                                     if(msg>0){
