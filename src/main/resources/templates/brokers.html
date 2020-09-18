@@ -124,11 +124,11 @@
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'brokersId', title: '劵商编号',  align:'center'}
-                        ,{field: 'brokersName', title: '劵商名称',  align:'center'}
-                        ,{field: 'brokersInstructions', title: '劵商说明',  align:'center'}
-                        ,{field: 'brokersDesc', title: '劵商备注',  align:'center'}
-                        ,{title: 'operation', title: '操作' , toolbar:'#barDemo', align:'center'}
+                        ,{field: 'brokersId', title: '劵商编号',  align:'center',width:200}
+                        ,{field: 'brokersName', title: '劵商名称',  align:'center',width:250}
+                        ,{field: 'brokersInstructions', title: '劵商说明',  align:'center',width:260}
+                        ,{field: 'brokersDesc', title: '劵商备注',  align:'center',width:265}
+                        ,{fixed: 'right', title: '操作' , toolbar:'#barDemo', align:'center',width:250}
                     ]
                 ]
             });
@@ -140,7 +140,7 @@
                     case 'add':
                         var index=layer.open({
                             type: 1,
-                            title: '添加数据信息',
+                            title: '添加劵商信息',
                             closeBtn: 1,
                             move:false,
                             area: ['800px', '700px'],
@@ -210,7 +210,7 @@
                     form.val('editform',$.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
                         type: 1,
-                        title: '修改权益数据',
+                        title: '修改劵商数据',
                         closeBtn: 1,
                         move:false,
                         area: ['800px', '700px'],
@@ -222,7 +222,7 @@
             })
         });
         function myclose() {
-            parent.layer.closeAll();
+           layer.closeAll();
         }
     </script>
 </head>
@@ -246,12 +246,17 @@
 <div id="addContent" style="display: none; height: 100%; width:100%; text-align: center">
     <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
+            <br>
+            <br>
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商编号</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入劵商编号" name="brokersId">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商名称</label>
             <div class="layui-inline layui-show-xs-block">
@@ -260,13 +265,18 @@
         </div>
         <br>
         <br>
+        <br>
+        <br>
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商说明</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入劵商说明" name="brokersInstructions">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商备注</label>
             <div class="layui-inline layui-show-xs-block">
@@ -274,7 +284,7 @@
             </div>
         </div>
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 0px; left: 40%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -292,12 +302,19 @@
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
+            <br>
+            <br>
+            <br>
+            <br>
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商编号</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入劵商编号" name="brokersId">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商名称</label>
             <div class="layui-inline layui-show-xs-block">
@@ -306,13 +323,18 @@
         </div>
         <br>
         <br>
+        <br>
+        <br>
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商说明</label>
             <div class="layui-inline layui-show-xs-block">
                 <input class="layui-input" placeholder="请输入劵商说明" name="brokersInstructions">
             </div>
         </div>
-        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">劵商备注</label>
             <div class="layui-inline layui-show-xs-block">
@@ -320,13 +342,15 @@
             </div>
         </div>
 
-        <div style="position: absolute; bottom: 0px; left: 35%;">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
-                <i class="layui-icon">&#x1005;</i>添加
+        <div style="position: absolute; bottom: 0px; left: 40%;">
+            <button class="layui-btn" lay-submit="add" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>修改
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
+            <br>
+            <br>
         </div>
     </form>
 </div>

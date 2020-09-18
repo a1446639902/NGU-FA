@@ -14,7 +14,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <!--        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />-->
         <link rel="stylesheet" href="../css/font.css">
-        <link rel="stylesheet" href="../css/xadmin.css">
+<!--        <link rel="stylesheet" href="../css/xadmin.css">-->
+        <link rel="stylesheet" href="../lib/layui/css/layui.css">
         <script src="../lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="../js/xadmin.js"></script>
         <!--[if lt IE 9]>
@@ -85,33 +86,33 @@
                         field: 'inventoryName',
                         align: 'center',
                         title: '库存名称',
-                        width: 267
+                        width: 200
                     }, {
                         field: 'inventoryId',
                         title: '基金编号',
                         align: 'center',
-                        width: 267
+                        width: 200
 
                     }, {
                         field: 'inventoryOperator',
                         title: '操作员',
                         align: 'center',
-                        width: 267
+                        width: 200
                     },{
                         field : 'inventoryDate',
                         title : '统计日期',
                         align: 'center',
-                        width: 267
+                        width: 200
                     },{
                         field: 'inventoryData',
                         title: '已统计数据',
                         align: 'center',
-                        width: 267
+                        width: 200
                     },{
                         field: 'inventoryStatis',
                         title: '统计状态',
                         align: 'center',
-                        width:267}
+                        width:210}
                     ]
                     ]
                     });
@@ -154,7 +155,10 @@
                             elem: '#dateTime3',
                         });
                 }
-
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#dateTime3' //指定日期
+                });
 
             });
             });
