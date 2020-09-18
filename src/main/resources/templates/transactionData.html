@@ -43,14 +43,22 @@
                 <button class="layui-btn"  lay-submit="" lay-filter="sreach" lay-event="search" ><i class="layui-icon">&#xe615;</i>搜索</button>
             </div>
         </form>
-        <br>
-        <div class="layui-btn-container"
+        <br><div class="">
+        <div class="layui-btn-container layui-upload"
              style="position: absolute; right: 120px; top: 10px;">
+            <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll">
+                <i class="layui-icon">&#xe640;</i>批量删除</button>
+
             <button class="layui-btn layui-btn-sm layui-btn-normal"
                     lay-event="add">
                 <i class="layui-icon">&#xe654;</i>添加交易数据
             </button>
-            <button class="layui-btn layui-btn-sm layui-btn"
+
+
+
+
+
+            <button class="layui-btn layui-btn-sm layui-btn" id="uploadData"
                     lay-event="shangHai">
                 <i class="layui-icon">&#xe67c;</i>上海过户库数据导入
             </button>
@@ -59,20 +67,24 @@
                 <i class="layui-icon">&#xe67c;</i>深圳回报库数据导入
             </button>
         </div>
+        </div>
     </script>
 
-
+    <body>
+<button type="button" class="layui-btn" id="test3">
+    <i class="layui-icon"></i>上传文件</button>
+</body>
 
     <script type="text/javascript">
 
-        layui.use(['tableSelect','element', 'form', 'table', 'layer', 'laydate'], function () {
+        layui.use(['tableSelect','element', 'form', 'table', 'layer', 'laydate' ,'upload'], function () {
             var layer = layui.layer;
             var $ = layui.$;
             var table = layui.table;
             var form = layui.form;
             var tableSelect = layui.tableSelect;
             var laydate = layui.laydate;
-
+            var upload=layui.upload;
             //执行一个laydate实例
             laydate.render({
                 elem: '#end' //指定元素
@@ -96,6 +108,17 @@
             laydate.render({
                 elem: '#settlementDate1'
             })
+
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#test3'
+                ,url: '../api/upload' //改成您自己的上传接口
+                ,accept: 'file' //普通文件
+                ,done: function(res){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }
+            });
 
 
 
@@ -520,6 +543,32 @@
                         });
 
                         break;
+                    case 'deleteAll':
+                        var data = checkStatus.data;
+
+                        if(data.length==0){
+                            layer.msg("请至少选择一条数据",)
+                        }else
+                        {
+                            var ids=[];
+                            for (var i = 0; i <data.length; i++) {
+                                ids.push(data[i].transactionDataId);
+                            }
+                            layer.confirm('真的删除行么',{icon: 2}, function(index){
+                                layer.close(index);
+                                //layer.alert(JSON.stringify(data));
+                                $.post("../TransactionData/deleteTransactionDataTwo", {transactionDataId:ids.join(',')},function(msg){
+                                    table.reload('userTable');
+                                    layer.msg('删除'+checkStatus.data.length+'条记录', {
+                                        title:'提示',
+                                        area: ['200px', '140px'],
+                                        time: 0,
+                                        btn: ['知道了']
+                                    });
+                                });
+                            });
+                        }
+                        break;
                 }
             });
             //给表格编辑，删除按钮添加点击事件
@@ -625,7 +674,69 @@
         }
 
 
+        //修改
+        function myNum2() {
+            layui.use(['layer'], function () {
+                var $ = layui.$;
+                //交易金额 = 数量*价格
+                var num2 = document.getElementById("num2").value;
+                var price2 = document.getElementById("price2").value;
+                var netReceipts2 = Number(num2) * Number(price2);
+                $("#netReceipts2").val(netReceipts2);
 
+                //佣金费用 = 交易金额*席位佣金利率
+                var seateRate2=document.getElementById("seateRate2").value;
+                var netReceipts2=document.getElementById("netReceipts2").value;
+                var commission2=Number(seateRate2)*Number(netReceipts2);
+                $("#commission2").val(commission2);
+                //securitiesId
+                var securitiesId2 =document.getElementById("securitiesId2").value;
+                var securitiesType2=document.getElementById("securitiesType2").value;
+                var exchange2=document.getElementById("exchange1").value;
+
+                $.post("../selectVarietiesRate", {exchangeName: exchange2,rateType: securitiesType2,page:1,limit:1},function(obj){
+                    $.each(obj.data,function (index,item) {
+                        $('#transfer2').val(item.stampDuty);
+                        $('#stamp2').val(item.transferFee);
+                        $('#management2').val(item.collectionRate);
+                        $('#brokerage2').val(item.brokerage);
+                        //证券利息：股票和债券都属于证券
+                        //股票没有利息，债券利息就是债券
+                        var parRate2=0;
+                        var bondRateAmount2=0;
+                        var lixiday=0;
+                        $.post("../selectBond", {securitiesId: securitiesId2,drawStartDate: '',page:1,limit:1},function(obj2) {
+                            $.each(obj.data,function (index2,item2){
+                                //  票面利率/365*票面金额*数量*1
+                                //票面利率
+                                parRate2 = item2.parRate;
+                                //票面金额
+                                bondRateAmount2 = item2.bondRateAmount;
+                            })
+                        })
+                        //当天应收债券利息
+                        lixiday = parRate2/365*bondRateAmount2*num2*1;
+                        alert(lixiday)
+                        //股票没有利息
+                        if (item.rateType==2){
+                            $('#security2').val(lixiday);
+                        }else{
+                            $('#security2').val(lixiday);
+                        }
+                        //买入
+                        if ($('#transactionDataMode2').val()==1){
+                            $('#totalSum2').val(netReceipts2+commission2+item.stampDuty
+                                +item.transferFee+item.collectionRate+item.brokerage+lixiday);
+                            //卖出
+                        }else if($('#transactionDataMode2').val()==2){
+                            $('#totalSum2').val(netReceipts2-(commission2+item.stampDuty
+                                +item.transferFee+item.collectionRate+item.brokerage)+lixiday);
+                        }
+                    })
+
+                });
+            })
+        }
 
     </script>
 </head>
@@ -862,7 +973,7 @@
             <div class="layui-form-item" >
                 <label class="layui-form-label layui-bg-green" style="text-align: center">交易方式</label>
                 <div class="layui-input-inline">
-                    <select name="transactionDataMode" lay-verify="required" id="modes2">
+                    <select name="transactionDataMode" lay-verify="required" id="transactionDataMode2">
                         <option value="1">买入</option>
                         <option value="2">卖出</option>
                         <option value="3">分红</option>

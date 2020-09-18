@@ -4,6 +4,7 @@ import com.yidu.businessData.pojo.TransactionData;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 交易数据表
@@ -14,8 +15,9 @@ import java.util.HashMap;
  **/
 @Mapper
 public interface TransactionDataMapper {
-    public void selectTransactionData(HashMap hashMap);
-    public int insertTransactionData(TransactionData transactionData);
-    public int deleteTransactionData(String transactionDataId);
-    public int updateTransactionData(TransactionData transactionData);
+     void selectTransactionData(HashMap hashMap);
+     int insertTransactionData(TransactionData transactionData);
+     int deleteTransactionData(String transactionDataId);
+     int deleteTransactionDataTwo(List transactionDataId);
+     int updateTransactionData(TransactionData transactionData);
 }

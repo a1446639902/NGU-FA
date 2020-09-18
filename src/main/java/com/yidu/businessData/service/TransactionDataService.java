@@ -13,8 +13,10 @@ import java.util.HashMap;
  **/
 
 public interface TransactionDataService {
-    public HashMap selectTransactionData(int page,int limit,String dateTime,String securitiesName);
-    public int insertTransactionData(TransactionData transactionData);
-    public int deleteTransactionData(String transactionDataId);
-    public int updateTransactionData(TransactionData transactionData);
+    HashMap selectTransactionData(int page,int limit,String dateTime,String securitiesName);
+    int insertTransactionData(TransactionData transactionData);
+    int deleteTransactionData(String transactionDataId);
+    int deleteTransactionDataTwo(String transactionDataId);
+    int updateTransactionData(TransactionData transactionData);
+    void importTransactionData(String excelFileName);
 }

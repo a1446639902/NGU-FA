@@ -56,8 +56,12 @@ public class TransactionDataController {
     public int deleteTransactionData(String transactionDataId){
         return transactionDataService.deleteTransactionData(transactionDataId);
     }
+    @RequestMapping("/deleteTransactionDataTwo")
+    public int deleteTransactionDataTwo(String transactionDataId) {
+        return transactionDataService.deleteTransactionDataTwo(transactionDataId);
+    }
 
-    @RequestMapping("/updateTransactionData")
+        @RequestMapping("/updateTransactionData")
     public int updateTransactionData(TransactionData transactionData){
         return transactionDataService.updateTransactionData(transactionData);
     }
