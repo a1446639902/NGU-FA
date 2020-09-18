@@ -19,13 +19,13 @@ public interface StockService {
 
     public List<SecuritiesPojo> selectStock();
 
-    public int insertStock(StockPojo stockPojoo);
+    public int insertStock(StockPojo stockPojo);
 
     public List<StockPojo> selectSonStock();
 
     public int deleteStock(String stockId);
 
-    public int updateStock(StockPojo stockPojoo);
+    public int updateStock(StockPojo stockPojo);
 
     public List<StockPojo> selectParentStock();
 }

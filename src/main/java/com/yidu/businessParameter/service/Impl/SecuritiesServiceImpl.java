@@ -59,7 +59,7 @@ public class SecuritiesServiceImpl implements SecuritiesService {
 
 
         HashMap securitiesMap = new HashMap();
-        String tableName="(select * from securities join stock on securities.stockId=stock.stockId)";
+        String tableName="(select * from securities left join stock on securities.stockId=stock.stockId)";
         securitiesMap.put("p_tableName",tableName);
         securitiesMap.put("p_condition",sql);
         securitiesMap.put("p_pageSize",limit);
@@ -72,7 +72,6 @@ public class SecuritiesServiceImpl implements SecuritiesService {
 
     @Override
     public List<SecuritiesPojo> selectSecurities1(String securitiesType) {
-
         List<SecuritiesPojo> securitiesPojoList = securitiesMapper.selectSecurities1(securitiesType);
         return securitiesPojoList;
     }
