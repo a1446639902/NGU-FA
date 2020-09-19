@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -20,8 +21,21 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<Log> selectLog() {
-        List<Log> logList = logMapper.selectLog();
-        return logList;
+    public HashMap selectLog(int page, int limit, String userName) {
+        String sql="";
+        if(userName!=null && !userName.equals("")){
+            sql=sql+" and userName like '%"+userName+"%'";
+        }
+        HashMap logMap = new HashMap();
+        logMap.put("p_tableName","log");
+        logMap.put("p_condition",sql);
+        logMap.put("p_pageSize",limit);
+        logMap.put("p_page",page);
+        logMap.put("p_count",0);
+        logMap.put("p_cursor",null);
+        logMapper.selectLog(logMap);
+        return logMap;
     }
+
+
 }

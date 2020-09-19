@@ -3,6 +3,7 @@ package com.yidu.permission.mapper;
 import com.yidu.permission.pojo.Log;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,5 +12,5 @@ import java.util.List;
 @Mapper
 public interface LogMapper {
     public void insertLog(Log log);
-    public List<Log> selectLog();
+    public void selectLog(HashMap hashMap);
 }
