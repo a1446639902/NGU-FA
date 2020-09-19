@@ -33,13 +33,13 @@
     <!--表格头文件-->
     <script type="text/html" id="userToolBar">
         <div style="float:right">
-            <button class="layui-btn  layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn  layui-btn-sm" lay-event="shangHai" id="uploadShangHai"><i
                     class="layui-icon">&#xe654;</i>导入上海行情
             </button>
-            <button class="layui-btn  layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn  layui-btn-sm" lay-event="shengZheng" id="uploadShengZheng"><i
                     class="layui-icon">&#xe654;</i>导入深圳行情
             </button>
-            <button class="layui-btn  layui-btn-sm" lay-event="add"><i
+            <button class="layui-btn  layui-btn-sm" lay-event="add" ><i
                     class="layui-icon">&#xe654;</i>添加行情信息
             </button>
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll"><i
@@ -68,12 +68,14 @@
     </script>
     <!--js-->
     <script type="text/javascript">
-        layui.use(['table', 'form', 'layer', 'laydate','tableSelect'], function () {
+        layui.use(['table', 'form', 'layer', 'laydate','tableSelect','upload','element'], function () {
             var table = layui.table;
             var form = layui.form;
             var layer = layui.layer;
             var laydate = layui.laydate;
             var tableSelect =layui.tableSelect;
+            var upload =layui.upload;
+            var element =layui.element;
             var $ = layui.$;
 
             // 查询总表信息
@@ -223,6 +225,28 @@
                         });
                         document.getElementById("searchMarketId").value=searchMarketId;
                         document.getElementById("searchTime").value=searchTime;
+                        break;
+                    case 'shangHai':
+                        //指定允许上传的文件类型
+                        upload.render({
+                            elem: '#uploadShangHai'
+                            ,url: '../api/upload' //改成您自己的上传接口
+                            ,accept: 'file' //普通文件
+                            ,done: function(res){
+                                layer.msg('上传成功');
+                            }
+                        });
+                        break;
+                    case 'shengZheng':
+                        //指定允许上传的文件类型
+                        upload.render({
+                            elem: '#uploadShengZheng'
+                            ,url: '../api/upload' //改成您自己的上传接口
+                            ,accept: 'file' //普通文件
+                            ,done: function(res){
+                                layer.msg('上传成功');
+                            }
+                        });
                         break;
                     default:
                         break;

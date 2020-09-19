@@ -55,15 +55,17 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
                 #{cashClosedPayId}
             </foreach>
         </delete>*/
+//          ArrayList<Object> cashClosedList=new ArrayList<>();
+//              cashClosedList.add(cashId);
     @Override
     public int deleteCashClosedPay(String cashClosedPayId) {
 //        System.out.println("删除的cashClosedPayId:="+cashClosedPayId);
         if (cashClosedPayId!=null && !cashClosedPayId.equals("")){
+            //得到页面传回来的cashClosedPayId，并切割成单个的集合
             String[] cashClosedPayIds=cashClosedPayId.split(",");
             int i=0;
-//          ArrayList<Object> cashClosedList=new ArrayList<>();
+            //遍历集合，将cashClosedPayId分别调用删除方法
             for (String cashId:cashClosedPayIds) {
-//              cashClosedList.add(cashId);
                 i = cashClosedPayMapper.deleteCashClosedPay(cashId);
             }
             return i;
@@ -99,9 +101,11 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
             //通过Integer包装类将String类型转换成int基础数据类型
             v_page=Integer.parseInt(page);
         }
+        //创建一个变量用来接收可以存在的条件搜索
         StringBuffer sqlWhere = new StringBuffer();
         int v_serviceType=0;
         if (serviceType!=null && !serviceType.equals("")){
+            //如果serviceType存在，就强转成int类型，并放到sqlWhere中
             v_serviceType=Integer.parseInt(serviceType);
             sqlWhere.append(" and serviceType = "+v_serviceType);
         }

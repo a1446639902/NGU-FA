@@ -28,8 +28,9 @@ public class ExcelReadUtils {
 	
 	private static Logger logger = LoggerFactory.getLogger(ExcelReadUtils.class);
 	public static void main(String[] args) throws Exception {
-		//导入理赔数据
+		//导入理赔数据 从 C:\Users\chen\Desktop\test.xlsx 这个路径加载输入流，加载文件
 		InputStream inp = new FileInputStream("C:\\Users\\chen\\Desktop\\test.xlsx");
+		// 解析文件
 		List<String[]> excels = readLoanInfoArray(inp,15);
 		List<TransactionImport> dataList = new ArrayList();
 
@@ -59,6 +60,20 @@ public class ExcelReadUtils {
 		if(dataList.length > 0){
 			data.setGddm(dataList[0]);
 			data.setGdxm(dataList[1]);
+			data.setBcrq(dataList[2]);
+			data.setCjbh(dataList[3]);
+			data.setGsdm(dataList[4]);
+			data.setCjsl(dataList[5]);
+			data.setBcye(dataList[6]);
+			data.setZqdm(dataList[7]);
+			data.setSbsj(dataList[8]);
+			data.setCjsj(dataList[9]);
+			data.setCjjg(dataList[10]);
+			data.setCjje(dataList[11]);
+			data.setSqbh(dataList[12]);
+			data.setBs(dataList[13]);
+			data.setMjbh(dataList[14]);
+
 		}
 		return data;
 	}
@@ -88,6 +103,7 @@ public class ExcelReadUtils {
 	 * @return
 	 */
 	public static List<String[]> readLoanInfoArray(InputStream inp,int fixedColumn) {
+		// 下面poi干的事情不用管，加载之后就是你的数据 List<String[]> 相当与二维数组 行和列
 		Workbook wb = null;
 		List<String[]> excels = new ArrayList();
 		try {

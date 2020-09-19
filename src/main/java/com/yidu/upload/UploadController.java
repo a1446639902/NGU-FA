@@ -35,6 +35,7 @@ public class UploadController {
 
     @RequestMapping("/upload")
     public Map<String, Object> upload (@RequestParam("file") MultipartFile file) {
+        System.out.println("进来了");
         Map<String,Object> ret  = new HashMap<>() {{
            put("code", 0);
         }};
