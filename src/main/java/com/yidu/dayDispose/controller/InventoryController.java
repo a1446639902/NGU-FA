@@ -29,8 +29,10 @@ public class InventoryController {
     @RequestMapping("/selectInventory")
     public HashMap selectInventory(HttpServletRequest request,String dateTime3,String invId){
 
-
+        //调用库存统计的service层方法，结果放至实体类
         List<InventoryEntity> inventoryEntities = inventoryService.selectInventory(request,dateTime3,invId);
+
+        //网页所需的信息
         HashMap userMap = new HashMap();
         userMap.put("count",10);
         userMap.put("code",0);

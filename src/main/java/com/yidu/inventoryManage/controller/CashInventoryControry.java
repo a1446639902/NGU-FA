@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 public class CashInventoryControry {
 
+    //得到现金库存的service层
     @Resource
     private CashInventoryService cashInventoryService;
 
@@ -29,7 +30,10 @@ public class CashInventoryControry {
     public void insertCashInventory(HttpServletRequest request, CashInventoryEntity cashInventoryEntity){
 
         System.out.println("我是控制层的新增，我获得的数据为："+cashInventoryEntity);
+
+        //网页获得的数据传入service层新增方法
         cashInventoryService.insertCashInventory(request,cashInventoryEntity);
+
     }
 
     /**
@@ -37,8 +41,11 @@ public class CashInventoryControry {
      */
     @RequestMapping("/deleteCashInventory")
     public void deleteCashInventory(String userId){
+
         System.out.println("我从网页获得的数据为："+userId);
+        //将网页获得的需要删除的id丢入service删除方法
         cashInventoryService.deleteCashInventor(userId);
+
     }
 
     /**
@@ -86,6 +93,8 @@ public class CashInventoryControry {
     @RequestMapping("/updateCashInventory")
     public void updateCashInventory(CashInventoryEntity cashInventoryEntity){
         System.out.println("我是修改的方法，我获得的数据为："+cashInventoryEntity);
+
+        //将网页获得修改之后的值丢入service对应的修改方法中
         cashInventoryService.updateCashInventory(cashInventoryEntity);
 
     }
