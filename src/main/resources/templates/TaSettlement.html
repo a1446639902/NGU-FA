@@ -40,7 +40,7 @@
                 elem: '#userTable',
                 url: '../TaSettlement/selectTaSettlement?status=0',
                 page: true,
-                height: 'full-30',
+                height: 600,
                 minLength:80,
                 toolbar:'#userToolBar',
                 cols: [
@@ -83,7 +83,7 @@
                 elem: '#userTable2',
                 url: '../TaSettlement/selectTaSettlement?status=1',
                 page: true,
-                height: 'full-30',
+                height: 600,
                 minLength:80,
                 cellMinWidth:60,
                 toolbar:'#userToolBar2',
@@ -92,7 +92,8 @@
                         {type: 'checkbox', fixed: 'left'}
                         , {field: 'fundId', title: '基金', width: 176, align: 'center'}
                         , {field: 'taTransactionId', title: 'TA交易编号', width: 176, align: 'center',hidden:true}
-                        , {field: 'accountId', title: '现金账户', width: 176, align: 'center'}
+                        , {field: 'accountId', title: '现金账户Id', width: 176, align: 'center',hidden:true}
+                        , {field: 'accountName', title: '现金账户', width: 176, align: 'center'}
                         , {field: 'dateTime', title: '交易日期', width: 176, align: 'center'}
                         , {field: 'price', title: '单价', width: 176, align: 'center'}
                         , {field: 'fundNum', title: '数量', width: 176, align: 'center'}
