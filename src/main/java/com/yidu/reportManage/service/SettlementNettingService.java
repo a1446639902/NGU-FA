@@ -15,5 +15,5 @@ import java.util.Map;
  **/
 @Service
 public interface SettlementNettingService {
-    Map selectTable(Map map);
+    Map selectTable(String pageSize, String page,String dateTime);
 }

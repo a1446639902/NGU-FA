@@ -2,6 +2,7 @@ package com.yidu.businessParameter.controller;
 
 import com.yidu.businessParameter.pojo.VarietiesRatePojo;
 import com.yidu.businessParameter.service.VarietiesRateService;
+import com.yidu.permission.aspect.NGULog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,7 @@ public class VarietiesRateController {
     VarietiesRateService varietiesRateService;
 
  //删除方法
+    @NGULog(message = "删除交易所品种费率")//事务管理
     @RequestMapping("deleteVarietiesRate")
     public int deleteVarietiesRate(String exchangeNames,String rateTypes){
         System.out.println("进入删除controller了");
@@ -33,6 +35,7 @@ public class VarietiesRateController {
     }
 
     //增加controller
+    @NGULog(message = "新增交易所品种费率")//事务管理
     @RequestMapping("insertVarietiesRate")
     public int insertVarietiesRate(VarietiesRatePojo varietiesRatePojo){
         System.out.println("进入了增加controller了");
@@ -40,6 +43,7 @@ public class VarietiesRateController {
         return i;
     }
     //修改controller
+    @NGULog(message = "修改交易所品种费率")//事务管理
     @RequestMapping("updateVarietiesRate")
     public int updateVarietiesRate(VarietiesRatePojo varietiesRatePojo){
         System.out.println("进入了修改controller了");
@@ -47,6 +51,7 @@ public class VarietiesRateController {
         return i;
     }
 //    查询controller
+@NGULog(message = "查询交易所品种费率")//事务管理
     @RequestMapping("selectVarietiesRate")
     public Map<String,Object> selectVarieties(String page,String limit,String exchangeName,String rateType){
         System.out.println("进入了查询Controller");

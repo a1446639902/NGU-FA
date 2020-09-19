@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.reportManage.mapper.SettlementNettingMapper">
+
+    <select id="selectTable" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,jdbcType=VARCHAR,mode=IN},#{p_condition,jdbcType=VARCHAR,mode=IN},#{p_pageSize,jdbcType=INTEGER,mode=IN},#{p_page,jdbcType=INTEGER,mode=IN},#{p_count,jdbcType=INTEGER,mode=OUT},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=selectTable_map})}
+    </select>
+    <resultMap id="selectTable_map" type="com.yidu.reportManage.pojo.SettlementNettingPojo">
+        <result property="name" column="name" javaType="String"></result>
+        <result property="netreceipts" column="netreceipts" javaType="Double"></result>
+        <result property="transfer" column="transfer" javaType="Double"></result>
+        <result property="brokerage" column="brokerage" javaType="Double"></result>
+        <result property="stamp" column="stamp" javaType="Double"></result>
+        <result property="management" column="management" javaType="Double"></result>
+        <result property="commission" column="commission" javaType="Double"></result>
+        <result property="totalsum" column="totalsum" javaType="Double"></result>
+    </resultMap>
+</mapper>
