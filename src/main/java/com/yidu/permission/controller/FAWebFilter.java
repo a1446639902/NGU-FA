@@ -27,7 +27,7 @@ import java.io.IOException;
 
 
 
-@Component
+//@Component
 @WebFilter("*")
 public class FAWebFilter implements Filter {
 

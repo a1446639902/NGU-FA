@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @name 戴言露
  * @data 2020/9/2 pm
- *券商信息表控制层
+ *席位成交明细表服务实现类
  */
 
 @RestController
@@ -52,7 +52,6 @@ public class BrokersController {
     public int update(Brokers brokers){
         return brokersService.update(brokers);
     }
-
 
     /**
      * 查询

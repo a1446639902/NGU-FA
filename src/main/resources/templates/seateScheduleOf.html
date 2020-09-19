@@ -29,7 +29,8 @@
             <div class="layui-inline layui-show-xs-block">
                 <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">划款日期</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input type="text" name="brokersName" id="brokersName" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                    <input autocomplete="off" id="addopen" name="openTime" lay-verify="required"
+                           placeholder="请选择日期" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline layui-show-xs-block">
@@ -58,7 +59,7 @@
 
             table.render({
                 elem: '#userTable',
-                url: '../brokersSelect',
+                url: '../selectSeateScheduleOf',
                 page: true,
                 height: 500,
                 toolbar: '#userToolBar',//显示在表头的工具条
@@ -66,16 +67,16 @@
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'brokersId', title: '证券代码',  align:'center'}
-                        ,{field: 'brokersName', title: '基金名称',  align:'center'}
-                        ,{field: 'brokersInstructions', title: '数量',  align:'center'}
-                        ,{field: 'brokersDesc', title: '佣金费',  align:'center'}
-                        ,{title: 'operation', title: '过户费' , toolbar:'#barDemo', align:'center'}
-                        ,{field: 'brokersId', title: '经手费',  align:'center'}
-                        ,{field: 'brokersInstructions', title: '征管费',  align:'center'}
-                        ,{field: 'brokersName', title: '印花税',  align:'center'}
-                        ,{field: 'brokersDesc', title: '交易金额',  align:'center'}
-                        ,{title: 'operation', title: '实付金额' , toolbar:'#barDemo', align:'center'}
+                        ,{field: 'securitiesId', title: '证券代码',  align:'center'}
+                        ,{field: 'fundName', title: '基金名称',  align:'center'}
+                        ,{field: 'num', title: '数量',  align:'center'}
+                        ,{field: 'commission', title: '佣金费',  align:'center'}
+                        ,{title: 'transferFee', title: '过户费' , toolbar:'#barDemo', align:'center'}
+                        ,{field: 'brokerage', title: '经手费',  align:'center'}
+                        ,{field: 'stampDuty', title: '征管费',  align:'center'}
+                        ,{field: 'collectionRate', title: '印花税',  align:'center'}
+                        ,{field: 'totalSum', title: '交易金额',  align:'center'}
+                        ,{title: 'actualMoney', title: '实付金额' , toolbar:'#barDemo', align:'center'}
                     ]
                 ]
             });
@@ -86,13 +87,13 @@
                 switch (obj.event) {
                     case 'search':
                         // alert("搜索");
-                        var brokersName= $("#brokersName").val();
-                        // alert(brokersName);
+                        var fundName= $("#fundName").val();
+                        // alert(fundName);
                         //表格的重新加载事件
                         table.reload('userTable', {
                             method: 'post'
                             , where: {
-                                'brokersName': brokersName
+                                'fundName': fundName
                             }
                             , page: {
                                 curr: 1
