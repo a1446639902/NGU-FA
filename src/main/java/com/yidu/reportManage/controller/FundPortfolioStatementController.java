@@ -1,12 +1,14 @@
 package com.yidu.reportManage.controller;
 
 import com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo;
+import com.yidu.reportManage.pojo.FundInvestmentPlateTablePojo;
 import com.yidu.reportManage.service.FundPortfolioStatementService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,5 +129,26 @@ public class FundPortfolioStatementController {
         map.put("data", ZhaiQuanList);
         System.out.println(ZhaiQuanList);
         return map;
+    }
+
+    @RequestMapping("/selectRound")
+    public List selectRound(String myDate) {
+        if (myDate == null && myDate ==""){
+            myDate = "2020-09-10";
+        }
+        ArrayList arrayList = new ArrayList();
+        List<NetValueOfStatisticalPojo> zhaiQuanList = fundPortfolioStatementService.selectZhaiQuan(myDate);
+        List<NetValueOfStatisticalPojo> guPiaoList = fundPortfolioStatementService.selectGuPiao(myDate);
+        for (NetValueOfStatisticalPojo value : guPiaoList) {
+            zhaiQuanList.add(value);
+        }
+        for (NetValueOfStatisticalPojo value : zhaiQuanList) {
+            FundInvestmentPlateTablePojo fundInvestmentPlateTablePojo = new FundInvestmentPlateTablePojo();
+            fundInvestmentPlateTablePojo.setName(value.getProjectName());
+            fundInvestmentPlateTablePojo.setValue(value.getMarketValue());
+            arrayList.add(fundInvestmentPlateTablePojo);
+        }
+        System.out.println("饼状图要用的集合是" + arrayList);
+        return arrayList;
     }
 }
