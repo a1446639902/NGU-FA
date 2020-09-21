@@ -3,6 +3,7 @@ package com.yidu.dayDispose.controller;
 import com.yidu.dayDispose.pojo.InventoryEntity;
 import com.yidu.dayDispose.service.InventoryService;
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class InventoryController {
      * 库存统计显示在网页的数据
      * @return
      */
+    @NGULog(message = "库存统计")
     @RequestMapping("/selectInventory")
     public HashMap selectInventory(HttpServletRequest request,String dateTime3,String invId){
 

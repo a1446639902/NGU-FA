@@ -172,34 +172,36 @@
                             closeBtn: 1,
                             move:false,
                             content:$("#addContent"),
+                            area: ['893px', '600px'],
                             btn:[]
                         });
 
                         form.render();
-                        //全屏
-                        layer.full(index);
+
                         break;
 
                 //根据日期查询的信息
                     case 'search':
-                        var datetime = $("#dateTime3").val();
+                        var dateTime3 = $("#dateTime3").val();
                         //表格的重新加载事件
                         table.reload('cashInventoryTable', {
                             method: 'post'
                             , where: {
-                                'datetime': datetime,
+                                'datetime3': dateTime3,
                             }, page: {
                                 curr: 1
                             }
                         });
-                        $.post("../selectTaInventory",{datetime},function(msg){
-                            table.reload('cashInventoryTable');
-                        });
-                        document.getElementById("dateTime3").value=dateTime3;
-                        break;
+
+                        //搜索之后刷新日期搜索框
                         laydate.render({
                             elem: '#dateTime3',
                         });
+
+                         //搜索的时间保留
+                        document.getElementById("dateTime3").value=dateTime3;
+                        break;
+
                     case 'deleteAll':
                         var data = checkStatus.data;
                         //    layer.alert(JSON.stringify(data));
@@ -229,10 +231,6 @@
 
                         break;
                 }
-                //执行一个laydate实例
-                laydate.render({
-                    elem: '#dateTime3' //指定日期
-                });
 
             });
 
@@ -256,8 +254,6 @@
                 //修改TA库存
                 else if (obj.event === 'edit') {
 
-                    alert(JSON.stringify(data));
-
                     form.val('editform',$.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
                         type: 1,
@@ -266,18 +262,21 @@
                         move:false,
                         area: ['500px', '400px'],
                         content:$('#editContent'),
+                        area: ['693px', '400px'],
+                        btn:[]
                     });
 
                     form.render();
-                    layer.full(index);
                 };
          })
         });
         laydate.render({
             elem: '#dateTime3',
         });
+
+        //取消按钮的点击事件
         function myclose() {
-            parent.layer.closeAll();
+          layer.closeAll();
         }
     </script>
 </head>
@@ -383,7 +382,7 @@
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>

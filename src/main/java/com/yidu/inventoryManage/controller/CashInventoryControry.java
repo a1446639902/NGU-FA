@@ -3,6 +3,7 @@ package com.yidu.inventoryManage.controller;
 import com.yidu.inventoryManage.pojo.CashInventoryEntity;
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
 import com.yidu.inventoryManage.service.CashInventoryService;
+import com.yidu.permission.aspect.NGULog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,7 @@ public class CashInventoryControry {
     /**
      * 新增CashInventory（现金库存）表的控制方法
      */
+    @NGULog(message = "现金库存新增")
     @RequestMapping("/insertCashInventory")
     public void insertCashInventory(HttpServletRequest request, CashInventoryEntity cashInventoryEntity){
 
@@ -39,6 +41,7 @@ public class CashInventoryControry {
     /**
      * 删除CashInventory（现金库存）表的控制方法
      */
+    @NGULog(message = "现金库存删除")
     @RequestMapping("/deleteCashInventory")
     public void deleteCashInventory(String userId){
 
@@ -53,6 +56,7 @@ public class CashInventoryControry {
      * @param
      * @return
      */
+    @NGULog(message = "现金库存查询")
     @RequestMapping("/selectCashInventory")
     public Map<String,Object> selectCashInventory(String page, String limit,String accountName1, String dateTime3){
 
@@ -80,6 +84,7 @@ public class CashInventoryControry {
      * 批量删除的方法
      * @param cashInventoryId
      */
+    @NGULog(message = "现金库存批量删除")
     @RequestMapping("/deleteMoreCashInventory")
     public void deleteMoreCashInventory(String cashInventoryId){
 
@@ -90,6 +95,7 @@ public class CashInventoryControry {
     /**
      * 修改的方法
      */
+    @NGULog(message = "现金库存修改")
     @RequestMapping("/updateCashInventory")
     public void updateCashInventory(CashInventoryEntity cashInventoryEntity){
         System.out.println("我是修改的方法，我获得的数据为："+cashInventoryEntity);
