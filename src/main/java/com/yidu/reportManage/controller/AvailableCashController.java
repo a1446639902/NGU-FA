@@ -1,6 +1,7 @@
 package com.yidu.reportManage.controller;
 
 import com.yidu.dayDispose.pojo.InventoryEntity;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.reportManage.pojo.AvailableCashEntity;
 import com.yidu.reportManage.service.AvailableCashPositionTableService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class AvailableCashController {
     @Resource
     AvailableCashPositionTableService availableCashPositionTableService;
 
+    @NGULog(message = "现金头寸报表")
     @RequestMapping("/AvailableCashController")
     public Map<String,Object> selectInventory(String page, String limit, String dateTime){
 

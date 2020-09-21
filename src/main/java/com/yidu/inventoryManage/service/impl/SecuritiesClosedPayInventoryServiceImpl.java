@@ -6,6 +6,7 @@ import com.yidu.inventoryManage.service.SecuritiesClosedPayInventoryService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.HashMap;
  * @Type 服务层的实现类
  * @time 2020/9/13
  **/
+@Transactional
 @Service
 public class SecuritiesClosedPayInventoryServiceImpl implements SecuritiesClosedPayInventoryService {
     @Resource

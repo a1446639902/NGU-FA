@@ -6,6 +6,7 @@ import com.yidu.businessData.service.SecuritiesClosedPayService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @Type 服务层实现类
  * @time 2020/9/12
  **/
+@Transactional
 @Service
 public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayService {
     @Resource

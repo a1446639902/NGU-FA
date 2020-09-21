@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="../../css/font.css">
+    <!--    <link rel="stylesheet" href="../../css/xadmin.css">-->
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <script src="../../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/xadmin.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<table class="layui-hide" id="myToolBar" lay-filter="myToolBar"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <form class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">开始日期</label>
+            <div class="layui-inline layui-show-xs-block" style="width: 195px">
+                <input class="layui-input" placeholder="开始日期" name="dateTime" id="start">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">结束日期</label>
+            <div class="layui-inline layui-show-xs-block" style="width: 195px">
+                <input class="layui-input" placeholder="结束日期" name="dateTime" id="start2">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">权益类型</label>
+            <div class="layui-inline layui-show-xs-block">
+                <select name="equitiesType" id="equitiesTypes">
+                    <option value="">请选择</option>
+                    <option value="2">分红</option>
+                    <option value="1">送股</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block ">
+            <button class="layui-btn layui-btn-primary layui-bg-green" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
+            </button>
+        </div>
+    </form>
+</script>
+
+<script>
+    layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+        var layer = layui.layer;
+        var $ = layui.$;
+        var table = layui.table;
+        var form = layui.form;
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#start'
+        });
+        laydate.render({
+            elem: '#start2'
+        });
+        table.render({
+            elem: '#myToolBar'
+            , url: '../StockEquityInformationSheet/selectStockEquityInformationSheet'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , defaultToolbar: ['filter', 'exports', 'print']
+            ,height:'full-30'
+            , minLength: 80
+            , cellMinWidth: 60
+            , cols:
+                [
+                    [
+                        , {field: 'securityId', title: '股票ID', align: 'center'}
+                        , {field: 'securitiesName', title: '股票名称', align: 'center'}
+                        , {field: 'equitiesExright', title: '权益除权日', align: 'center'}
+                        , {field: 'equitiesType',title: '权益类型',align: 'center'
+                        , templet: function (item) {
+                            if (item.equitiesType == '1') {
+                                return '送股';
+                            } else if (item.equitiesType == '2') {
+                                return '分红';
+                            }
+                        }}
+                        , {field: 'securitiesNum', title: '数量', align: 'center'}
+                        , {field: 'total', title: '金额', align: 'center'}
+                    ]
+                ]
+            , page: true
+        });
+        //刷新表格
+        table.reload('myToolBar');
+        //给工具条的按钮添加事件
+        table.on('toolbar(myToolBar)', function (obj) {
+            switch (obj.event) {
+                case "search":
+                    var startTime=$('#start').val();
+                    var endTime=$('#start1').val();
+                    var equitiesTypes=$('#equitiesTypes').val();
+                    table.reload('myToolBar', {
+                        method: 'post',
+                        page: {
+                            curr: 1
+                        },
+                        where:{
+                            'startTime':startTime
+                            ,'endTime':endTime
+                            ,'equitiesTypes':equitiesTypes
+                        }
+                    });
+                    laydate.render({
+                        elem:'#start'
+                    });
+                    document.getElementById("startTime").value=startTime;
+                    document.getElementById("endTime").value=endTime;
+                    document.getElementById("equitiesTypes").value=equitiesTypes;
+                    break;
+            }
+        })
+    })
+
+</script>
+
+</body>
+</html>

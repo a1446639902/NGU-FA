@@ -3,6 +3,7 @@ package com.yidu.inventoryManage.controller;
 import com.yidu.inventoryManage.pojo.CashInventoryEntity;
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
 import com.yidu.inventoryManage.service.CashInventoryService;
+import com.yidu.permission.aspect.NGULog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,26 +20,35 @@ import java.util.Map;
 @RestController
 public class CashInventoryControry {
 
+    //得到现金库存的service层
     @Resource
     private CashInventoryService cashInventoryService;
 
     /**
      * 新增CashInventory（现金库存）表的控制方法
      */
+    @NGULog(message = "现金库存新增")
     @RequestMapping("/insertCashInventory")
     public void insertCashInventory(HttpServletRequest request, CashInventoryEntity cashInventoryEntity){
 
         System.out.println("我是控制层的新增，我获得的数据为："+cashInventoryEntity);
+
+        //网页获得的数据传入service层新增方法
         cashInventoryService.insertCashInventory(request,cashInventoryEntity);
+
     }
 
     /**
      * 删除CashInventory（现金库存）表的控制方法
      */
+    @NGULog(message = "现金库存删除")
     @RequestMapping("/deleteCashInventory")
     public void deleteCashInventory(String userId){
+
         System.out.println("我从网页获得的数据为："+userId);
+        //将网页获得的需要删除的id丢入service删除方法
         cashInventoryService.deleteCashInventor(userId);
+
     }
 
     /**
@@ -46,6 +56,7 @@ public class CashInventoryControry {
      * @param
      * @return
      */
+    @NGULog(message = "现金库存查询")
     @RequestMapping("/selectCashInventory")
     public Map<String,Object> selectCashInventory(String page, String limit,String accountName1, String dateTime3){
 
@@ -73,6 +84,7 @@ public class CashInventoryControry {
      * 批量删除的方法
      * @param cashInventoryId
      */
+    @NGULog(message = "现金库存批量删除")
     @RequestMapping("/deleteMoreCashInventory")
     public void deleteMoreCashInventory(String cashInventoryId){
 
@@ -83,9 +95,12 @@ public class CashInventoryControry {
     /**
      * 修改的方法
      */
+    @NGULog(message = "现金库存修改")
     @RequestMapping("/updateCashInventory")
     public void updateCashInventory(CashInventoryEntity cashInventoryEntity){
         System.out.println("我是修改的方法，我获得的数据为："+cashInventoryEntity);
+
+        //将网页获得修改之后的值丢入service对应的修改方法中
         cashInventoryService.updateCashInventory(cashInventoryEntity);
 
     }

@@ -97,7 +97,8 @@
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户</label>
             <div class="layui-input-inline">
                 <input class="layui-input"  autocomplete="off" placeholder="请输入账户名称"
-                       name="accountId" id="insertAccountName">
+                       name="accountName" id="insertAccountName">
+                <input type="hidden" name="accountId" id="accountId">
             </div>
 
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易类型</label>
@@ -209,7 +210,8 @@
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">账户</label>
             <div class="layui-input-inline">
                 <input class="layui-input"  autocomplete="off" placeholder="请输入账户名称"
-                       name="accountId" >
+                       name="accountName" >
+                <input type="hidden"  name="accountId">
             </div>
 
             <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">交易类型</label>
@@ -429,7 +431,7 @@
                 //遍历选中的数据
                 $.each(data.data,function (index,item) {
                     newJson.push(item.accountName);
-                    $("#insertAccountName").val(item.accountId);//给隐藏域中的val赋值
+                    $("#accountId").val(item.accountId);//给隐藏域中的val赋值
                 });
                 elem.val(newJson.join(","));//给输入框里显示的值赋值
             }

@@ -3,7 +3,7 @@ package com.yidu.businessData.pojo;
 public class EquityData {
     /**
      *@author wzh
-     *date 2020-9-1
+     *date 2020-9-21
      * 权益数据设置表实体类
      */
     private String equityDataId;//权益ID（隐藏字段）

@@ -60,7 +60,12 @@
         </div>
 
     </script>
-
+<body>
+<!----><button class="layui-btn layui-btn-sm layui-btn" id="test1"
+        lay-event="shangHai">
+    <i class="layui-icon">&#xe67c;</i>导入
+</button>
+</body>
     <script type="text/javascript">
 
         layui.use(['tableSelect','element', 'form', 'table', 'layer', 'laydate' ,'upload'], function () {
@@ -95,10 +100,15 @@
                 elem: '#settlementDate1'
             })
 
-
-
-
-
+          upload.render({
+                elem: '#test1'
+                ,url: '../api/upload' //改成您自己的上传接口
+                ,accept: 'file' //普通文件
+                ,done: function(res){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }
+            });
 
 
             //添加证券下拉表单
@@ -352,6 +362,7 @@
                             layui.each(data.data,function (index,item) {
                                 NEWJSON.push(item.seateName);
                                 $("#seateId2").val(item.seateId);
+                                $("#seateRate2").val(item.seateRate);
                             })
                             elem.val(NEWJSON.join(","));
 
@@ -365,6 +376,7 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
+                alert("表单提交的数据：" + formData);
                 $.post("../TransactionData/insertTransactionData",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
@@ -376,8 +388,7 @@
                             time : 0,
                             btn : [ '知道了' ]
                         });
-                    }
-                    else{
+                    }else{
                         layer.closeAll();
                         layer.msg('添加失败',{
                             title : '提示',
@@ -388,7 +399,7 @@
                         });
                     }
                 });
-                $("#addsubmit")[0].reset();
+               //$("#addsubmit").reset();
                 return false;
             });
             //修改提交
@@ -496,7 +507,6 @@
                             btn:[]
                         });
                         form.render();
-                        //全屏弹窗 layer.full(index);
                         break;
                     case 'search':
                         //alert("搜索");
@@ -546,7 +556,7 @@
                             });
                         }
                         break;
-                    case 'shangHai':
+                   /* case 'shangHai':
                         //指定允许上传的文件类型
                         upload.render({
                             elem: '#uploadData'
@@ -554,9 +564,11 @@
                             ,accept: 'file' //普通文件
                             ,done: function(res){
                                 layer.msg('上传成功');
+                                console.log(res);
                             }
                         });
-                        break;
+
+                        break;*/
                 }
             });
             //给表格编辑，删除按钮添加点击事件
@@ -610,7 +622,7 @@
                 var seateRate1=document.getElementById("seateRate1").value;
                 var netReceipts1=document.getElementById("netReceipts").value;
                 var commission=Number(seateRate1)*Number(netReceipts1);
-                $("#commission").val(commission);
+                $("#commission").val(commission/100);
                 //securitiesId
                 var securitiesId =document.getElementById("securitiesId").value;
                 var securitiesType1=document.getElementById("securitiesType1").value;
@@ -628,7 +640,7 @@
                         var bondRateAmount=0;
                         var lixiday=0;
                         $.post("../selectBond", {securitiesId: securitiesId,drawStartDate: '',page:1,limit:1},function(obj2) {
-                            $.each(obj.data,function (index2,item2){
+                            $.each(obj2.data,function (index2,item2){
                                 //  票面利率/365*票面金额*数量*1
                                 //票面利率
                                 parRate = item2.parRate;
@@ -638,22 +650,26 @@
                         })
                         //当天应收债券利息
                         lixiday = parRate/365*bondRateAmount*num*1;
-                       /* alert(lixiday)*/
+
                             //股票没有利息
                         if (item.rateType==2){
-                            bondRate=0;
-                            $('#security1').val(bondRate);
-                        }else{
-                            $('#security1').val(bondRate);
+                            lixiday=0;
+                            $('#security1').val(lixiday);
+                        }else if (item.rateType==1){
+                            $('#security1').val(lixiday);
                         }
+                        var totalSum=0;
                         //买入
                         if ($('#transactionDataMode').val()==1){
-                            $('#totalSum').val(netReceipts+commission+item.stampDuty
-                            +item.transferFee+item.collectionRate+item.brokerage+bondRate);
+                            totalSum=Number(netReceipts)+Number(commission)/100+Number(item.stampDuty)
+                            +Number(item.transferFee)+Number(item.collectionRate)+Number(item.brokerage)+Number(lixiday);
+                            //var floatSum=parseFloat(totalSum);
+                            var ser=totalSum.toFixed(2);
+                            $('#totalSum').val(ser);
                             //卖出
                         }else if($('#transactionDataMode').val()==2){
-                            $('#totalSum').val(netReceipts-(commission+item.stampDuty
-                                +item.transferFee+item.collectionRate+item.brokerage)+bondRate);
+                            $('#totalSum').val(netReceipts-(commission/100+item.stampDuty
+                                +item.transferFee+item.collectionRate+item.brokerage)+lixiday);
                         }
                     })
 
@@ -661,8 +677,7 @@
             })
         }
 
-
-        //修改
+    //修改
         function myNum2() {
             layui.use(['layer'], function () {
                 var $ = layui.$;
@@ -676,17 +691,17 @@
                 var seateRate2=document.getElementById("seateRate2").value;
                 var netReceipts2=document.getElementById("netReceipts2").value;
                 var commission2=Number(seateRate2)*Number(netReceipts2);
-                $("#commission2").val(commission2);
+                $("#commission2").val(commission2/100);
                 //securitiesId
                 var securitiesId2 =document.getElementById("securitiesId2").value;
                 var securitiesType2=document.getElementById("securitiesType2").value;
-                var exchange2=document.getElementById("exchange1").value;
+                var exchange2=document.getElementById("exchange2").value;
 
                 $.post("../selectVarietiesRate", {exchangeName: exchange2,rateType: securitiesType2,page:1,limit:1},function(obj){
                     $.each(obj.data,function (index,item) {
-                        $('#transfer2').val(item.stampDuty);
-                        $('#stamp2').val(item.transferFee);
-                        $('#management2').val(item.collectionRate);
+                        $('#stampDuty2').val(item.stampDuty);
+                        $('#transferFee2').val(item.transferFee);
+                        $('#collectionRate2').val(item.collectionRate);
                         $('#brokerage2').val(item.brokerage);
                         //证券利息：股票和债券都属于证券
                         //股票没有利息，债券利息就是债券
@@ -694,7 +709,7 @@
                         var bondRateAmount2=0;
                         var lixiday=0;
                         $.post("../selectBond", {securitiesId: securitiesId2,drawStartDate: '',page:1,limit:1},function(obj2) {
-                            $.each(obj.data,function (index2,item2){
+                            $.each(obj2.data,function (index2,item2){
                                 //  票面利率/365*票面金额*数量*1
                                 //票面利率
                                 parRate2 = item2.parRate;
@@ -704,27 +719,33 @@
                         })
                         //当天应收债券利息
                         lixiday = parRate2/365*bondRateAmount2*num2*1;
-                       /* alert(lixiday)*/
+
                         //股票没有利息
                         if (item.rateType==2){
+                            lixiday=0;
                             $('#security2').val(lixiday);
-                        }else{
+                        }else if (item.rateType==1){
                             $('#security2').val(lixiday);
                         }
-                        //买入
+                        //买入   结算金额
+                        var totalsum2 = 0.00;
                         if ($('#transactionDataMode2').val()==1){
-                            $('#totalSum2').val(netReceipts2+commission2+item.stampDuty
-                                +item.transferFee+item.collectionRate+item.brokerage+lixiday);
+                            totalsum2=netReceipts2*1+commission2/100+item.stampDuty*1
+                            +item.transferFee*1+item.collectionRate*1+item.brokerage*1+lixiday*1;
+                            alert(totalsum2)
+                            $('#totalSum2').val(totalsum2);
                             //卖出
                         }else if($('#transactionDataMode2').val()==2){
-                            $('#totalSum2').val(netReceipts2-(commission2+item.stampDuty
-                                +item.transferFee+item.collectionRate+item.brokerage)+lixiday);
+                            totalsum2=netReceipts2*1-(commission2/100+item.stampDuty*1
+                                +item.transferFee*1+item.collectionRate*1+item.brokerage*1+lixiday*1);
+                            $('#totalSum2').val(totalsum2);
                         }
                     })
 
                 });
             })
         }
+
 
     </script>
 </head>
@@ -797,7 +818,7 @@
             <div class="layui-form-item" >
                 <label class="layui-form-label layui-bg-green" style="text-align: center">交易方式</label>
                 <div class="layui-input-inline">
-                    <select name="transactionDataMode" lay-verify="required" id="transactionDataMode" onblur="myNum()">
+                    <select name="transactionDataMode" lay-verify="required" id="transactionDataMode">
                         <option value="1">买入</option>
                         <option value="2">卖出</option>
                         <option value="3">分红</option>
@@ -898,7 +919,7 @@
         </div>
 
         <div style="position: absolute; left: 39%; top: 650px">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+            <button class="layui-btn" lay-submit=""  lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
@@ -924,6 +945,9 @@
             <input type="hidden" name="seateId" id="seateId2">
             <input type="hidden" name="blankName">
             <input type="hidden" name="transactionDataDesc">
+            <input type="hidden" name="seateRate2" id="seateRate2">
+            <input type="hidden" name="securitiesType2" id="securitiesType2">
+            <input type="hidden" name="exchange2" id="exchange2">
         </div>
 
         <div class="layui-inline layui-show-xs-block" style="text-align: center;">
@@ -997,7 +1021,7 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">交易数量</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入交易数量" name="num" id="num2">
+                <input class="layui-input" placeholder="请输入交易数量" name="num" id="num2" onblur="myNum2()">
             </div>
         </div>
         <br>
@@ -1012,7 +1036,7 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">结算金额</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入结算金额" name="totalSum">
+                <input class="layui-input" placeholder="请输入结算金额" name="totalSum" id="totalSum2">
             </div>
         </div>
         <br>
@@ -1020,14 +1044,15 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">佣金费用</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入佣金费用" name="commission">
+                <input class="layui-input" placeholder="请输入佣金费用" name="commission" id="commission2">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">过户费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入过户费" name="transfer">
+                <input class="layui-input" placeholder="请输入过户费" name="transfer" id="transferFee2">
             </div>
         </div>
         <br>
@@ -1035,14 +1060,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">印花税</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入印花税" name="stamp">
+                <input class="layui-input" placeholder="请输入印花税" name="stamp" id="stampDuty2">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">征管费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入征管费" name="management">
+                <input class="layui-input" placeholder="请输入征管费" name="management" id="collectionRate2">
             </div>
         </div>
         <br>
@@ -1050,14 +1075,14 @@
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">经手费</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入经手费" name="brokerage">
+                <input class="layui-input" placeholder="请输入经手费" name="brokerage" id="brokerage2">
             </div>
         </div>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <div class="layui-inline layui-show-xs-block">
             <label class="layui-form-label layui-bg-green" style="text-align: center">证券利息</label>
             <div class="layui-inline layui-show-xs-block" style="width: 182px">
-                <input class="layui-input" placeholder="请输入证券利息" name="security">
+                <input class="layui-input" placeholder="请输入证券利息" name="security" id="security2">
             </div>
         </div>
 

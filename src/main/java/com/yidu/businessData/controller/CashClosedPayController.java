@@ -4,6 +4,7 @@ import com.yidu.businessData.pojo.CashClosedPayPojo;
 import com.yidu.businessData.service.CashClosedPayService;
 import com.yidu.businessParameter.pojo.VarietiesRatePojo;
 import com.yidu.dayDispose.pojo.RevenueProvision;
+import com.yidu.permission.aspect.NGULog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,29 +23,33 @@ import java.util.Map;
  * @Date create in 9:53 2020/9/4
  * @Version 1.0
  **/
+
 @RestController
 public class CashClosedPayController {
     @Resource
     CashClosedPayService cashClosedPayService;
-
+    @NGULog(message = "新增现金应收应付")//事务管理
     @RequestMapping("insertCashClosedPay")
     public int insertCashClosedPay(CashClosedPayPojo cashClosedPay,HttpServletRequest request){
         System.out.println("进入了cashClosedPay新增Controller");
         int i = cashClosedPayService.insertCashClosedPay(cashClosedPay,request);
         return i;
     };
+    @NGULog(message = "根据ID删除现金应收应付")//事务管理
     @RequestMapping("deleteCashClosedPay")
     public int deleteCashClosedPay(String cashClosedPayId){
         System.out.println("进入了cashClosedPay删除Controller");
         int i = cashClosedPayService.deleteCashClosedPay(cashClosedPayId);
         return i;
     };
+    @NGULog(message = "修改现金应收应付")//事务管理
     @RequestMapping("updateCashClosedPay")
     public int updateCashClosedPay(CashClosedPayPojo cashClosePay){
         System.out.println("进入了cashClosedPay修改Controller");
         int i = cashClosedPayService.updateCashClosedPay(cashClosePay);
         return i;
     };
+    @NGULog(message = "查询现金应收应付")//事务管理
     @RequestMapping("selectCashClosedPay")
     public Map<String,Object> selectCashClosedPay(String page, String limit,String dateTime,String serviceType){
         System.out.println("进入了cashClosedPay查询Controller");
@@ -64,6 +69,7 @@ public class CashClosedPayController {
         //返回数据
         return json;
     };
+    @NGULog(message = "根据多条件删除现金应收应付")//事务管理
     @RequestMapping("deleteNew")
    public int deleteNew(CashClosedPayPojo cashClosedPay){
         int i = cashClosedPayService.deleteNew(cashClosedPay);

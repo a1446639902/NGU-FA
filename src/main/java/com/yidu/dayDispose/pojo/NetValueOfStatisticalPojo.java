@@ -22,9 +22,10 @@ public class NetValueOfStatisticalPojo {
     private int projectFatherId;        //父项目编号
     private String fundId;              //基金id
     private int count;                  //计数
+    private String  chengBenBaiFenBi;    //成本占净值百分比
+    private String shiZhiBaiFenBi;
 
-    public int getCount() {
-        return count;
+    public NetValueOfStatisticalPojo() {
     }
 
     @Override
@@ -42,49 +43,9 @@ public class NetValueOfStatisticalPojo {
                 ", projectFatherId=" + projectFatherId +
                 ", fundId='" + fundId + '\'' +
                 ", count=" + count +
+                ", chengBenBaiFenBi='" + chengBenBaiFenBi + '\'' +
+                ", shiZhiBaiFenBi='" + shiZhiBaiFenBi + '\'' +
                 '}';
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public NetValueOfStatisticalPojo() {
-    }
-
-    public String getFundId() {
-        return fundId;
-    }
-
-    public void setFundId(String fundId) {
-        this.fundId = fundId;
-    }
-
-    public NetValueOfStatisticalPojo(String valueStatisticsDate, int projectId, String projectName, String projectCode, String quantityint, String peice, String cost, String marketValue, String valuation, int projectFatherId, String fundId) {
-        this.valueStatisticsDate = valueStatisticsDate;
-        this.projectId = projectId;
-        this.projectName = projectName;
-        this.projectCode = projectCode;
-        this.quantityint = quantityint;
-        this.peice = peice;
-        this.cost = cost;
-        this.marketValue = marketValue;
-        this.valuation = valuation;
-        this.projectFatherId = projectFatherId;
-        this.fundId = fundId;
-    }
-
-    public NetValueOfStatisticalPojo(String valueStatisticsDate, int projectId, String projectName, String projectCode, String quantityint, String peice, String cost, String marketValue, String valuation, int projectFatherId) {
-        this.valueStatisticsDate = valueStatisticsDate;
-        this.projectId = projectId;
-        this.projectName = projectName;
-        this.projectCode = projectCode;
-        this.quantityint = quantityint;
-        this.peice = peice;
-        this.cost = cost;
-        this.marketValue = marketValue;
-        this.valuation = valuation;
-        this.projectFatherId = projectFatherId;
     }
 
     public String getValueStatisticsDate() {
@@ -165,5 +126,54 @@ public class NetValueOfStatisticalPojo {
 
     public void setProjectFatherId(int projectFatherId) {
         this.projectFatherId = projectFatherId;
+    }
+
+    public String getFundId() {
+        return fundId;
+    }
+
+    public void setFundId(String fundId) {
+        this.fundId = fundId;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getChengBenBaiFenBi() {
+        return chengBenBaiFenBi;
+    }
+
+    public void setChengBenBaiFenBi(String chengBenBaiFenBi) {
+        this.chengBenBaiFenBi = chengBenBaiFenBi;
+    }
+
+    public String getShiZhiBaiFenBi() {
+        return shiZhiBaiFenBi;
+    }
+
+    public void setShiZhiBaiFenBi(String shiZhiBaiFenBi) {
+        this.shiZhiBaiFenBi = shiZhiBaiFenBi;
+    }
+
+    public NetValueOfStatisticalPojo(String valueStatisticsDate, int projectId, String projectName, String projectCode, String quantityint, String peice, String cost, String marketValue, String valuation, int projectFatherId, String fundId, int count, String chengBenBaiFenBi, String shiZhiBaiFenBi) {
+        this.valueStatisticsDate = valueStatisticsDate;
+        this.projectId = projectId;
+        this.projectName = projectName;
+        this.projectCode = projectCode;
+        this.quantityint = quantityint;
+        this.peice = peice;
+        this.cost = cost;
+        this.marketValue = marketValue;
+        this.valuation = valuation;
+        this.projectFatherId = projectFatherId;
+        this.fundId = fundId;
+        this.count = count;
+        this.chengBenBaiFenBi = chengBenBaiFenBi;
+        this.shiZhiBaiFenBi = shiZhiBaiFenBi;
     }
 }

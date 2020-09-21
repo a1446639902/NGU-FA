@@ -3,6 +3,7 @@ package com.yidu.dayDispose.controller;
 import com.yidu.dayDispose.pojo.InventoryEntity;
 import com.yidu.dayDispose.service.InventoryService;
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +27,14 @@ public class InventoryController {
      * 库存统计显示在网页的数据
      * @return
      */
+    @NGULog(message = "库存统计")
     @RequestMapping("/selectInventory")
     public HashMap selectInventory(HttpServletRequest request,String dateTime3,String invId){
 
-
+        //调用库存统计的service层方法，结果放至实体类
         List<InventoryEntity> inventoryEntities = inventoryService.selectInventory(request,dateTime3,invId);
+
+        //网页所需的信息
         HashMap userMap = new HashMap();
         userMap.put("count",10);
         userMap.put("code",0);

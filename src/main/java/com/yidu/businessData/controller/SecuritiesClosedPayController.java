@@ -2,6 +2,7 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.SecuritiesClosedPayPojo;
 import com.yidu.businessData.service.SecuritiesClosedPayService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,8 @@ import java.util.HashMap;
 public class SecuritiesClosedPayController {
     @Resource
     SecuritiesClosedPayService securitiesClosedPayService;
+
+    @NGULog(message="查询证券应收应付表")
     @RequestMapping("/selectSecuritiesClosedPay")
     public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime,String serviceType){
         System.out.println("xinzeng========================");
@@ -37,6 +40,8 @@ public class SecuritiesClosedPayController {
         hashMap.put("data",securitiesClosedPayList);
         return hashMap;
     }
+
+    @NGULog(message="新增证券应收应付表")
     @RequestMapping("/insertSecuritiesClosedPay")
     public int insertSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo, HttpServletRequest request){
         String fundId = GetFundIdUtil.getFundId(request);
@@ -45,11 +50,15 @@ public class SecuritiesClosedPayController {
         return securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
 
     }
+
+    @NGULog(message="修改证券应收应付表")
     @RequestMapping("/updateSecuritiesClosedPay")
     public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo){
         System.out.println(securitiesClosedPayPojo);
         return securitiesClosedPayService.updateSecuritiesClosedPay(securitiesClosedPayPojo);
     }
+
+    @NGULog(message="删除证券应收应付表")
     @RequestMapping("/deleteSecuritiesClosedPay")
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds){
         System.out.println("==============");

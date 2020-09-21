@@ -24,6 +24,7 @@ import java.util.Map;
 @Transactional
 public class CashInventoryServiceImpl implements CashInventoryService {
 
+    //得到现金库存的service和工具类
     @Resource
     private CashInventoryMapper cashInventoryMapper;
     @Resource
@@ -107,7 +108,7 @@ public class CashInventoryServiceImpl implements CashInventoryService {
 
 
     /**
-     * 删除
+     * 删除的service
      * @param userId
      */
     @Override
@@ -126,8 +127,8 @@ public class CashInventoryServiceImpl implements CashInventoryService {
                 String fundId = GetFundIdUtil.getFundId(request);
 
                 //现金库存id(从现金库存获得)
-                 cashInventoryEntity.setCashInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CI));
-                 System.out.println("现金库存Id为："+cashInventoryEntity.getCashInventoryId());
+                     cashInventoryEntity.setCashInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CI));
+                    System.out.println("现金库存Id为："+cashInventoryEntity.getCashInventoryId());
                 //基金id 来自（基金表）
                     cashInventoryEntity.setFundId(fundId);
                     System.out.println("基金id为："+cashInventoryEntity.getFundId());
@@ -146,7 +147,7 @@ public class CashInventoryServiceImpl implements CashInventoryService {
                     System.out.println("期初数据为："+cashInventoryEntity.getSecurityPeriodFlag());
                  //备注
                     System.out.println("备注为："+cashInventoryEntity.getCashInventoryDesc());
-
+                //调用 Mapper层新增方法
                     cashInventoryMapper.insertCashInventory(cashInventoryEntity);
 
     }
@@ -157,16 +158,15 @@ public class CashInventoryServiceImpl implements CashInventoryService {
      */
     @Override
     public void deleteMoreCashInventory(String cashInventoryId) {
+
+        //将网页获得批量删除id通过，切割，用字符数组保存
         String[] split = cashInventoryId.split(",");
 
         String deleteId;
+        //循环遍历批量删除的id，循环调用service层的方法
         for (String id : split) {
-//           deleteId=Integer.parseInt(id);
-            //循环获得的批量删除id
             cashInventoryMapper.deleteCashInventor(id);
         }
-
-
     }
 
     /**
@@ -176,12 +176,14 @@ public class CashInventoryServiceImpl implements CashInventoryService {
     @Override
     public void updateCashInventory(CashInventoryEntity cashInventoryEntity) {
 
+        //得到网页传去实体类需要修改的值
         double cashBlance = cashInventoryEntity.getCashBlance();
 
         String cashInventoryDesc = cashInventoryEntity.getCashInventoryDesc();
 
         String cashInventoryId = cashInventoryEntity.getCashInventoryId();
 
+        //调用Mapper层方法进行修改
         cashInventoryMapper.updateCashInventory(cashBlance,cashInventoryDesc,cashInventoryId);
 
     }

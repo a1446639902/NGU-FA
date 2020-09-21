@@ -7,6 +7,7 @@ import com.yidu.reportManage.service.ClosingDateStatementService;
 import com.yidu.util.DateTimeUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ import java.util.List;
  * @Type 服务层实现类
  * @time 2020/9/16
  **/
+@Transactional
 @Service
 public class ClosingDateStatementServiceImpl implements ClosingDateStatementService {
     @Resource

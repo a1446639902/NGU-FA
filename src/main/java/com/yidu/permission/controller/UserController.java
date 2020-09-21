@@ -68,6 +68,7 @@ public class UserController {
         return map;
     }
     //退出登录
+    @NGULog(message = "退出登录")
     @RequestMapping("logout")
     public Map<String ,Object> logout(HttpServletRequest request){
         HttpSession session = request.getSession(false);

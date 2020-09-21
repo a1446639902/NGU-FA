@@ -13,7 +13,7 @@ public interface InventoryService {
 
 
     /**
-     * 显示在网页的库存状态信息
+     * 库存统计service接口
      * @return
      */
     public List<InventoryEntity> selectInventory(HttpServletRequest request, String dateTime3, String invId);

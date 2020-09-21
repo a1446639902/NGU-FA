@@ -10,5 +10,5 @@ import java.util.HashMap;
  *  2020-9-17
  */
 public interface SeateScheduleOfService {
-    public HashMap selectSeateScheduleOf(int page,int limit,String dateTime);
+    public HashMap selectSeateScheduleOf(int page,int limit,String fundName);
 }

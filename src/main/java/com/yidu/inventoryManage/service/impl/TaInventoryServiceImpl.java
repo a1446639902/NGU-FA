@@ -88,7 +88,6 @@ public class TaInventoryServiceImpl implements TaInventoryService {
     @Override
     public void insertTaInventory(HttpServletRequest request,TaInventoryEntity taInventoryEntity) {
 
-
         //获得基金id
         String fundId = GetFundIdUtil.getFundId(request);
 
@@ -98,10 +97,8 @@ public class TaInventoryServiceImpl implements TaInventoryService {
         //是否为期初数据，0不是，1 是"ertyuio"
         taInventoryEntity.setSecurityPeriodFlag(1);
 
-
         //基金Id
         taInventoryEntity.setFundId(fundId);
-
 
         System.out.println("TA库存Id"+taInventoryEntity.getTaInventoryId());
         System.out.println("基金Id来自基金表"+taInventoryEntity.getFundId());
