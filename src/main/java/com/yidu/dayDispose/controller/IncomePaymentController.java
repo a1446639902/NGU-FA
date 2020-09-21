@@ -8,6 +8,7 @@ import com.yidu.cashControl.pojo.BankTreasurerPojo;
 import com.yidu.cashControl.service.BankTreasurerService;
 import com.yidu.dayDispose.pojo.IncomePaymentPojo;
 import com.yidu.dayDispose.service.IncomePaymentService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,7 @@ public class IncomePaymentController {
     @Resource
     DbUtil dbUtil;
 
+    @NGULog(message = "收益支付从现金应收应付库存查询现金计息")//事务管理
     @RequestMapping("selectCashClosedPays")//在现金应收应付库存查询相应存款计息信息
     public Map<String,Object> selectCashClosedPays(String page, String limit,  String businessDate,HttpServletRequest request){
         System.out.println("进入了IncomePayment现金支付查询Controller");
@@ -61,6 +63,7 @@ public class IncomePaymentController {
         return json;
     }
 
+    @NGULog(message = "收益支付从证券应收应付库存查询债券计息")//事务管理
     @RequestMapping("selectSecuritiesClosedPay")//在证券应收应付库存查询相应债券计息信息
     public Map<String,Object> selectSecuritiesClosedPay(String page, String limit,  String businessDate,HttpServletRequest request){
         System.out.println("进入了IncomePayment证券支付查询Controller");
@@ -82,6 +85,7 @@ public class IncomePaymentController {
         return json;
     }
 
+    @NGULog(message = "收益支付从现金应收应付库存查询两费")//事务管理
     @RequestMapping("selectTwoCost")//在现金应收应付库存查询相应两费
     public Map<String,Object> selectTwoCost(String page, String limit,  String businessDate,HttpServletRequest request){
         System.out.println("进入了IncomePayment两费支付查询Controller");
@@ -103,6 +107,7 @@ public class IncomePaymentController {
         return json;
     }
 //现金计息与两费的先删后增
+    @NGULog(message = "收益支付的现金及两费统计")//事务管理
     @RequestMapping("testCash")
     public int testCash(String cash,HttpServletRequest request){
         int i=0;
@@ -152,6 +157,7 @@ public class IncomePaymentController {
         return i;
     };
 //    债券计息的先删后增
+    @NGULog(message = "收益支付的债券统计")//事务管理
     @RequestMapping("testBond")
     public int testBond(String bond,HttpServletRequest request){
         int i=0;

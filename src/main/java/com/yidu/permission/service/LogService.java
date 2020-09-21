@@ -3,6 +3,7 @@ package com.yidu.permission.service;
 import com.yidu.permission.pojo.Log;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,5 +12,6 @@ import java.util.List;
 @Service
 public interface LogService {
     public void insertLog(Log log);
-    public List<Log> selectLog();
+    public HashMap selectLog(int page, int limit, String userName);
+    public int deleteLog(String logId);
 }

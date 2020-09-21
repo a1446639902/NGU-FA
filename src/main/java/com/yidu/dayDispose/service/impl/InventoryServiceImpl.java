@@ -82,7 +82,6 @@ public class InventoryServiceImpl implements InventoryService {
         System.out.println("我是库存统计的service层****************我获得的日期为："+dateTime3+"我需要统计的库存Id为："+invId+"基金ID为"+fundId);
         //根据返回的日期，和需要统计的库存id  进行统计
         //当invId不等于空 切割获得的id 字符串数组保存
-
         if (invId !=null && !invId.equals("")){
 
 

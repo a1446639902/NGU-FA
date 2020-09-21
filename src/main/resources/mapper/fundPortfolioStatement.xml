@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.reportManage.mapper.FundPortfolioStatementMapper">
+
+    <!--查询债券-->
+    <select id="selectZhaiQuan" resultType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo" parameterType="String">
+select PROJECTID,FUNDID,PROJECTNAME,PROJECTCODE,QUANTITYINT,PEICE,COST,MARKETVALUE,VALUATION from VALUESTATISTICS
+where PROJECTFATHERID =  (select PROJECTID from VALUESTATISTICS where PROJECTNAME='债券' and VALUESTATISTICSDATE = #{time})
+order by PROJECTID
+    </select>
+
+    <!--查询股票-->
+    <select id="selectGuPiao" resultType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo" parameterType="String">
+select * from VALUESTATISTICS
+where PROJECTFATHERID = (select PROJECTID from VALUESTATISTICS where PROJECTNAME='股票' and VALUESTATISTICSDATE = #{time})
+order by PROJECTID
+    </select>
+
+    <!--查询当日的资产净值-->
+    <select id="selectZiChanJingZhi" resultType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo" parameterType="String">
+select MARKETVALUE from VALUESTATISTICS where   PROJECTNAME = '资产净值' and VALUESTATISTICSDATE=#{time}
+    </select>
+
+    <!--查询当日的负债-->
+    <select id="selectFuZhai" resultType="com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo" parameterType="String">
+select MARKETVALUE from VALUESTATISTICS where VALUESTATISTICSDATE = #{time} and PROJECTNAME = '负债'
+    </select>
+</mapper>

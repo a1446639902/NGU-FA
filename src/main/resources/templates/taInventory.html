@@ -68,12 +68,17 @@
             laydate.render({
                 elem: '#datetime' //指定元素
             });
+
             laydate.render({
                 elem: '#datetime1' //指定元素
             });
+
+
             laydate.render({
                 elem: '#dateTime3' //指定元素
             });
+
+
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
@@ -178,7 +183,6 @@
                 //根据日期查询的信息
                     case 'search':
                         var datetime = $("#dateTime3").val();
-                        alert(datetime)
                         //表格的重新加载事件
                         table.reload('cashInventoryTable', {
                             method: 'post'
@@ -191,10 +195,11 @@
                         $.post("../selectTaInventory",{datetime},function(msg){
                             table.reload('cashInventoryTable');
                         });
+                        document.getElementById("dateTime3").value=dateTime3;
+                        break;
                         laydate.render({
                             elem: '#dateTime3',
                         });
-                        break;
                     case 'deleteAll':
                         var data = checkStatus.data;
                         //    layer.alert(JSON.stringify(data));
@@ -221,8 +226,14 @@
                                 table.reload('cashInventoryTable');
                             });
                         }
+
                         break;
                 }
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#dateTime3' //指定日期
+                });
+
             });
 
 
@@ -260,9 +271,10 @@
                     form.render();
                     layer.full(index);
                 };
-            })
-
-
+         })
+        });
+        laydate.render({
+            elem: '#dateTime3',
         });
         function myclose() {
             parent.layer.closeAll();
