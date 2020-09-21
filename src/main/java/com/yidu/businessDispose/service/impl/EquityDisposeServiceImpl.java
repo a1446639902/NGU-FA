@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+/**
+ *@author wzh
+ *date 2020-9-21
+ * 权益处理设置Service实现类
+ */
 @Service
 public class EquityDisposeServiceImpl implements EquityDisposeService {
     @Resource

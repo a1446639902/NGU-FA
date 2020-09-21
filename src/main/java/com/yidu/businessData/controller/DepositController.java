@@ -2,6 +2,7 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.DepositPojo;
 import com.yidu.businessData.service.DepositService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

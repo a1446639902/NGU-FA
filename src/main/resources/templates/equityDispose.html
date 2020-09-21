@@ -45,16 +45,16 @@
                 elem: '#userTable',
                 url: '../selectEquityDispose?disposeStatus=0',
                 page: true,
-                height:'full-180',
+                height:'full-50',
                 cellMinWidth: 50,
                 toolbar:'#userToolBar',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'equityDataId', title: '权益编号', align:'center'}
-                        ,{field: 'securitiesName', title: '证券名称', align:'center'}
-                        ,{field: 'accountName', title: '账户名称', align:'center'}
-                        ,{field: 'equitiesType', title: '权益类型', align:'center',
+                        ,{field: 'equityDataId',width:150, title: '权益编号', align:'center'}
+                        ,{field: 'securitiesName',width:130, title: '证券名称', align:'center'}
+                        ,{field: 'accountName',width:150, title: '账户名称', align:'center'}
+                        ,{field: 'equitiesType',width:120, title: '权益类型', align:'center',
                         templet:function (item) {
                             if (item.equitiesType==1){
                                 return '送股';
@@ -62,11 +62,11 @@
                                 return '分红';
                             }
                         }}
-                        ,{field: 'equitiesExright', title: '除权日期', align:'center'}
-                        ,{field: 'securitiesNum', title: '证券数量', align:'center'}
-                        ,{field: 'proportion', title: '比例', align:'center'}
-                        ,{field: 'settlementAmount', title: '结算金额', align:'center'}
-                        ,{field: 'disposeStatus', title: '处理状态', align:'center',
+                        ,{field: 'equitiesExright',width:130, title: '除权日期', align:'center'}
+                        ,{field: 'securitiesNum',width:120, title: '证券数量', align:'center'}
+                        ,{field: 'proportion',width:130, title: '比例', align:'center'}
+                        ,{field: 'settlementAmount',width:120, title: '结算金额', align:'center'}
+                        ,{field: 'disposeStatus',width:135, title: '处理状态', align:'center',
                         templet:function (item) {
                             if (item.disposeStatus==0){
                                 return '未处理';
@@ -84,16 +84,16 @@
                 elem: '#userTable2',
                 url: '../selectEquityDispose?disposeStatus=1',
                 page: true,
-                height:'full-180',
+                height:'full-50',
                 cellMinWidth: 50,
                 toolbar:'#userToolBar2',
                 cols: [
                     [ //表头
                         {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'equityDataId', title: '权益编号', align:'center'}
-                        ,{field: 'securitiesName', title: '证券名称', align:'center'}
-                        ,{field: 'accountName', title: '账户名称', align:'center'}
-                        ,{field: 'equitiesType', title: '权益类型', align:'center',
+                        ,{field: 'equityDataId',width:150, title: '权益编号', align:'center'}
+                        ,{field: 'securitiesName',width:130, title: '证券名称', align:'center'}
+                        ,{field: 'accountName',width:150, title: '账户名称', align:'center'}
+                        ,{field: 'equitiesType',width:120, title: '权益类型', align:'center',
                         templet:function (item) {
                             if (item.equitiesType==1){
                                 return '送股';
@@ -102,11 +102,11 @@
                             }
                         }
                     }
-                        ,{field: 'equitiesExright', title: '除权日期', align:'center'}
-                        ,{field: 'securitiesNum', title: '证券数量', align:'center'}
-                        ,{field: 'proportion', title: '比例', align:'center'}
-                        ,{field: 'settlementAmount', title: '结算金额', align:'center'}
-                        ,{field: 'disposeStatus', title: '处理状态', align:'center',hide:true,
+                        ,{field: 'equitiesExright',width:130, title: '除权日期', align:'center'}
+                        ,{field: 'securitiesNum',width:120, title: '证券数量', align:'center'}
+                        ,{field: 'proportion',width:130, title: '比例', align:'center'}
+                        ,{field: 'settlementAmount',width:120, title: '结算金额', align:'center'}
+                        ,{field: 'disposeStatus',width:135, title: '处理状态', align:'center',hide:true,
                         templet:function (item) {
                             if (item.disposeStatus==0){
                                 return '未处理';
