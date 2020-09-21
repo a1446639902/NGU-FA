@@ -1,5 +1,6 @@
 package com.yidu.permission.controller;
 
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.permission.pojo.Manager;
 import com.yidu.permission.service.ManagerService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ManagerController {
     @Resource
     ManagerService managerService;
+    @NGULog(message = "查询管理人")
     @RequestMapping("selectManager")
     public HashMap selectManager(){
         List<Manager> managerList = managerService.selectManager();

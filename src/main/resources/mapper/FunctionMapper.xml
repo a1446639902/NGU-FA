@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.systemManage.mapper.FunMapper">
+    <select id="selectFun"  resultType="com.yidu.systemManage.pojo.Fun">
+    SELECT functionId as id,title,NVL(endowId,0) AS endowId FROM (SELECT * FROM function WHERE parentId=#{param1})LEFT JOIN ( SELECT * FROM endow WHERE roleId=#{param2}) ON functionId=funId
+</select>
+</mapper>

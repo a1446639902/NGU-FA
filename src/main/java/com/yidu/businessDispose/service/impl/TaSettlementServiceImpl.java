@@ -5,14 +5,12 @@ import com.yidu.businessDispose.pojo.TaSettlement;
 import com.yidu.businessDispose.service.TaSettlementService;
 import com.yidu.cashControl.mapper.BankTreasurerMapper;
 import com.yidu.cashControl.pojo.BankTreasurerPojo;
-import com.yidu.util.DateTimeUtil;
-import com.yidu.util.DbUtil;
-import com.yidu.util.JsonUtil;
-import com.yidu.util.SysTableNameListUtil;
+import com.yidu.util.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +31,8 @@ public class TaSettlementServiceImpl implements TaSettlementService {
     TaSettlementMapper taSettlementMapper;
     @Resource
     BankTreasurerMapper bankTreasurerMapper;
+    @Resource
+    HttpServletRequest request;
     @Override
     public Map<String, Object> selectTaSettlement(String pageSize, String page, String dateTime, String transactionType, String status) {
         StringBuffer sqlWhere = new StringBuffer();
@@ -104,7 +104,7 @@ public class TaSettlementServiceImpl implements TaSettlementService {
             BankTreasurerPojo bankTreasurerPojo=new BankTreasurerPojo();
             bankTreasurerPojo.setBankTreasurerId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT));
             bankTreasurerPojo.setFundId(taSettlement1.getFundId());
-            bankTreasurerPojo.setTotalPrice(taSettlement1.getPrice());
+            bankTreasurerPojo.setTotalPrice(taSettlement1.getTotalMoney());
             bankTreasurerPojo.setAccountId(taSettlement1.getAccountId());
             bankTreasurerPojo.setFlag(1);
             //赋值交易日期为调拨日期

@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  *@author wzh
- *date 2020-9-2
+ *date 2020-9-21
  * 权益数据设置控制层
  */
 
@@ -28,7 +28,9 @@ public class EquityDataController {
 
     @RequestMapping("insertEquityData")
     public int insertEquityData(EquityData equityData) {
+        //调用工具类自动增长列
         equityData.setEquityDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.ED));
+        //日期格式
         equityData.setDateTime(DateTimeUtil.getSystemDateTime("yyyy-MM-dd"));
         int i = equityDataService.insertEquityData(equityData);
         return i;

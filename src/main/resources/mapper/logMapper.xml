@@ -4,7 +4,25 @@
     <insert id="insertLog" parameterType="com.yidu.permission.pojo.Log" statementType="CALLABLE">
         {call pkg_tables.sp_insertLog(#{time,mode=IN,jdbcType=VARCHAR},#{host,mode=IN,jdbcType=VARCHAR},#{method,mode=IN,jdbcType=VARCHAR},#{uri,mode=IN,jdbcType=VARCHAR},#{userName,mode=IN,jdbcType=VARCHAR},#{message,mode=IN,jdbcType=VARCHAR})}
     </insert>
-    <select id="selectLog" resultType="com.yidu.permission.pojo.Log">
-        select * from log
+
+    <resultMap id="logMap" type="com.yidu.permission.pojo.Log">
+        <result property="logId" column="logId" javaType="Integer"></result>
+        <result property="time" column="time" javaType="String"></result>
+        <result property="host" column="host" javaType="String"></result>
+        <result property="method" column="method" javaType="String"></result>
+        <result property="uri" column="uri" javaType="String"></result>
+        <result property="userName" column="userName" javaType="String"></result>
+        <result property="message" column="message" javaType="String"></result>
+    </resultMap>
+    <select id="selectLog" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=logMap})}
     </select>
+
+    <delete id="deleteLog" parameterType="list">
+        delete from log where logId in
+        <foreach collection="list" item="logId" open="("
+                 separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
 </mapper>

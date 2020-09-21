@@ -50,11 +50,15 @@ public class NetValueOfStatisticalController {
         netValueOfStatisticalPojo.setFundId(fundId);
         //创建树形结构一级结构
         int i = 0;
-        int count = 0;
+        CountPojo countPojo = new CountPojo();
+        int count = countPojo.getIntCount();
+        System.out.println("count计数的条数·" + count);
         //统计日期
         netValueOfStatisticalPojo.setValueStatisticsDate(time);
         //项目编号
         netValueOfStatisticalPojo.setProjectId(++count);
+        //获得项目编号
+        int projectId = netValueOfStatisticalPojo.getProjectId();
         //项目名称
         netValueOfStatisticalPojo.setProjectName("证券");
         //父项目编号
@@ -70,7 +74,7 @@ public class NetValueOfStatisticalController {
         //项目名称
         netValueOfStatisticalPojo.setProjectName("股票");
         //父项目编号
-        netValueOfStatisticalPojo.setProjectFatherId(1);
+        netValueOfStatisticalPojo.setProjectFatherId(projectId);
         int k = netValueOfStatisticalService.insertTree(netValueOfStatisticalPojo);
         System.out.println("创建的树形二级结构股票数量为" + k);
 
@@ -119,7 +123,7 @@ public class NetValueOfStatisticalController {
         //项目名称
         netValueOfStatisticalPojo.setProjectName("债券");
         //父项目编号
-        netValueOfStatisticalPojo.setProjectFatherId(1);
+        netValueOfStatisticalPojo.setProjectFatherId(projectId);
         int d = netValueOfStatisticalService.insertTree(netValueOfStatisticalPojo);
         System.out.println("创建的树形二级结构债券数量为" + d);
 
@@ -368,6 +372,7 @@ public class NetValueOfStatisticalController {
         netValueOfStatisticalPojo.setMarketValue(allSum / TANum + "");
         System.out.println(allSum / TANum);
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
+        countPojo.setIntCount(count);
 
         //查询插入的数据
         System.out.println("从界面接收到的时间数据是" + time);

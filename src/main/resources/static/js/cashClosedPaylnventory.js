@@ -134,7 +134,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                 }
             }
                 ,{field: 'totalMoney', title: '总金额', align:'center'}
-                ,{title: 'operation', title: '操作', toolbar:'#barDemo', align:'center'}
+                ,{title: 'operation', title: '操作', toolbar:'#barDemo', align:'center',fixed: 'right'}
             ]
         ]
     });
@@ -172,6 +172,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                         curr: 1
                     }
                 });
+                document.getElementById("businessType").value=businessType;
+                document.getElementById("businessDate").value=businessDate;
                 break;
 
 

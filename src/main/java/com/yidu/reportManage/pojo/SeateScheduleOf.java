@@ -8,7 +8,7 @@ package com.yidu.reportManage.pojo;
 
 public class SeateScheduleOf {
     private String securitiesId;     //证券代码   来自TransactionData表
-    private String fundName;         //基金名称   来自Fund表
+    private String fundName;         //基金名称   来自TransactionData表
     private double num;              //交易数量   来自TransactionData表
     private double commission;       //佣金费     来自TransactionData表
     private double transferFee;      //过户费     来自transactionData表
@@ -16,9 +16,9 @@ public class SeateScheduleOf {
     private double stampDuty;        //印花税     来自transactionData表
     private double collectionRate;   //征管费     来自transactionData表
     private double totalSum;         //交易金额    来自TransactionData表
-    private double actualMoney;      //实付金额    来自Tatransaction
+    private double netReceipts;      //实付金额    来自TaTransaction表
 
-    public SeateScheduleOf(String securitiesId, String fundName, double num, double commission, double transferFee, double brokerage, double stampDuty, double collectionRate, double totalSum, double actualMoney) {
+    public SeateScheduleOf(String securitiesId, String fundName, double num, double commission, double transferFee, double brokerage, double stampDuty, double collectionRate, double totalSum, double netReceipts) {
         this.securitiesId = securitiesId;
         this.fundName = fundName;
         this.num = num;
@@ -28,7 +28,7 @@ public class SeateScheduleOf {
         this.stampDuty = stampDuty;
         this.collectionRate = collectionRate;
         this.totalSum = totalSum;
-        this.actualMoney = actualMoney;
+        this.netReceipts = netReceipts;
     }
 
     public String getSecuritiesId() {
@@ -104,11 +104,11 @@ public class SeateScheduleOf {
     }
 
     public double getActualMoney() {
-        return actualMoney;
+        return netReceipts;
     }
 
     public void setActualMoney(double actualMoney) {
-        this.actualMoney = actualMoney;
+        this.netReceipts = actualMoney;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class SeateScheduleOf {
                 ", stampDuty=" + stampDuty +
                 ", collectionRate=" + collectionRate +
                 ", totalSum=" + totalSum +
-                ", actualMoney=" + actualMoney +
+                ", netReceipts=" + netReceipts +
                 '}';
     }
 }

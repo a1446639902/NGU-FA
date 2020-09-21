@@ -2,6 +2,7 @@ package com.yidu.inventoryManage.controller;
 
 import com.yidu.inventoryManage.pojo.TaInventoryEntity;
 import com.yidu.inventoryManage.service.TaInventoryService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class TaInventoryController {
      * 查询taInventory（Ta库存）表的控制方法
      * @return
      */
+    @NGULog(message = "ta库存查询")
     @RequestMapping("/selectTaInventory")
     public HashMap selectTaInventory(String datetime){
 
@@ -43,6 +45,7 @@ public class TaInventoryController {
     /**
      * 删除taInventory（Ta库存）表的控制方法
      */
+    @NGULog(message = "ta库存删除")
     @RequestMapping("/deleteTaInventory")
     public void deleteTaInventory(String userId){
         taInventoryService.deleteTaInventory(userId);
@@ -51,6 +54,7 @@ public class TaInventoryController {
     /**
      * 批量删除taInventory（Ta库存）表的控制方法
      */
+    @NGULog(message = "ta库存批量删除")
     @RequestMapping("/deleteMoreTaInventory")
     public void deleteMoreTaInventory(String taInventoryId){
         taInventoryService.deleteMoreTaInventory(taInventoryId);
@@ -59,6 +63,7 @@ public class TaInventoryController {
     /**
      * 修改taInventory（Ta库存）表的控制方法
      */
+    @NGULog(message = "ta库存修改")
     @RequestMapping("/updateTaInventory")
     public void updateTaInventory(TaInventoryEntity taInventoryEntity){
         System.out.println(taInventoryEntity);
@@ -74,6 +79,7 @@ public class TaInventoryController {
     /**
      * 新增aInventory（Ta库存）表的控制方法
      */
+    @NGULog(message = "ta库存新增")
     @RequestMapping("/insertTaInventory")
     public void insertTaInventory(HttpServletRequest request,TaInventoryEntity taInventoryEntity){
 

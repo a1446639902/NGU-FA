@@ -3,11 +3,13 @@ package com.yidu.taManage.controller;
 import com.yidu.taManage.pojo.TaTransaction;
 import com.yidu.taManage.service.TatransactionService;
 import com.yidu.util.DbUtil;
+import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +27,11 @@ public class TatransactionController {
     @Resource
     DbUtil dbUtil;
     @RequestMapping ("/insertTatTransaction")
-    public int insertTatTransaction(TaTransaction taTransaction){
+    public int insertTatTransaction(TaTransaction taTransaction, HttpServletRequest request){
         taTransaction.setTaTransactionId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TT));
-        taTransaction.setFundId("60001");
+        //获取基金Id
+        String fundId = GetFundIdUtil.getFundId(request);
+        taTransaction.setFundId(fundId);
         System.out.println("taTransaction=" + taTransaction);
         int i= tatransactionService.insertTatransaction(taTransaction);
         return i;

@@ -120,7 +120,6 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
         map.put("p_page",v_page);
         map.put("p_count",0);
         map.put("p_cursor",null);
-        //调用Mapper执行查询
         cashClosedPayMapper.selectCashClosedPay(map);
         System.out.println(map.get("p_cursor"));
         //接收返回数据

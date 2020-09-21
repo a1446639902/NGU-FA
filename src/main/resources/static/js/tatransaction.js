@@ -122,7 +122,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 						return '未结算';
 					}
 				}}
-				,{field: 'right', title: '操作',width: 150, align:'center', toolbar: '#barDemo'}
+				,{fixed: 'right', title: '操作',width: 150, align:'center', toolbar: '#barDemo'}
 			]
 		]
 	});
@@ -202,14 +202,19 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 		var data = obj.data;//得到删除行整行的数据
 		alert(data.taTransactionId);
 		if (obj.event === 'del') {
+			if (data.transactionStatus == 1) {
+				layer.msg('已处理业务无法删除');
+			} else if (data.transactionStatus == 0){
+				layer.confirm('真的删除行么',{icon: 2}, function(index){
+					layer.close(index);
+					$.post("../deleteTaTransaction", {taTransactionId:data.taTransactionId+""},function(msg){
+						table.reload('userTable');
+					});
 
-			layer.confirm('真的删除行么',{icon: 2}, function(index){
-				layer.close(index);
-				$.post("../deleteTaTransaction", {taTransactionId:data.taTransactionId+""},function(msg){
-					table.reload('userTable');
 				});
+			}
 
-			});
+
 		} else if (obj.event === 'edit') {
 			alert(JSON.stringify(data));
 
