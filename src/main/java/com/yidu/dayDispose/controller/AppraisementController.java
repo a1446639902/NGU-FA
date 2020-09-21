@@ -7,6 +7,7 @@ import com.yidu.inventoryManage.pojo.CashClosedPayInventory;
 import com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventoryPojo;
 import com.yidu.inventoryManage.service.CashClosedPaylnventoryService;
 import com.yidu.inventoryManage.service.SecuritiesClosedPayInventoryService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.taManage.pojo.TaTransaction;
 import com.yidu.util.DbUtil;
 import com.yidu.util.JsonUtil;
@@ -29,7 +30,7 @@ public class AppraisementController {
     DbUtil dbUtil;
     @Resource
     CashClosedPaylnventoryService cashClosedPaylnventoryService;
-
+    @NGULog(message = "查询页面状态")
     @RequestMapping("selectValuationProcessing")
     public HashMap selectValuationProcessing() {
         List<ValuationProcessing> valuationProcessingList = appraisementService.selectBiaoge();
@@ -41,7 +42,7 @@ public class AppraisementController {
         System.out.println(valuationProcessingMap);
         return valuationProcessingMap;
     }
-
+    @NGULog(message = "查询证券库存join行情表,ta交易数据以及交易数据")
     @RequestMapping("startValuation")
     public int startValuation(String toDay,String arrJson ){
         System.out.println("进来了");
@@ -96,12 +97,14 @@ public class AppraisementController {
 
                         System.out.println("删除证券应收应付的实体类"+securitiesClosedPayInventoryPojo);
                         int i2 = appraisementService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventoryPojo);
+                        System.out.println("删除证券应收应付I2================================================="+i2);
                         if(i2>0){
                             securitiesClosedPayInventoryPojo.setDateTime(toDay);
                             securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(1);
                             securitiesClosedPayInventoryPojo.setSecuritiesType(2);
                             securitiesClosedPayInventoryPojo.setFlag(1);
                             securitiesClosedPayInventoryPojo.setTotalPrice(transactionData.getTotalSum());
+                            System.out.println(securitiesClosedPayInventoryPojo+"插入证券库存2========================");
                             securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                         }
                         System.out.println("查ta交易数据================================");
