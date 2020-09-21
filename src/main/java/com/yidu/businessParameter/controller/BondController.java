@@ -4,6 +4,7 @@ package com.yidu.businessParameter.controller;
 
 import com.yidu.businessParameter.pojo.Bond;
 import com.yidu.businessParameter.service.BondService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.DbUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,8 @@ public class BondController {
     BondService bondService;
     @Resource
     DbUtil dbUtil;
-
+    //登录验证
+    @NGULog(message = "登录验证")
     @RequestMapping("/selectBond")
     public Map<String, Object> selectBond(String page, String limit, String securitiesId, String drawStartDate) {
         System.out.println(securitiesId + "," + "," + drawStartDate);

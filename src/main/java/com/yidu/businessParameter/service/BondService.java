@@ -12,7 +12,6 @@ import java.util.Map;
  * @date  2020/09/01 15点32分
  * @version 版本1.0
  */
-
 @Service
 public interface BondService {
     //查询
@@ -23,5 +22,4 @@ public interface BondService {
     int  deleteBond(String securitiesId);
     //修改
     int updateBond(Bond bond);
-
 }
