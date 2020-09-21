@@ -6,17 +6,19 @@ import com.yidu.cashControl.service.TransferMoneyService;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
+/**划款指令表
  * @author 黄志豪
  * @version 1.0
  * @Type
  * @time 2020/9/10
  **/
+@Transactional
 @Service
 public class TransferMoneyServiceImpl implements TransferMoneyService {
     @Resource

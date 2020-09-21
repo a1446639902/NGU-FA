@@ -1,4 +1,3 @@
-/*
 
 
 
@@ -21,10 +20,9 @@ import java.io.IOException;
 
 
 
-*/
 /**
  * 过滤器
- *//*
+ */
 
 
 
@@ -37,7 +35,6 @@ public class FAWebFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -78,4 +75,3 @@ public class FAWebFilter implements Filter {
 
 
 
-*/
