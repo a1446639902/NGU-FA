@@ -2,6 +2,7 @@ package com.yidu.businessParameter.controller;
 
 import com.yidu.businessParameter.pojo.AccountPojo;
 import com.yidu.businessParameter.service.AccountService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ public class AccountController {
     @Resource
     AccountService accountService;
 
+    @NGULog(message="查询现金账户表")
     @RequestMapping("/selectAccount")
     public HashMap selectAccount(int page, int limit, String accountName, String blankName,HttpServletRequest request) {
         String fundId = GetFundIdUtil.getFundId(request);
@@ -38,11 +40,14 @@ public class AccountController {
         return accountMap;
     }
 
+    @NGULog(message="删除现金账户表")
     @RequestMapping("/deleteAccount")
     public int deleteAccount(String accountId) {
         return accountService.deleteAccount(accountId);
     }
 
+
+    @NGULog(message="新增现金账户表")
     @RequestMapping("/insertAccount")
     public int insertAccount(AccountPojo accountPojo,HttpServletRequest request) {
         String fundId = GetFundIdUtil.getFundId(request);
@@ -50,6 +55,7 @@ public class AccountController {
         return accountService.insertAccount(accountPojo);
     }
 
+    @NGULog(message="修改现金账户表")
     @RequestMapping("/updateAccount")
     public int updateAccount(AccountPojo accountPojo) {
         System.out.println("------------");

@@ -1,5 +1,6 @@
 package com.yidu.reportManage.controller;
 
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.reportManage.pojo.StatementMarketChangePojo;
 import com.yidu.reportManage.service.StatementMarketChangeService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 证券市场变动表
  * @author 黄志豪
  * @version 1.0
  * @Type
@@ -20,6 +22,8 @@ import java.util.HashMap;
 public class StatementMarketChangeController {
     @Resource
     StatementMarketChangeService statementMarketChangeService;
+
+    @NGULog(message="查询证券市场变动表")
     @RequestMapping("/selectStatementMarketChange")
     public HashMap selectStatementMarketChange(String dateTime){
         HashMap hashMap = statementMarketChangeService.selectStatementMarketChange(dateTime);

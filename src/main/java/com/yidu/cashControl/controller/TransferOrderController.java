@@ -1,4 +1,3 @@
-/*
 package com.yidu.cashControl.controller;
 
 import com.yidu.businessParameter.mapper.AccountMapper;
@@ -21,13 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-*/
 /**
  * @author 黄志豪
  * @version 1.0
  * @Type
  * @time 2020/9/11
- **//*
+ **/
 
 
 @RestController
@@ -426,4 +424,4 @@ verticalStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
         out.close();
     }
 }
-*/
+

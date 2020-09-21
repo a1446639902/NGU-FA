@@ -61,7 +61,7 @@
 
     </script>
 <body>
-<button class="layui-btn layui-btn-sm layui-btn" id="test1"
+<!----><button class="layui-btn layui-btn-sm layui-btn" id="test1"
         lay-event="shangHai">
     <i class="layui-icon">&#xe67c;</i>导入
 </button>
@@ -100,7 +100,7 @@
                 elem: '#settlementDate1'
             })
 
-            upload.render({
+          upload.render({
                 elem: '#test1'
                 ,url: '../api/upload' //改成您自己的上传接口
                 ,accept: 'file' //普通文件
@@ -376,6 +376,7 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
+                alert("表单提交的数据：" + formData);
                 $.post("../TransactionData/insertTransactionData",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
@@ -387,8 +388,7 @@
                             time : 0,
                             btn : [ '知道了' ]
                         });
-                    }
-                    else{
+                    }else{
                         layer.closeAll();
                         layer.msg('添加失败',{
                             title : '提示',
@@ -399,7 +399,7 @@
                         });
                     }
                 });
-                $("#addsubmit")[0].reset();
+               //$("#addsubmit").reset();
                 return false;
             });
             //修改提交
@@ -507,7 +507,6 @@
                             btn:[]
                         });
                         form.render();
-                        //全屏弹窗 layer.full(index);
                         break;
                     case 'search':
                         //alert("搜索");
@@ -557,7 +556,7 @@
                             });
                         }
                         break;
-                    /*case 'shangHai':
+                   /* case 'shangHai':
                         //指定允许上传的文件类型
                         upload.render({
                             elem: '#uploadData'
@@ -568,6 +567,7 @@
                                 console.log(res);
                             }
                         });
+
                         break;*/
                 }
             });
@@ -658,10 +658,14 @@
                         }else if (item.rateType==1){
                             $('#security1').val(lixiday);
                         }
+                        var totalSum=0;
                         //买入
                         if ($('#transactionDataMode').val()==1){
-                            $('#totalSum').val(netReceipts+commission/100+item.stampDuty
-                            +item.transferFee+item.collectionRate+item.brokerage+lixiday);
+                            totalSum=Number(netReceipts)+Number(commission)/100+Number(item.stampDuty)
+                            +Number(item.transferFee)+Number(item.collectionRate)+Number(item.brokerage)+Number(lixiday);
+                            //var floatSum=parseFloat(totalSum);
+                            var ser=totalSum.toFixed(2);
+                            $('#totalSum').val(ser);
                             //卖出
                         }else if($('#transactionDataMode').val()==2){
                             $('#totalSum').val(netReceipts-(commission/100+item.stampDuty
@@ -915,7 +919,7 @@
         </div>
 
         <div style="position: absolute; left: 39%; top: 650px">
-            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+            <button class="layui-btn" lay-submit=""  lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
             <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">

@@ -2,6 +2,7 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.DbUtil;
 import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
@@ -12,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 交易数据表
@@ -29,6 +31,7 @@ public class TransactionDataController {
 
     @Resource
     DbUtil dbUtil;
+    @NGULog(message = "查询交易数据表")
     @RequestMapping("/selectTransactionData")
     public HashMap selectTransactionData(int page,int limit,String dateTime,String securitiesName){
         HashMap hashMap = transactionDataService.selectTransactionData(page,limit,dateTime,securitiesName);
@@ -44,6 +47,7 @@ public class TransactionDataController {
         System.out.println("数据:"+transactionDataList);
         return tranMap;
     }
+    @NGULog(message = "添加交易数据表")
     @RequestMapping("/insertTransactionData")
     public int insertTransactionData(TransactionData transactionData, HttpServletRequest request){
         transactionData.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));
@@ -54,19 +58,20 @@ public class TransactionDataController {
         }else if (transactionData.getTransactionDataMode()==2 || transactionData.getTransactionDataMode()==3 || transactionData.getTransactionDataMode()==4){
             transactionData.setFlag(1);
         }
-       return transactionDataService.insertTransactionData(transactionData);
+        return transactionDataService.insertTransactionData(transactionData);
     }
-
+    @NGULog(message = "删除交易数据表")
     @RequestMapping("/deleteTransactionData")
     public int deleteTransactionData(String transactionDataId){
         return transactionDataService.deleteTransactionData(transactionDataId);
     }
+    @NGULog(message = "批量删除交易数据表")
     @RequestMapping("/deleteTransactionDataTwo")
     public int deleteTransactionDataTwo(String transactionDataId) {
         return transactionDataService.deleteTransactionDataTwo(transactionDataId);
     }
-
-        @RequestMapping("/updateTransactionData")
+    @NGULog(message = "修改交易数据表")
+    @RequestMapping("/updateTransactionData")
     public int updateTransactionData(TransactionData transactionData){
         return transactionDataService.updateTransactionData(transactionData);
     }

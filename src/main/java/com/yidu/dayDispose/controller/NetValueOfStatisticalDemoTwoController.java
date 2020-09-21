@@ -1,6 +1,7 @@
 package com.yidu.dayDispose.controller;
 
 import com.yidu.dayDispose.service.NetValueOfStatisticalService;
+import com.yidu.permission.aspect.NGULog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ public class NetValueOfStatisticalDemoTwoController {
     @Resource
     NetValueOfStatisticalService netValueOfStatisticalService;
 
+    @NGULog(message = "净删除值统计表")
     @RequestMapping("/deleteNetValueOfStatisticalAll")
     public void deleteNetValueOfStatistical(String time) {
         System.out.println("进入删除的控制类");
