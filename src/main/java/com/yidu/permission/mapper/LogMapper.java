@@ -13,4 +13,6 @@ import java.util.List;
 public interface LogMapper {
     public void insertLog(Log log);
     public void selectLog(HashMap hashMap);
+    public int deleteLog(List logIdList);
+
 }
