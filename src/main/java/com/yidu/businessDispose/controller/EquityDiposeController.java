@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ *@author wzh
+ *date 2020-9-21
+ * 权益处理设置控制层
+ */
 @RestController
 public class EquityDiposeController {
     @Resource
@@ -24,10 +28,11 @@ public class EquityDiposeController {
 
         //调用Service层执行查询，接收返回结果集Map
         Map<String, Object> map =equityDisposeService.selectEquityDispose(limit, page, equitiesType, equitiesExright,disposeStatus);
-        List<EquityDispose> equityDataList = (List<EquityDispose>) map.get("equityDataList");
+        List<EquityDispose> equityDataList = (List<EquityDispose>) map.get("equityDisposeList");
         for (EquityDispose equityDispose : equityDataList) {
             equityDispose.setAccountName(accountName);
         }
+        System.out.println(equityDataList);
         int count = (int) map.get("count");
         //以layui要求存储响应数据格式
         Map<String, Object> EquityDisposeMap = new HashMap<>();

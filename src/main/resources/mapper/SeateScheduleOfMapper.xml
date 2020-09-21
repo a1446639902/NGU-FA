@@ -14,9 +14,10 @@
         <result property="stampDuty" column="stampDuty" javaType="Double"></result>
         <result property="collectionRate" column="collectionRate" javaType="Double"></result>
         <result property="totalSum" column="totalSum" javaType="Double"></result>
-        <result property="actualMoney" column="actualMoney" javaType="int"></result>
+        <result property="netReceipts" column="actualMoney" javaType="int"></result>
     </resultMap>
-    <select id="selectSeateScheduleOf" parameterType="java.util.Map" statementType="CALLABLE">
+    <select id="selectSeateScheduleOf" parameterType="java.util.Map" statementType="CALLABLE"
+            resultType="com.yidu.reportManage.pojo.SeateScheduleOf">
         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=selectSeateScheduleOfMap})}
     </select>
 
