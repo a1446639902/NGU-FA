@@ -25,4 +25,10 @@ public class LogController {
         hashMap.put("data",logList);
         return hashMap;
     }
+
+    @RequestMapping("/deleteLog")
+    public int deleteLog(String logId) {
+        return logService.deleteLog(logId);
+    }
+
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yidu.permission.mapper.SystemMenuMapper">
     <select id="selectSystemMenu" parameterType="java.util.Map" resultType="com.yidu.permission.pojo.SystemMenu">
-        select functionId,parentId,title,src,icon,target from ENDOW e join (select * from USERINFO where userName=#{userName} and USERPWD=#{userPwd}) u on e.ROLEID=u.ROLEID join FUNCTION f on e.FUNID=f.FUNCTIONID
+        select functionId,parentId,title,src,icon,target from ENDOW e join (select * from USERINFO where userName=#{userName} and USERPWD=#{userPwd}) u on e.ROLEID=u.ROLEID join FUNCTION f on e.FUNID=f.FUNCTIONID order by functionId
         /*select functionId,parentId,title,src,icon,target from function*/
     </select>
 </mapper>

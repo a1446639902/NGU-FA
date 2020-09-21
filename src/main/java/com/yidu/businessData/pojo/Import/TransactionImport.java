@@ -56,6 +56,7 @@ public class TransactionImport {
         data.setSecuritiesId(String.valueOf(this.gddm)); //证券账户
         data.setDateTime(String.valueOf(this.Bcrq)); //成交日期，格式为YYYYMMDD
         data.setSeateId(String.valueOf(this.Gsdm)); //席位号
+
         data.setNum(Double.valueOf(this.Cjsl));  ////成交数量
         data.setSecuritiesId(String.valueOf(this.zqdm)); //证券代码C6
         data.setPrice(Double.valueOf(this.cjjg));//成交价格

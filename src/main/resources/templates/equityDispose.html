@@ -175,6 +175,8 @@
                                 curr: 1
                             }
                         });
+                        document.getElementById("equitiesExright").value=equitiesExright;
+                        document.getElementById("equitiesType").value=equitiesType;
                         break;
                 }
 
@@ -281,9 +283,9 @@
             <button class="layui-btn" type="button" onclick=" return false" lay-submit="settlement" lay-filter="settlement"  lay-event="settlement" name="settlement" id="settlement">处理</button>
         </div>
     </form>
-    <ul class="layui-tab-title" style="border-bottom-color: #009688">
-        <li class="layui-this" lay-id="1">未处理</li>
-        <li lay-id="2">已处理</li>
+    <ul class="layui-tab-title" style="border-bottom-color: #009688; color: #009688">
+        <li  lay-id="1">未处理</li>
+        <li class="layui-this" lay-id="2">已处理</li>
     </ul>
 </div>
 <!--<div class="layui-tab" lay-filter="test">
@@ -321,7 +323,7 @@
                 <button class="layui-btn"  type="button" onclick="return false"  lay-submit="settlement" lay-filter="settlement2"  lay-event="settlement2" name="settlement" id="settlement2">反处理</button>
             </div>
         </form>
-        <ul class="layui-tab-title" style="border-bottom-color: #009688">
+        <ul class="layui-tab-title " style="border-bottom-color: #009688; color: #009688">
             <li class="layui-this" lay-id="1">未处理</li>
             <li lay-id="2">已处理</li>
         </ul>
@@ -337,7 +339,7 @@
 
 
 <!--渲染表格层-->
-<div class="layui-tab" lay-filter="test">
+<div class="layui-tab " lay-filter="test">
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
             <!--表格-->

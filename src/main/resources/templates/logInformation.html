@@ -95,7 +95,7 @@
          layer.confirm('真的删除行么', function () {
           layer.close();
           //向服务端发送删除指令
-          $.post("../deleteSecurities", "logId="+logIds,function(msg){
+          $.post("../deleteLog", "logId="+logIds,function(msg){
            if(msg>0){
             table.reload('test');
             layer.closeAll();
@@ -137,7 +137,7 @@
         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
         layer.close(index);
         //向服务端发送删除指令
-        $.post("../deleteSecurities", "logId=" + data.logId, function (msg) {
+        $.post("../deleteLog", "logId=" + data.logId, function (msg) {
          if (msg > 0) {
           table.reload('test');
           layer.closeAll();

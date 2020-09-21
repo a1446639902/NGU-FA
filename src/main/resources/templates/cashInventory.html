@@ -175,12 +175,14 @@
                             closeBtn: 1,
                             move:false,
                             content:$("#addContent"),
+                            area: ['893px', '600px'],
                             btn:[]
                         });
                         $.ajax({
                             url:'../user/selectRole',
                             dataType:'json',
                             type:'post',
+
                             success:function(obj){
                                 $.each(obj,function(index,item){
                                     $('#roleId').append(new Option(item.roleName,item.roleId));//往下拉菜单里添加元素
@@ -189,8 +191,6 @@
                             }
                         })
                         form.render();
-                        //全屏
-                        layer.full(index);
                         break;
                     case 'search':
                         var accountName1= $("#accountName1").val();//获得账户名
@@ -206,12 +206,14 @@
                                 curr:1
                             }
                             });
+
                         laydate.render({
                            elem: '#dateTime3',
                         });
                         document.getElementById("dateTime3").value=dateTime3;
                         document.getElementById("accountName1").value=accountName1;
                         break;
+
                     case 'deleteAll':
                         var data = checkStatus.data;
                         //    layer.alert(JSON.stringify(data));
@@ -252,7 +254,6 @@
 
                     });
                 } else if (obj.event === 'edit') {
-                    alert(JSON.stringify(data));
 
                     form.val('editform',$.parseJSON(JSON.stringify(data)));
                     var index = layer.open({
@@ -260,8 +261,9 @@
                         title: '修改权益数据',
                         closeBtn: 1,
                         move:false,
-                        area: ['500px', '400px'],
-                        content:$('#editContent')
+                        area: ['693px', '400px'],
+                        content:$('#editContent'),
+                        btn:[]
                     });
                     $.ajax({
                         url:'../user/selectRole',
@@ -277,13 +279,15 @@
                         }
                     })
                     form.render();
-                    layer.full(index);
+                    // layer.full(index);
                 };
             })
 
         });
+
+        //取消按钮的点击事件
         function myclose() {
-            parent.layer.closeAll();
+            layer.closeAll();
         }
 
     </script>
@@ -352,7 +356,7 @@
         </div>
 
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
+        <div style="position: absolute; bottom: 0px; left: 50%;">
             <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
                 <i class="layui-icon">&#x1005;</i>添加
             </button>
@@ -386,11 +390,11 @@
             </div>
         </div>
 
-        <div style="position: absolute; bottom: 0px; left: 45%;">
-            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+        <div style="position: absolute; bottom: 0px; left: 50%;">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit" >
                 <i class="layui-icon">&#x1005;</i>修改
             </button>
-            <button class="layui-btn layui-bg-red cancel" type="button">
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
                 <i class="layui-icon">&#x1006;</i>取消
             </button>
         </div>

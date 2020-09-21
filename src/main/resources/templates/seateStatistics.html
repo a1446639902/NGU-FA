@@ -22,7 +22,21 @@
 
     <script src="../lib/layui/layui.js"></script>
     <!--工具条-->
-
+    <br/>
+    <script type="text/html" id="userToolBar">
+    <form class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" style="width: 110px;text-align: center">调拨日期</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input autocomplete="off" id="addopen" name="openTime" lay-verify="required"
+                       placeholder="请选择日期" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn" lay-event="search" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
+    </form>
+    </script>
 
 
     <script type="text/javascript">
@@ -37,26 +51,26 @@
 
             table.render({
                 elem: '#userTable',
-                url: '../brokersSelect',
+                url: '../user',
                 page: true,
                 height: 500,
                 toolbar: '#userToolBar',//显示在表头的工具条
                 minLength:80,
                 cols: [
                     [ //表头
-                        {field: 'brokersId', title: '名称',  align:'center'}
-                        ,{field: 'brokersName', title: '买入股票',  align:'center'}
-                        ,{field: 'brokersInstructions', title: '卖出股票',  align:'center'}
-                        ,{field: 'brokersDesc', title: '买入证券',  align:'center'}
-                        ,{title: 'operation', title: '卖出证券' , toolbar:'#barDemo', align:'center'}
-                        ,{field: 'brokersName', title: '交易总额',  align:'center'}
-                        ,{field: 'brokersInstructions', title: '佣金费用',  align:'center'}
-                        ,{field: 'brokersDesc', title: '过户费',  align:'center'}
-                        ,{title: 'operation', title: '经手费' , toolbar:'#barDemo', align:'center'}
-                        ,{field: 'brokersName', title: '征管费',  align:'center'}
-                        ,{field: 'brokersInstructions', title: '印花税',  align:'center'}
-                        ,{field: 'brokersDesc', title: '实际支付金额',  align:'center'}
-                        ,{title: 'operation', title: '比例' , toolbar:'#barDemo', align:'center'}
+                        {field: 'seateId', title: '名称',  align:'center'}
+                        ,{field: 'mrgp', title: '买入股票',  align:'center'}
+                        ,{field: 'mcgp', title: '卖出股票',  align:'center'}
+                        ,{field: 'mrzq', title: '买入证券',  align:'center'}
+                        ,{title: 'mczq', title: '卖出证券' , toolbar:'#barDemo', align:'center'}
+                        ,{field: 'totalSum', title: '交易总额',  align:'center'}
+                        ,{field: 'commission', title: '佣金费用',  align:'center'}
+                        ,{field: 'transfer', title: '过户费',  align:'center'}
+                        ,{title: 'brokerage', title: '经手费' , toolbar:'#barDemo', align:'center'}
+                        ,{field: 'managements', title: '征管费',  align:'center'}
+                        ,{field: 'stamp', title: '印花税',  align:'center'}
+                        ,{field: 'netReceipts', title: '实际支付金额',  align:'center'}
+                        ,{title: 'bili', title: '比例' , toolbar:'#barDemo', align:'center'}
                     ]
                 ]
             });
