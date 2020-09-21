@@ -1,6 +1,7 @@
 package com.yidu.systemManage.controller;
 
 
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.systemManage.service.EndowService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class EndowController {
     @Resource
     EndowService endowService;
 
+    @NGULog(message = "设置角色权限")
     @RequestMapping("deInEndow")
     public void endows(String strIds,String roldId){
         System.out.println(strIds);

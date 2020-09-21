@@ -1,6 +1,7 @@
 package com.yidu.reportManage.controller;
 
 import com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.reportManage.pojo.FundInvestmentPlateTablePojo;
 import com.yidu.reportManage.service.FundPortfolioStatementService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class FundPortfolioStatementController {
     @Resource
     FundPortfolioStatementService fundPortfolioStatementService;
 
+    @NGULog(message = "查看基金组合投资表")
     @RequestMapping("/selectGuPiao")
     public Map<String, Object> selectGuPiao(String dateTimes) {
         //设置小数保留位数
@@ -99,20 +101,29 @@ public class FundPortfolioStatementController {
         }
         //资产类合计
         Double All = Double.parseDouble(fuZhai) + doubleZiChanJingZhi;
-
+        //新建一个NetValueOfStatisticalPojo对象，用于储存资产类合计的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoFive = new NetValueOfStatisticalPojo();
+        //设置ProjectName
         netValueOfStatisticalPojoDemoFive.setProjectName("资产类合计");
+        //设置MarketValue
         netValueOfStatisticalPojoDemoFive.setMarketValue(All + "");
 
+        //新建一个NetValueOfStatisticalPojo对象，用于负债的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoThere = new NetValueOfStatisticalPojo();
+        //设置ProjectName
         netValueOfStatisticalPojoDemoThere.setProjectName("负债");
+        //设置MarketValue
         netValueOfStatisticalPojoDemoThere.setMarketValue(fuZhai);
 
         //基金净值
+        //新建一个NetValueOfStatisticalPojo对象，用于基金净值的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoSix = new NetValueOfStatisticalPojo();
+        //设置ProjectName
         netValueOfStatisticalPojoDemoSix.setProjectName("基金净值");
+        //设置MarketValue
         netValueOfStatisticalPojoDemoSix.setMarketValue(doubleZiChanJingZhi + "");
 
+        //将赋值完毕的对象放入集合中
         ZhaiQuanList.add(netValueOfStatisticalPojo);
         ZhaiQuanList.add(netValueOfStatisticalPojoDemoOne);
         ZhaiQuanList.add(netValueOfStatisticalPojoDemoTwo);
@@ -131,11 +142,14 @@ public class FundPortfolioStatementController {
         return map;
     }
 
+    @NGULog(message = "查看基金组合板块表(饼状图)")
     @RequestMapping("/selectRound")
     public List selectRound(String myDate) {
-        if (myDate == null && myDate ==""){
+        System.out.println("从页面接收到的时间是" + myDate);
+        if (myDate == null || myDate == ""){
             myDate = "2020-09-10";
         }
+        System.out.println("时间是" + myDate);
         ArrayList arrayList = new ArrayList();
         List<NetValueOfStatisticalPojo> zhaiQuanList = fundPortfolioStatementService.selectZhaiQuan(myDate);
         List<NetValueOfStatisticalPojo> guPiaoList = fundPortfolioStatementService.selectGuPiao(myDate);

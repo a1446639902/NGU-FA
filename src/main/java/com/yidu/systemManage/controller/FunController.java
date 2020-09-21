@@ -1,5 +1,6 @@
 package com.yidu.systemManage.controller;
 
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.systemManage.pojo.Fun;
 import com.yidu.systemManage.service.FunService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class FunController {
     @Resource
     FunService funService;
 
+    @NGULog(message = "查看角色功能")
     @RequestMapping("SelectFun")
     @ResponseBody
     public List<Fun> selectFun(int roleId){
