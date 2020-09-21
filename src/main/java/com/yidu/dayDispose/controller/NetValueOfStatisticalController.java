@@ -2,6 +2,7 @@ package com.yidu.dayDispose.controller;
 
 import com.yidu.dayDispose.pojo.*;
 import com.yidu.dayDispose.service.NetValueOfStatisticalService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,7 @@ public class NetValueOfStatisticalController {
     @Resource
     NetValueOfStatisticalService netValueOfStatisticalService;
 
+    @NGULog(message = "基金净值统计功能")
     @RequestMapping("/selectNetValueOfStatisticalController")
     @ResponseBody
     public Map<String, Object> selectNetValueOfStatisticalController(String time, HttpServletRequest request) {
@@ -45,8 +47,9 @@ public class NetValueOfStatisticalController {
         System.out.println("查询其他表格净值统计需要的数据是" + selectAllMsgList);
         //创建实体类用于传递参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojo = new NetValueOfStatisticalPojo();
-        //获得fundId
+        //通过工具类获得fundId(基金id)
         String fundId = GetFundIdUtil.getFundId(request);
+        //设置基金id
         netValueOfStatisticalPojo.setFundId(fundId);
         //创建树形结构一级结构
         int i = 0;

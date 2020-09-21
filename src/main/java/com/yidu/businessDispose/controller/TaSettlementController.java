@@ -2,6 +2,7 @@ package com.yidu.businessDispose.controller;
 
 import com.yidu.businessDispose.pojo.TaSettlement;
 import com.yidu.businessDispose.service.TaSettlementService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.DbUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,8 @@ public class TaSettlementController {
     TaSettlementService taSettlementService;
     @Resource
     DbUtil dbUtil;
+    //登录验证
+    @NGULog(message = "登录验证")
     @RequestMapping("selectTaSettlement")
     public Map<String,Object> selectTaSettlement(String page,String limit,String dateTime,String transactionType,String status) {
         System.out.println("进来了==================");
