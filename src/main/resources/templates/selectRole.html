@@ -100,7 +100,6 @@
                         btn:['添加','取消'],
                         yes: function(index, layero){
                             var checkedData = tree.getChecked('id'); //获取选中节点的数据
-                            alert(checkedData)
                             var ids =[];
                             $.each(checkedData,function (i,parent) {
                                 ids.push(parent.id);

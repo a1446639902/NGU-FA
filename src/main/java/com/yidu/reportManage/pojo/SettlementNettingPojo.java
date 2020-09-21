@@ -19,6 +19,8 @@ public class SettlementNettingPojo {
     private Double commission ;
     private Double totalsum ;
 
+    public SettlementNettingPojo() {
+    }
     public SettlementNettingPojo(String name, Double netreceipts, Double transfer, Double brokerage, Double stamp,
                                  Double management, Double commission, Double totalsum) {
         this.name = name;
