@@ -83,14 +83,25 @@ public class FundPortfolioStatementController {
             //设置市值占净值的百分比
             value.setShiZhiBaiFenBi(df.format((doubleMarketValue / doubleZiChanJingZhi) * 100));
         }
+        //新建一个NetValueOfStatisticalPojo对象，用于储存资产类合计的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojo = new NetValueOfStatisticalPojo();
+        //设置ProjectName
         netValueOfStatisticalPojo.setProjectName("股票投资合计");
+        //设置MarketValue
         netValueOfStatisticalPojo.setMarketValue(guPiaoAll + "");
+
+        //新建一个NetValueOfStatisticalPojo对象，用于储存资产类合计的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoOne = new NetValueOfStatisticalPojo();
+        //设置ProjectName
         netValueOfStatisticalPojoDemoOne.setProjectName("债券投资合计");
+        //设置MarketValue
         netValueOfStatisticalPojoDemoOne.setMarketValue(zhaiQuanAll + "");
+
+        //新建一个NetValueOfStatisticalPojo对象，用于储存资产类合计的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoTwo = new NetValueOfStatisticalPojo();
+        //设置ProjectName
         netValueOfStatisticalPojoDemoTwo.setProjectName("证券投资合计");
+        //设置MarketValue
         netValueOfStatisticalPojoDemoTwo.setMarketValue((zhaiQuanAll + guPiaoAll) + "");
 
         //查询负债
