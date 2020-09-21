@@ -40,7 +40,7 @@ public class AppraisementServiceImpl implements AppraisementService {
     public HashMap selectStockarket(String toDay) {
         HashMap stockarketMap = new HashMap();
         System.out.println(toDay);
-        stockarketMap.put("p_tableName","(select se.fundId,se.securitiesId,m.DATETIME,ROUND((SE.securitiesNum*M.closingPrice-se.SECURITIESNUM*m.OPENPRICE),2)as tootaIPrice\n" +
+        stockarketMap.put("p_tableName","(select se.fundId,se.securitiesId,m.DATETIME,ROUND((SE.securitiesNum*M.closingPrice-se.total),2)as tootaIPrice\n" +
                 " , SE.securityPeriodFlag from securitiesInventory se join market m on se.securitiesId=m.securitiesId where m.DATETIME='"+toDay+"')");
         stockarketMap.put("p_condition","");
         stockarketMap.put("p_pageSize",10);

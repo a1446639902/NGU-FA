@@ -2,6 +2,7 @@ package com.yidu.inventoryManage.controller;
 
 import com.yidu.inventoryManage.pojo.SecuritiesInventory;
 import com.yidu.inventoryManage.service.SecuritiesInventoryService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.DbUtil;
 import com.yidu.util.SysTableNameListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class SecuritiesInventoryController {
 
     @Resource
     DbUtil dbUtil;
+    @NGULog(message = "增加证券库存")
     @RequestMapping("selectSecuritiesInventory")
     public HashMap selectSecuritiesInventory(int page, int limit,String sreachTime,String sreachId){
         HashMap hashMap = securitiesInventoryService.selectSecuritiesInventory(page, limit,sreachTime,sreachId);
@@ -37,12 +39,15 @@ public class SecuritiesInventoryController {
         securitiesInventoryMap.put("data",securitiesInventoryList);
         return securitiesInventoryMap;
     }
+    @NGULog(message = "修改证券库存")
     @RequestMapping("updateSecuritiesInventory")
     public int updateSecuritiesInventory(SecuritiesInventory securitiesInventory){
         System.out.println(securitiesInventory);
         int i = securitiesInventoryService.updateSecuritiesInventory(securitiesInventory);
         return i;
     }
+
+    @NGULog(message = "删除证券库存")
     @RequestMapping("deleteSecuritiesInventory")
     public int deleteSecuritiesInventory(String securitiesInventorys){
         int i=0;
@@ -56,6 +61,7 @@ public class SecuritiesInventoryController {
 //
         return i;
     }
+    @NGULog(message = "增加证券库存")
     @RequestMapping("InsertSecuritiesInventory")
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory){
 

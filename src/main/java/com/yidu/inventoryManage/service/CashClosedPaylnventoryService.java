@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CashClosedPaylnventoryService {
+
     public int insertCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory);
     public int  deleteCashClosedPaylnventory(String cashClosedPayInventoryId);
     public int updateCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory);

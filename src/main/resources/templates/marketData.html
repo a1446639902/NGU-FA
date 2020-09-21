@@ -34,10 +34,7 @@
     <script type="text/html" id="userToolBar">
         <div style="float:right">
             <button class="layui-btn  layui-btn-sm" lay-event="shangHai" id="uploadShangHai"><i
-                    class="layui-icon">&#xe654;</i>导入上海行情
-            </button>
-            <button class="layui-btn  layui-btn-sm" lay-event="shengZheng" id="uploadShengZheng"><i
-                    class="layui-icon">&#xe654;</i>导入深圳行情
+                    class="layui-icon">&#xe654;</i>导入行情
             </button>
             <button class="layui-btn  layui-btn-sm" lay-event="add" ><i
                     class="layui-icon">&#xe654;</i>添加行情信息
@@ -226,30 +223,24 @@
                         document.getElementById("searchMarketId").value=searchMarketId;
                         document.getElementById("searchTime").value=searchTime;
                         break;
-                    case 'shangHai':
-                        //指定允许上传的文件类型
-                        upload.render({
-                            elem: '#uploadShangHai'
-                            ,url: '../api/upload' //改成您自己的上传接口
-                            ,accept: 'file' //普通文件
-                            ,done: function(res){
-                                layer.msg('上传成功');
-                            }
-                        });
-                        break;
-                    case 'shengZheng':
-                        //指定允许上传的文件类型
-                        upload.render({
-                            elem: '#uploadShengZheng'
-                            ,url: '../api/upload' //改成您自己的上传接口
-                            ,accept: 'file' //普通文件
-                            ,done: function(res){
-                                layer.msg('上传成功');
-                            }
-                        });
-                        break;
                     default:
                         break;
+                }
+            });
+
+            //文件上传
+            upload.render({
+                elem: '#uploadShangHai'
+                ,url: '/MarketData/upload' //改成您自己的上传接口
+                ,data: {}
+                ,accept: 'file'     //允许上传的文件类型
+                ,acceptMime: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                ,exts: 'xls|xlsx'   //文件后缀
+                ,size: 10000           //最大允许上传的文件大小
+                ,done: function(res, index, upload){ //上传后的回调
+                    layer.alert(res.msg);
+                    table.reload('myTable', {});
+                    return;
                 }
             });
 

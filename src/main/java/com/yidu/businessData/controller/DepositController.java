@@ -2,6 +2,7 @@ package com.yidu.businessData.controller;
 
 import com.yidu.businessData.pojo.DepositPojo;
 import com.yidu.businessData.service.DepositService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,8 @@ import java.util.List;
 public class DepositController {
     @Resource
     DepositService depositService;
+
+    @NGULog(message="查询存款业务表")
     @RequestMapping("/selectDeposit")
     public HashMap selectDeposit(int page,int limit,String businessType,String dateEnd){
         System.out.println(page+limit);
@@ -38,6 +41,8 @@ public class DepositController {
         hashMap.put("data",depositPojoList);
         return hashMap;
     }
+
+    @NGULog(message="新增存款业务表")
     @RequestMapping("/insertDeposit")
     public int insertDeposit(DepositPojo depositPojo, HttpServletRequest request){
         System.out.println("存款业务的新增===========");
@@ -46,12 +51,16 @@ public class DepositController {
         depositPojo.setFundId(fundId);
         return depositService.insertDeposit(depositPojo);
     }
+
+    @NGULog(message="修改存款业务表")
     @RequestMapping("/updateDeposit")
     public int updateDeposit(DepositPojo depositPojo){
         System.out.println("修改=========================");
         System.out.println(depositPojo);
         return depositService.updateDeposit(depositPojo);
     }
+
+    @NGULog(message="删除存款业务表")
     @RequestMapping("/deleteDeposit")
     public int deleteDeposit(String depositId){
         System.out.println("删除==========================");

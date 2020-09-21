@@ -1,5 +1,6 @@
 package com.yidu.taManage.controller;
 
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.taManage.pojo.TaTransaction;
 import com.yidu.taManage.service.TatransactionService;
 import com.yidu.util.DbUtil;
@@ -26,6 +27,8 @@ public class TatransactionController {
     TatransactionService tatransactionService;
     @Resource
     DbUtil dbUtil;
+    //登录验证
+    @NGULog(message = "登录验证")
     @RequestMapping ("/insertTatTransaction")
     public int insertTatTransaction(TaTransaction taTransaction, HttpServletRequest request){
         taTransaction.setTaTransactionId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TT));

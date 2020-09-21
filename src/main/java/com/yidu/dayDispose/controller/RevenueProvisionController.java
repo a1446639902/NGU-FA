@@ -7,6 +7,7 @@ import com.yidu.dayDispose.pojo.BondInterest;
 import com.yidu.dayDispose.pojo.RevenueProvision;
 import com.yidu.dayDispose.pojo.TwoFees;
 import com.yidu.dayDispose.service.RevenueProvisionService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.DbUtil;
 import com.yidu.util.GetAccountUtil;
 import com.yidu.util.JsonUtil;
@@ -34,6 +35,7 @@ public class RevenueProvisionController {
     @Resource
     DbUtil dbUtil;
      static double custodyMoney;
+    @NGULog(message = "查询现金账户join现金库存")
     @RequestMapping("selectRevenueProvision")
     public HashMap selectRevenueProvision(int page, int limit,String statDate){
         HashMap hashMap = revenueProvisionService.selectRevenueProvision(page, limit,statDate);
@@ -48,6 +50,7 @@ public class RevenueProvisionController {
         return revenueProvisionMap;
     }
     //查询债券利息
+    @NGULog(message = "证券库存join债券信息")
     @RequestMapping("selectBondInterest")
     public HashMap selectBondInterest(int page ,int limit,String statDate){
         System.out.println("第二个"+statDate);
@@ -62,9 +65,9 @@ public class RevenueProvisionController {
         bondInterestMap.put("data",bondInterestList);
         return bondInterestMap;
     }
+    @NGULog(message = "净值统计join基金信息")
     @RequestMapping("selectTwoFees")
     public HashMap selectTwoFees(int page, int limit ,String statDate){
-
 
         HashMap hashMap = revenueProvisionService.selectTwoFees(page, limit, statDate);
         System.out.println(statDate+"=============================");
@@ -78,6 +81,8 @@ public class RevenueProvisionController {
         twoFeesMap.put("data",twoFeesList);
         return twoFeesMap;
     }
+
+    @NGULog(message = "现金信息页面选中信息")
     @RequestMapping("CountingCash")
     public int CountingCash(String cash,HttpServletRequest request){
         int i=0;
@@ -131,6 +136,8 @@ public class RevenueProvisionController {
 //        }
         return i;
     }
+
+    @NGULog(message = "债券信息页面选中信息")
     @RequestMapping("StatisticalSecurities")
     public int StatisticalSecurities(String Securities,HttpServletRequest request){
         int i=0;
@@ -181,6 +188,7 @@ public class RevenueProvisionController {
         }
         return i;
     }
+    @NGULog(message = "两费信息页面选中信息")
     @RequestMapping("StatisticalTwoFees")
     public int statisticalTwoFees(String TwoFees, HttpServletRequest request){
         int i=0;
