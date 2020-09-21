@@ -18,5 +18,4 @@ public interface TransactionDataService {
     int deleteTransactionData(String transactionDataId);
     int deleteTransactionDataTwo(String transactionDataId);
     int updateTransactionData(TransactionData transactionData);
-    void importTransactionData(String excelFileName);
 }
