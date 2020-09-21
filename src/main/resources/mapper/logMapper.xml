@@ -17,4 +17,12 @@
     <select id="selectLog" parameterType="java.util.Map" statementType="CALLABLE">
         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=logMap})}
     </select>
+
+    <delete id="deleteLog" parameterType="list">
+        delete from log where logId in
+        <foreach collection="list" item="logId" open="("
+                 separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
 </mapper>

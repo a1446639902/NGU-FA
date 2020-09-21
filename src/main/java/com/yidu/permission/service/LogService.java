@@ -13,4 +13,5 @@ import java.util.List;
 public interface LogService {
     public void insertLog(Log log);
     public HashMap selectLog(int page, int limit, String userName);
+    public int deleteLog(String logId);
 }
