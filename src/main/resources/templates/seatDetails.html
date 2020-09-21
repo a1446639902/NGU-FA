@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>席位成交明细表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="layui/css/layui.css" />
+    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css"
+          media="all" />
+    <link rel="stylesheet" href="layui/css/view.css">
+    <script src="layui/layui.js"></script>
+    <style type="text/css">
+        #seateId{
+            height:32px;
+        }
+        .layui-table-view .layui-form-radio>i {
+            margin-top: 0px;
+        }
+
+    </style>
+</head>
+<body style="overflow: auto; background-color: white;"
+      class="layui-view-body layui-content">
+<div>
+    <table id="treasurerTable" lay-filter="treasurerTable"></table>
+    <div style="display: none;" id="toolbarDemo">
+        <div style="position: absolute; left: 10px;">
+            <form id="searchform" lay-filter="searchform"
+                  class="layui-form layui-form-pane">
+                <div class="layui-form-item" style="text-align: center;">
+                    <label class="layui-form-label" style="height: 32px;">划款日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="dateTime" style="height: 32px;" id="date2" lay-verify="date" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                        <span id="datetime"></span>
+                    </div>
+                    <input type="hidden" name="seateId" id="seateId2">
+                    <div class="layui-inline">
+                        <label style="height: 32px; width: 100px;"
+                               class="layui-form-label">席位</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="seateId" lay-verify="required"
+                                   autocomplete="off" placeholder="请选择席位" class="layui-input">
+                        </div>
+                    </div>
+                    <button type="button" lay-event="search"
+                            class="layui-btn layui-btn-sm" style="margin-bottom: 6px;">
+                        <i class="layui-icon">&#xe615;</i>搜索
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/seatDetails.js"></script>
+</body>
+</html>

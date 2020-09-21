@@ -32,7 +32,7 @@ public class SeateScheduleOfServiceImpl implements SeateScheduleOfService {
            }
         System.out.println(sql);
            HashMap seateScheduleOfMap = new HashMap();
-        seateScheduleOfMap.put("p_tableName","(select * form )");
+        seateScheduleOfMap.put("p_tableName","seateScheduleOf");
         seateScheduleOfMap.put("p_condition", sql);
         seateScheduleOfMap.put("p_pageSize", limit);
         seateScheduleOfMap.put("p_page", page);
