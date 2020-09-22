@@ -47,8 +47,6 @@
                         ,{field : 'cashBlance', title:'头寸金额',  align: 'center',width: '50%',
 
 
-
-
                         templet:function (data) {
 
                             if (data.cashBlance<0){
@@ -65,7 +63,6 @@
             });
             //刷新表格
             table.reload('myTable');
-
 
             //给工具条的按钮添加事件
             table.on('toolbar(myTable)', function (obj) {

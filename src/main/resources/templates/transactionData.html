@@ -44,7 +44,7 @@
             </div>
         </form>
         <br>
-        <div class="layui-btn-container layui-upload"
+        <div class="layui-btn-container"
              style="position: absolute; right: 120px; top: 10px;">
             <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" lay-event="deleteAll">
                 <i class="layui-icon">&#xe640;</i>批量删除</button>
@@ -53,17 +53,15 @@
                     lay-event="add">
                 <i class="layui-icon">&#xe654;</i>添加交易数据
             </button>
-            <button class="layui-btn layui-btn-sm layui-btn" id="uploadData"
-                    lay-event="shangHai">
-                <i class="layui-icon">&#xe67c;</i>上海过户库数据导入
+            <button class="layui-btn  layui-btn-sm" lay-event="shangHai" id="uploadShangHai"><i
+                    class="layui-icon">&#xe654;</i>导入行情
             </button>
         </div>
 
     </script>
 <body>
-<!----><button class="layui-btn layui-btn-sm layui-btn" id="test1"
-        lay-event="shangHai">
-    <i class="layui-icon">&#xe67c;</i>导入
+<button class="layui-btn  layui-btn-sm" lay-event="shangHai" id="test"><i
+        class="layui-icon">&#xe654;</i>导入行情
 </button>
 </body>
     <script type="text/javascript">
@@ -100,16 +98,20 @@
                 elem: '#settlementDate1'
             })
 
-          upload.render({
-                elem: '#test1'
-                ,url: '../api/upload' //改成您自己的上传接口
-                ,accept: 'file' //普通文件
-                ,done: function(res){
-                    layer.msg('上传成功');
-                    console.log(res);
+            //文件上传
+            upload.render({
+                elem: '#test'
+                ,url: '../TransactionData/upload' //改成您自己的上传接口
+                ,data: {}
+                ,accept: 'file'     //允许上传的文件类型
+                ,acceptMime: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                ,exts: 'xls|xlsx'   //文件后缀
+                ,size: 10000           //最大允许上传的文件大小
+                ,done: function(res, index, upload){ //上传后的回调
+                    table.reload('userTable', layer.msg('导入成功'));
+                    return;
                 }
             });
-
 
             //添加证券下拉表单
             tableSelect.render({
@@ -178,6 +180,7 @@
 
                 }
             })
+
 
             //添加券商下拉表单
             tableSelect.render({
@@ -376,7 +379,7 @@
             //新增提交
             form.on('submit(addsubmit)', function(data){
                 var formData=$('#addform').serialize();
-                alert("表单提交的数据：" + formData);
+                /*alert("表单提交的数据：" + formData);*/
                 $.post("../TransactionData/insertTransactionData",formData,function(msg){
                     if(msg>0){
                         table.reload('userTable');
@@ -556,19 +559,6 @@
                             });
                         }
                         break;
-                   /* case 'shangHai':
-                        //指定允许上传的文件类型
-                        upload.render({
-                            elem: '#uploadData'
-                            ,url: '../api/upload' //改成您自己的上传接口
-                            ,accept: 'file' //普通文件
-                            ,done: function(res){
-                                layer.msg('上传成功');
-                                console.log(res);
-                            }
-                        });
-
-                        break;*/
                 }
             });
             //给表格编辑，删除按钮添加点击事件
@@ -608,8 +598,10 @@
         function myclose() {
             layer.closeAll();
         }
+        //添加
 
         function myNum() {
+            var lixidays=0;
             layui.use(['layer'], function () {
                 var $ = layui.$;
                 //交易金额 = 数量*价格
@@ -636,40 +628,36 @@
                         $('#brokerage1').val(item.brokerage);
                         //证券利息：股票和债券都属于证券
                         //股票没有利息，债券利息就是债券
-                        var parRate=0;
-                        var bondRateAmount=0;
-                        var lixiday=0;
+
+
                         $.post("../selectBond", {securitiesId: securitiesId,drawStartDate: '',page:1,limit:1},function(obj2) {
                             $.each(obj2.data,function (index2,item2){
                                 //  票面利率/365*票面金额*数量*1
                                 //票面利率
-                                parRate = item2.parRate;
-                                //票面金额
-                                 bondRateAmount = item2.bondRateAmount;
+                                var lixiday = Number(item2.parRate)/365*Number(item2.bondRateAmount)*Number(num)*1;
+                                lixidays = lixiday.toFixed(2);
+                                $('#security1').val(lixidays);
                             })
                         })
-                        //当天应收债券利息
-                        lixiday = parRate/365*bondRateAmount*num*1;
-
-                            //股票没有利息
-                        if (item.rateType==2){
-                            lixiday=0;
-                            $('#security1').val(lixiday);
-                        }else if (item.rateType==1){
-                            $('#security1').val(lixiday);
+                        var vals=0;
+                        if (item.rateType==1){
+                            vals = $('#security1').val();
+                        }else if (item.rateType==2){
+                            $('#security1').val(0);
                         }
+                        alert(vals)
                         var totalSum=0;
                         //买入
                         if ($('#transactionDataMode').val()==1){
                             totalSum=Number(netReceipts)+Number(commission)/100+Number(item.stampDuty)
-                            +Number(item.transferFee)+Number(item.collectionRate)+Number(item.brokerage)+Number(lixiday);
+                            +Number(item.transferFee)+Number(item.collectionRate)+Number(item.brokerage)+Number(vals);
                             //var floatSum=parseFloat(totalSum);
                             var ser=totalSum.toFixed(2);
                             $('#totalSum').val(ser);
                             //卖出
                         }else if($('#transactionDataMode').val()==2){
                             $('#totalSum').val(netReceipts-(commission/100+item.stampDuty
-                                +item.transferFee+item.collectionRate+item.brokerage)+lixiday);
+                                +item.transferFee+item.collectionRate+item.brokerage)+vals);
                         }
                     })
 
@@ -728,17 +716,15 @@
                             $('#security2').val(lixiday);
                         }
                         //买入   结算金额
-                        var totalsum2 = 0.00;
                         if ($('#transactionDataMode2').val()==1){
-                            totalsum2=netReceipts2*1+commission2/100+item.stampDuty*1
-                            +item.transferFee*1+item.collectionRate*1+item.brokerage*1+lixiday*1;
-                            alert(totalsum2)
-                            $('#totalSum2').val(totalsum2);
+                            var totalSum=Number(netReceipts2)+Number(commission2)/100+Number(item.stampDuty)
+                                +Number(item.transferFee)+Number(item.collectionRate)+Number(item.brokerage)+Number(lixiday);
+                            var ser=totalSum.toFixed(2);
+                            $('#totalSum2').val(ser);
                             //卖出
                         }else if($('#transactionDataMode2').val()==2){
-                            totalsum2=netReceipts2*1-(commission2/100+item.stampDuty*1
-                                +item.transferFee*1+item.collectionRate*1+item.brokerage*1+lixiday*1);
-                            $('#totalSum2').val(totalsum2);
+                            $('#totalSum2').val(netReceipts2-(commission2/100+item.stampDuty
+                                +item.transferFee+item.collectionRate+item.brokerage)+lixiday);
                         }
                     })
 

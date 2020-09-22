@@ -1,16 +1,21 @@
 package com.yidu.businessData.controller;
 
+import com.yidu.businessData.pojo.MarketData;
 import com.yidu.businessData.pojo.TransactionData;
 import com.yidu.businessData.service.TransactionDataService;
 import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.DbUtil;
 import com.yidu.util.GetFundIdUtil;
 import com.yidu.util.SysTableNameListUtil;
+import com.yidu.util.marketDateUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,5 +79,23 @@ public class TransactionDataController {
     @RequestMapping("/updateTransactionData")
     public int updateTransactionData(TransactionData transactionData){
         return transactionDataService.updateTransactionData(transactionData);
+    }
+    @NGULog(message = "交易数据导入")
+    @RequestMapping("upload")
+    @ResponseBody
+    public Map<String, Object> uploadMarket(MultipartFile file) throws IOException {
+        Map<String,Object> map = new HashMap<>();
+        List<TransactionData> list = marketDateUtil.getList(TransactionData.class, file.getInputStream(), 0);
+        for (TransactionData transactionData : list) {
+            if(transactionData.getSecuritiesId()!=null) {
+                transactionData.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));
+                transactionData.setDateTime("2020-09-26");
+                transactionData.setTransfer(0.2);
+                transactionData.setTransactionDataMode(1);
+                transactionDataService.insertTransactionData(transactionData);
+            }
+        }
+        return map;
+
     }
 }

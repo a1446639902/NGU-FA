@@ -1,5 +1,3 @@
-location: D:/upload/
-
 server:
   port: 9122
   servlet:
