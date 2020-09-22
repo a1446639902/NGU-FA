@@ -32,26 +32,29 @@ public class SettlementController {
         @NGULog(message = "查询交易结算表")
         @RequestMapping("/selectSettlement")
         public HashMap selectSettlement(int page, int limit,String status,String dateTime,String transactionDataMode){
+            //调用service方法传值
             HashMap hashMap = settlementService.selectSettlement(page,limit,status,dateTime,transactionDataMode);
+            //通过hashMap获取p_count总条数
             int count = (int) hashMap.get("p_count");
+            //通过hashMap获取p_cursor游标数据返回集合,强转下类型
             List<Settlement> settlementList = (List<Settlement>) hashMap.get("p_cursor");
-            System.out.println("总条数："+count);
-            System.out.println("page="+page+",limit="+limit+",status="+status+",dateTime="+dateTime+",transactionDataMode="+transactionDataMode);
+            //创建一个HashMap
             HashMap settMap = new HashMap();
+            //给状态码赋值count,code,msg,data
             settMap.put("count",count);
             settMap.put("code",0);
             settMap.put("msg","");
             settMap.put("data", settlementList);
-            System.out.println("查询数据"+ settlementList);
             return settMap;
 
         }
         @NGULog(message = "查添加交易结算表")
         @RequestMapping("/insertSettlement")
         public int insertSettlement(Settlement settlement, HttpServletRequest request){
+            //给交易数据id进行赋值
             settlement.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));
+            //给基金id进行赋值
             settlement.setFundId(GetFundIdUtil.getFundId(request));
-            System.out.println(settlement);
             return settlementService.insertSettlement(settlement);
         }
         @NGULog(message = "删除交易结算表")
@@ -59,12 +62,14 @@ public class SettlementController {
         public int deleteTransactionData(String transactionDataId){
             return settlementService.deleteSettlement(transactionDataId);
         }
-        @NGULog(message = "修改状态交易结算表")
+
+        @NGULog(message = "修改状态交易未结算表")
         @RequestMapping("/updateSettlement")
         public int updateTransactionData(String settlement){
             return settlementService.updateSettlement(settlement);
         }
-        @NGULog(message = "修改状态交易结算表")
+
+        @NGULog(message = "修改状态交易已结算表")
         @RequestMapping("/updateTwoSettlement")
         public int updateTwoTransactionData(String settlement){
             return settlementService.updateSettlementTwo(settlement);
