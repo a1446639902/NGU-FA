@@ -23,14 +23,36 @@ import java.util.Map;
  */
 @Service
 public class EquityDisposeServiceImpl implements EquityDisposeService {
+    /**
+     * 调用工具类
+     */
     @Resource
     DbUtil dbUtil;
+    /**
+     * 调用权益处理接口
+     */
     @Resource
     EquityDisposeMapper equityDisposeMapper;
+    /**
+     * 调用交易数据接口
+     */
     @Resource
     TransactionDataMapper transactionDataMapper;
+    /**
+     * 调用权益数据的服务层Service
+     */
     @Resource
     EquityDataService equityDataService;
+
+    /**
+     * 权益处理分页查询
+     * @param pageSize
+     * @param page
+     * @param equitiesType
+     * @param equitiesExright
+     * @param disposeStatus
+     * @return
+     */
     @Override
     public Map<String, Object> selectEquityDispose(String pageSize, String page, String equitiesType, String equitiesExright,String disposeStatus) {
         //创建一个结果集Map用于存放两个结果变量
@@ -114,6 +136,12 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
 
     }
 
+    /**
+     * 修改权益处理  插入交易数据
+     * @param equityDisPose
+     * @param request
+     * @return
+     */
     @Override
     public int updateEquityDispose(String equityDisPose, HttpServletRequest request) {
         List<EquityDispose> equityDisposeList = JsonUtil.jsonToArrayList(equityDisPose, EquityDispose.class);
@@ -165,6 +193,11 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
         return 1;
     }
 
+    /**
+     * 修改权益处理  删除交易数据
+     * @param equityDispose
+     * @return
+     */
     @Override
     public int updateEquityDisposeTwo(String equityDispose) {
         List<EquityDispose> equityDisposes = JsonUtil.jsonToArrayList(equityDispose, EquityDispose.class);

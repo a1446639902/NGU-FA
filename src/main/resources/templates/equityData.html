@@ -23,6 +23,7 @@
     <script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
     <!--工具条-->
     <script type="text/html" id="userToolBar">
+
         <div style="float:right">
             <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm layui-bg-green" lay-event="add"><i
                     class="layui-icon">&#xe654;</i>添加数据</button>
@@ -55,15 +56,21 @@
         </form>
     </script>
 
-
+<body>
+<button class="layui-btn  layui-btn-sm" lay-event="shangHai" id="uploQuanyi"><i
+        class="layui-icon">&#xe654;</i>导入权益
+</button>
+</body>
 
     <script type="text/javascript">
 
-        layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], function () {
+        layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect','upload'], function () {
             var layer = layui.layer;
             var $ = layui.$;
             var table = layui.table;
             var form = layui.form;
+            var upload = layui.upload;
+            var element = layui.element;
             var tableSelect = layui.tableSelect;
             var laydate = layui.laydate;
 
@@ -105,6 +112,22 @@
             laydate.render({
                 elem: '#receivedDate2'
             })
+
+            //文件上传
+            upload.render({
+                elem: '#uploQuanyi'
+                ,url: '../QuanYiShuju' //改成您自己的上传接口
+                ,data: {}
+                ,accept: 'file'     //允许上传的文件类型
+                ,acceptMime: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                ,exts: 'xls|xlsx'   //文件后缀
+                ,size: 10000           //最大允许上传的文件大小
+                ,done: function(res, index, upload){ //上传后的回调
+                    layer.alert(res.msg);
+                    table.reload('userTable',layer.msg("导入成功"));
+                    return;
+                }
+            });
 //新增证券下拉选择器
             tableSelect.render({
                 elem: '#securityName'
@@ -129,6 +152,7 @@
                     elem.val(NEWJSON.join(","))
                 }
             })
+
 
             //新增账户名称下拉选择器
             tableSelect.render({
@@ -319,7 +343,6 @@
                         });
                         form.render();
                         //全屏
-
                         break;
                     case 'search':
                         alert("搜索");

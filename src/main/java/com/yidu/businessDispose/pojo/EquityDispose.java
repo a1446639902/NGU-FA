@@ -1,5 +1,9 @@
 package com.yidu.businessDispose.pojo;
-
+/**
+ *@author wzh
+ *date 2020-9-21
+ * 权益处理表实体类
+ */
 public class EquityDispose {
     private String equityDataId;//权益编号
     private String securitiesName;//证券名称

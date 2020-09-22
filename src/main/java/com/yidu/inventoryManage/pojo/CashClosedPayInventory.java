@@ -3,7 +3,7 @@ package com.yidu.inventoryManage.pojo;
 public class CashClosedPayInventory {
     /**
      *@author wzh
-     * date 2020-9-1
+     * date 2020-9-22
      * 现金应收应付库存实体类
      */
     private String cashClosedPayInventoryId;                      //现金应收应付库存编号

@@ -4,6 +4,11 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+/**
+ *@author wzh
+ *date 2020-9-21
+ * 权益处理Service
+ */
 @Service
 public interface EquityDisposeService {
     /**
