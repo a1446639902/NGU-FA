@@ -95,8 +95,8 @@ public class RevenueProvisionController {
             cashClosedPayPojo.setFundId(revenueProvision.getFundId());
             cashClosedPayPojo.setAccountId(revenueProvision.getAccountId());
             System.out.println(cashClosedPayPojo+"===============================================");
-            i=cashClosedPayService.deleteNew(cashClosedPayPojo);
-            if(i>0){
+
+
                 String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
                 cashClosedPayPojo.setCashClosedPayId(cashClosedPayId);
                 cashClosedPayPojo.setFundId(revenueProvision.getFundId());
@@ -107,7 +107,14 @@ public class RevenueProvisionController {
                 cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
                 cashClosedPayPojo.setFlag(1);
                 i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
-            }
+                if(i>0){
+                    i=cashClosedPayService.deleteNew(cashClosedPayPojo);
+                    if(i>0){
+                        i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
+                        System.out.println("这是现金应收应付先删后增的i"+i);
+                    }
+                }
+
 
 
 
