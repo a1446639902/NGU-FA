@@ -97,13 +97,13 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
         cols: [
             [ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'businessDate', title: '业务日期', align:'center'}
+                ,{field: 'businessDate',width:170, title: '业务日期', align:'center'}
                 ,{field: 'cashClosedPayInventoryId', title: '现金应收应付库存ID', align:'center', hide:true}
                 ,{field: 'accountId', title: '现金Id', align:'center', hide:true}
-                ,{field: 'accountName', title: '现金账户名称', align:'center'}
+                ,{field: 'accountName',width:235, title: '现金账户名称', align:'center'}
                 ,{field: 'fundId', title: '基金编号', align:'center', hide:true}
                 ,{field: 'fundName', title: '基金名称', align:'center', hide:true}
-                ,{field: 'businessType', title: '业务类型', align:'center',
+                ,{field: 'businessType',width:170, title: '业务类型', align:'center',
                 templet:function (item) {
                     if (item.businessType==1){
                         return '管理费';
@@ -117,7 +117,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 
                 }
             }
-                ,{field: 'businessStatus', title: '业务状态', align:'center',
+                ,{field: 'businessStatus',width:150, title: '业务状态', align:'center',
                 templet:function (item) {
                     if (item.businessStatus==1){
                         return '流入';
@@ -125,7 +125,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                     return '流出';
                 }
             }
-                ,{field: 'initialSigns', title: '期初标志', align:'center',
+                ,{field: 'initialSigns',width:150, title: '期初标志', align:'center',
                 templet:function (item) {
                     if (item.initialSigns==1){
                         return '是';
@@ -133,8 +133,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                     return '否';
                 }
             }
-                ,{field: 'totalMoney', title: '总金额', align:'center'}
-                ,{title: 'operation', title: '操作', toolbar:'#barDemo', align:'center',fixed: 'right'}
+                ,{field: 'totalMoney',width:150, title: '总金额', align:'center'}
+                ,{title: 'operation',width:200, title: '操作', toolbar:'#barDemo', align:'center',fixed: 'right'}
             ]
         ]
     });

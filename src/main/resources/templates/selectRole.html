@@ -18,7 +18,7 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit" style="background-color: rgba(0,150,136,1);color: white;">编辑权限</a>
         </script>
 
     </div>
@@ -100,7 +100,6 @@
                         btn:['添加','取消'],
                         yes: function(index, layero){
                             var checkedData = tree.getChecked('id'); //获取选中节点的数据
-                            alert(checkedData)
                             var ids =[];
                             $.each(checkedData,function (i,parent) {
                                 ids.push(parent.id);

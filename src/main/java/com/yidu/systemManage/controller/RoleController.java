@@ -1,5 +1,6 @@
 package com.yidu.systemManage.controller;
 
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.systemManage.pojo.RolePojo;
 import com.yidu.systemManage.service.RoleService;
 import com.yidu.util.GetFundIdUtil;
@@ -44,6 +45,7 @@ public class RoleController {
         return roleService.updateRole(rolePojo);
     }
 
+    @NGULog(message = "查看所有角色信息")
     @RequestMapping("/selectRole")
     public Map<String,Object> selectUser(int page, int limit, HttpServletRequest request){
 

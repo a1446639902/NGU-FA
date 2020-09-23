@@ -5,6 +5,7 @@ import com.yidu.reportManage.pojo.StatementMarketChangePojo;
 import com.yidu.reportManage.service.StatementMarketChangeService;
 import com.yidu.util.DateTimeUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -13,11 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * 证券市场变动表
  * @author 黄志豪
  * @version 1.0
  * @Type
  * @time 2020/9/20
  **/
+@Transactional
 @Service
 public class StatementMarketChangeServiceImpl implements StatementMarketChangeService {
     @Resource

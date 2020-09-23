@@ -10,10 +10,10 @@
 <body>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div>
-    <input type="text" id="myDate" style="height: 35px; margin-left: 80%;float: right" placeholder="请输入查询的时间">
-    <input type="submit" value="　搜索　" style="background-color: rgba(0,150,136,1);color: white;height: 35px ;margin-left: 95%; margin-top: 0px ;float: right"; >
+    <input type="text" id="myDate" style="height: 35px;" placeholder="请输入查询的时间">
+    <input type="submit" value="　搜索　" onclick="search()" style="background-color: rgba(0,150,136,1);color: white;height: 35px"; >
 </div>
-<div id="main" style="margin-top:150px;margin-left: 5%;width: 90%;height:450px;"></div>
+<div id="main" style="width: 100%;height:488px;"></div>
 <script type="text/javascript" rel="script">
     var $= layui.$;
     var myData=[

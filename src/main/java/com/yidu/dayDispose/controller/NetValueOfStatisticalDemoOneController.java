@@ -2,6 +2,7 @@ package com.yidu.dayDispose.controller;
 
 import com.yidu.dayDispose.pojo.NetValueOfStatisticalPojo;
 import com.yidu.dayDispose.service.NetValueOfStatisticalService;
+import com.yidu.permission.aspect.NGULog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,7 @@ public class NetValueOfStatisticalDemoOneController {
     @Resource
     NetValueOfStatisticalService netValueOfStatisticalService;
 
+    @NGULog(message = "查询净值统计表")
     @RequestMapping("/selectTableByTime")
     public Map<String, Object> selectNetValueOfStatisticalController(String time) {
         netValueOfStatisticalService.selectAllMsg(time);

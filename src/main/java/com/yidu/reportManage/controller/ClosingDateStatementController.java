@@ -1,6 +1,7 @@
 package com.yidu.reportManage.controller;
 
 import com.yidu.businessData.pojo.DepositPojo;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.reportManage.pojo.ClosingDateStatementPojo;
 import com.yidu.reportManage.service.ClosingDateStatementService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import java.util.List;
 public class ClosingDateStatementController {
     @Resource
     ClosingDateStatementService closingDateStatementService;
+
+    @NGULog(message="查询成交结算日报表")
     @RequestMapping("/selectClosingDateStatement")
     public HashMap selectClosingDateStatement(int page,int limit,String dateTime){
         System.out.println("--------------------");

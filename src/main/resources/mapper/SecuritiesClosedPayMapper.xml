@@ -12,7 +12,7 @@
         </foreach>
     </delete>
     <delete id="deleteSecuritiesClosedPayByPojo" parameterType="com.yidu.businessData.pojo.SecuritiesClosedPayPojo">
-        delete from securitiesClosedPay where dateTime=#{dateTime} and fundId=#{fundId} and securitiesId=#{securitiesId}
+        delete from securitiesClosedPay where dateTime=#{dateTime} and fundId=#{fundId} and securitiesId=#{securitiesId} and serviceType=#{serviceType}
     </delete>
     <resultMap id="securitiesClosedPayMap" type="com.yidu.businessData.pojo.SecuritiesClosedPayPojo">
         <result property="securitiesClosedPayId" column="securitiesClosedPayId" javaType="String"></result>

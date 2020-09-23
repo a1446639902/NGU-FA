@@ -51,10 +51,11 @@ public class RevenueProvisionServiceImpl implements RevenueProvisionService {
         HashMap twoFeesMap = new HashMap();
         System.out.println("jjjjjjjjj"+statDate);
         if(statDate!="" && statDate!=null ){
-            twoFeesMap.put("p_tableName","(select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.MARKETVALUE,\n" +
-                    "       ROUND((va.MARKETVALUE*f.managerRate/100/365 ),2)as managementMoney,\n" +
-                    "       ROUND((va.MARKETVALUE*f.hostingRate/100/365 ),2)as CustodyMoney from  fund f\n" +
-                    "    join (select * from valueStatistics where valueStatisticsDate=to_char(to_date('"+statDate+"','yyyy-MM-dd')-1,'yyyy-MM-dd') and PROJECTNAME='资产净值') va on f.fundId=va.fundId)");
+            twoFeesMap.put("p_tableName","(select fundId,managerRate,accountId,hostingRate,valueStatisticsDate,MARKETVALUE,ROUND((MARKETVALUEs*managerRate/100/365 ),2)as managementMoney,\n" +
+                    " ROUND((MARKETVALUEs*hostingRate/100/365 ),2)as CustodyMoney from (select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.MARKETVALUE,\n" +
+                    "(case  when va.MARKETVALUE=0 then ROUND(to_number(sizeOfThe)) else ROUND(to_number(va.MARKETVALUE))  end) MARKETVALUEs from  fund f\n" +
+                    "  join (select * from valueStatistics where valueStatisticsDate=\n" +
+                    " to_char(to_date('"+statDate+"','yyyy-MM-dd')-1,'yyyy-MM-dd') and PROJECTNAME='资产净值') va on f.fundId=va.fundId))");
         }else {
             twoFeesMap.put("p_tableName","(select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.MARKETVALUE,\n" +
                     "       ROUND((va.MARKETVALUE*f.managerRate/100/365 ),2)as management,\n" +

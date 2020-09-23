@@ -3,6 +3,7 @@ package com.yidu.inventoryManage.controller;
 import com.yidu.businessData.pojo.SecuritiesClosedPayPojo;
 import com.yidu.inventoryManage.pojo.SecuritiesClosedPayInventoryPojo;
 import com.yidu.inventoryManage.service.SecuritiesClosedPayInventoryService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,8 @@ import java.util.HashMap;
 public class SecuritiesClosedPayInventoryController {
     @Resource
     SecuritiesClosedPayInventoryService securitiesClosedPayInventoryService;
+
+    @NGULog(message="查询证券应收应付库存")
     @RequestMapping("/selectSecuritiesClosedPayInventory")
     public HashMap selectSecuritiesClosedPayInventory(int page,int limit,String securitiesType,String dateTime){
         System.out.println("查询===============");
@@ -39,6 +42,8 @@ public class SecuritiesClosedPayInventoryController {
         hashMap.put("data",securitiesClosedPayList);
         return hashMap;
     }
+
+    @NGULog(message="新增证券应收应付库存")
     @RequestMapping("/insertSecuritiesClosedPayInventory")
     public int insertSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo, HttpServletRequest request){
         String fundId = GetFundIdUtil.getFundId(request);
@@ -47,12 +52,16 @@ public class SecuritiesClosedPayInventoryController {
         System.out.println(securitiesClosedPayInventoryPojo);
         return securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
     }
+
+    @NGULog(message="修改证券应收应付库存")
     @RequestMapping("/updateSecuritiesClosedPayInventory")
     public int updateSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo){
         System.out.println("修改=========");
         System.out.println(securitiesClosedPayInventoryPojo);
         return securitiesClosedPayInventoryService.updateSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
     }
+
+    @NGULog(message="删除证券应收应付库存")
     @RequestMapping("/deleteSecuritiesClosedPayInventory")
     public int deleteSecuritiesClosedPayInventory(String securitiesClosedPayInventoryIds){
         System.out.println(securitiesClosedPayInventoryIds);
