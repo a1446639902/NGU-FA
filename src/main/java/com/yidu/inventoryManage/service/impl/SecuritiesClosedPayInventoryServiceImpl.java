@@ -26,19 +26,30 @@ public class SecuritiesClosedPayInventoryServiceImpl implements SecuritiesClosed
     SecuritiesClosedPayInventoryMapper securitiesClosedPayInventoryMapper;
     @Resource
     DbUtil dbUtil;
+
+    /**
+     * 查询证券应收应付的方法
+     * @param page 页码
+     * @param limit 每页显示的条数
+     * @param securitiesType 证券应收应付类型 1=估值款 2=证券清算款 3=债券利息
+     * @param dateTime 业务日期
+     * @return 返回hashMap对象
+     */
     @Override
     public HashMap selectSecuritiesClosedPayInventory(int page, int limit,String securitiesType,String dateTime) {
         StringBuffer stringBuffer = new StringBuffer();
+        //判断dateTime是否为空，不为空则添加条件
         if(dateTime!=null && !dateTime.equals("")){
             stringBuffer.append(" and dateTime='"+dateTime+"'");
         }
+        //判断securitiesType是否为空不为空则添加查询条件
         String tableName=" (select * from securitiesClosedPayInventory scpi  join securities st on scpi.securitiesId=st.securitiesId ";
         if (securitiesType!=null && !securitiesType.equals("")){
             int i = Integer.parseInt(securitiesType);
             tableName=tableName+" and  scpi.securitiesType="+i;
         }
         tableName=tableName+" )";
-
+        //创建hashMap，调用存储过程,(p_tableName,p_condition,p_pageSize,p_page,p_count,p_cursor)
         HashMap scpiMap = new HashMap<>();
         scpiMap.put("p_tableName",tableName);
         scpiMap.put("p_condition",stringBuffer.toString());
@@ -50,6 +61,12 @@ public class SecuritiesClosedPayInventoryServiceImpl implements SecuritiesClosed
         return scpiMap;
     }
 
+
+    /**
+     * 新增证券应收应付的方法
+     * @param securitiesClosedPayInventoryPojo 证券应收应付的实体类
+     * @return 返回 1新增成功 0新增失败
+     */
     @Override
     public int insertSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo) {
         securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
@@ -57,14 +74,25 @@ public class SecuritiesClosedPayInventoryServiceImpl implements SecuritiesClosed
 
     }
 
+    /**
+     * 修改证券应收应付的方法
+     * @param securitiesClosedPayInventoryPojo 证券应收应付的实体类
+     * @return 返回 1修改成功 0修改失败
+     */
     @Override
     public int updateSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo) {
 
         return securitiesClosedPayInventoryMapper.updateSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
     }
 
+    /**
+     * 删除证券应收应付的方法
+     * @param securitiesClosedPayInventoryIds 证券应收应付Id
+     * @return 返回 1删除成功 0删除失败
+     */
     @Override
     public int deleteSecuritiesClosedPayInventory(String securitiesClosedPayInventoryIds) {
+        //判断securitiesClosedPayInventoryIds是否为空，不为空 进行切割 装入集合
         if (securitiesClosedPayInventoryIds != null && !securitiesClosedPayInventoryIds.equals("")) {
             String[] split = securitiesClosedPayInventoryIds.split(",");
             ArrayList securitiesClosedPayInventoryIdList = new ArrayList<>();

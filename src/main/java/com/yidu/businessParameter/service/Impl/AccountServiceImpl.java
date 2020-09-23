@@ -29,6 +29,16 @@ public class AccountServiceImpl implements AccountService {
     AccountMapper accountMapper;
     @Resource
     DbUtil dbUtil;
+
+    /**
+     * 查询现金账户表的方法
+     * @param page 页码
+     * @param limit 每页显示的条数
+     * @param accountName 账号名称
+     * @param blankName 银行名称
+     * @param fundId 基金Id
+     * @return 返回hashMap对象
+     */
     @Override
     public HashMap selectAccount(int page,int limit,String accountName,String blankName,String fundId) {
         String sql="";
@@ -38,9 +48,12 @@ public class AccountServiceImpl implements AccountService {
         if(blankName!=null && !blankName.equals("")){
             sql=sql+" and blankName='"+blankName+"'";
         }
+
+        //构造调用存储过程hashMap（"p_tableName",(select * from account where fundId='"+fundId+"')
         HashMap accountMap = new HashMap();
         //select * from account where fundId='"+289289289+"'"  根据基金Id查询现金账号
         accountMap.put("p_tableName","(select * from account where fundId='"+fundId+"')");
+        //hashMap的键的参数（"p_condition","p_pageSize","p_page","p_count","p_cursor"）
         accountMap.put("p_condition",sql);
         accountMap.put("p_pageSize",limit);
         accountMap.put("p_page",page);
@@ -50,12 +63,22 @@ public class AccountServiceImpl implements AccountService {
         return accountMap;
     }
 
+    /**
+     * 新增现金账号表的方法
+     * @param accountPojo 现金账号表实体类
+     * @return 返回1 新增成功 0 新增失败
+     */
     @Override
     public int insertAccount(AccountPojo accountPojo) {
         accountPojo.setAccountId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.A));
         return accountMapper.insertAccount(accountPojo);
     }
 
+    /**
+     * 删除现金账户表的方法
+     * @param accountId 现金账户Id
+     * @return 返回1 删除成功 0 删除失败
+     */
     @Override
     public int deleteAccount(String accountId) {
         if(accountId!=null && !accountId.equals("")){
@@ -74,6 +97,11 @@ public class AccountServiceImpl implements AccountService {
 
     }
 
+    /**
+     * 修改现金账户表的方法
+     * @param accountPojo 现金账户的实体类
+     * @return 返回1 修改成功 0 修改失败
+     */
     @Override
     public int updateAccount(AccountPojo accountPojo) {
         return accountMapper.updateAccount(accountPojo);

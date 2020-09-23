@@ -24,6 +24,15 @@ public class AccountController {
     @Resource
     AccountService accountService;
 
+    /**
+     * 查询现金账号表的方法
+     * @param page 页码
+     * @param limit 每页显示的条数
+     * @param accountName 账号名称
+     * @param blankName 银行名称
+     * @param request request请求对象
+     * @return 返回hashMap对象
+     */
     @NGULog(message="查询现金账户表")
     @RequestMapping("/selectAccount")
     public HashMap selectAccount(int page, int limit, String accountName, String blankName,HttpServletRequest request) {
@@ -32,6 +41,7 @@ public class AccountController {
         HashMap hashMap = accountService.selectAccount(page,limit,accountName,blankName,fundId);
         int count = (int) hashMap.get("p_count");
         List<AccountPojo> accountList = (List<AccountPojo>) hashMap.get("p_cursor");
+        //返回前端页面格式数据（"msg","code","count","data"）
         HashMap accountMap = new HashMap();
         accountMap.put("count",count);
         accountMap.put("code", 0);
@@ -40,13 +50,23 @@ public class AccountController {
         return accountMap;
     }
 
+    /**
+     * 删除现金账号表的方法
+     * @param accountId 现金账户Id
+     * @return 返回1 删除成功 0 删除失败
+     */
     @NGULog(message="删除现金账户表")
     @RequestMapping("/deleteAccount")
     public int deleteAccount(String accountId) {
         return accountService.deleteAccount(accountId);
     }
 
-
+    /**
+     * 新增现金账号表的方法
+     * @param accountPojo 现金账号表实体类
+     * @param request  request请求对象
+     * @return 返回1 新增成功 0 新增失败
+     */
     @NGULog(message="新增现金账户表")
     @RequestMapping("/insertAccount")
     public int insertAccount(AccountPojo accountPojo,HttpServletRequest request) {
@@ -55,6 +75,11 @@ public class AccountController {
         return accountService.insertAccount(accountPojo);
     }
 
+    /**
+     * 修改现金账户表的方法
+     * @param accountPojo 现金账户的实体类
+     * @return 返回1 修改成功 0 修改失败
+     */
     @NGULog(message="修改现金账户表")
     @RequestMapping("/updateAccount")
     public int updateAccount(AccountPojo accountPojo) {

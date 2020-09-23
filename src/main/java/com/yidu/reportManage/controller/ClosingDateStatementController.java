@@ -24,15 +24,22 @@ public class ClosingDateStatementController {
     @Resource
     ClosingDateStatementService closingDateStatementService;
 
+    /**
+     * 查询成交结算日报表的方法
+     * @param page 页码
+     * @param limit 每页的条数
+     * @param dateTime 日期
+     * @return 返回hashMap对象
+     */
     @NGULog(message="查询成交结算日报表")
     @RequestMapping("/selectClosingDateStatement")
     public HashMap selectClosingDateStatement(int page,int limit,String dateTime){
-        System.out.println("--------------------");
+        //调用服务层的查询方法
         HashMap cdsMap = closingDateStatementService.selectClosingDateStatement(dateTime);
+        //获取cdsMap中的p_count，p_cursor的值，进行强转
         int count = (int) cdsMap.get("count");
         ArrayList<ClosingDateStatementPojo> closingDateList = (ArrayList<ClosingDateStatementPojo>) cdsMap.get("list");
-        System.out.println("closing---------------------------"+closingDateList);
-        System.out.println(count);
+        //返回前端页面格式数据（"msg","code","count","data"）
         HashMap hashMap = new HashMap<>();
         hashMap.put("msg","");
         hashMap.put("code",0);

@@ -7,9 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * 划款指令表
  * @author 黄志豪
  * @version 1.0
- * @Type
+ * @Type dao层
  * @time 2020/9/10
  **/
 @Mapper

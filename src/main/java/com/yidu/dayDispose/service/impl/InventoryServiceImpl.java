@@ -315,7 +315,7 @@ public class InventoryServiceImpl implements InventoryService {
                         cashClosedPayInventory.setBusinessType(caYSYFInventoryMapper.getServ());
 
                         //业务状态 1.流入  -1流出
-                        cashClosedPayInventory.setBusinessStatus(1);
+                        cashClosedPayInventory.setBusinessStatus(caYSYFInventoryMapper.getFla());
 
                         //期初标志 1.是   0.否
                         cashClosedPayInventory.setInitialSigns(0);

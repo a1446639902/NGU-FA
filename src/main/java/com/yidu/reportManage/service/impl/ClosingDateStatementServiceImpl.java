@@ -28,8 +28,14 @@ public class ClosingDateStatementServiceImpl implements ClosingDateStatementServ
     @Resource
     ClosingDateStatementMapper closingDateStatementMapper;
 
+    /**
+     * 查询成交结算日报表的方法
+     * @param dateTime 日期
+     * @return 返回hashMap
+     */
     @Override
     public HashMap selectClosingDateStatement(String dateTime) {
+        //判断dateTime是否为空，为空将今日的日期赋值给dateTime
         if (dateTime==null){
              dateTime = DateTimeUtil.getSystemDateTime("yyyy-MM-dd");
         }
@@ -39,6 +45,7 @@ public class ClosingDateStatementServiceImpl implements ClosingDateStatementServ
         //添加流出合计，流入合计，清算合计实体类
         double inTotalMoney=0;
         double outTotalMoney=0;
+        //遍历cdsList，判断flag为1 与inTotalMoney相加之和，反之与outTotalMoney相加
         for (ClosingDateStatementPojo closingDateStatementPojo : cdsList) {
             if (closingDateStatementPojo.getFlag()==1){
                 inTotalMoney=inTotalMoney+closingDateStatementPojo.getTotalSum();
@@ -47,6 +54,7 @@ public class ClosingDateStatementServiceImpl implements ClosingDateStatementServ
                 outTotalMoney=outTotalMoney+closingDateStatementPojo.getTotalSum();
             }
         }
+        //在cdsList加入3个实体类
         double finalToalMoney=inTotalMoney-outTotalMoney;    //大于0
         //double留2个小数点
         BigDecimal bg = new BigDecimal(inTotalMoney);

@@ -22,28 +22,37 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tableSelect'], funct
 		//新增提交
 		form.on('submit(addsubmit)', function (data) {
 			var formData = $('#addform').serialize();
-			$.post("../deposit/insertDeposit", formData, function (msg) {
-				if (msg > 0) {
-					table.reload('userTable');
-					layer.closeAll();
-					layer.msg('添加成功', {
-						title: '提示',
-						area: ['200px',
-							'140px'],
-						time: 0,
-						btn: ['知道了']
-					});
-				} else {
-					layer.closeAll();
-					layer.msg('添加失败', {
-						title: '提示',
-						area: ['200px',
-							'140px'],
-						time: 0,
-						btn: ['知道了']
-					});
-				}
-			});
+			var inBlankCardCode=$('#insertInBlankCardCode').val();//获得流入账户名称
+			var outBlankCardCode=$('#insertBlankCardCode').val();//获得流出账户名称
+			if(inBlankCardCode===outBlankCardCode){
+				layer.msg("流入账号不能与流出账号相同");
+
+			}
+			else {
+				$.post("../deposit/insertDeposit", formData, function (msg) {
+					if (msg > 0) {
+						table.reload('userTable');
+						layer.closeAll();
+						layer.msg('添加成功', {
+							title: '提示',
+							area: ['200px',
+								'140px'],
+							time: 0,
+							btn: ['知道了']
+						});
+					} else {
+						layer.closeAll();
+						layer.msg('添加失败', {
+							title: '提示',
+							area: ['200px',
+								'140px'],
+							time: 0,
+							btn: ['知道了']
+						});
+					}
+				});
+
+			}
 			$("#addform")[0].reset();
 			return false;
 		});

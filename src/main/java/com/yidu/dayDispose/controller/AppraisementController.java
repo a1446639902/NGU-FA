@@ -63,6 +63,7 @@ public class AppraisementController {
                 //(List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor"); 通过p_cursor得到StockSecuritiesJoinMarket 类型的集合
                 List<StockSecuritiesJoinMarket> stockSecuritiesJoinMarketList = (List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor");
                 for (StockSecuritiesJoinMarket stockSecuritiesJoinMarket : stockSecuritiesJoinMarketList) {
+                    System.out.println(stockSecuritiesJoinMarket+"估值增值==============");
                     System.out.println(stockSecuritiesJoinMarket.getSecuritiesId() + "========================================");
                     //new一个SecuritiesClosedPayInventoryPojo类型的集合往里面赋值
                     SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo = new SecuritiesClosedPayInventoryPojo();

@@ -341,7 +341,7 @@ public class NetValueOfStatisticalController {
 
 
         //负债
-        Double sum1 = (statisticalService + AdministrativeFee + trusteeFee);
+        Double sum1 = (statisticalServices + (AdministrativeFee) + (trusteeFee));
         //项目名称
         netValueOfStatisticalPojo.setProjectName("负债");
         //项目编号
@@ -353,7 +353,7 @@ public class NetValueOfStatisticalController {
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
 
         //资产净值
-        Double allSum = sum - sum1 + zhaiQuanShiZhis + guPiaoShiZhis + cashBlances + zhaiQuanLiXis  + xianJinLiXis ;
+        Double allSum = sum + sum1 + zhaiQuanShiZhis + guPiaoShiZhis + cashBlances + zhaiQuanLiXis  + xianJinLiXis ;
         //项目名称
         netValueOfStatisticalPojo.setProjectName("资产净值");
         //项目编号
