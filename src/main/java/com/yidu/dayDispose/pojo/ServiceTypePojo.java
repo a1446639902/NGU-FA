@@ -10,6 +10,7 @@ package com.yidu.dayDispose.pojo;
  **/
 public class ServiceTypePojo {
     private double amount;
+    private double TotalMoney;
     private String accountName;
     private String blankCardCode;
 
@@ -21,9 +22,18 @@ public class ServiceTypePojo {
     public String toString() {
         return "ServiceTypePojo{" +
                 "amount=" + amount +
+                ", TotalMoney=" + TotalMoney +
                 ", accountName='" + accountName + '\'' +
                 ", blankCardCode='" + blankCardCode + '\'' +
                 '}';
+    }
+
+    public double getTotalMoney() {
+        return TotalMoney;
+    }
+
+    public void setTotalMoney(double totalMoney) {
+        TotalMoney = totalMoney;
     }
 
     public void setAccountName(String accountName) {

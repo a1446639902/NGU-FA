@@ -40,7 +40,7 @@ where t1.ACCOUNTID = t2.ACCOUNTID and t1.DATETIME=#{DATETIME}
 
     <!--查询利息，通过银行账户id查询-->
     <select id="selectAmount" resultType="com.yidu.dayDispose.pojo.ServiceTypePojo" parameterType="String">
-      select AMOUNT,ACCOUNTNAME,BLANKCARDCODE from CASHCLOSEDPAY t1 ,ACCOUNT t2
+      select TOTALMONEY,ACCOUNTNAME,BLANKCARDCODE from CASHCLOSEDPAYINVENTORY t1 ,ACCOUNT t2
 where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
     </select>
 
