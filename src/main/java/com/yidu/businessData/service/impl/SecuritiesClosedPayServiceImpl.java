@@ -27,6 +27,15 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
     SecuritiesClosedPayMapper securitiesClosedPayMapper;
     @Resource
     DbUtil dbUtil;
+
+    /**
+     * 查询证券应收应付表的方法
+     * @param page 页码
+     * @param limit 每页显示的条数
+     * @param dateTime 日期
+     * @param serviceType 业务类型 1=清算款 2=估值增值 3=债券利息
+     * @return 返回hashMap对象
+     */
     @Override
     public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime,String serviceType) {
         StringBuffer stringBuffer = new StringBuffer();
@@ -38,8 +47,10 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
             int i = Integer.parseInt(serviceType);
             stringBuffer.append(" and serviceType="+i);
         }
+        //构造调用存储过程hashMap（"p_tableName",select * from securitiesClosedPay scp join ACCOUNT a on scp.ACCOUNTID=a.ACCOUNTID join securities st on scp.securitiesId=st.securitiesId )");
         HashMap securitiesClosedPayMap = new HashMap<>();
         securitiesClosedPayMap.put("p_tableName"," (select * from securitiesClosedPay scp join ACCOUNT a on scp.ACCOUNTID=a.ACCOUNTID join securities st on scp.securitiesId=st.securitiesId )");
+        //hashMap的键的参数（"p_condition","p_pageSize","p_page","p_count","p_cursor"）
         securitiesClosedPayMap.put("p_condition",stringBuffer.toString());
         securitiesClosedPayMap.put("p_pageSize",limit);
         securitiesClosedPayMap.put("p_page",page);
@@ -49,19 +60,35 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
         return securitiesClosedPayMap;
     }
 
+    /**
+     * 新增证券应收应付表的方法
+     * @param securitiesClosedPayPojo 证券应收应付表实体类
+     * @return 返回 1新增成功 0新增失败
+     */
     @Override
     public int insertSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo) {
         securitiesClosedPayPojo.setSecuritiesClosedPayId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP));
         return securitiesClosedPayMapper.insertSecuritiesClosedPay(securitiesClosedPayPojo);
     }
 
+    /**
+     * 修改证券应收应付表的方法
+     * @param securitiesClosedPayPojo 证券应收应付表实体类
+     * @return 返回 1修改成功 0修改失败
+     */
     @Override
     public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo) {
         return securitiesClosedPayMapper.updateSecuritiesClosedPay(securitiesClosedPayPojo);
     }
 
+    /**
+     * 根据证券应收应付Id删除证券应收应付表的方法
+     * @param securitiesClosedPayIds 证券应收应付Id
+     * @return 返回 1删除成功 0删除失败
+     */
     @Override
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds) {
+        //对securitiesClosedPayIds进行切割，在装入List
         if (securitiesClosedPayIds != null && !securitiesClosedPayIds.equals("")) {
             String[] split = securitiesClosedPayIds.split(",");
             ArrayList securitiesClosedPayIdList = new ArrayList<>();
@@ -73,11 +100,21 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
         return 0;
     }
 
+    /**
+     * 根据证securitiesClosedPay实体类删除证券应收应付表的方法
+     * @param securitiesClosedPayPojo  securitiesClosedPay实体类
+     * @return 返回 1删除成功 0删除失败
+     */
     @Override
     public int deleteSecuritiesClosedPayByPojo(SecuritiesClosedPayPojo securitiesClosedPayPojo) {
         return securitiesClosedPayMapper.deleteSecuritiesClosedPayByPojo(securitiesClosedPayPojo);
     }
 
+    /**
+     * 根据Map查询证券应收应付表的方法
+     * @param map map对象
+     * @return 返回String类型
+     */
     @Override
     public String selectSecuritiesClosedPayId(Map map) {
         return securitiesClosedPayMapper.selectSecuritiesClosedPayId(map);

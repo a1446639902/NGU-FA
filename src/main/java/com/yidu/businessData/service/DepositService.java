@@ -18,7 +18,7 @@ public interface DepositService {
      * @param limit  每页显示的条数
      * @param businessType   业务类型
      * @param dateEnd       到期日期
-     * @return  返回hashMap
+     * @return  返回hashMap对象
      */
     public HashMap selectDeposit(int page,int limit,String businessType,String dateEnd);
 

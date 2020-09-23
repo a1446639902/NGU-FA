@@ -25,16 +25,23 @@ public class SecuritiesClosedPayInventoryController {
     @Resource
     SecuritiesClosedPayInventoryService securitiesClosedPayInventoryService;
 
+    /**
+     * 查询证券应收应付的方法
+     * @param page 页码
+     * @param limit 每页显示的条数
+     * @param securitiesType 证券应收应付类型 1=估值款 2=证券清算款 3=债券利息
+     * @param dateTime 业务日期
+     * @return 返回hashMap对象
+     */
     @NGULog(message="查询证券应收应付库存")
     @RequestMapping("/selectSecuritiesClosedPayInventory")
     public HashMap selectSecuritiesClosedPayInventory(int page,int limit,String securitiesType,String dateTime){
-        System.out.println("查询===============");
-        System.out.println("dateTime="+dateTime);
-        System.out.println("securitiesType="+securitiesType);
+       //调用服务层的查询方法
         HashMap scpiMap = securitiesClosedPayInventoryService.selectSecuritiesClosedPayInventory(page, limit,securitiesType,dateTime);
+        //获取scpiMap中的p_count，p_cursor的值，进行强转
         int count = (int) scpiMap.get("p_count");
         ArrayList<SecuritiesClosedPayInventoryPojo> securitiesClosedPayList = (ArrayList<SecuritiesClosedPayInventoryPojo>) scpiMap.get("p_cursor");
-        System.out.println(securitiesClosedPayList);
+        //返回前端页面格式数据（"msg","code","count","data"）
         HashMap hashMap = new HashMap<>();
         hashMap.put("code",0);
         hashMap.put("msg","");
@@ -43,28 +50,42 @@ public class SecuritiesClosedPayInventoryController {
         return hashMap;
     }
 
+    /**
+     * 新增证券应收应付的方法
+     * @param securitiesClosedPayInventoryPojo 证券应收应付的实体类
+     * @param request request请求对象
+     * @return 返回 1新增成功 0新增失败
+     */
     @NGULog(message="新增证券应收应付库存")
     @RequestMapping("/insertSecuritiesClosedPayInventory")
     public int insertSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo, HttpServletRequest request){
+        //工具类获得fundId，在给实体类赋值
         String fundId = GetFundIdUtil.getFundId(request);
         securitiesClosedPayInventoryPojo.setFundId(fundId);
-        System.out.println("xinzeng===============");
-        System.out.println(securitiesClosedPayInventoryPojo);
         return securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
     }
 
+    /**
+     * 修改证券应收应付的方法
+     * @param securitiesClosedPayInventoryPojo 证券应收应付的实体类
+     * @return 返回 1修改成功 0修改失败
+     */
     @NGULog(message="修改证券应收应付库存")
     @RequestMapping("/updateSecuritiesClosedPayInventory")
     public int updateSecuritiesClosedPayInventory(SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo){
-        System.out.println("修改=========");
-        System.out.println(securitiesClosedPayInventoryPojo);
+
         return securitiesClosedPayInventoryService.updateSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
     }
 
+    /**
+     * 删除证券应收应付的方法
+     * @param securitiesClosedPayInventoryIds 证券应收应付Id
+     * @return 返回 1删除成功 0删除失败
+     */
     @NGULog(message="删除证券应收应付库存")
     @RequestMapping("/deleteSecuritiesClosedPayInventory")
     public int deleteSecuritiesClosedPayInventory(String securitiesClosedPayInventoryIds){
-        System.out.println(securitiesClosedPayInventoryIds);
+
         return securitiesClosedPayInventoryService.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryIds);
     }
 }

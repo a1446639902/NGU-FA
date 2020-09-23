@@ -25,6 +25,14 @@ public class SecuritiesClosedPayController {
     @Resource
     SecuritiesClosedPayService securitiesClosedPayService;
 
+    /**
+     * 查询证券应收应付表的方法
+     * @param page 页码
+     * @param limit 每页显示的条数
+     * @param dateTime 日期
+     * @param serviceType 业务类型 1=清算款 2=估值增值 3=债券利息
+     * @return 返回hashMap对象
+     */
     @NGULog(message="查询证券应收应付表")
     @RequestMapping("/selectSecuritiesClosedPay")
     public HashMap selectSecuritiesClosedPay(int page,int limit,String dateTime,String serviceType){
@@ -41,6 +49,12 @@ public class SecuritiesClosedPayController {
         return hashMap;
     }
 
+    /**
+     * 新增证券应收应付表的方法
+     * @param securitiesClosedPayPojo 证券应收应付表实体类
+     * @param request request请求对象
+     * @return 返回 1新增成功 0新增失败
+     */
     @NGULog(message="新增证券应收应付表")
     @RequestMapping("/insertSecuritiesClosedPay")
     public int insertSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo, HttpServletRequest request){
@@ -51,6 +65,11 @@ public class SecuritiesClosedPayController {
 
     }
 
+    /**
+     * 修改证券应收应付表的方法
+     * @param securitiesClosedPayPojo 证券应收应付表实体类
+     * @return 返回 1修改成功 0修改失败
+     */
     @NGULog(message="修改证券应收应付表")
     @RequestMapping("/updateSecuritiesClosedPay")
     public int updateSecuritiesClosedPay(SecuritiesClosedPayPojo securitiesClosedPayPojo){
@@ -58,6 +77,11 @@ public class SecuritiesClosedPayController {
         return securitiesClosedPayService.updateSecuritiesClosedPay(securitiesClosedPayPojo);
     }
 
+    /**
+     * 根据证券应收应付Id删除证券应收应付表的方法
+     * @param securitiesClosedPayIds 证券应收应付Id
+     * @return 返回 1删除成功 0删除失败
+     */
     @NGULog(message="删除证券应收应付表")
     @RequestMapping("/deleteSecuritiesClosedPay")
     public int deleteSecuritiesClosedPay(String securitiesClosedPayIds){
