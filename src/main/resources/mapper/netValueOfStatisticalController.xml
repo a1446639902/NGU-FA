@@ -51,12 +51,12 @@ where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
 
     <!--查询托管费-->
     <select id="selectTrusteeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 2 and DATETIME=#{time}
+        select TOTALMONEY from CASHCLOSEDPAYINVENTORY where SERVICETYPE = 2 and DATETIME=#{time}
     </select>
 
     <!--查询管理费-->
     <select id="selectAdministrativeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 1 and DATETIME=#{time}
+        select TOTALMONEY from CASHCLOSEDPAYINVENTORY where SERVICETYPE = 1 and DATETIME=#{time}
     </select>
 
     <!--查询证券清算款-->
