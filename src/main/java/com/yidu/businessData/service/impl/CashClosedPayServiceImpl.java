@@ -30,7 +30,15 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
     CashClosedPayMapper cashClosedPayMapper;
     @Resource
     DbUtil dbUtil;
-    
+
+/**
+* @author 硠君
+* @Description 现金应收应付的新增方法
+* @Date 15:03 2020/9/22
+* @Parm [cashClosedPay, request]
+* @return int
+**/
+
     @Override
     public int insertCashClosedPay(CashClosedPayPojo cashClosedPay,HttpServletRequest request) {
 //        System.out.println("新增的cashClosedPay:="+cashClosedPay);
@@ -48,18 +56,17 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
         }
         return cashClosedPayMapper.insertCashClosedPay(cashClosedPay);
     }
-/*<delete id="deleteCashClosedPay__" parameterType="list">
-        delete from fund where fundId in
-            <foreach collection="list" item="cashClosedPayId" open="("
-        separator="," close=")">
-                #{cashClosedPayId}
-            </foreach>
-        </delete>*/
-//          ArrayList<Object> cashClosedList=new ArrayList<>();
-//              cashClosedList.add(cashId);
+
+/**
+* @author 硠君
+* @Description 现金应收应付的删除方法
+* @Date 15:03 2020/9/22
+* @Parm [cashClosedPayId]
+* @return int
+**/
+
     @Override
     public int deleteCashClosedPay(String cashClosedPayId) {
-//        System.out.println("删除的cashClosedPayId:="+cashClosedPayId);
         if (cashClosedPayId!=null && !cashClosedPayId.equals("")){
             //得到页面传回来的cashClosedPayId，并切割成单个的集合
             String[] cashClosedPayIds=cashClosedPayId.split(",");
@@ -74,17 +81,32 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
         }
     }
 
+/**
+* @author 硠君
+* @Description 现金应收应付的修改方法
+* @Date 15:02 2020/9/22
+* @Parm [cashClosedPay]
+* @return int
+**/
+
     @Override
     public int updateCashClosedPay(CashClosedPayPojo cashClosedPay) {
         System.out.println("修改的cashClosedPay:="+cashClosedPay);
         return cashClosedPayMapper.updateCashClosedPay(cashClosedPay);
     }
 
+/**
+* @author 硠君
+* @Description 现金应收应付的查询方法
+* @Date 15:02 2020/9/22
+* @Parm [pageSize, page, dateTime, serviceType]
+* @return java.util.Map<java.lang.String,java.lang.Object>
+**/
+
     @Override
     public Map<String,Object> selectCashClosedPay(String pageSize, String page,String dateTime,String serviceType) {
-        System.out.println("dateTime:="+dateTime+"\n serviceType:="+serviceType);
         System.out.println("进入了查询的实现类");
-//创建一个结果集用于接受存储过程的返回结果
+        //创建一个结果集用于接受存储过程的返回结果
         Map<String,Object> resultMap = new HashMap<>();
         //存储过程所需条件为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         //定义一个分页条数变量
@@ -132,6 +154,13 @@ public class CashClosedPayServiceImpl implements CashClosedPayService {
         return resultMap;
     }
 
+/**
+* @author 硠君
+* @Description 现金应收应付的多条件查询方法，得到相应的CashClosedPayId
+* @Date 15:01 2020/9/22
+* @Parm [map]
+* @return java.lang.String
+**/
     @Override
     public String selectCashClosedPayId(Map map) {
         return cashClosedPayMapper.selectCashClosedPayId(map);

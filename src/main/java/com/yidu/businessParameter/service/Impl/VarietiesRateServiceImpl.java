@@ -25,18 +25,29 @@ import java.util.Map;
 public class VarietiesRateServiceImpl implements VarietiesRateService {
     @Resource
     VarietiesRateMapper varietiesRateMapper;
+/**
+* @author 硠君
+* @Description 交易所品种费率的新增方法
+* @Date 14:57 2020/9/22
+* @Parm [varietiesRatePojo]
+* @return int
+**/
     @Override
     public int insertVarietiesRate(VarietiesRatePojo varietiesRatePojo) {
-//        int exchangeName=varietiesRatePojo.getExchangeName();
-//        int rateType=varietiesRatePojo.getRateType();
         return varietiesRateMapper.insertVarietiesRate(varietiesRatePojo);
     }
 
+/**
+* @author 硠君
+* @Description 交易所品种费率的删除方法
+* @Date 14:57 2020/9/22
+* @Parm [exchangeNames, rateTypes]
+* @return int
+**/
     @Override
     public int deleteVarietiesRate(String exchangeNames,String rateTypes) {
         String[] exchangeName= new String[0];
         String[] rateType= new String[0];
-//        System.out.println("交易所："+exchangeNames+"\n交易类型："+rateTypes);
         int i=0;
         if (exchangeNames!=null && !exchangeNames.equals("")){
             exchangeName=exchangeNames.split(",");
@@ -45,18 +56,31 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
             rateType=rateTypes.split(",");
         }
         for (int j = 0; j <exchangeName.length && j<rateType.length; j++) {
-//            System.out.println("_交易所:"+exchangeName[j]);
-//            System.out.println("_交易类型:"+rateType[j]);
             i=varietiesRateMapper.deleteVarietiesRate(Integer.parseInt(exchangeName[j]),Integer.parseInt(rateType[j]));
         }
        return i;
     }
+
+/**
+* @author 硠君
+* @Description 交易所品种费率的修改方法
+* @Date 14:57 2020/9/22
+* @Parm [varietiesRatePojo]
+* @return int
+**/
 
     @Override
     public int updateVarietiesRate(VarietiesRatePojo varietiesRatePojo) {
         return varietiesRateMapper.updateVarietiesRate(varietiesRatePojo);
     }
 
+/**
+* @author 硠君
+* @Description 交易所品种费率的查询方法
+* @Date 14:57 2020/9/22
+* @Parm [pageSize, page, exchangeName, rateType]
+* @return java.util.Map<java.lang.String,java.lang.Object>
+**/
     @Override
     public Map<String,Object> selectVarietiesRate(String pageSize, String page,String exchangeName,String rateType) {
         //创建一个结果集Map用于存放两个结果变量
