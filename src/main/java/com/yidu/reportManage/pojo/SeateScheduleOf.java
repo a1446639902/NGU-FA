@@ -9,16 +9,16 @@ package com.yidu.reportManage.pojo;
 public class SeateScheduleOf {
     private String securitiesId;     //证券代码   来自TransactionData表
     private String fundName;         //基金名称   来自TransactionData表
-    private double num;              //交易数量   来自TransactionData表
-    private double commission;       //佣金费     来自TransactionData表
-    private double transferFee;      //过户费     来自transactionData表
-    private double brokerage;        //经手费     来自transactionData表
-    private double stampDuty;        //印花税     来自transactionData表
-    private double collectionRate;   //征管费     来自transactionData表
-    private double totalSum;         //交易金额    来自TransactionData表
-    private double netReceipts;      //实付金额    来自TaTransaction表
+    private Double num;              //交易数量   来自TransactionData表
+    private Double commission;       //佣金费     来自TransactionData表
+    private Double transferFee;      //过户费     来自transactionData表
+    private Double brokerage;        //经手费     来自transactionData表
+    private Double stampDuty;        //印花税     来自transactionData表
+    private Double collectionRate;   //征管费     来自transactionData表
+    private Double totalSum;         //交易金额    来自TransactionData表
+    private Double netReceipts;      //实付金额    来自TransactionData表
 
-    public SeateScheduleOf(String securitiesId, String fundName, double num, double commission, double transferFee, double brokerage, double stampDuty, double collectionRate, double totalSum, double netReceipts) {
+    public SeateScheduleOf(String securitiesId, String fundName, Double num, Double commission, Double transferFee, Double brokerage, Double stampDuty, Double collectionRate, Double totalSum, Double netReceipts) {
         this.securitiesId = securitiesId;
         this.fundName = fundName;
         this.num = num;
@@ -47,68 +47,68 @@ public class SeateScheduleOf {
         this.fundName = fundName;
     }
 
-    public double getNum() {
+    public Double getNum() {
         return num;
     }
 
-    public void setNum(double num) {
+    public void setNum(Double num) {
         this.num = num;
     }
 
-    public double getCommission() {
+    public Double getCommission() {
         return commission;
     }
 
-    public void setCommission(double commission) {
+    public void setCommission(Double commission) {
         this.commission = commission;
     }
 
-    public double getTransferFee() {
+    public Double getTransferFee() {
         return transferFee;
     }
 
-    public void setTransferFee(double transferFee) {
+    public void setTransferFee(Double transferFee) {
         this.transferFee = transferFee;
     }
 
-    public double getBrokerage() {
+    public Double getBrokerage() {
         return brokerage;
     }
 
-    public void setBrokerage(double brokerage) {
+    public void setBrokerage(Double brokerage) {
         this.brokerage = brokerage;
     }
 
-    public double getStampDuty() {
+    public Double getStampDuty() {
         return stampDuty;
     }
 
-    public void setStampDuty(double stampDuty) {
+    public void setStampDuty(Double stampDuty) {
         this.stampDuty = stampDuty;
     }
 
-    public double getCollectionRate() {
+    public Double getCollectionRate() {
         return collectionRate;
     }
 
-    public void setCollectionRate(double collectionRate) {
+    public void setCollectionRate(Double collectionRate) {
         this.collectionRate = collectionRate;
     }
 
-    public double getTotalSum() {
+    public Double getTotalSum() {
         return totalSum;
     }
 
-    public void setTotalSum(double totalSum) {
+    public void setTotalSum(Double totalSum) {
         this.totalSum = totalSum;
     }
 
-    public double getActualMoney() {
+    public Double getNetReceipts() {
         return netReceipts;
     }
 
-    public void setActualMoney(double actualMoney) {
-        this.netReceipts = actualMoney;
+    public void setNetReceipts(Double netReceipts) {
+        this.netReceipts = netReceipts;
     }
 
     @Override

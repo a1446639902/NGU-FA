@@ -13,7 +13,7 @@
         <result property="seateId" column="seateId" javaType="String"></result>
         <result property="seateName" column="seateName" javaType="String"></result>
         <result property="seateType" column="seateType" javaType="int"></result>
-        <result property="seateRate" column="seateRate" javaType="int"></result>
+        <result property="seateRate" column="seateRate" javaType="Double"></result>
         <result property="brokersId" column="brokersId" javaType="String"></result>
         <result property="brokersName" column="brokersName" javaType="String"></result>
         <result property="seateAddress" column="seateAddress" javaType="int"></result>

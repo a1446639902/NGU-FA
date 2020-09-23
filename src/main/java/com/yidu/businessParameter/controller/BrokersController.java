@@ -3,6 +3,7 @@ package com.yidu.businessParameter.controller;
 import com.yidu.businessParameter.pojo.AccountPojo;
 import com.yidu.businessParameter.pojo.Brokers;
 import com.yidu.businessParameter.service.BrokersService;
+import com.yidu.permission.aspect.NGULog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ public class BrokersController {
     /**
      * 增加
      */
+    @NGULog(message = "增加席位成交明细")
     @RequestMapping("/brokersInsert")
     public int insert(Brokers  brokers){
         System.out.println("增加成功");
@@ -36,6 +38,7 @@ public class BrokersController {
      * @param brokersId
      * @return
      */
+    @NGULog(message = "删除席位成交明细")
     @RequestMapping("/brokersDelete")
     public int delete(String brokersId){
         System.out.println(brokersId);
@@ -48,6 +51,7 @@ public class BrokersController {
      * @param brokers
      * @return
      */
+    @NGULog(message = "修改席位成交明细")
     @RequestMapping("/brokersUpdate")
     public int update(Brokers brokers){
         return brokersService.update(brokers);
@@ -57,6 +61,7 @@ public class BrokersController {
      * 查询
      * @return
      */
+    @NGULog(message = "查询席位成交明细")
     @RequestMapping("/brokersSelect")
     public HashMap brokersSelect(int page,int limit,String brokersName) {
         System.out.println("进来了");

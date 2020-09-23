@@ -13,5 +13,5 @@ import java.util.HashMap;
  */
 @Mapper
 public interface SeateScheduleOfMapper {
-    public HashMap selectSeateScheduleOf(HashMap hashMap);
+    public void selectSeateScheduleOf(HashMap hashMap);
 }
