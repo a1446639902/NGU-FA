@@ -42,7 +42,9 @@ public class NetValueOfStatisticalController {
         int guPiao = 0;
         //查询其他表格净值统计需要的数据
         System.out.println("从页面传递过来的时间是" + time);
-
+        //先删后增
+        int i1 = netValueOfStatisticalService.deleteNetValueOfStatisticalToDay(time);
+        System.out.println("删除的当日的行数为" + i1);
         List<SelectAllMsgPojo> selectAllMsgList = netValueOfStatisticalService.selectAllMsg(time);
         System.out.println("查询其他表格净值统计需要的数据是" + selectAllMsgList);
         //创建实体类用于传递参数
