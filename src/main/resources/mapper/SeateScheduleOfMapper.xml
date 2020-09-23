@@ -14,7 +14,7 @@
         <result property="stampDuty" column="stampDuty" javaType="Double"></result>
         <result property="collectionRate" column="collectionRate" javaType="Double"></result>
         <result property="totalSum" column="totalSum" javaType="Double"></result>
-        <result property="netReceipts" column="actualMoney" javaType="int"></result>
+        <result property="netReceipts" column="actualMoney" javaType="Double"></result>
     </resultMap>
     <select id="selectSeateScheduleOf" parameterType="java.util.Map" statementType="CALLABLE"
             resultType="com.yidu.reportManage.pojo.SeateScheduleOf">
