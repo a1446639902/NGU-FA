@@ -77,13 +77,13 @@ public interface InventoryMapper {
      */
     @Select("select nvl(tr.accountId,ca.accountId) as accountId,\n" +
             "    nvl(tr.serviceType,ca.businessType) as serv,\n" +
-            "    nvl(ca.totalPrice,0)+nvl(tr.amount,0) as toca\n" +
+            "    nvl(ca.totalPrice,0)+nvl(tr.amount,0) as toca,nvl(tr.FLAG,ca.BUSINESSSTATUS) as fla\n" +
             "    from\n" +
-            "    (select sum(nvl(TOTALMONEY*BUSINESSSTATUS,0)) AS totalPrice,accountId,businesstype,BUSINESSSTATUS from CASHCLOSEDPAYINVENTORY\n" +
+            "    (select sum(nvl(TOTALMONEY,0)) AS totalPrice,accountId,businesstype,BUSINESSSTATUS from CASHCLOSEDPAYINVENTORY\n" +
             "    where fundid=#{funId} and BUSINESSDATE=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd') and businessType in(1,2,3)\n" +
             "    GROUP BY accountId,businesstype,BUSINESSSTATUS) ca\n" +
             "    full join\n" +
-            "        (select sum(nvl(amount*flag,0)) as amount,accountId,serviceType,flag\n" +
+            "        (select sum(nvl(amount,0)) as amount,accountId,serviceType,flag\n" +
             "        from cashClosedPay where\n" +
             "    fundid=#{funId} and dateTime=#{date} and serviceType in(1,2,3)\n" +
             "    group by accountId,serviceType,flag) tr\n" +
