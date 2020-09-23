@@ -320,7 +320,7 @@ public class InventoryServiceImpl implements InventoryService {
                         //期初标志 1.是   0.否
                         cashClosedPayInventory.setInitialSigns(0);
                         //总金额
-                        cashClosedPayInventory.setTotalMoney((int) caYSYFInventoryMapper.getToca());
+                        cashClosedPayInventory.setTotalMoney(caYSYFInventoryMapper.getToca());
 
                         cashClosedPaylnventoryMapper.insertCashClosedPaylnventory(cashClosedPayInventory);
                     }
