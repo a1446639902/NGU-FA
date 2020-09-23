@@ -33,10 +33,10 @@ public interface SecuritiesClosedPayInventoryMapper {
 
 
     /**
-     * 根据日期删除的方法
+     * 根据日期,基金信息表Id ,证券信息表ID删除的方法
      * @param date
      */
-    @Delete("delete securitiesClosedPayInventory where dateTime=#{date}")
-    public void delectDateTaInventoryPayMapper(String date);
+    @Delete("delete securitiesClosedPayInventory where dateTime=#{date} and FUNDID=#{funId} and SECURITIESID=#{SECURITIESID}")
+    public void delectDateTaInventoryPayMapper(String date,String funId,String SECURITIESID);
 
 }

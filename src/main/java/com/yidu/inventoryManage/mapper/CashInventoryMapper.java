@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 现金库存的实体类
+ * 现金库存的Mapper
  * @Mr.Zou
  * date:2020/9/5
  */
@@ -28,11 +28,11 @@ public interface CashInventoryMapper {
     public void deleteCashInventor(String userId);
 
     /**
-     * 根据日期删除的方法
+     * 根据日期,基金Id来自基金表,现金账户Id来自现金账户表删除的方法
      * @param date
      */
     @Delete("delete CASHINVENTORY where DATETIME=#{date}")
-    public void deleteDateInventor(String date);
+    public void deleteDateInventor(String date,String ACCOUNTID,String FUNDID);
 
     /**
      * 新增的mapper

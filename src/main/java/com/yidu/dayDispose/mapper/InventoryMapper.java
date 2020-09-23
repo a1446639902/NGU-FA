@@ -42,7 +42,7 @@ public interface InventoryMapper {
     @Select("select (nvl(CASHBLANCE,0) + NVL(zj.totalNum,0)) as sumCa from\n" +
             "(select * from CASHINVENTORY where DATETIME=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd')) xj full join\n" +
             "\n" +
-            "(select accountid,sum(totalprice*flag) as totalNum from bankTreasurer where DBTIME=#{date}  group by accountid) zj\n" +
+            "(select accountid,sum(totalprice+0) as totalNum from bankTreasurer where DBTIME=#{date}  group by accountid) zj\n" +
             " on xj.ACCOUNTID=zj.ACCOUNTID")
     public List<CaInventoryEntity> selectCaInventory(String date, String funId);
 
