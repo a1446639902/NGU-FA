@@ -216,18 +216,21 @@ public class RevenueProvisionController {
 
             //增加管理费利息数据
             int i1=cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
+            if (i1>0){
+                i1=cashClosedPayService.deleteNew(cashClosedPayPojo);
+                if(i1>0){
+                    cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
+                }
+            }
             //增加托管费利息数据
             cashClosedPayPojo.setServiceType(2);
             double custodyMoney = twoFees.getCustodyMoney();
             cashClosedPayPojo.setAmount(custodyMoney);
             int i2 = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
-            if(i1>0&&i2>0){
-                i = cashClosedPayService.deleteNew(cashClosedPayPojo);
-                if(i>0){
+            if(i2>0){
+                i2 = cashClosedPayService.deleteNew(cashClosedPayPojo);
+                if(i2>0){
                     i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
-                    cashClosedPayPojo.setServiceType(1);
-                    cashClosedPayPojo.setAmount(twoFees.getManagementMoney());
-                    i=cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
                 }
             }
 

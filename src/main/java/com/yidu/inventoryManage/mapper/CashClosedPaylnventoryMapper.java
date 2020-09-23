@@ -46,8 +46,8 @@ public interface CashClosedPaylnventoryMapper {
      * 根据日期删除现金应收应付表的信息
      * @param date
      */
-    @Delete("delete cashClosedPayInventory where businessDate=#{date}")
-    public void delectDateInventory(String date);
+    @Delete("delete cashClosedPayInventory where businessDate=#{date} and BUSINESSTYPE=#{fundId} and ACCOUNTID=#{serId}")
+    public void delectDateInventory(String date,String serId,int fundId);
 
 }
 

@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -77,7 +78,7 @@ public class marketDateUtil {
             XSSFSheet sheetAt = xssfWorkbook.getSheetAt(index);
             //返回工作表对象
             return sheetAt;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         } finally {
@@ -136,9 +137,9 @@ public class marketDateUtil {
 
 
                 //获取当前的数据的集合
-                Map<String, Integer> propertyMap = getExcelProperty(row, propertySize);
+                Map<Integer, String> propertyMap = getExcelProperty1(row, propertySize);
                 //将propertyMap集合中的键存放到set集合中
-                Set<String> propertyKeys = propertyMap.keySet();
+                Set<Integer> propertyKeys = propertyMap.keySet();
 
 
                 //进行map集合的遍历,将map的键存储到set集合中
@@ -149,12 +150,12 @@ public class marketDateUtil {
                     //获取相对应的值
                     Integer value = excelMap.get(key);
                     //遍历里面的结果
-                    for (String propertyKey:
+                    for (Integer propertyKey:
                             propertyKeys ) {
                         //获取相对应的值
-                        Integer propertyValue = propertyMap.get(propertyKey);
+                        String propertyValue = propertyMap.get(propertyKey);
                         //将表头内容进行一一对应
-                        if (value == propertyValue) {
+                        if (value == propertyKey) {
                             //遍历对象中的属性
                             for (String propertyName :
                                     propertyList) {
@@ -174,14 +175,23 @@ public class marketDateUtil {
                                             Class<?>[] parameterTypes = methods[i].getParameterTypes();
                                             //如果方法参数的类型是日期类型
                                             if (parameterTypes[0] == java.sql.Date.class) {
-                                                methods[i].invoke(object, new java.sql.Date(dateFormat.parse(propertyKey).getTime()));
-                                            } else if (parameterTypes[0] == Integer.class) {
-                                                methods[i].invoke(object, Integer.parseInt(propertyKey));
-                                            } else if (parameterTypes[0] == Double.class) {
-                                                methods[i].invoke(object, Double.parseDouble(propertyKey));
+                                                methods[i].invoke(object, new java.sql.Date(dateFormat.parse(propertyValue).getTime()));
+                                            } else if (parameterTypes[0] == Integer.class || parameterTypes[0] == int.class) {
+                                                methods[i].invoke(object, Integer.parseInt(propertyValue));
+                                            } else if (parameterTypes[0] == Double.class || parameterTypes[0] == double.class) {
+                                                methods[i].invoke(object, Double.parseDouble(propertyValue));
                                             } else if (parameterTypes[0] == String.class) {
-                                                methods[i].invoke(object, propertyKey);
+                                                methods[i].invoke(object, propertyValue);
+                                            } else if(parameterTypes[0] == java.util.Date.class) {
+
+                                                methods[i].invoke(object, dateFormat.parse(propertyValue));
+
+                                                methods[i].invoke(object, dateFormat.parse(propertyValue));
+                                            } else if(parameterTypes[0] == BigDecimal.class) {
+                                                methods[i].invoke(object, new BigDecimal(propertyKey));
+
                                             }
+
                                         }
                                     }
                                 }
@@ -264,11 +274,47 @@ public class marketDateUtil {
 
             } else {
                 map.put(null, cellIndex);
-
             }
 
         }
         return map;
     }
+
+    /**
+     * 获取excel里面的值，因为值有可能是相同的，所以用Integer作为键，保持唯一性
+     * @param row 行数据对象
+     * @param propertySize 总共有多少个属性
+     * @return 头字段名称集合
+     */
+    private static Map<Integer, String> getExcelProperty1(XSSFRow row, Integer propertySize) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //创建map集合用来存放头信息
+        Map<Integer, String> map = new HashMap<>();
+        for (int cellIndex = 0; cellIndex < propertySize; cellIndex ++) {
+            //获取指定的单元格对象
+            XSSFCell cell = row.getCell(cellIndex);
+            //将获取到的单元格中的数据作为键存入到map集合中，将第几列作为值存入到map集合中
+            if (null != cell) {
+                //判断cell是不是数字类型
+                if (cell.getCellType() == 0) {
+                    if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                        map.put(cellIndex, dateFormat.format(cell.getDateCellValue()));
+                        continue;
+                    } else {
+                        cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                        map.put(cellIndex, cell.toString());
+                    }
+                } else {
+                    map.put(cellIndex, cell.toString());
+                }
+
+            } else {
+                map.put(cellIndex, null);
+            }
+
+        }
+        return map;
+    }
+
 
 }

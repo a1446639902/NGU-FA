@@ -68,7 +68,7 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
      */
 
     @Override
-    public void deleteDateSecuritiesInventory(String date) {
-        securitiesInventoryMapper.deleteDateSecuritiesInventory(date);
+    public void deleteDateSecuritiesInventory(String date,String serId) {
+        securitiesInventoryMapper.deleteDateSecuritiesInventory(date,serId);
     }
 }

@@ -93,16 +93,11 @@ public class TransactionDataController {
         //通过marketDateUtil工具类，获取相对应的实体类集合getList(反射实体类，根据参数file获取流，index：0)返回一个集合进行遍历
         //传入对象的泛型，输入流对象，和哪个工作表，直接获取指定的实体类集合对象，获取集合对象之后就进行相对应的数据库操作
         List<TransactionData> list = marketDateUtil.getList(TransactionData.class, file.getInputStream(), 0);
+        System.out.println(list);
         for (TransactionData transactionData : list) {
             if(transactionData.getSecuritiesId()!=null) {
-                //获取交易数据id进行赋值
+              //获取交易数据id进行赋值
                 transactionData.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));
-                //给交易时间赋值DateTime
-                transactionData.setDateTime("2020-09-26");
-                //给ransfer赋值
-                transactionData.setTransfer(0.2);
-                //给交易类型赋值TransactionDataMode
-                transactionData.setTransactionDataMode(1);
                 transactionDataService.insertTransactionData(transactionData);
             }
         }

@@ -108,9 +108,9 @@ public class InventoryServiceImpl implements InventoryService {
 
                 for (CaInventoryEntity caInventoryEntity : caInventoryEntities) {
                     System.out.println("我是库存统计之现金库存统计，我获得的数据为："+caInventoryEntity);
-
+                    CashInventoryEntity cashInventoryEntity1 = new CashInventoryEntity();
                     //调用现金库存的根据日期删除方法，删除库存统计之前的数据
-                    cashInventoryMapper.deleteDateInventor(dateTime3);
+                    cashInventoryMapper.deleteDateInventor(dateTime3,cashInventoryEntity1.getAccountId(),cashInventoryEntity1.getFundId());
 
                     //插入库存统计之后的新数据
                     CashInventoryEntity cashInventoryEntity = new CashInventoryEntity();
@@ -153,8 +153,11 @@ public class InventoryServiceImpl implements InventoryService {
                 for (InventorySecurityEntity inventorySecurityEntity : inventorySecurityEntities) {
                     System.out.println("我是统计证券库存的操作,我统计的数据为："+inventorySecurityEntity);
 
+
+
                     //调用证券库存 删除 条件：库存统计选择的日期，id
-                    securitiesInventoryService.deleteDateSecuritiesInventory(dateTime3);
+                    securitiesInventoryService.deleteDateSecuritiesInventory(dateTime3,inventorySecurityEntity.getSecuritiesId());
+
 
                     //插入统计之后的新数据
                     //调用 实体类新增
@@ -233,6 +236,8 @@ public class InventoryServiceImpl implements InventoryService {
                 //调用证券应收应付的方法
                 List<SeYSYFInventoryEntity> seYSYFInventoryEntities = inventoryMapper.selectSeYSYFInventory(dateTime3, fundId);
 
+
+
                 //显示在界面的证券应收应付库存的状态
                 inventoryEntity4 = new InventoryEntity(4,"证券应收应付库存",fundId,"admain",dateTime3,seYSYFInventoryEntities.size(),"已统计");
 
@@ -240,9 +245,8 @@ public class InventoryServiceImpl implements InventoryService {
                 for (SeYSYFInventoryEntity seYSYFInventoryEntity : seYSYFInventoryEntities) {
                     System.out.println("我是证券应收应付的库存统计，我获得的数据为："+seYSYFInventoryEntity);
 
-                    //调用删除的方法,删除库存统计之前的数据
-
-                    securitiesClosedPayInventoryMapper.delectDateTaInventoryPayMapper(dateTime3);
+                    //调用删除的方法,根据日期，基金信息表Id，证券信息表ID删除库存统计之前的数据
+                    securitiesClosedPayInventoryMapper.delectDateTaInventoryPayMapper(dateTime3,fundId,seYSYFInventoryEntity.getSecuritiesId());
                     System.out.println("我在删除之后"+dateTime3);
 
 
@@ -287,43 +291,43 @@ public class InventoryServiceImpl implements InventoryService {
                 System.out.println("我是统计现金应收应付库存的操作");
                 List<CaYSYFInventoryEntity> caYSYFInventoryMappers = inventoryMapper.selectCaYSYFInventory(dateTime3, fundId);
                 //将库存显示页面的状态修改为统计之后的状态
-                inventoryEntity5 = new InventoryEntity(5,"现金应收应付库存",fundId,"admain",dateTime3,caYSYFInventoryMappers.size(),"已统计");
+                inventoryEntity5 = new InventoryEntity(5, "现金应收应付库存", fundId, "admain", dateTime3, caYSYFInventoryMappers.size(), "已统计");
 
                 CashClosedPayInventory cashClosedPayInventory = new CashClosedPayInventory();
+                if (caYSYFInventoryMappers.size() != 0 && caYSYFInventoryMappers.get(0) != null) {
+                    for (CaYSYFInventoryEntity caYSYFInventoryMapper : caYSYFInventoryMappers) {
+                        System.out.println("我是库存统计的现金库存界面，我获得的数据为" + caYSYFInventoryMapper);
+                        System.out.println("我现金应收应付库存之前");
+                        //调用删除方法，删除库存统计之前的数据
+                        cashClosedPaylnventoryMapper.delectDateInventory(dateTime3,caYSYFInventoryMapper.getAccountId(),caYSYFInventoryMapper.getServ());
 
-                for (CaYSYFInventoryEntity caYSYFInventoryMapper : caYSYFInventoryMappers) {
-                    System.out.println("我是库存统计的现金库存界面，我获得的数据为"+caYSYFInventoryMapper);
-                    System.out.println("我现金应收应付库存之前");
-                    //调用删除方法，删除库存统计之前的数据
-                    cashClosedPaylnventoryMapper.delectDateInventory(dateTime3);
+                        //调用新增方法 ，插入库存统计之后的界面
 
-                    //调用新增方法 ，插入库存统计之后的界面
+                        //现金应收应付库存编号
+                        cashClosedPayInventory.setCashClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCPI));
+                        //业务日期
+                        cashClosedPayInventory.setBusinessDate(dateTime3);
+                        //现金账户ID
+                        cashClosedPayInventory.setAccountId(caYSYFInventoryMapper.getAccountId());
+                        //基金Id
+                        cashClosedPayInventory.setFundId(fundId);
+                        //业务类型  1.管理费 2.托管费  3.存款利息  4.申购赎回费
+                        cashClosedPayInventory.setBusinessType(caYSYFInventoryMapper.getServ());
 
-                    //现金应收应付库存编号
-                    cashClosedPayInventory.setCashClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCPI));
-                    //业务日期
-                    cashClosedPayInventory.setBusinessDate(dateTime3);
-                    //现金账户ID
-                    cashClosedPayInventory.setAccountId(caYSYFInventoryMapper.getAccountId());
-                    //基金Id
-                    cashClosedPayInventory.setFundId(fundId);
-                    //业务类型  1.管理费 2.托管费  3.存款利息  4.申购赎回费
-                    cashClosedPayInventory.setBusinessType(caYSYFInventoryMapper.getServ());
+                        //业务状态 1.流入  -1流出
+                        cashClosedPayInventory.setBusinessStatus(1);
 
-                    //业务状态 1.流入  -1流出
-                    cashClosedPayInventory.setBusinessStatus(1);
+                        //期初标志 1.是   0.否
+                        cashClosedPayInventory.setInitialSigns(0);
+                        //总金额
+                        cashClosedPayInventory.setTotalMoney((int) caYSYFInventoryMapper.getToca());
 
-                    //期初标志 1.是   0.否
-                    cashClosedPayInventory.setInitialSigns(0);
-                    //总金额
-                    cashClosedPayInventory.setTotalMoney((int) caYSYFInventoryMapper.getToca());
+                        cashClosedPaylnventoryMapper.insertCashClosedPaylnventory(cashClosedPayInventory);
+                    }
 
-                    cashClosedPaylnventoryMapper.insertCashClosedPaylnventory(cashClosedPayInventory);
+
                 }
-
-
             }
-
         }
     }
 
