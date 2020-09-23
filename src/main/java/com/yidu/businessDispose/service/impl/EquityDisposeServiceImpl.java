@@ -152,10 +152,10 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
             //参数赋值
             transactionData.setTransactionDataId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TD));//交易数据ID
             transactionData.setDateTime(equityDispose2.getEquitiesExright());//业务日期
-            transactionData.setNum(1000.0);//交易数量
-            transactionData.setPrice(12.0);//交易单价
-            transactionData.setTotalSum(1200.00);//交易总金额
-            transactionData.setNetReceipts(12000.0);//实收金额
+            transactionData.setNum((double)equityDispose2.getSecuritiesNum());//交易数量
+            transactionData.setPrice(0.0);//交易单价
+            transactionData.setTotalSum(equityDispose2.getSettlementAmount());//交易总金额
+            transactionData.setNetReceipts(equityDispose2.getSettlementAmount());//实收金额
             transactionData.setSettlementDate(equityDispose2.getReceivedDate());//到账日期
             transactionData.setAccountName(equityDispose2.getAccountName());//账户名称
             transactionData.setSecuritiesName(equityDispose2.getSecuritiesName());//证券名称
@@ -181,7 +181,6 @@ public class EquityDisposeServiceImpl implements EquityDisposeService {
             transactionData.setTransactionDataDesc("");//备注
             transactionData.setTransactionDataMode(equityDispose2.getEquitiesType());//交易方式
             transactionData.setStatus(equityDispose2.getDisposeStatus());//处理状态
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+transactionData);
 
             int disposeStatus = equityDispose2.getDisposeStatus();
             String equityDataId = equityDispose2.getEquityDataId();

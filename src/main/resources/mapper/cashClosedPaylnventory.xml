@@ -25,7 +25,7 @@
         <result property="businessType" column="businessType" javaType="Integer"></result>
         <result property="businessStatus" column="businessStatus" javaType="Integer"></result>
         <result property="initialSigns" column="initialSigns" javaType="Integer"></result>
-        <result property="totalMoney" column="totalMoney" javaType="Integer"></result>
+        <result property="totalMoney" column="totalMoney" javaType="Double"></result>
         <result property="accountId" column="accountId" javaType="String"></result>
     </resultMap>
 

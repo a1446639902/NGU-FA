@@ -14,13 +14,13 @@ public class CashClosedPayInventory {
     private int businessType;                   //业务类型  1.管理费 2.托管费  3.存款利息  4.申购赎回费
     private int businessStatus;                 //业务状态 1.流入  -1流出
     private int initialSigns;                   //期初标志 1.是   0.否
-    private int totalMoney;//总金额
+    private double totalMoney;//总金额
     private String accountId;//现金账户ID
 
     public CashClosedPayInventory() {
     }
 
-    public CashClosedPayInventory(String cashClosedPayInventoryId, String businessDate, String accountName, String fundId, String fundName, int businessType, int businessStatus, int initialSigns, int totalMoney, String accountId) {
+    public CashClosedPayInventory(String cashClosedPayInventoryId, String businessDate, String accountName, String fundId, String fundName, int businessType, int businessStatus, int initialSigns, double totalMoney, String accountId) {
         this.cashClosedPayInventoryId = cashClosedPayInventoryId;
         this.businessDate = businessDate;
         this.accountName = accountName;
@@ -97,11 +97,11 @@ public class CashClosedPayInventory {
         this.initialSigns = initialSigns;
     }
 
-    public int getTotalMoney() {
+    public double getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(int totalMoney) {
+    public void setTotalMoney(double totalMoney) {
         this.totalMoney = totalMoney;
     }
 
