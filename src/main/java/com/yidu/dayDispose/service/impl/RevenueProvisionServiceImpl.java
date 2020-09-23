@@ -51,7 +51,7 @@ public class RevenueProvisionServiceImpl implements RevenueProvisionService {
         HashMap twoFeesMap = new HashMap();
         System.out.println("jjjjjjjjj"+statDate);
         if(statDate!="" && statDate!=null ){
-            twoFeesMap.put("p_tableName","(select fundId,managerRate,accountId,hostingRate,valueStatisticsDate,MARKETVALUE,ROUND((MARKETVALUEs*managerRate/100/365 ),2)as managementMoney,\n" +
+            twoFeesMap.put("p_tableName","(select fundId,managerRate,accountId,hostingRate,valueStatisticsDate,MARKETVALUE,to_char(to_date(VALUESTATISTICSDATE,'yyyy-MM-dd')+1,'yyyy-MM-dd') dateTime,ROUND((MARKETVALUEs*managerRate/100/365 ),2)as managementMoney,\n" +
                     " ROUND((MARKETVALUEs*hostingRate/100/365 ),2)as CustodyMoney from (select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.MARKETVALUE,\n" +
                     "(case  when va.MARKETVALUE=0 then ROUND(to_number(sizeOfThe)) else ROUND(to_number(va.MARKETVALUE))  end) MARKETVALUEs from  fund f\n" +
                     "  join (select * from valueStatistics where valueStatisticsDate=\n" +

@@ -16,6 +16,7 @@ public class TwoFees {
     private double managementMoney;
     private double custodyMoney;
     private double marketValue;
+    private String dateTime;
     public String getFundId() {
         return fundId;
     }
@@ -139,7 +140,15 @@ public class TwoFees {
         this.marketValue = marketValue;
     }
 
-    public TwoFees(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double propertyNetWorth, String valueStatisticsDate, String accountId, double managementMoney, double custodyMoney, double marketValue) {
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public TwoFees(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double propertyNetWorth, String valueStatisticsDate, String accountId, double managementMoney, double custodyMoney, double marketValue, String dateTime) {
         this.fundId = fundId;
         this.fundName = fundName;
         this.fundType = fundType;
@@ -155,6 +164,7 @@ public class TwoFees {
         this.managementMoney = managementMoney;
         this.custodyMoney = custodyMoney;
         this.marketValue = marketValue;
+        this.dateTime = dateTime;
     }
 
     @Override
@@ -175,6 +185,7 @@ public class TwoFees {
                 ", managementMoney=" + managementMoney +
                 ", custodyMoney=" + custodyMoney +
                 ", marketValue=" + marketValue +
+                ", dateTime='" + dateTime + '\'' +
                 '}';
     }
 }

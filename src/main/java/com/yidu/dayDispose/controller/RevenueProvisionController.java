@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.ref.Cleaner;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -188,7 +190,7 @@ public class RevenueProvisionController {
     @NGULog(message = "两费信息页面选中信息")
     @RequestMapping("StatisticalTwoFees")
     //前端返回的json字符串名字TwoFees  String TwoFees, HttpServletRequest request
-    public int statisticalTwoFees(String TwoFees, HttpServletRequest request){
+    public int statisticalTwoFees(String TwoFees, HttpServletRequest request) throws ParseException {
         int i=0;
         System.out.println("进来了===============================================");
         System.out.println(TwoFees);
@@ -211,7 +213,9 @@ public class RevenueProvisionController {
             //setAmount(twoFees.getManagementMoney());  数据库字段名不一样
             cashClosedPayPojo.setAmount(twoFees.getManagementMoney()*(-1));
             //setDateTime(twoFees.getValueStatisticsDate()); 数据库字段名不一样
-            cashClosedPayPojo.setDateTime(twoFees.getValueStatisticsDate());
+
+            cashClosedPayPojo.setDateTime(twoFees.getDateTime());
+
             //setFlag 状态-1 流出
             cashClosedPayPojo.setFlag(-1);
 
