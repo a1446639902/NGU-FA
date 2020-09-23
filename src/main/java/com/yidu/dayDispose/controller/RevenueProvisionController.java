@@ -209,10 +209,11 @@ public class RevenueProvisionController {
             //setServiceType(1);
             cashClosedPayPojo.setServiceType(1);
             //setAmount(twoFees.getManagementMoney());  数据库字段名不一样
-            cashClosedPayPojo.setAmount(twoFees.getManagementMoney());
+            cashClosedPayPojo.setAmount(twoFees.getManagementMoney()*(-1));
             //setDateTime(twoFees.getValueStatisticsDate()); 数据库字段名不一样
             cashClosedPayPojo.setDateTime(twoFees.getValueStatisticsDate());
-            cashClosedPayPojo.setFlag(1);
+            //setFlag 状态-1 流出
+            cashClosedPayPojo.setFlag(-1);
 
             //增加管理费利息数据
             int i1=cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
@@ -225,7 +226,8 @@ public class RevenueProvisionController {
             //增加托管费利息数据
             cashClosedPayPojo.setServiceType(2);
             double custodyMoney = twoFees.getCustodyMoney();
-            cashClosedPayPojo.setAmount(custodyMoney);
+            //setAmount getCustodyMoney 流出金额*-1
+            cashClosedPayPojo.setAmount(custodyMoney*(-1));
             //增
             i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
             if(i>0){
