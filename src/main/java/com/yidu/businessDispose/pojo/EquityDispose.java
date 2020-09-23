@@ -1,5 +1,9 @@
 package com.yidu.businessDispose.pojo;
-
+/**
+ *@author wzh
+ *date 2020-9-21
+ * 权益处理表实体类
+ */
 public class EquityDispose {
     private String equityDataId;//权益编号
     private String securitiesName;//证券名称
@@ -9,13 +13,13 @@ public class EquityDispose {
     private String receivedDate;//到账日期
     private int securitiesNum;//证券数量
     private int proportion;//比例
-    private String settlementAmount;//结算金额
+    private double settlementAmount;//结算金额
     private int disposeStatus;//处理状态   0.未处理   1.已处理
 
     public EquityDispose() {
     }
 
-    public EquityDispose(String equityDataId, String securitiesName, String accountName, int equitiesType, String equitiesExright, String receivedDate, int securitiesNum, int proportion, String settlementAmount, int disposeStatus) {
+    public EquityDispose(String equityDataId, String securitiesName, String accountName, int equitiesType, String equitiesExright, String receivedDate, int securitiesNum, int proportion, double settlementAmount, int disposeStatus) {
         this.equityDataId = equityDataId;
         this.securitiesName = securitiesName;
         this.accountName = accountName;
@@ -92,11 +96,11 @@ public class EquityDispose {
         this.proportion = proportion;
     }
 
-    public String getSettlementAmount() {
+    public double getSettlementAmount() {
         return settlementAmount;
     }
 
-    public void setSettlementAmount(String settlementAmount) {
+    public void setSettlementAmount(double settlementAmount) {
         this.settlementAmount = settlementAmount;
     }
 
@@ -119,7 +123,7 @@ public class EquityDispose {
                 ", receivedDate='" + receivedDate + '\'' +
                 ", securitiesNum=" + securitiesNum +
                 ", proportion=" + proportion +
-                ", settlementAmount='" + settlementAmount + '\'' +
+                ", settlementAmount=" + settlementAmount +
                 ", disposeStatus=" + disposeStatus +
                 '}';
     }

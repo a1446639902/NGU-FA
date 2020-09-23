@@ -1,6 +1,7 @@
 package com.yidu.reportManage.controller;
 
 import com.yidu.businessParameter.pojo.Brokers;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.reportManage.pojo.SeateScheduleOf;
 import com.yidu.reportManage.service.SeateScheduleOfService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.List;
 public class SeateScheduleOfController {
     @Autowired
     private SeateScheduleOfService seateScheduleOfService;
+    @NGULog(message = "查询席位成交量明细表")
     @RequestMapping("/selectSeateScheduleOf")
     public HashMap selectSeateScheduleOf(int page, int limit, String fundName){
         System.out.println(page+","+limit+","+fundName);

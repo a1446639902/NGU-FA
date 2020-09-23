@@ -20,13 +20,27 @@ import java.util.Map;
 
 @Service
 public class EquityDataServiceImpl implements EquityDataService {
+    /**
+     * 调用权益数据接口
+     */
     @Resource
     EquityDataMapper equityDataMapper;
+
+    /**
+     * 权益数据新增方法
+     * @param equityData
+     * @return
+     */
     @Override
     public int insertEquityData(EquityData equityData) {
         return equityDataMapper.insertEquityData(equityData);
     }
 
+    /**
+     * 权益数据删除方法
+     * @param equityDataId
+     * @return
+     */
     @Override
     public int deleteEquityData(String equityDataId) {
         //将id转为数据
@@ -41,11 +55,24 @@ public class EquityDataServiceImpl implements EquityDataService {
         return equityDataMapper.deleteEquityData(equityIdList);
     }
 
+    /**
+     * 权益数据修改方法
+     * @param equityData
+     * @return
+     */
     @Override
     public int updateEquityData(EquityData equityData) {
         return equityDataMapper.updateEquityData(equityData);
     }
 
+    /**
+     * 权益数据分页查询方法
+     * @param pageSize
+     * @param page
+     * @param equitiesType
+     * @param equitiesExright
+     * @return
+     */
     @Override
     public Map<String, Object> selectEquityData(String pageSize, String page , String equitiesType , String equitiesExright) {
         //创建一个结果集Map用于存放两个结果变量

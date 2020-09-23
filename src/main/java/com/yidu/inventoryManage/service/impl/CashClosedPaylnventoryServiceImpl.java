@@ -16,14 +16,27 @@ import java.util.Map;
 
 @Service
 public class CashClosedPaylnventoryServiceImpl implements CashClosedPaylnventoryService {
-
+    /**
+     * 调用现金应收应付到库存的接口
+     */
     @Resource
     CashClosedPaylnventoryMapper cashClosedPaylnventoryMapper;
+
+    /**
+     * 现金应收应付到库存新增方法
+     * @param cashClosedPayInventory
+     * @return
+     */
     @Override
     public int insertCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory) {
         return cashClosedPaylnventoryMapper.insertCashClosedPaylnventory(cashClosedPayInventory);
     }
 
+    /**
+     * 现金应收应付到库存删除方法
+     * @param cashClosedPayInventoryId
+     * @return
+     */
     @Override
     public int deleteCashClosedPaylnventory(String cashClosedPayInventoryId) {
         //将id转为数据
@@ -36,12 +49,25 @@ public class CashClosedPaylnventoryServiceImpl implements CashClosedPaylnventory
         return cashClosedPaylnventoryMapper.deleteCashClosedPaylnventory(cashClosedPayInventoryIdList);
     }
 
+    /**
+     * 现金应收应付到库存修改方法
+     * @param cashClosedPayInventory
+     * @return
+     */
     @Override
     public int updateCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory) {
         System.out.println(cashClosedPayInventory);
         return cashClosedPaylnventoryMapper.updateCashClosedPaylnventory(cashClosedPayInventory);
     }
 
+    /**
+     * 现金应收应付到库存分页查询方法
+     * @param pageSize
+     * @param page
+     * @param businessType
+     * @param businessDate
+     * @return
+     */
     @Override
     public Map<String, Object> selectCashClosedPaylnventory(String pageSize, String page, String businessType, String businessDate) {
         //创建一个结果集Map用于存放两个结果变量

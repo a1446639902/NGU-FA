@@ -4,6 +4,7 @@ import com.yidu.businessParameter.pojo.Brokers;
 import com.yidu.businessParameter.pojo.Seate;
 import com.yidu.businessParameter.service.BrokersService;
 import com.yidu.businessParameter.service.SeateService;
+import com.yidu.permission.aspect.NGULog;
 import com.yidu.systemManage.pojo.RolePojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class SeateController {
      * @param seate
      * @return
      */
+    @NGULog(message = "增加席位信息")
     @RequestMapping("/seateInsert")
     public int seateInsert(Seate seate){
         System.out.println("增加成功");
@@ -40,6 +42,7 @@ public class SeateController {
      * @param seateId
      * @return
      */
+    @NGULog(message = "删除席位信息")
     @RequestMapping("/seateDelete")
     public int delete(String seateId){
         System.out.println(seateId);
@@ -52,6 +55,7 @@ public class SeateController {
      * @param seate
      * @return
      */
+    @NGULog(message = "修改席位信息")
     @RequestMapping("/seateUpdate")
     public int seateUpdate(Seate seate){
         System.out.println("BrokersId"+seate.getBrokersId());
@@ -63,6 +67,7 @@ public class SeateController {
      * 查询
      * @return
      */
+    @NGULog(message = "查询席位信息")
     @RequestMapping("/seateSelect")
     public HashMap seateSelect(String page, String limit, String seateName,String brokersId,String modules) {
         System.out.println("进来了");

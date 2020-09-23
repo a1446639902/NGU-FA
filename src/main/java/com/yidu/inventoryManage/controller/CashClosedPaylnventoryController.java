@@ -20,10 +20,22 @@ import java.util.Map;
  */
 @RestController
 public class CashClosedPaylnventoryController {
+    /**
+     * 调用现金应收应付到库存的服务层Service
+     */
     @Resource
     CashClosedPaylnventoryService cashClosedPaylnventoryService;
+    /**
+     * 调用工具类
+     */
     @Resource
     DbUtil dbUtil;
+
+    /**
+     * 现金应收应付到库存新增方法
+     * @param cashClosedPayInventory
+     * @return
+     */
     @NGULog(message = "现金应收应付到库存新增方法")
     @RequestMapping("insertCashClosedPaylnventory")
     public int insertCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory) {
@@ -32,12 +44,24 @@ public class CashClosedPaylnventoryController {
         int i = cashClosedPaylnventoryService.insertCashClosedPaylnventory(cashClosedPayInventory);
         return i;
     }
+
+    /**
+     * 现金应收应付到库存删除方法
+     * @param cashClosedPayInventoryId
+     * @return
+     */
     @NGULog(message = "现金应收应付到库存删除方法")
     @RequestMapping("deleteCashClosedPaylnventory")
     public int deleteCashClosedPaylnventory(String cashClosedPayInventoryId) {
         int i =cashClosedPaylnventoryService.deleteCashClosedPaylnventory(cashClosedPayInventoryId);
         return i;
     }
+
+    /**
+     * 现金应收应付到库存修改方法
+     * @param cashClosedPayInventory
+     * @return
+     */
     @NGULog(message = "现金应收应付到库存修改方法")
     @RequestMapping("updateCashClosedPaylnventory")
     public int updateCashClosedPaylnventory(CashClosedPayInventory cashClosedPayInventory) {
@@ -45,6 +69,15 @@ public class CashClosedPaylnventoryController {
         int i = cashClosedPaylnventoryService.updateCashClosedPaylnventory(cashClosedPayInventory);
         return i;
     }
+
+    /**现金应收应付到库存查询方法
+     *
+     * @param page
+     * @param limit
+     * @param businessType
+     * @param businessDate
+     * @return
+     */
     @NGULog(message = "现金应收应付到库存查询方法")
     @RequestMapping("selectCashClosedPaylnventory")
     public Map<String, Object> selectCashClosedPaylnventory(String page, String limit, String businessType, String businessDate) {

@@ -190,7 +190,6 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                     }
                     layer.confirm('真的删除行么',{icon: 2}, function(index){
                         layer.close(index);
-                        //layer.alert(JSON.stringify(data));
                         $.post("../deleteCashClosedPaylnventory", {cashClosedPayInventoryId:ids.join(',')},function(msg){
                             table.reload('userTable');
                             layer.msg('删除'+checkStatus.data.length+'条记录', {
@@ -208,7 +207,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
     //给表格编辑，删除按钮添加点击事件
     table.on('tool(userTable)', function(obj) {
         var data = obj.data;//得到删除行整行的数据
-        alert(data.cashClosedPayInventoryId);
+        //alert(data.cashClosedPayInventoryId);
         if (obj.event === 'del') {
             layer.confirm('真的删除行么',{icon: 2}, function(index){
                 layer.close(index);

@@ -19,6 +19,6 @@ public interface SecuritiesInventoryService {
      * 根据日期删除的service层的接口
      * @param date
      */
-    public void deleteDateSecuritiesInventory(String date);
+    public void deleteDateSecuritiesInventory(String date,String serId);
 
 }

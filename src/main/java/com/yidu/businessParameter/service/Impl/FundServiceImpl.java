@@ -4,8 +4,6 @@ package com.yidu.businessParameter.service.Impl;
 import com.yidu.businessParameter.mapper.FundMapper;
 import com.yidu.businessParameter.pojo.Fund;
 import com.yidu.businessParameter.service.FundService;
-import com.yidu.util.DbUtil;
-import com.yidu.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -61,7 +59,7 @@ public class FundServiceImpl implements FundService {
         List<String> fundIdList = new ArrayList<String>();
         //循环数组
         for (String id : split) {
-            //将数组循环的值添加到集合中，强转为整型
+            //将数组循环的值添加到集合中
             fundIdList.add(id);
         }
         return fundMapper.deleteFund(fundIdList);

@@ -20,8 +20,22 @@ import java.util.Map;
  */
 @RestController
 public class EquityDiposeController {
+    /**
+     * 调用权益数据的服务层Service
+     */
     @Resource
     EquityDisposeService equityDisposeService;
+
+    /**
+     * 权益处理查询方法
+     * @param page
+     * @param limit
+     * @param equitiesType
+     * @param equitiesExright
+     * @param disposeStatus
+     * @param request
+     * @return
+     */
     @NGULog(message = "权益处理查询方法")
     @RequestMapping("selectEquityDispose")
     public Map<String, Object> selectEquity(String page, String limit, String equitiesType, String equitiesExright, String disposeStatus, HttpServletRequest request) {
@@ -44,11 +58,24 @@ public class EquityDiposeController {
         //返回数据
         return EquityDisposeMap;
     }
+
+    /**
+     * 权益处理修改状态插入交易数据
+     * @param equityDisPose
+     * @param request
+     * @return
+     */
     @NGULog(message = "权益处理修改状态插入交易数据")
     @RequestMapping("updateEquityDispose")
     public int updateEquityDispose(String equityDisPose ,HttpServletRequest request ){
         return equityDisposeService.updateEquityDispose(equityDisPose,request);
     }
+
+    /**
+     * 权益处理修改方法
+     * @param equityDisPose
+     * @return
+     */
     @NGULog(message = "权益处理修改方法")
     @RequestMapping("updateEquityDisposeTow")
     public int updateEquityDisposeTwo(String equityDisPose){

@@ -28,11 +28,11 @@ public class SeateScheduleOfServiceImpl implements SeateScheduleOfService {
 //        String transactionData=" (select * from VarietiesRatePojo vrp left join securities se on tr.securitiesId=se.securitiesId left join fund fu on tr.fundName=fu.fundName left join TransactionData td on tr.num=td.num left join brokers br on tr.brokersId=br.brokersId left join fund f on tr.fundId = f.fundId) ";
            String sql="";
            if(fundName!=null&&!fundName.equals("")){
-               sql = sql+"and fundName like '%"+ fundName + "%'";
+               sql = sql+"and fundName like '%"+fundName+ "%'";
            }
         System.out.println(sql);
            HashMap seateScheduleOfMap = new HashMap();
-        seateScheduleOfMap.put("p_tableName","seateScheduleOf");
+        seateScheduleOfMap.put("p_tableName","TransactionData");
         seateScheduleOfMap.put("p_condition", sql);
         seateScheduleOfMap.put("p_pageSize", limit);
         seateScheduleOfMap.put("p_page", page);

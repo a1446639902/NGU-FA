@@ -20,10 +20,9 @@ public interface SecuritiesInventoryMapper {
 
     /**
      * 根据日期删除
-     * 伍菲云是傻逼  代码从不打注释的
      * @param date
      */
-    @Delete("delete securitiesInventory where datetime=#{date}")
-    public void deleteDateSecuritiesInventory(String date);
+    @Delete("delete securitiesInventory where datetime=#{date} and SECURITIESID=#{serId}")
+    public void deleteDateSecuritiesInventory(String date,String serId);
 
 }
