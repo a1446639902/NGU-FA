@@ -93,7 +93,7 @@
                 //console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
                 //console.log(data.field.statDate);
                 console.log($("#statDate").val());
-                // alert(  "layid=" + layid);
+
                 if(layid==11){
                     table.reload('userTable', {
                             url:'/RevenueProvision/selectRevenueProvision',
@@ -143,7 +143,7 @@
             form.on('submit(tongJi)', function (data) {
                 //console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
                 //console.log(data.field.statDate);
-                alert(  "layid=" + layid);
+
                 if(layid==11){
                     var checkStatus = table.checkStatus("userTable"); // 获得选中行所有数据
                     // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
@@ -152,9 +152,8 @@
                     $.each(dataArr, function (i, n) {
                         cashs.push(n);
                     });
-                    // alert(cashs);
+
                    var cash = JSON.stringify(cashs);
-                    alert(cash);
 
                              layer.close();
                             //向服务端发送删除指令
@@ -181,9 +180,9 @@
                     $.each(dataArr, function (i, n) {
                         Securitie.push(n);
                     });
-                    // alert(cashs);
+
                     var Securities = JSON.stringify(Securitie);
-                    alert(Securities);
+
 
                     // layer.close();
                     //向服务端发送删除指令
@@ -208,9 +207,9 @@
                     $.each(dataArr, function (i, n) {
                         TwoFee.push(n);
                     });
-                    // alert(cashs);
+
                     var TwoFees = JSON.stringify(TwoFee);
-                    alert(TwoFees);
+
 
                     // layer.close();
                     //向服务端发送删除指令
@@ -283,7 +282,7 @@
         // // 获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
         // var layid = location.hash.replace(/^#test1=/, '');
         // element.tabChange('test1', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
-        // alert(layid);
+
         //
 
         //监听Tab切换，以改变地址hash值
@@ -293,7 +292,6 @@
         });
         element.on('tab(test1)', function () {
             layid = this.getAttribute('lay-id');
-            // alert(layid);
 
         });
 

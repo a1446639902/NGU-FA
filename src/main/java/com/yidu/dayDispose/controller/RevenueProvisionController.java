@@ -226,10 +226,13 @@ public class RevenueProvisionController {
             cashClosedPayPojo.setServiceType(2);
             double custodyMoney = twoFees.getCustodyMoney();
             cashClosedPayPojo.setAmount(custodyMoney);
-            int i2 = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
-            if(i2>0){
-                i2 = cashClosedPayService.deleteNew(cashClosedPayPojo);
-                if(i2>0){
+            //增
+            i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
+            if(i>0){
+                //删
+                i = cashClosedPayService.deleteNew(cashClosedPayPojo);
+                if(i>0){
+                    //增
                     i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
                 }
             }

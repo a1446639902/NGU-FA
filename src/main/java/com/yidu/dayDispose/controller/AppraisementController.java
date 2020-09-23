@@ -34,6 +34,7 @@ public class AppraisementController {
     @NGULog(message = "查询页面状态")
     @RequestMapping("selectValuationProcessing")
     public HashMap selectValuationProcessing() {
+        //资产估值表格内容写死通过appraisementService.selectBiaoge();  获取ValuationProcessing类型的集合  数据是写死的
         List<ValuationProcessing> valuationProcessingList = appraisementService.selectBiaoge();
         HashMap valuationProcessingMap = new HashMap();
         valuationProcessingMap.put("code", 0);
@@ -46,39 +47,54 @@ public class AppraisementController {
 
     @NGULog(message = "查询证券库存join行情表,ta交易数据以及交易数据")
     @RequestMapping("startValuation")
+    //toDay字符串 是查询的条件 arrJson是传过来的json对象字符串
     public int startValuation(String toDay, String arrJson) {
         System.out.println("进来了");
         System.out.println(arrJson + " " + toDay);
         int i = 0;
+        //JsonUtil.jsonToArrayList(arrJson, ValuationProcessing.class); 通过工具类获得ValuationProcessing类型的集合
         List<ValuationProcessing> valuationProcessingList = JsonUtil.jsonToArrayList(arrJson, ValuationProcessing.class);
         for (ValuationProcessing valuationProcessing : valuationProcessingList) {
-
+            //getStatus是状态名字  比如证券估值增值或者清算款
             if (valuationProcessing.getStatus().equals("证券估值增值")) {
                 System.out.println("证券估值增值开始估值");
+                //selectStockarket 通过selectStockarket方法以及日期条件查询出map集合
                 HashMap stockarketMap = appraisementService.selectStockarket(toDay);
+                //(List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor"); 通过p_cursor得到StockSecuritiesJoinMarket 类型的集合
                 List<StockSecuritiesJoinMarket> stockSecuritiesJoinMarketList = (List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor");
                 for (StockSecuritiesJoinMarket stockSecuritiesJoinMarket : stockSecuritiesJoinMarketList) {
                     System.out.println(stockSecuritiesJoinMarket.getSecuritiesId() + "========================================");
+                    //new一个SecuritiesClosedPayInventoryPojo类型的集合往里面赋值
                     SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo = new SecuritiesClosedPayInventoryPojo();
-
+//                       setFundId
                     securitiesClosedPayInventoryPojo.setFundId(stockSecuritiesJoinMarket.getFundId());
+                    //setSecuritiesId
                     securitiesClosedPayInventoryPojo.setSecuritiesId(stockSecuritiesJoinMarket.getSecuritiesId());
+                    //setDateTime
                     securitiesClosedPayInventoryPojo.setDateTime(stockSecuritiesJoinMarket.getDateTime());
-
+                       //setSecuritiesClosedPayDesc内容是写死的
                     securitiesClosedPayInventoryPojo.setSecuritiesClosedPayDesc("投资有风险");
                     System.out.println(securitiesClosedPayInventoryPojo + "这是第二个的删除实体类");
 
+                    //dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI)获取Id
                     System.out.println(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI) + "=============================== 这是scpi的Id");
+                    //setSecuritiesClosedPayInventoryId
                     securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
+                    //setSecuritiesType 类型为1
                     securitiesClosedPayInventoryPojo.setSecuritiesType(1);
+                    //setFlag 类型为1
                     securitiesClosedPayInventoryPojo.setFlag(1);
+                    //setTotalPrice
                     securitiesClosedPayInventoryPojo.setTotalPrice(stockSecuritiesJoinMarket.getTootaIPrice());
+                    //setSecurityPeriodFlag
                     securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(stockSecuritiesJoinMarket.getSecurityPeriodFlag());
                     //调用增加方法
                     i = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                     if (i > 0) {
+                        //删
                         i = appraisementService.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                         if (i > 0) {
+                            //增
                             i = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                         }
                     }
@@ -87,21 +103,29 @@ public class AppraisementController {
 
             } else {
                 System.out.println("清算款清算中");
-                //查交易数据 按证券代码分组 插入证券应收应付库存
+                //查交易数据 按证券代码分组 插入证券应收应付库存 调用selectTransactionData方法 查询参数为toDay 返回Map集合
                 HashMap hashMap = appraisementService.selectTransactionData(toDay);
+                //通过键 p_cursor得到TransactionData类型的集合
                 List<TransactionData> transactionDataList = (List<TransactionData>) hashMap.get("p_cursor");
                 for (TransactionData transactionData : transactionDataList) {
                     System.out.println("TransactionData=================" + transactionData);
+                    //new证券应收应付实体类
                     SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo = new SecuritiesClosedPayInventoryPojo();
+                    //工具类requestDbTableMaxId 方法通过SCPI得到最大Id复制给证券应收应付Id
                     securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
+                    //setFundId
                     securitiesClosedPayInventoryPojo.setFundId(transactionData.getFundId());
+                    //setSecuritiesId
                     securitiesClosedPayInventoryPojo.setSecuritiesId(transactionData.getSecuritiesId());
+                    //setDateTime 时间为搜索日期
                     securitiesClosedPayInventoryPojo.setDateTime(toDay);
-
-
+                    //setSecurityPeriodFlag 值为1
                     securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(1);
+                    //setSecuritiesType 值为2
                     securitiesClosedPayInventoryPojo.setSecuritiesType(2);
-                    securitiesClosedPayInventoryPojo.setFlag(1);
+                    //setFlag 值为1
+                    securitiesClosedPayInventoryPojo.setFlag(-1);
+                    //setTotalPrice getTotalSum 数据库两个表字段不一样
                     securitiesClosedPayInventoryPojo.setTotalPrice(transactionData.getTotalSum());
                     System.out.println(securitiesClosedPayInventoryPojo + "插入证券库存2========================");
 
@@ -117,26 +141,39 @@ public class AppraisementController {
                     }
 
                     System.out.println("查ta交易数据================================");
+                    //selectTaTransaction 通过selectTaTransaction方法得到map集合
                     HashMap taTransactionMap = appraisementService.selectTaTransaction(toDay);
+                    //通过p_cursor建得到TaTransaction类型的集合
                     List<TaTransaction> taTransactionList = (List<TaTransaction>) taTransactionMap.get("p_cursor");
+                    //遍历集合
                     for (TaTransaction taTransaction : taTransactionList) {
                         System.out.println(taTransaction + "ta==========================================");
+                        //new 现金应收应付实体类
                         CashClosedPayInventory cashClosedPayInventory = new CashClosedPayInventory();
+                        //dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCPI） 得到现金应收应付的Id放入现金应收应付
                         cashClosedPayInventory.setCashClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCPI));
+                        //setBusinessDate 时间为搜索日期
                         cashClosedPayInventory.setBusinessDate(toDay);
+                        //setFundId
                         cashClosedPayInventory.setFundId(taTransaction.getFundId());
                         System.out.println(taTransaction.getAccountId() + "=============================accountId");
+                        //setAccountId
                         cashClosedPayInventory.setAccountId(taTransaction.getAccountId());
                         System.out.println(cashClosedPayInventory + "删除前的实体类=======================");
-
+                        //setBusinessType 值为4
                         cashClosedPayInventory.setBusinessType(4);
+                        //setBusinessStatus 值为-1
                         cashClosedPayInventory.setBusinessStatus(-1);
+                        //setInitialSigns 值为1
                         cashClosedPayInventory.setInitialSigns(1);
+                        //setTotalMoney  实体类是int类型，必须强转
                         cashClosedPayInventory.setTotalMoney((int) taTransaction.getTotalMoney());
                         System.out.println(cashClosedPayInventory);
+                        //现金应收应付的service调用现金应收应付增加的方法
                         i = cashClosedPaylnventoryService.insertCashClosedPaylnventory(cashClosedPayInventory);
                         System.out.println("现金应收应付库存第一次插入的I"+i);
                         if (i > 0) {
+                            //删除的方法自己写 按条件删除
                             i = appraisementService.deleteCashClosedPaylnventory(cashClosedPayInventory);
                             System.out.println("现金应收应付库存第一次删除的I"+i);
                             if (i > 0) {
