@@ -130,9 +130,14 @@ public class IncomePaymentController {
             cashClosedPayPojo.setFundId(GetFundIdUtil.getFundId(request)) ;
             cashClosedPayPojo.setAccountId(income.getAccountId());
             cashClosedPayPojo.setServiceType(income.getBusinessType());
-            cashClosedPayPojo.setAmount(income.getTotalMoney()*-1*income.getBusinessStatus());
+            if (income.getBusinessType()==3){
+                cashClosedPayPojo.setAmount(income.getTotalMoney()*-1);
+                cashClosedPayPojo.setFlag(-1);
+            }else if (income.getBusinessType()==1 || income.getBusinessType()==2){
+                cashClosedPayPojo.setAmount(income.getTotalMoney()*-1);
+                cashClosedPayPojo.setFlag(1);
+            }
             cashClosedPayPojo.setDateTime(income.getBusinessDate());
-            cashClosedPayPojo.setFlag(-1*income.getBusinessStatus());
             System.out.println("现金应收应付：" + cashClosedPayPojo);
             cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
 //资金调拨的新增
@@ -182,9 +187,9 @@ public class IncomePaymentController {
             securitiesClosedPayPojo.setAccountId(GetAccountUtil.getAccountId(request));
             securitiesClosedPayPojo.setSecuritiesId(income.getSecuritiesId());
             securitiesClosedPayPojo.setServiceType(income.getSecuritiesType());
-            securitiesClosedPayPojo.setAmount(income.getTotalMoney()*income.getBusinessStatus()*-1);
+            securitiesClosedPayPojo.setAmount(income.getTotalMoney()*-1);
             securitiesClosedPayPojo.setDateTime(income.getBusinessDate());
-            securitiesClosedPayPojo.setFlag(income.getBusinessStatus()*-1);
+            securitiesClosedPayPojo.setFlag(-1);
             securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
 //资金调拨的新增
            String bankTreasurerId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT);
