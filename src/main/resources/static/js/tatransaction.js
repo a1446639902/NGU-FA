@@ -1,11 +1,11 @@
-layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate','upload'], function () {
 	var layer = layui.layer;
 	var $ = layui.$;
 	var table = layui.table;
 	var form = layui.form;
 	var formSelects = layui.formSelects;
 	var laydate = layui.laydate;
-
+	var upload = layui.upload;
 	//执行一个laydate实例
 	laydate.render({
 		elem: '#start' //指定元素
@@ -76,6 +76,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 		});
 		return false;
 	});
+
 	table.render({
 		elem: '#userTable',
 		url: '../selectTaTransaction',
@@ -125,6 +126,21 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 				,{fixed: 'right', title: '操作',width: 150, align:'center', toolbar: '#barDemo'}
 			]
 		]
+	});
+	//文件上传
+	upload.render({
+		elem: '#addSG'
+		,url: '/uploadTA' //改成您自己的上传接口
+		,data: {}
+		,accept: 'file'     //允许上传的文件类型
+		,acceptMime: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		,exts: 'xls|xlsx'   //文件后缀
+		,size: 10000           //最大允许上传的文件大小
+		,done: function(res, index, upload){ //上传后的回调
+			layer.alert(res.msg);
+			table.reload('userTable', {});
+			return;
+		}
 	});
 	//给工具条的按钮添加事件
 	table.on('toolbar(userTable)',function (obj) {

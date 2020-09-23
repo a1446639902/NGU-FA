@@ -21,7 +21,7 @@
     <select id="selectAllMsg" resultType="com.yidu.dayDispose.pojo.SelectAllMsgPojo" parameterType="String">
 select securitiesName ,t1.SECURITIESId,SECURITIESNUM,total,CLOSINGPRICE,t1.DATETIME
 from SECURITIESINVENTORY t1, SECURITIES t2 ,MARKET t3
-where t1.SECURITIESID=t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID and t1.DATETIME = t3.DATETIME and t3.DATETIME=#{time}
+where t1.SECURITIESID=t2.SECURITIESID and t1.SECURITIESID = t3.SECURITIESID and t1.DATETIME = t3.DATETIME and t3.DATETIME=#{time} and SECURITIESTYPE=2
     </select>
 
     <!--查询证券中债券的数据-->
@@ -56,7 +56,7 @@ where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
 
     <!--查询管理费-->
     <select id="selectAdministrativeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 1 and t1.DATETIME= #{time}
+        select AMOUNT from CASHCLOSEDPAY where SERVICETYPE = 1 and DATETIME=#{time}
     </select>
 
     <!--查询证券清算款-->
