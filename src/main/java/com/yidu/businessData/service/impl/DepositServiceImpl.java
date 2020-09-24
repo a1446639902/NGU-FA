@@ -84,7 +84,7 @@ public class DepositServiceImpl implements DepositService {
         bankTreasurerPojo.setAccountId(depositPojo.getOutAccountId());
         bankTreasurerPojo.setAccountName(depositPojo.getOutAccountName());
         bankTreasurerPojo.setFlag(-1);
-        bankTreasurerPojo.setTotalPrice(depositPojo.getMoney()*bankTreasurerPojo.getFlag());
+        bankTreasurerPojo.setTotalPrice(depositPojo.getMoney());
         //调拨日期为存款业务的业务日期
         bankTreasurerPojo.setDbTime(depositPojo.getBusinessDate());
         //业务日期为存款的当前日期
@@ -137,7 +137,7 @@ public class DepositServiceImpl implements DepositService {
         //副账户流出
         bankTreasurerPojo.setAccountId(depositPojo.getInAccountId());
         bankTreasurerPojo.setAccountName(depositPojo.getInAccountName());
-        bankTreasurerPojo.setTotalPrice(depositPojo.getMoney()*(-1));
+        bankTreasurerPojo.setTotalPrice(depositPojo.getMoney());
         bankTreasurerPojo.setFlag(-1);
         //调用资金调拨表的新增方法
         bankTreasurerMapper.insertBankTreasurer(bankTreasurerPojo);
