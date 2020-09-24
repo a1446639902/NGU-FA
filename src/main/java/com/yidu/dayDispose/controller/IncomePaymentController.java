@@ -131,10 +131,10 @@ public class IncomePaymentController {
             cashClosedPayPojo.setAccountId(income.getAccountId());
             cashClosedPayPojo.setServiceType(income.getBusinessType());
             if (income.getBusinessType()==3){
-                cashClosedPayPojo.setAmount(income.getTotalMoney()*-1);
+                cashClosedPayPojo.setAmount(income.getTotalMoney());
                 cashClosedPayPojo.setFlag(-1);
             }else if (income.getBusinessType()==1 || income.getBusinessType()==2){
-                cashClosedPayPojo.setAmount(income.getTotalMoney()*-1);
+                cashClosedPayPojo.setAmount(income.getTotalMoney());
                 cashClosedPayPojo.setFlag(1);
             }
             cashClosedPayPojo.setDateTime(income.getBusinessDate());
@@ -187,7 +187,7 @@ public class IncomePaymentController {
             securitiesClosedPayPojo.setAccountId(GetAccountUtil.getAccountId(request));
             securitiesClosedPayPojo.setSecuritiesId(income.getSecuritiesId());
             securitiesClosedPayPojo.setServiceType(income.getSecuritiesType());
-            securitiesClosedPayPojo.setAmount(income.getTotalMoney()*-1);
+            securitiesClosedPayPojo.setAmount(income.getTotalMoney());
             securitiesClosedPayPojo.setDateTime(income.getBusinessDate());
             securitiesClosedPayPojo.setFlag(-1);
             securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
