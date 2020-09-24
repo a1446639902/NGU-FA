@@ -220,7 +220,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
             form.val('editform',$.parseJSON(JSON.stringify(data)));
             var index = layer.open({
                 type: 1,
-                title: '修改权益数据',
+                title: '',
                 closeBtn: 1,
                 move:false,
                 area: ['800px', '600px'],
