@@ -107,13 +107,15 @@ public class IncomePaymentController {
         return json;
     }
 //现金计息与两费的先删后增
-    @NGULog(message = "收益支付的现金及两费统计")//事务管理
+    @NGULog(message = "收益支付的现金或两费统计")//事务管理
     @RequestMapping("testCash")
     public int testCash(String cash,HttpServletRequest request){
         int i=0;
         List<IncomePaymentPojo> cashList = JsonUtil.jsonToArrayList(cash, IncomePaymentPojo.class);
         for (IncomePaymentPojo income: cashList) {
             Map map=new HashMap();
+            //设定先删后增的条件，页面接收的数据中的serviceType-BusinessType()/dateTime-BusinessDate()/flag-BusinessStatus()*-1
+            //request，从工具类得到fundId。
             map.put("fundId", GetFundIdUtil.getFundId(request));
             map.put("serviceType",income.getBusinessType());
             map.put("dateTime",income.getBusinessDate());
@@ -131,11 +133,11 @@ public class IncomePaymentController {
             cashClosedPayPojo.setAccountId(income.getAccountId());
             cashClosedPayPojo.setServiceType(income.getBusinessType());
             if (income.getBusinessType()==3){
-                cashClosedPayPojo.setAmount(income.getTotalMoney()*-1);
-                cashClosedPayPojo.setFlag(-1);
+                cashClosedPayPojo.setAmount(income.getTotalMoney());
+                cashClosedPayPojo.setFlag(-1);//此时为存款利息，只能流入，冲减写死为-1；
             }else if (income.getBusinessType()==1 || income.getBusinessType()==2){
-                cashClosedPayPojo.setAmount(income.getTotalMoney()*-1);
-                cashClosedPayPojo.setFlag(1);
+                cashClosedPayPojo.setAmount(income.getTotalMoney());
+                cashClosedPayPojo.setFlag(1);//此时为两费，只能流出，此时写死为1
             }
             cashClosedPayPojo.setDateTime(income.getBusinessDate());
             System.out.println("现金应收应付：" + cashClosedPayPojo);
@@ -183,11 +185,11 @@ public class IncomePaymentController {
             String  securitiesClosedPayId2= dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
             SecuritiesClosedPayPojo securitiesClosedPayPojo=new SecuritiesClosedPayPojo();
             securitiesClosedPayPojo.setSecuritiesClosedPayId(securitiesClosedPayId2);
-           securitiesClosedPayPojo.setFundId(GetFundIdUtil.getFundId(request));
+            securitiesClosedPayPojo.setFundId(GetFundIdUtil.getFundId(request));
             securitiesClosedPayPojo.setAccountId(GetAccountUtil.getAccountId(request));
             securitiesClosedPayPojo.setSecuritiesId(income.getSecuritiesId());
             securitiesClosedPayPojo.setServiceType(income.getSecuritiesType());
-            securitiesClosedPayPojo.setAmount(income.getTotalMoney()*-1);
+            securitiesClosedPayPojo.setAmount(income.getTotalMoney());
             securitiesClosedPayPojo.setDateTime(income.getBusinessDate());
             securitiesClosedPayPojo.setFlag(-1);
             securitiesClosedPayService.insertSecuritiesClosedPay(securitiesClosedPayPojo);
@@ -198,7 +200,7 @@ public class IncomePaymentController {
             bankTreasurerPojo.setFundId(GetFundIdUtil.getFundId(request));
             bankTreasurerPojo.setTotalPrice(income.getTotalMoney());
             bankTreasurerPojo.setAccountId(GetAccountUtil.getAccountId(request));
-            bankTreasurerPojo.setFlag(income.getBusinessStatus());
+            bankTreasurerPojo.setFlag(income.getBusinessStatus());//也可以写死，为1
             bankTreasurerPojo.setDbTime(income.getBusinessDate());
             bankTreasurerPojo.setDateTime(income.getBusinessDate());
             bankTreasurerPojo.setBusinessId(securitiesClosedPayId2);
