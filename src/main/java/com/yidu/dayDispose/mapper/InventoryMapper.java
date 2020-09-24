@@ -77,16 +77,16 @@ public interface InventoryMapper {
      */
     @Select("select nvl(tr.accountId,ca.accountId) as accountId,\n" +
             "    nvl(tr.serviceType,ca.businessType) as serv,\n" +
-            "    nvl(ca.totalPrice,0)+nvl(tr.amount,0) as toca,nvl(tr.FLAG,ca.BUSINESSSTATUS) as fla\n" +
+            "    nvl(ca.totalPrice,0)+nvl(tr.amount,0) as toca\n" +
             "    from\n" +
-            "    (select sum(nvl(TOTALMONEY,0)) AS totalPrice,accountId,businesstype,BUSINESSSTATUS from CASHCLOSEDPAYINVENTORY\n" +
+            "    (select sum(nvl(TOTALMONEY*BUSINESSSTATUS,0)) AS totalPrice,accountId,businesstype,BUSINESSSTATUS from CASHCLOSEDPAYINVENTORY\n" +
             "    where fundid=#{funId} and BUSINESSDATE=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd') and businessType in(1,2,3)\n" +
             "    GROUP BY accountId,businesstype,BUSINESSSTATUS) ca\n" +
             "    full join\n" +
-            "        (select sum(nvl(amount,0)) as amount,accountId,serviceType,flag\n" +
+            "        (select sum(nvl(amount*flag,0)) as amount,accountId,serviceType,sum(flag) as flag\n" +
             "        from cashClosedPay where\n" +
             "    fundid=#{funId} and dateTime=#{date} and serviceType in(1,2,3)\n" +
-            "    group by accountId,serviceType,flag) tr\n" +
+            "    group by accountId,serviceType) tr\n" +
             "    on ca.accountId=tr.accountId AND tr.serviceType=ca.businesstype AND ca.BUSINESSSTATUS=tr.flag\n")
     public List<CaYSYFInventoryEntity> selectCaYSYFInventory(String date, String funId);
 
@@ -97,12 +97,18 @@ public interface InventoryMapper {
      * @param funId
      * @return
      */
-    @Select("   select NVL(kc.flag,zj.FLAG) as flag,(NVL(totalPrice,0)+zj.tt) as tocal,NVL(kc.securityPeriodFlag,0) as securityPeriodFlag,NVL(kc.fundId,zj.FUNDID) as fundId,NVL(kc.securitiesId,zj.securitiesId) as securitiesId\n" +
-            "    from\n" +
-            "    (select * from securitiesClosedPayInventory where dateTime=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd')) kc\n" +
-            "    full join\n" +
-            "    (select sum(nvl(amount,0)*NVL(flag,0)) as tt,serviceType,FUNDID,securitiesId,FLAG from (select * from securitiesClosedPay where dateTime=#{date}) group by FLAG,accountId,serviceType,FUNDID,securitiesId) zj\n" +
-            "    on kc.securitiesType=zj.serviceType and zj.FUNDID=kc.FUNDID")
+    @Select("select nvl(ns.securitiesid,se.securitiesid)as securitiesid,NVL((nvl(ns.totalPrice,0)*ns.FLAG),0)+nvl(se.amount,0) as\n" +
+            "            tocal,nvl(ns.flag,se.flag) as flag,\n" +
+            "                    NVL(ns.securitiesId,se.securitiesId) as securitiesId,\n" +
+            "                    NVL(ns.fundId,se.FUNDID) as fundId\n" +
+            "                    from\n" +
+            "                    (select * from SECURITIESCLOSEDPAYINVENTORY where fundid=#{funId}\n" +
+            "                    and securitiesType = 3  and DATETIME=to_char(to_date(#{date},'yyyy-MM-dd')-1,'yyyy-MM-dd')) ns\n" +
+            "                    full join\n" +
+            "                    (select sum(nvl(amount,0)*FLAG) as amount,securitiesid,sum(NVL(flag,0)) as flag,FUNDID from\n" +
+            "                    securitiesClosedPay where fundId=#{funId} and serviceType=3 and\n" +
+            "                    dateTime=#{date} group by securitiesid,FUNDID) se\n" +
+            "            on ns.securitiesid = se.securitiesid")
     public List<SeYSYFInventoryEntity> selectSeYSYFInventory(String date, String funId);
 
 }
