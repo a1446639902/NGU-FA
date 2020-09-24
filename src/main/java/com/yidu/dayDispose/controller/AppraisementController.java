@@ -133,7 +133,7 @@ public class AppraisementController {
                     i = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                     System.out.println("证券应收应付库存第一次插入的I"+i);
                     if (i > 0) {
-                        i = appraisementService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventoryPojo);
+                        i = appraisementService.deleteSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
                         System.out.println("证券应收应付库存第一次删除的I"+i);
                         if (i > 0) {
                             i = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
