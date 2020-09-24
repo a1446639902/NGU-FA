@@ -266,9 +266,26 @@ public class InventoryServiceImpl implements InventoryService {
                     //证券应收应付类型 1=估值款 2=证券清算款 3=债券利息
                     securitiesClosedPayInventoryPojo.setSecuritiesType(3);
 
+                    //如果最后计算的总金额为正数，则为1流入，如果是负数则是流出-1
+                    int i=1;
+                    if (seYSYFInventoryEntity.getTocal()<0){
+                     i=-1;
+                        System.out.println("*********************************8_____________________我进来了，我将状态修改为-1"+i);
+                    }
+                    seYSYFInventoryEntity.setFlag(i);
                     //业务状态 1流入，-1流出
                     securitiesClosedPayInventoryPojo.setFlag(seYSYFInventoryEntity.getFlag());
-
+                    System.out.println("我统计的证券余额为*************************8"+seYSYFInventoryEntity.getTocal());
+                    //判断总金额是否为正数，如果是负数，则转换成正数
+                    if (seYSYFInventoryEntity.getTocal()<0){
+                        //得到证券应收应付的总金额
+                        double total= seYSYFInventoryEntity.getTocal();
+                        //改变状态
+                        total=-total;
+                        //将改变之后的状态插入实体类
+                        seYSYFInventoryEntity.setTocal(total);
+                        System.out.println("我是切割之后的数字————————————————————————————————————————————————"+total);
+                    }
                     //总金额
                     securitiesClosedPayInventoryPojo.setTotalPrice(seYSYFInventoryEntity.getTocal());
                     //备注
@@ -314,11 +331,32 @@ public class InventoryServiceImpl implements InventoryService {
                         //业务类型  1.管理费 2.托管费  3.存款利息  4.申购赎回费
                         cashClosedPayInventory.setBusinessType(caYSYFInventoryMapper.getServ());
 
+                        //如果最后计算的总金额为正数，则为1流入，如果是负数则是流出-1
+                        int i=1;
+                        System.out.println("**********************************我统计的现金余额为："+caYSYFInventoryMapper.getToca());
+                        if (caYSYFInventoryMapper.getToca()<0){
+                            i=-1;
+                            System.out.println("*********************************8_____________________我进来了，我将状态修改为"+i);
+                        }
+                        caYSYFInventoryMapper.setFla(i);
                         //业务状态 1.流入  -1流出
+                        System.out.println("**********************************我插入数据库的业务状态为："+i);
                         cashClosedPayInventory.setBusinessStatus(caYSYFInventoryMapper.getFla());
 
                         //期初标志 1.是   0.否
                         cashClosedPayInventory.setInitialSigns(0);
+
+                        //判断总金额是否为正数，如果是负数，则转换成正数
+                        if (caYSYFInventoryMapper.getToca()<0){
+                            //得到证券应收应付的总金额
+                            double total= caYSYFInventoryMapper.getToca();
+                            //改变状态
+                            total=-total;
+                            //将改变之后的状态插入实体类
+                            caYSYFInventoryMapper.setToca(total);
+                            System.out.println("我是切割之后的数字————————————————————————————————————————————————"+total);
+                        }
+
                         //总金额
                         cashClosedPayInventory.setTotalMoney(caYSYFInventoryMapper.getToca());
 
