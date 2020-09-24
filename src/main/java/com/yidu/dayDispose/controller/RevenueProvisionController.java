@@ -38,7 +38,7 @@ public class RevenueProvisionController {
     DbUtil dbUtil;
     @NGULog(message = "查询现金账户join现金库存")
     @RequestMapping("selectRevenueProvision")
-   // int page, int limit,String statDate  page 页码 limit 每页条数  statDate  前端传的日期 查询条件
+   //   page 页码 limit 每页条数  statDate  前端传的日期 查询条件
     public HashMap selectRevenueProvision(int page, int limit,String statDate){
         HashMap hashMap = revenueProvisionService.selectRevenueProvision(page, limit,statDate);
         // 通过(int)hashMap.get("p_count")获得count条数
@@ -65,7 +65,7 @@ public class RevenueProvisionController {
         //通过(List<BondInterest>)hashMap.get("p_cursor");获得BondInterest类型的集合
         List<BondInterest> bondInterestList = (List<BondInterest>)hashMap.get("p_cursor");
         System.out.println(bondInterestList);
-        //返回bondInterestMap 集合到前端
+
         HashMap bondInterestMap = new HashMap();
         bondInterestMap.put("code",0);
         bondInterestMap.put("count",count);
@@ -104,24 +104,20 @@ public class RevenueProvisionController {
         CashClosedPayPojo cashClosedPayPojo = new CashClosedPayPojo();
         //遍历集合
         for (RevenueProvision revenueProvision : revenueProvisionList) {
-            //setDateTime 放时间
             cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
-            //setFundId  放基金Id
             cashClosedPayPojo.setFundId(revenueProvision.getFundId());
-            //setAccountId 账户Id
             cashClosedPayPojo.setAccountId(revenueProvision.getAccountId());
             //dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP) 通过工具类获得最大Id
                 String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCP);
 
                 cashClosedPayPojo.setCashClosedPayId(cashClosedPayId);
-//                cashClosedPayPojo.setFundId(revenueProvision.getFundId());
-//                cashClosedPayPojo.setAccountId(revenueProvision.getAccountId());
+
             //setServiceType 类型为3
                 cashClosedPayPojo.setServiceType(3);
-                //.setAmount 放入利息  getInterest get利息
+                //.setAmount 放入利息  getInterest get利息 两个字段名不一样
                 cashClosedPayPojo.setAmount(revenueProvision.getInterest());
                 System.out.println(revenueProvision.getInterest());
-//                cashClosedPayPojo.setDateTime(revenueProvision.getDateTime());
+            //setFlag 类型为1
                 cashClosedPayPojo.setFlag(1);
                 i = cashClosedPayService.insertCashClosedPay(cashClosedPayPojo,request);
                 if(i>0){
@@ -154,20 +150,18 @@ public class RevenueProvisionController {
             dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);//获得最大ID
             String cashClosedPayId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCP);
             System.out.println(cashClosedPayId);
-            //放入setSecuritiesClosedPayId(cashClosedPayId);
+            //证券应收应付ID
             securitiesClosedPay1.setSecuritiesClosedPayId(cashClosedPayId);
-            //setFundId(bondInterest.getFundId());
+            //基金ID
             securitiesClosedPay1.setFundId(bondInterest.getFundId());
-            //securitiesClosedPay1.setAccountId(accountId);
+            //账户ID
             securitiesClosedPay1.setAccountId(accountId);
-            //setServiceType(3);
+            //setServiceType()值为3
             securitiesClosedPay1.setServiceType(3);
-            //setAmount(bondInterest.getInterest());
-            //Amount是现金应收应付表的利息  Interest是债券信息算出的利息
+            //setAmount  getInterest  两个表字段不一样;  Amount是现金应收应付表的利息  Interest是债券信息算出的利息
             securitiesClosedPay1.setAmount(bondInterest.getInterest());
-            //setDateTime
             securitiesClosedPay1.setDateTime(bondInterest.getDateTime());
-            //setFlag(1);
+            //setFlag()  值为1
             securitiesClosedPay1.setFlag(1);
             //证券Id
             securitiesClosedPay1.setSecuritiesId(bondInterest.getSecuritiesId());
@@ -208,7 +202,7 @@ public class RevenueProvisionController {
             cashClosedPayPojo.setFundId(twoFees.getFundId());
             //setAccountId
             cashClosedPayPojo.setAccountId(twoFees.getAccountId());
-            //setServiceType(1);
+            //setServiceType() 值为1
             cashClosedPayPojo.setServiceType(1);
             //setAmount(twoFees.getManagementMoney());  数据库字段名不一样
             cashClosedPayPojo.setAmount(twoFees.getManagementMoney());
@@ -216,7 +210,7 @@ public class RevenueProvisionController {
 
             cashClosedPayPojo.setDateTime(twoFees.getDateTime());
 
-            //setFlag 状态-1 流出
+            //setFlag 状态-1  代表流出
             cashClosedPayPojo.setFlag(-1);
 
             //增加管理费利息数据

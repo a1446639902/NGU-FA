@@ -47,31 +47,31 @@ public class AppraisementController {
 
     @NGULog(message = "查询证券库存join行情表,ta交易数据以及交易数据")
     @RequestMapping("startValuation")
-    //toDay字符串 是查询的条件 arrJson是传过来的json对象字符串
+    //toDay字符串是查询的条件 arrJson是传过来的json对象字符串
     public int startValuation(String toDay, String arrJson) {
         System.out.println("进来了");
         System.out.println(arrJson + " " + toDay);
         int i = 0;
-        //JsonUtil.jsonToArrayList(arrJson, ValuationProcessing.class); 通过工具类获得ValuationProcessing类型的集合
+        //工具类获得  ValuationProcessing是解析后的实体类
         List<ValuationProcessing> valuationProcessingList = JsonUtil.jsonToArrayList(arrJson, ValuationProcessing.class);
         for (ValuationProcessing valuationProcessing : valuationProcessingList) {
             //getStatus是状态名字  比如证券估值增值或者清算款
             if (valuationProcessing.getStatus().equals("证券估值增值")) {
                 System.out.println("证券估值增值开始估值");
-                //selectStockarket 通过selectStockarket方法以及日期条件查询出map集合
+                //方法名为selectStockarket 通过日期查询估值增值
                 HashMap stockarketMap = appraisementService.selectStockarket(toDay);
-                //(List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor"); 通过p_cursor得到StockSecuritiesJoinMarket 类型的集合
+                //p_cursor 得到StockSecuritiesJoinMarket 类型的集合  方法名为stockarketMap
                 List<StockSecuritiesJoinMarket> stockSecuritiesJoinMarketList = (List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor");
                 for (StockSecuritiesJoinMarket stockSecuritiesJoinMarket : stockSecuritiesJoinMarketList) {
                     System.out.println(stockSecuritiesJoinMarket+"估值增值==============");
-                    System.out.println(stockSecuritiesJoinMarket.getSecuritiesId() + "========================================");
+
                     //new一个SecuritiesClosedPayInventoryPojo类型的集合往里面赋值
                     SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo = new SecuritiesClosedPayInventoryPojo();
-//                       setFundId
+//
                     securitiesClosedPayInventoryPojo.setFundId(stockSecuritiesJoinMarket.getFundId());
-                    //setSecuritiesId
+
                     securitiesClosedPayInventoryPojo.setSecuritiesId(stockSecuritiesJoinMarket.getSecuritiesId());
-                    //setDateTime
+
                     securitiesClosedPayInventoryPojo.setDateTime(stockSecuritiesJoinMarket.getDateTime());
                        //setSecuritiesClosedPayDesc内容是写死的
                     securitiesClosedPayInventoryPojo.setSecuritiesClosedPayDesc("投资有风险");
@@ -85,9 +85,9 @@ public class AppraisementController {
                     securitiesClosedPayInventoryPojo.setSecuritiesType(1);
                     //setFlag 类型为1
                     securitiesClosedPayInventoryPojo.setFlag(1);
-                    //setTotalPrice
+
                     securitiesClosedPayInventoryPojo.setTotalPrice(stockSecuritiesJoinMarket.getTootaIPrice());
-                    //setSecurityPeriodFlag
+
                     securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(stockSecuritiesJoinMarket.getSecurityPeriodFlag());
                     //调用增加方法
                     i = securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventoryPojo);
@@ -114,11 +114,11 @@ public class AppraisementController {
                     SecuritiesClosedPayInventoryPojo securitiesClosedPayInventoryPojo = new SecuritiesClosedPayInventoryPojo();
                     //工具类requestDbTableMaxId 方法通过SCPI得到最大Id复制给证券应收应付Id
                     securitiesClosedPayInventoryPojo.setSecuritiesClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.SCPI));
-                    //setFundId
+
                     securitiesClosedPayInventoryPojo.setFundId(transactionData.getFundId());
-                    //setSecuritiesId
+
                     securitiesClosedPayInventoryPojo.setSecuritiesId(transactionData.getSecuritiesId());
-                    //setDateTime 时间为搜索日期
+
                     securitiesClosedPayInventoryPojo.setDateTime(toDay);
                     //setSecurityPeriodFlag 值为1
                     securitiesClosedPayInventoryPojo.setSecurityPeriodFlag(1);
