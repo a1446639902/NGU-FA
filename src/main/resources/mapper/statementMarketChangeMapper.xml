@@ -4,7 +4,7 @@
 
     <select id="selectStatementMarketChange" parameterType="string" resultType="com.yidu.reportManage.pojo.StatementMarketChangePojo">
     select * from (select si.securitiesId securitiesId,SECURITIESNAME,securitiesNum,price,closingPrice from (select  * from securitiesInventory where DATETIME=#{dateTime})si join securities  s on si.SECURITIESID=s.SECURITIESID
-    join market m on si.securitiesId=m.SECURITIESID),(select marketValue netAssetValue from valueStatistics  where valueStatisticsDate=#{dateTime}and projectName='资产净值')
+    join market m on si.securitiesId=m.SECURITIESID and si.dateTime=m.dateTime),(select marketValue netAssetValue from valueStatistics  where valueStatisticsDate=#{dateTime}and projectName='资产净值')
     </select>
 
 
