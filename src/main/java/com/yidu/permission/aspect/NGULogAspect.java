@@ -47,12 +47,8 @@ public class NGULogAspect {
         String host = IPUtil.getIpAddr(request);
         log.setHost(host);
 
-        //###################上面代码为方法执行前#####################
-
         //执行方法，获取返回参数
         Object result  = pjd.proceed();
-
-        //###################下面代码为方法执行后#####################
 
         String message = myLog.message();
         log.setMessage(message);

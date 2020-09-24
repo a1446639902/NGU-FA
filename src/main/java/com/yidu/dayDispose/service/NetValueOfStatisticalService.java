@@ -27,7 +27,7 @@ public interface NetValueOfStatisticalService {
     List<CashBlancePojo> selectCashBlance(String time);
 
     //查询利息，通过银行账户id查询
-    List<ServiceTypePojo> selectAmount(String amount);
+    List<ServiceTypePojo> selectAmount(String amount,String time );
 
     //查询债券利息
     List<NetFinalPojo> selectNetBondInterest(String time);
