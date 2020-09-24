@@ -41,22 +41,23 @@ where t1.ACCOUNTID = t2.ACCOUNTID and t1.DATETIME=#{DATETIME}
     <!--查询利息，通过银行账户id查询-->
     <select id="selectAmount" resultType="com.yidu.dayDispose.pojo.ServiceTypePojo" parameterType="String">
       select TOTALMONEY,ACCOUNTNAME,BLANKCARDCODE from CASHCLOSEDPAYINVENTORY t1 ,ACCOUNT t2
-where  t1.ACCOUNTID = t2. BLANKCARDCODE and t2.BLANKCARDCODE = #{BLANKCARDCODE}
+where  t1.ACCOUNTID = t2. ACCOUNTID and t1.BUSINESSTYPE = 3 and t1.BUSINESSDATE = #{param1}
+and t2.BLANKCARDCODE = #{param2}
     </select>
 
     <!--查询债券利息-->
     <select id="selectNetBondInterest" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select AMOUNT from SECURITIESCLOSEDPAY t1  where t1.SERVICETYPE = 3 and t1.DATETIME=#{DATETIME}
+        select TOTALPRICE from SECURITIESCLOSEDPAYINVENTORY t1  where t1.SECURITIESTYPE = 3 and t1.DATETIME=#{DATETIME}
     </select>
 
     <!--查询托管费-->
     <select id="selectTrusteeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select TOTALMONEY from CASHCLOSEDPAYINVENTORY where SERVICETYPE = 2 and DATETIME=#{time}
+        select TOTALMONEY from CASHCLOSEDPAYINVENTORY where BUSINESSTYPE = 2 and BUSINESSDATE=#{time}
     </select>
 
     <!--查询管理费-->
     <select id="selectAdministrativeFee" resultType="com.yidu.dayDispose.pojo.NetFinalPojo">
-        select TOTALMONEY from CASHCLOSEDPAYINVENTORY where SERVICETYPE = 1 and DATETIME=#{time}
+        select TOTALMONEY from CASHCLOSEDPAYINVENTORY where BUSINESSTYPE = 1 and BUSINESSDATE=#{time}
     </select>
 
     <!--查询证券清算款-->

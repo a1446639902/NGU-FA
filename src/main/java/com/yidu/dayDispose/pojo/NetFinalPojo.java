@@ -10,29 +10,36 @@ package com.yidu.dayDispose.pojo;
  **/
 public class NetFinalPojo {
     private double amount;
-    private double TotalMoney;
-
-    public double getTotalMoney() {
-        return TotalMoney;
-    }
-
-    public void setTotalMoney(double totalMoney) {
-        TotalMoney = totalMoney;
-    }
+    private double totalMoney;
+    private double totalPrice;
 
     @Override
     public String toString() {
         return "NetFinalPojo{" +
                 "amount=" + amount +
-                ", TotalMoney=" + TotalMoney +
+                ", totalMoney=" + totalMoney +
+                ", totalPrice=" + totalPrice +
                 '}';
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public NetFinalPojo(double amount, double totalMoney) {
+        this.amount = amount;
+        this.totalMoney = totalMoney;
+    }
+
+    public NetFinalPojo() {
     }
 
     public NetFinalPojo(double amount) {
         this.amount = amount;
-    }
-
-    public NetFinalPojo() {
     }
 
     public double getAmount() {
@@ -41,6 +48,14 @@ public class NetFinalPojo {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public double getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(double totalMoney) {
+        this.totalMoney = totalMoney;
     }
 }
 

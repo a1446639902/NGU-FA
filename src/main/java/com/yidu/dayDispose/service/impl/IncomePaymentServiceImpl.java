@@ -1,11 +1,8 @@
 package com.yidu.dayDispose.service.impl;
 
-import com.yidu.businessData.pojo.CashClosedPayPojo;
 import com.yidu.dayDispose.mapper.IncomePaymentMapper;
 import com.yidu.dayDispose.pojo.IncomePaymentPojo;
 import com.yidu.dayDispose.service.IncomePaymentService;
-import com.yidu.util.DateTimeUtil;
-import com.yidu.util.DbUtil;
 import com.yidu.util.GetFundIdUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,20 +52,18 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         }
         //得到请求中的session中的fundId
         String fundId = GetFundIdUtil.getFundId(request);
-//        接收页面传来得日期
-        if (businessDate != null && !businessDate.equals("")) {
-
-            System.out.println("现金传回来的日期:=" + businessDate);
-        } else {
+        //接收页面传来得日期
+        if (businessDate == null || businessDate.equals("")) {
+            //定义日期格式
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //new Date获得当天日期
             Date date = new Date();
+            //调用sdf的format方法格式化当天
             businessDate = sdf.format(date);
-            System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-
-        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='"+fundId+"' and businessType=3 and businessDate = to_char(" +
+        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='" + fundId + "' and businessType=3 and businessDate = to_char(" +
                 "(to_date('" + businessDate + "','yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on a.accountId=cci.accountId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
@@ -77,15 +72,15 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         map.put("p_cursor", null);
         //调用Mapper执行查询
         incomePaymentMapper.selectCashClosedPays(map);
-        System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        //循环遍历得到的结果集，通过set方法放到incomePayment内中
         for (IncomePaymentPojo incomePayment : IncomePayments) {
             incomePayment.setBusinessDate(businessDate);
         }
         //接收返回总条数
         int count = (int) map.get("p_count");
-        //将结果放入结果集Map
+        //将结果放入结果集Map，返回Controller
         resultMap.put("IncomePayments", IncomePayments);
         resultMap.put("count", count);
         return resultMap;
@@ -94,7 +89,7 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
     @Override
     public Map<String, Object> selectSecuritiesClosedPay(String pageSize, String page, String businessDate, HttpServletRequest request) {
         System.out.println("进入了查询的证券应收应付实现类");
-//创建一个结果集用于接受存储过程的返回结果
+        //创建一个结果集用于接受存储过程的返回结果
         Map<String, Object> resultMap = new HashMap<>();
         //定义一个分页条数变量
         int v_pageSize = 0;
@@ -112,17 +107,17 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         }
         //得到请求中的session中的fundId
         String fundId = GetFundIdUtil.getFundId(request);
-        if (businessDate != null && !businessDate.equals("")) {
-            System.out.println("证券传回来的日期:=" + businessDate);
-        } else {
+        if (businessDate == null || businessDate.equals("")) {
+            //定义日期格式
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //new Date获得当天日期
             Date date = new Date();
+            //调用sdf的format方法格式化当天
             businessDate = sdf.format(date);
-            System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-        map.put("p_tableName", "(select * from (select * from securitiesClosedPayInventory where fundId='"+fundId+"' and securitiesType=3 and DATETIME=to_char(" +
+        map.put("p_tableName", "(select * from (select * from securitiesClosedPayInventory where fundId='" + fundId + "' and securitiesType=3 and DATETIME=to_char(" +
                 "(to_date('" + businessDate + "','yyyy-MM-dd')-1),'yyyy-MM-dd'))sci join securities s on sci.securitiesId=s.securitiesId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
@@ -131,15 +126,15 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         map.put("p_cursor", null);
         //调用Mapper执行查询
         incomePaymentMapper.selectSecuritiesClosedPay(map);
-        System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        //循环遍历得到的结果集，通过set方法放到incomePayment内中
         for (IncomePaymentPojo incomePayment : IncomePayments) {
             incomePayment.setBusinessDate(businessDate);
         }
         //接收返回总条数
         int count = (int) map.get("p_count");
-        //将结果放入结果集Map
+        //将结果放入结果集Map，返回Controller
         resultMap.put("IncomePayments", IncomePayments);
         resultMap.put("count", count);
         return resultMap;
@@ -148,7 +143,7 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
     @Override
     public Map<String, Object> selectTwoCost(String pageSize, String page, String businessDate, HttpServletRequest request) {
         System.out.println("进入了查询的两费实现类");
-//创建一个结果集用于接受存储过程的返回结果
+        //创建一个结果集用于接受存储过程的返回结果
         Map<String, Object> resultMap = new HashMap<>();
         //定义一个分页条数变量
         int v_pageSize = 0;
@@ -165,19 +160,19 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
             v_page = Integer.parseInt(page);
         }
         //得到请求中的session中的fundId
-         String fundId = GetFundIdUtil.getFundId(request);
-        if (businessDate != null && !businessDate.equals("")) {
-            System.out.println("两费传回来的日期:=" + businessDate);
-        } else {
+        String fundId = GetFundIdUtil.getFundId(request);
+        if (businessDate == null || businessDate.equals("")) {
+            //定义日期格式
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //new Date获得当天日期
             Date date = new Date();
+            //调用sdf的format方法格式化当天
             businessDate = sdf.format(date);
-            System.out.println("转换之后的日期:=" + businessDate);
         }
 //创建一个结果集用于接收数据库存储过程所需条件——为p_tableName/p_condition/p_page/p_pageSize/p_count/p_cursor
         Map<String, Object> map = new HashMap<>();
-        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='"+fundId+"' and businessType in (1,2) and businessDate " +
-                "= to_char((to_date('" + businessDate+"','yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on cci.accountId=a.accountId)");
+        map.put("p_tableName", "(select * from (select * from cashClosedPayInventory where fundId='" + fundId + "' and businessType in (1,2) and businessDate " +
+                "= to_char((to_date('" + businessDate + "','yyyy-MM-dd')-1),'yyyy-MM-dd'))cci left join account a on cci.accountId=a.accountId)");
         map.put("p_condition", "");
         map.put("p_pageSize", v_pageSize);
         map.put("p_page", v_page);
@@ -188,12 +183,13 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         System.out.println(map.get("p_cursor"));
         //接收返回数据
         List<IncomePaymentPojo> IncomePayments = (List<IncomePaymentPojo>) map.get("p_cursor");
+        //循环遍历得到的结果集，通过set方法放到incomePayment内中
         for (IncomePaymentPojo incomePayment : IncomePayments) {
             incomePayment.setBusinessDate(businessDate);
         }
         //接收返回总条数
         int count = (int) map.get("p_count");
-        //将结果放入结果集Map
+        //将结果放入结果集Map，返回Controller
         resultMap.put("IncomePayments", IncomePayments);
         resultMap.put("count", count);
         return resultMap;

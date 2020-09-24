@@ -215,7 +215,7 @@ public class NetValueOfStatisticalController {
             p = netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
 
             //通过银行卡号查询利息，返回所有银行卡利息的集合
-            List<ServiceTypePojo> AmountList = netValueOfStatisticalService.selectAmount(netValueOfStatisticalPojo.getProjectCode());
+            List<ServiceTypePojo> AmountList = netValueOfStatisticalService.selectAmount(time,netValueOfStatisticalPojo.getProjectCode());
             System.out.println("所有利息的集合是" + AmountList);
             //将利息插入净值统计的数据中
             countDemoThere = count;
@@ -250,8 +250,8 @@ public class NetValueOfStatisticalController {
         int zhaiQuanLiXis = 0;
         for (NetFinalPojo value0 : selectNetBondInterestList) {
             //利息(估值增值)
-            netValueOfStatisticalPojo.setMarketValue(value0.getAmount() + "");
-            zhaiQuanLiXi = value0.getAmount();
+            netValueOfStatisticalPojo.setMarketValue(value0.getTotalMoney() + "");
+            zhaiQuanLiXi = value0.getTotalPrice();
             zhaiQuanLiXis += zhaiQuanLiXi;
         }
         //项目名称
@@ -267,6 +267,7 @@ public class NetValueOfStatisticalController {
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         //查询托管费
         List<NetFinalPojo> trusteeFeeList = netValueOfStatisticalService.selectTrusteeFee(time);
+        System.out.println("查询托管费"+trusteeFeeList);
         for (NetFinalPojo value1 : trusteeFeeList) {
             //项目名称
             netValueOfStatisticalPojo.setProjectName("托管费");
@@ -275,8 +276,8 @@ public class NetValueOfStatisticalController {
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
             //利息(估值增值)
-            netValueOfStatisticalPojo.setMarketValue(value1.getAmount() + "");
-            trusteeFee = value1.getAmount();
+            netValueOfStatisticalPojo.setMarketValue(value1.getTotalMoney() + "");
+            trusteeFee = value1.getTotalMoney();
             netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         }
 
@@ -290,8 +291,8 @@ public class NetValueOfStatisticalController {
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
             //利息(估值增值)
-            netValueOfStatisticalPojo.setMarketValue(value2.getAmount() + "");
-            AdministrativeFee = value2.getAmount();
+            netValueOfStatisticalPojo.setMarketValue(value2.getTotalMoney() + "");
+            AdministrativeFee = value2.getTotalMoney();
             netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         }
 

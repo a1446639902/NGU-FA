@@ -137,7 +137,7 @@
 <body>
 <table class="layui-hide" id="myTable" lay-filter="myTable"></table>
 
-<script type="text/html" id="tableToolBar">
+<script type="text/html" id="tableToolBar" lay-event="tableToolBar">
     <form class="layui-form layui-col-space5">
         <div class="layui-inline layui-show-xs-block">
             <select name="select" id="condition" >
@@ -213,11 +213,11 @@
             , page: true
         });
 
-        $(document).on("click","search",function(){
-        // table.on('toolbar(tableToolBar)', function (obj) {
-            alert("我能进来了？")
-            /*switch (obj.event) {
-                case 'search':*/
+        //$(document).on("click","search",function(){
+        table.on('toolbar(tableToolBar)', function (obj) {
+            alert("我能进来了？");
+            switch (obj.event) {
+                case 'search':
                     var dateTime = $("#selectDate").val();
                     var select = $("#condition").val();
                     alert(dateTime);
@@ -235,8 +235,8 @@
                     });
                     $("#selectDate").val(dateTime);
                     $("#condition").val(select);
-                    // break;
-            // }
+                    break;
+            }
         });
 
     });

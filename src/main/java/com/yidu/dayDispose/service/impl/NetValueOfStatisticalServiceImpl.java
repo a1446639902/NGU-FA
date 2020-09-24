@@ -41,8 +41,8 @@ public class NetValueOfStatisticalServiceImpl implements NetValueOfStatisticalSe
     }
 
     @Override
-    public List<ServiceTypePojo> selectAmount(String amount) {
-        return netValueOfStatisticalMapper.selectAmount(amount);
+    public List<ServiceTypePojo> selectAmount(String amount,String time) {
+        return netValueOfStatisticalMapper.selectAmount(amount,time);
     }
 
     @Override
