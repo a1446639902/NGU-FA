@@ -619,6 +619,7 @@
                 var seateRate1=document.getElementById("seateRate1").value;
                 var netReceipts1=document.getElementById("netReceipts").value;
                 var commission=Number(seateRate1)*Number(netReceipts1);
+                commission= commission.toFixed(2);
                 $("#commission").val(commission/100);
                 //securitiesId
                 var securitiesId =document.getElementById("securitiesId").value;
@@ -639,7 +640,7 @@
                             $.each(obj2.data,function (index2,item2){
                                 //  票面利率/365*票面金额*数量*1
                                 //票面利率
-                                var lixiday = Number(item2.parRate)/365*Number(item2.bondRateAmount)*Number(num)*1;
+                                var lixiday = Number(item2.parRate)/365*Number(item2.bondRateAmount)/100*Number(num)*1;
                                 lixidays = lixiday.toFixed(2);
                                 $('#security1').val(lixidays);
                             })
@@ -650,7 +651,6 @@
                         }else if (item.rateType==2){
                             $('#security1').val(0);
                         }
-                        alert(vals)
                         var totalSum=0;
                         //买入
                         if ($('#transactionDataMode').val()==1){
@@ -684,6 +684,7 @@
                 var seateRate2=document.getElementById("seateRate2").value;
                 var netReceipts2=document.getElementById("netReceipts2").value;
                 var commission2=Number(seateRate2)*Number(netReceipts2);
+                commission2=commission2.toFixed(2);
                 $("#commission2").val(commission2/100);
                 //securitiesId
                 var securitiesId2 =document.getElementById("securitiesId2").value;
@@ -711,7 +712,7 @@
                             })
                         })
                         //当天应收债券利息
-                        lixiday = parRate2/365*bondRateAmount2*num2*1;
+                        lixiday = parRate2/365*bondRateAmount2/100*num2*1;
 
                         //股票没有利息
                         if (item.rateType==2){
