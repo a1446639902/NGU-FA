@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,9 @@ public class NetValueOfStatisticalController {
         Double statisticalServices = 0.00;
         int zhaiQuan = 0;
         int guPiao = 0;
+        //设置保留小数,每三位用逗号隔开
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         //查询其他表格净值统计需要的数据
         System.out.println("从页面传递过来的时间是" + time);
         //先删后增
@@ -100,18 +104,28 @@ public class NetValueOfStatisticalController {
             //项目代码/账户号
             netValueOfStatisticalPojo.setProjectCode((value.getSecuritiesId()));
             //持有数量
-            netValueOfStatisticalPojo.setQuantityint(value.getSecuritiesNum() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format14 = df.format(value.getSecuritiesNum());
+            netValueOfStatisticalPojo.setQuantityint(format14);
             //行情
-            netValueOfStatisticalPojo.setPeice(value.getClosingPrice() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format15 = df.format(value.getClosingPrice());
+            netValueOfStatisticalPojo.setPeice(format15);
             //成本
-            netValueOfStatisticalPojo.setCost(value.getTotal() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format16 = df.format(value.getTotal());
+            netValueOfStatisticalPojo.setCost(format16);
             //市值
-            netValueOfStatisticalPojo.setMarketValue((value.getSecuritiesNum() * value.getClosingPrice() + ""));
+            //设置保留小数，每三位用逗号隔开
+            String format17 = df.format(value.getSecuritiesNum() * value.getClosingPrice());
+            netValueOfStatisticalPojo.setMarketValue(format17);
             double guPiaoShiZhi = (value.getSecuritiesNum() * value.getClosingPrice());
             guPiaoShiZhis += guPiaoShiZhi;
             //估值增值
-            netValueOfStatisticalPojo.setValuation(Strvaluation);
             guPiao = Integer.parseInt(Strvaluation);
+            //设置保留小数，每三位用逗号隔开
+            String format18 = df.format(guPiao);
+            netValueOfStatisticalPojo.setValuation(format18);
             guPiaos += guPiao;
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(2);
@@ -150,18 +164,29 @@ public class NetValueOfStatisticalController {
             //项目代码/账户号
             netValueOfStatisticalPojo.setProjectCode((value.getSecuritiesId()));
             //持有数量
-            netValueOfStatisticalPojo.setQuantityint(value.getSecuritiesNum() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format9 = df.format(value.getSecuritiesNum());
+            netValueOfStatisticalPojo.setQuantityint(format9);
             //行情
-            netValueOfStatisticalPojo.setPeice(value.getClosingPrice() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format10 = df.format(value.getClosingPrice());
+            netValueOfStatisticalPojo.setPeice(format10);
             //成本
-            netValueOfStatisticalPojo.setCost(value.getTotal() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format11 = df.format(value.getTotal());
+            netValueOfStatisticalPojo.setCost(format11);
             //市值
-            netValueOfStatisticalPojo.setMarketValue((value.getSecuritiesNum() * value.getClosingPrice() + ""));
+            //设置保留小数，每三位用逗号隔开
+            double sum = value.getSecuritiesNum() * value.getClosingPrice();
+            String format12 = df.format(sum);
+            netValueOfStatisticalPojo.setMarketValue(format12);
             int zhaiQuanShiZhi = (value.getSecuritiesNum() * value.getClosingPrice());
             zhaiQuanShiZhis += zhaiQuanShiZhi;
             //估值增值
-            netValueOfStatisticalPojo.setValuation(Strvaluation);
             zhaiQuan = Integer.parseInt(Strvaluation);
+            //设置保留小数，每三位用逗号隔开
+            String format13 = df.format(zhaiQuan);
+            netValueOfStatisticalPojo.setValuation(format13);
             zhaiQuans += zhaiQuan;
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(countDemoOne);
@@ -198,7 +223,10 @@ public class NetValueOfStatisticalController {
             //项目代码/账户号
             netValueOfStatisticalPojo.setProjectCode((value.getBlankCardCode()));
             //市值
-            netValueOfStatisticalPojo.setMarketValue(value.getCashBlance() + "");
+            //利息(估值增值)
+            //设置保留小数，每三位用逗号隔开
+            String format8 = df.format(value.getCashBlance());
+            netValueOfStatisticalPojo.setMarketValue(format8);
             int cashBlance = value.getCashBlance();
             cashBlances += cashBlance;
             //估值增值
@@ -224,8 +252,11 @@ public class NetValueOfStatisticalController {
                 //项目编号
                 netValueOfStatisticalPojo.setProjectId(++count);
                 //利息(估值增值)
-                netValueOfStatisticalPojo.setMarketValue(Amount.getAmount() + "");
+                //设置保留小数，每三位用逗号隔开
+                String format7 = df.format(Amount.getAmount());
+                netValueOfStatisticalPojo.setMarketValue(format7);
                 System.out.println("计算出的利息是" + Amount.getAmount() + "");
+                //计算利息总和
                 xianJinLiXi = Amount.getAmount();
                 xianJinLiXis += xianJinLiXi;
                 //父项目编号
@@ -263,7 +294,9 @@ public class NetValueOfStatisticalController {
         //项目代码/账户号
         netValueOfStatisticalPojo.setProjectCode("");
         //将债权利息整合成为一条数据
-        netValueOfStatisticalPojo.setMarketValue(zhaiQuanLiXis + "");
+        //设置保留小数，每三位用逗号隔开
+        String format6 = df.format(zhaiQuanLiXis);
+        netValueOfStatisticalPojo.setMarketValue(format6);
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         //查询托管费
         List<NetFinalPojo> trusteeFeeList = netValueOfStatisticalService.selectTrusteeFee(time);
@@ -276,7 +309,9 @@ public class NetValueOfStatisticalController {
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
             //利息(估值增值)
-            netValueOfStatisticalPojo.setMarketValue(value1.getTotalMoney() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format5 = df.format(value1.getTotalMoney());
+            netValueOfStatisticalPojo.setMarketValue(format5);
             trusteeFee = value1.getTotalMoney();
             netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         }
@@ -291,7 +326,9 @@ public class NetValueOfStatisticalController {
             //父项目编号
             netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
             //利息(估值增值)
-            netValueOfStatisticalPojo.setMarketValue(value2.getTotalMoney() + "");
+            //设置保留小数，每三位用逗号隔开
+            String format4 = df.format(value2.getTotalMoney());
+            netValueOfStatisticalPojo.setMarketValue(format4);
             AdministrativeFee = value2.getTotalMoney();
             netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         }
@@ -314,7 +351,9 @@ public class NetValueOfStatisticalController {
         //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(countDemoThere);
         //计算出证券清算款的总和传递给实体类增加进数据库
-        netValueOfStatisticalPojo.setMarketValue(statisticalServices + "");
+        //设置保留小数，每三位用逗号隔开
+        String format4 = df.format(statisticalServices);
+        netValueOfStatisticalPojo.setMarketValue(format4);
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         //创建树形结构二级结构-合计
         netValueOfStatisticalPojo.setValueStatisticsDate(time);             //时间
@@ -337,7 +376,9 @@ public class NetValueOfStatisticalController {
         //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(countDemoForm);
         //利息(估值增值)
-        netValueOfStatisticalPojo.setMarketValue(sum + "");
+        //设置保留小数，每三位用逗号隔开
+        String format3 = df.format(sum);
+        netValueOfStatisticalPojo.setMarketValue(format3);
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
 
 
@@ -350,11 +391,13 @@ public class NetValueOfStatisticalController {
         //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(countDemoForm);
         //利息(估值增值)
-        netValueOfStatisticalPojo.setMarketValue(sum1 + "");
+        //设置保留小数，每三位用逗号隔开
+        String format2 = df.format(sum1);
+        netValueOfStatisticalPojo.setMarketValue(format2);
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
 
         //资产净值
-        Double allSum = sum + sum1 + zhaiQuanShiZhis + guPiaoShiZhis + cashBlances + zhaiQuanLiXis  + xianJinLiXis ;
+        Double allSum = sum - sum1 + zhaiQuanShiZhis + guPiaoShiZhis + cashBlances + zhaiQuanLiXis  + xianJinLiXis ;
         //项目名称
         netValueOfStatisticalPojo.setProjectName("资产净值");
         //项目编号
@@ -362,7 +405,10 @@ public class NetValueOfStatisticalController {
         //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(countDemoForm);
         //利息(估值增值)
-        netValueOfStatisticalPojo.setMarketValue(allSum + "");
+        //设置保留小数，每三位用逗号隔开
+        String format1 = df.format(allSum);
+        System.out.println("估值增值"+format1);
+        netValueOfStatisticalPojo.setMarketValue(format1);
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
 
         //TA库存统计(单位资产净值)
@@ -375,7 +421,10 @@ public class NetValueOfStatisticalController {
         //父项目编号
         netValueOfStatisticalPojo.setProjectFatherId(countDemoForm);
         //利息(估值增值)
-        netValueOfStatisticalPojo.setMarketValue(allSum / TANum + "");
+        double finall = allSum / TANum;
+        String formatDemoOne = String.format("%.2f", finall);
+        System.out.println("估值增值"+formatDemoOne);
+        netValueOfStatisticalPojo.setMarketValue(formatDemoOne);
         System.out.println(allSum / TANum);
         netValueOfStatisticalService.insertNetValueOfStatistical(netValueOfStatisticalPojo);
         countPojo.setIntCount(count);
