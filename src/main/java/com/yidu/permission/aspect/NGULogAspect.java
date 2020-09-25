@@ -34,7 +34,7 @@ public class NGULogAspect {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String format = sdf.format(new Date());
         log.setTime(format);
-        //方法名
+        //pjd.getSignature()得到织入点方法名
         String methodName = pjd.getSignature().getName();
         log.setMethod(methodName);
 
@@ -46,10 +46,10 @@ public class NGULogAspect {
         //IP
         String host = IPUtil.getIpAddr(request);
         log.setHost(host);
-
+        //-------------上面是执行方法前
         //执行方法，获取返回参数
         Object result  = pjd.proceed();
-
+        //-------------下面是执行方法后
         String message = myLog.message();
         log.setMessage(message);
 

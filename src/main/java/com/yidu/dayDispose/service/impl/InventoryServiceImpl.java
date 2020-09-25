@@ -246,7 +246,7 @@ public class InventoryServiceImpl implements InventoryService {
                     System.out.println("我是证券应收应付的库存统计，我获得的数据为："+seYSYFInventoryEntity);
 
                     //调用删除的方法,根据日期，基金信息表Id，证券信息表ID删除库存统计之前的数据
-                    securitiesClosedPayInventoryMapper.delectDateTaInventoryPayMapper(dateTime3,fundId,seYSYFInventoryEntity.getSecuritiesId());
+                    securitiesClosedPayInventoryMapper.delectDateTaInventoryPayMapper(dateTime3,fundId,seYSYFInventoryEntity.getSecuritiesId(),3);
                     System.out.println("我在删除之后"+dateTime3);
 
 
