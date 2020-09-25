@@ -25,8 +25,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/select")
 public class FundPortfolioStatementController {
-    //设置小数保留位数
-    DecimalFormat df = new DecimalFormat("#,###.00");
     @Resource
     FundPortfolioStatementService fundPortfolioStatementService;
 
@@ -34,38 +32,28 @@ public class FundPortfolioStatementController {
     @RequestMapping("/selectGuPiao")
     public Map<String, Object> selectGuPiao(String dateTimes) {
         //设置小数保留位数
+        DecimalFormat df = new DecimalFormat("0.0000");
 
         System.out.println("从页面拿到的时间是" + dateTimes);
         if (dateTimes == null) {
-            dateTimes = "2020-09-17";
+            dateTimes = "2020-09-10";
         }
         //查询当日值产净值
         List<NetValueOfStatisticalPojo> jingzhiList = fundPortfolioStatementService.selectZiChanJingZhi(dateTimes);
         String ziChanJingZhi = "";
-        String All1 = "";
         for (NetValueOfStatisticalPojo value : jingzhiList) {
             ziChanJingZhi = value.getMarketValue();
             System.out.println("查询当日值产净值" + ziChanJingZhi);
-            String[] split = ziChanJingZhi.split(",");
-            for (String s : split) {
-                All1 += s;
-            }
         }
-        double doubleZiChanJingZhi = Double.parseDouble(All1);
+        double doubleZiChanJingZhi = Double.parseDouble(ziChanJingZhi);
         System.out.println("查询当日值产净值" + doubleZiChanJingZhi);
         //查询债券
         //查询债券的总成本
         Double zhaiQuanAll = 0.00;
         List<NetValueOfStatisticalPojo> ZhaiQuanList = fundPortfolioStatementService.selectZhaiQuan(dateTimes);
         for (NetValueOfStatisticalPojo value : ZhaiQuanList) {
-            String All2 = "";
             String cost = value.getCost();
-            String[] split = cost.split(",");
-            for (String s : split) {
-                All2 += s;
-            }
-            System.out.println("查询债券的总成本" + All2);
-            double zhaiQuan = Double.parseDouble(All2);
+            double zhaiQuan = Double.parseDouble(cost);
             zhaiQuanAll += zhaiQuan;
         }
         //查询股票
@@ -73,13 +61,8 @@ public class FundPortfolioStatementController {
         Double guPiaoAll = 0.00;
         List<NetValueOfStatisticalPojo> GuPiaoList = fundPortfolioStatementService.selectGuPiao(dateTimes);
         for (NetValueOfStatisticalPojo value : GuPiaoList) {
-            String All3 = "";
             String cost = value.getCost();
-            String[] split = cost.split(",");
-            for (String s : split) {
-                All3 += s;
-            }
-            double guPiao = Double.parseDouble(All3);
+            double guPiao = Double.parseDouble(cost);
             guPiaoAll += guPiao;
         }
         //合并查询出来的两个集合
@@ -91,20 +74,10 @@ public class FundPortfolioStatementController {
         for (NetValueOfStatisticalPojo value : ZhaiQuanList) {
             //获得成本
             String cost = value.getCost();
-            String all1 = "";
-            String[] split = cost.split(",");
-            for (String s : split) {
-                all1 += s;
-            }
-            double doubleCost = Double.parseDouble(all1);
+            double doubleCost = Double.parseDouble(cost);
             //获得市值
             String marketValue = value.getMarketValue();
-            String all2 = "";
-            String[] split1 = marketValue.split(",");
-            for (String s : split1) {
-                all2 += s;
-            }
-            double doubleMarketValue = Double.parseDouble(all2);
+            double doubleMarketValue = Double.parseDouble(marketValue);
             //设置成本占净值的百分比
             value.setChengBenBaiFenBi(df.format((doubleCost / doubleZiChanJingZhi) * 100));
             //设置市值占净值的百分比
@@ -114,51 +87,39 @@ public class FundPortfolioStatementController {
         NetValueOfStatisticalPojo netValueOfStatisticalPojo = new NetValueOfStatisticalPojo();
         //设置ProjectName
         netValueOfStatisticalPojo.setProjectName("股票投资合计");
-
         //设置MarketValue
-        //设置保留小数，每三位用逗号隔开
-        String format1 = df.format(guPiaoAll);
-        netValueOfStatisticalPojo.setMarketValue(format1);
+        netValueOfStatisticalPojo.setMarketValue(guPiaoAll + "");
 
         //新建一个NetValueOfStatisticalPojo对象，用于储存资产类合计的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoOne = new NetValueOfStatisticalPojo();
         //设置ProjectName
         netValueOfStatisticalPojoDemoOne.setProjectName("债券投资合计");
         //设置MarketValue
-        //设置保留小数，每三位用逗号隔开
-        String format2 = df.format(zhaiQuanAll);
-        netValueOfStatisticalPojoDemoOne.setMarketValue(format2);
+        netValueOfStatisticalPojoDemoOne.setMarketValue(zhaiQuanAll + "");
 
         //新建一个NetValueOfStatisticalPojo对象，用于储存资产类合计的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoTwo = new NetValueOfStatisticalPojo();
         //设置ProjectName
         netValueOfStatisticalPojoDemoTwo.setProjectName("证券投资合计");
         //设置MarketValue
-        //设置保留小数，每三位用逗号隔开
-        String format3 = df.format(zhaiQuanAll + guPiaoAll);
-        netValueOfStatisticalPojoDemoTwo.setMarketValue(format3);
+        netValueOfStatisticalPojoDemoTwo.setMarketValue((zhaiQuanAll + guPiaoAll) + "");
 
         //查询负债
         List<NetValueOfStatisticalPojo> fuZhaiList = fundPortfolioStatementService.selectFuZhai(dateTimes);
         String fuZhai = "";
-        String all5 = "";
         for (NetValueOfStatisticalPojo value : fuZhaiList) {
              fuZhai = value.getMarketValue();
-            String[] split = fuZhai.split(",");
-            for (String s : split) {
-                all5 += s;
-            }
         }
         //资产类合计
-        Double All = Double.parseDouble(all5) + doubleZiChanJingZhi;
+        DecimalFormat dnf = new DecimalFormat("#.00");
+        Double All = Double.parseDouble(fuZhai) + doubleZiChanJingZhi;
+        String format = dnf.format(All);
         //新建一个NetValueOfStatisticalPojo对象，用于储存资产类合计的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoFive = new NetValueOfStatisticalPojo();
         //设置ProjectName
         netValueOfStatisticalPojoDemoFive.setProjectName("资产类合计");
         //设置MarketValue
-        //设置保留小数，每三位用逗号隔开
-        String format4 = df.format(All);
-        netValueOfStatisticalPojoDemoFive.setMarketValue(format4);
+        netValueOfStatisticalPojoDemoFive.setMarketValue(format);
 
         //新建一个NetValueOfStatisticalPojo对象，用于负债的参数
         NetValueOfStatisticalPojo netValueOfStatisticalPojoDemoThere = new NetValueOfStatisticalPojo();
@@ -173,9 +134,8 @@ public class FundPortfolioStatementController {
         //设置ProjectName
         netValueOfStatisticalPojoDemoSix.setProjectName("基金净值");
         //设置MarketValue
-        //设置保留小数，每三位用逗号隔开
-        String format5 = df.format(doubleZiChanJingZhi);
-        netValueOfStatisticalPojoDemoSix.setMarketValue(format5);
+        String format1 = dnf.format(doubleZiChanJingZhi);
+        netValueOfStatisticalPojoDemoSix.setMarketValue(format1);
 
         //将赋值完毕的对象放入集合中
         ZhaiQuanList.add(netValueOfStatisticalPojo);
@@ -206,26 +166,7 @@ public class FundPortfolioStatementController {
         System.out.println("时间是" + myDate);
         ArrayList arrayList = new ArrayList();
         List<NetValueOfStatisticalPojo> zhaiQuanList = fundPortfolioStatementService.selectZhaiQuan(myDate);
-        System.out.println("债券的集合" + zhaiQuanList);
-        for (NetValueOfStatisticalPojo value : zhaiQuanList) {
-            String all = "";
-            String[] split = value.getMarketValue().split(",");
-            for (String s : split) {
-                all += s;
-            }
-            value.setMarketValue(all);
-        }
-
-
         List<NetValueOfStatisticalPojo> guPiaoList = fundPortfolioStatementService.selectGuPiao(myDate);
-        for (NetValueOfStatisticalPojo value : guPiaoList) {
-            String all = "";
-            String[] split = value.getMarketValue().split(",");
-            for (String s : split) {
-                all += s;
-            }
-            value.setMarketValue(all);
-        }
         for (NetValueOfStatisticalPojo value : guPiaoList) {
             zhaiQuanList.add(value);
         }

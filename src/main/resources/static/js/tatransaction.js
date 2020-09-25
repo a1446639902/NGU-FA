@@ -22,7 +22,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','upload'], function ()
 	//新增提交
 	form.on('submit(addsubmit)', function(data){
 		var formData=$('#addform').serialize();
-		alert("表单数据：" + formData);
+		//alert("表单数据：" + formData);
 
 		$.post("../insertTatTransaction",formData,function(msg){
 			if(msg>0){
@@ -51,7 +51,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','upload'], function ()
 	//修改提交
 	form.on('submit(editsubmit)', function(data){
 		var formData=$('#editform').serialize();
-		alert("修改提交的数据：" + formData);
+		//alert("修改提交的数据：" + formData);
 		$.post("../updateTaTransaction",formData,function(msg){
 			if(msg>0){
 				table.reload('userTable');
@@ -163,13 +163,13 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','upload'], function ()
 				// layer.full(index);
 				break;
 			case 'search':
-				alert("搜索");
+				//alert("搜索");
 				var dateTime= $("#start").val();
 				var transactionStatus= $("#transactionStatus").val();
 				var transactionType=$("#transactionType").val();
-				alert(dateTime);
-				alert(transactionStatus);
-				alert(transactionType);
+				//alert(dateTime);
+				//alert(transactionStatus);
+				//alert(transactionType);
 				//表格的重新加载事件
 				table.reload('userTable', {
 					method: 'post'
@@ -216,7 +216,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','upload'], function ()
 	//给表格编辑，删除按钮添加点击事件
 	table.on('tool(userTable)', function(obj) {
 		var data = obj.data;//得到删除行整行的数据
-		alert(data.taTransactionId);
+		//alert(data.taTransactionId);
 		if (obj.event === 'del') {
 			if (data.transactionStatus == 1) {
 				layer.msg('已处理业务无法删除');
@@ -232,7 +232,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','upload'], function ()
 
 
 		} else if (obj.event === 'edit') {
-			alert(JSON.stringify(data));
+			//alert(JSON.stringify(data));
 
 			form.val('editform',$.parseJSON(JSON.stringify(data)));
 			var index = layer.open({

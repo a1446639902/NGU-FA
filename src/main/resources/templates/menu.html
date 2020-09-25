@@ -241,7 +241,17 @@
                 layer.msg('修改' + data.id);
             }
         });
+
+        thousands()
+
     });
+    function thousands(num){
+        num = num.toFixed(2);//保留两位小数
+        var str = num.toString();
+        var reg = str.indexOf(".") > -1 ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(?:\d{3})+$)/g;
+        return str.replace(reg,"$1,");
+    }
+
 </script>
 </body>
 </html>

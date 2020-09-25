@@ -32,6 +32,8 @@ public class TatransactionController {
     TatransactionService tatransactionService;
     @Resource
     DbUtil dbUtil;
+    @Resource
+    HttpServletRequest request;
     //登录验证
     @NGULog(message = "登录验证")
     @RequestMapping ("/insertTatTransaction")
@@ -80,6 +82,10 @@ public class TatransactionController {
         Map<String,Object> map = new HashMap<>();
         List<TaTransaction> list1 = marketDateUtil.getList(TaTransaction.class,file.getInputStream(),0);
         for (TaTransaction taTransaction : list1) {
+            String taTransactionId = dbUtil.requestDbTableMaxId(SysTableNameListUtil.TT);
+            String fundId = GetFundIdUtil.getFundId(request);
+            taTransaction.setTaTransactionId(taTransactionId);
+            taTransaction.setFundId(fundId);
             System.out.println(taTransaction);
             int i = tatransactionService.insertTatransaction(taTransaction);
             System.out.println(i);

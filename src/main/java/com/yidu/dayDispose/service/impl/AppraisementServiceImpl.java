@@ -60,7 +60,7 @@ public class AppraisementServiceImpl implements AppraisementService {
     @Override
     public HashMap selectTransactionData(String toDay) {
         HashMap ransactionDataMap = new HashMap();
-        ransactionDataMap.put("p_tableName","(select securitiesId,dateTime,FUNDID,FLAG,SUM((totalSum*flag)) totalSum from transactionData\n" +
+        ransactionDataMap.put("p_tableName","(select securitiesId,dateTime,FUNDID,FLAG,SUM((totalSum)) totalSum from transactionData\n" +
                 "where to_date(dateTime,'yyyy-MM-dd') <= to_date('"+toDay+"','yyyy-MM-dd') and transactionDataMode in (1,2,3,4)\n" +
                 "  and to_date('"+toDay+"','yyyy-MM-dd') < to_date(settlementDate,'yyyy-MM-dd') GROUP BY securitiesId,dateTime,FUNDID,FLAG)");
         ransactionDataMap.put("p_condition","");
